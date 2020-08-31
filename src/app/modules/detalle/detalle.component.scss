@@ -1,0 +1,67 @@
+.botonesdesign {
+    background-color: #01579B;
+    color: white;
+    size: 10px;
+}
+
+.carta {
+    box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    margin: 15px;
+}
+
+.solicitarReservaBtn {
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: stretch center;
+    align-items: stretch;
+    flex: 1 1 100%;
+    max-width: 80%;
+    height: 54px;
+    margin: auto;
+}
+
+.btnUbicacion:focus,
+select:focus {
+    outline: 0;
+    outline-style: none;
+    outline-color: transparent;
+}
+
+.btnUbicacion {
+    margin-bottom: 20px;
+}
+
+.imgContainer {
+    margin: auto;
+    max-width: 1600px;
+    max-height: 550px;
+}
+
+.imgCarrousel {
+    max-height: 550px;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.homeContainer {
+    margin: 15px;
+    padding: 15px;
+}
+
+.carta {
+    box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    margin: 1px;
+    cursor: pointer;
+    margin: auto;
+    margin-top: 15px;
+    width: 100%;
+    margin-top: 15px;
+    max-width: 450px;
+    min-width: 180px;
+    margin-right: 40px;
+}

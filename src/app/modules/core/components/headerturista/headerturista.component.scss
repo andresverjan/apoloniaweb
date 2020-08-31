@@ -1,0 +1,65 @@
+.inputBuscador {
+    outline-style: none;
+    height: 60px;
+    font-size: 22px;
+    margin: 4px;
+    width: 420px;
+    box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+}
+
+.contenedorItems {
+    margin-left: auto;
+}
+
+.header {
+    margin: 10px;
+    background-color: white;
+}
+
+ul {
+    align-content: unset;
+    margin-left: 50px;
+    li {
+        a {
+            color: black;
+        }
+    }
+}
+
+.inputBuscador {
+    outline-style: none;
+    height: 60px;
+    font-size: 22px;
+    margin: 4px;
+    width: 420px;
+    box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+}
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 3.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+    font-size: 18px;
+}
+
+.btnBuscar {
+    margin-left: 10px;
+}
+
+.imgFotoPerfil {
+    border-radius: 50px;
+}

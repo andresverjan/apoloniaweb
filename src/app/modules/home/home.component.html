@@ -1,0 +1,122 @@
+<!--Carousel Wrapper-->
+<div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+    <!--Indicators-->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-2" data-slide-to="1"></li>
+        <li data-target="#carousel-example-2" data-slide-to="2"></li>
+        <li data-target="#carousel-example-2" data-slide-to="3"></li>
+        <li data-target="#carousel-example-2" data-slide-to="4"></li>
+        <li data-target="#carousel-example-2" data-slide-to="5"></li>
+    </ol>
+    <!--Slides-->
+    <div class="carousel-inner carousel-fade" role="listbox">
+        <div class="carousel-item active imgCarrousel" *ngFor="let viaje of listadoViajes | slice:0:1; let indice=index">
+            <div class="view">
+                <img class="d-block w-100" src="{{serverURlImagesViajes}}{{viaje.urlFoto}}">
+                <div class="mask rgba-black-light"></div>
+            </div>
+            <div class="carousel-caption">
+                <h3 class="h3-responsive">{{viaje.destino}}</h3>
+                <p>{{viaje.experiencia}}</p>
+            </div>
+        </div>
+        <div class="carousel-item" *ngFor="let viaje of listadoViajes | slice:1:5; let indice=index;">
+            <div class="view">
+                <img class="d-block w-100 imgCarrousel" src="{{serverURlImagesViajes}}{{viaje.urlFoto}}">
+                <div class="mask rgba-black-slight"></div>
+            </div>
+            <div class="carousel-caption">
+                <h3 class="h3-responsive">{{viaje.destino}}</h3>
+                <p>{{viaje.experiencia}}</p>
+            </div>
+        </div>
+    </div>
+    <!--/.Slides-->
+    <!--Controls-->
+    <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    <!--/.Controls-->
+</div>
+<!--/.Carousel Wrapper-->
+
+<br>
+
+
+<div class="homeContainer">
+    <h4 class="titulo">{{etiquetas.destinosrecomendadosParaTi}}</h4>
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" *ngFor="let viaje of listadoViajes | slice:0:8;">
+            <div class="card carta" (click)="goToDetalleViaje(viaje)">
+                <img src="{{serverURlImagesViajes}}{{viaje.urlFoto}}" class="card-img-top" alt="..." height="195.3" width="260.5">
+                <div class="card-body">
+                    <h5 class="card-title">{{etiquetas.Destino}}: {{viaje.destino}}</h5>
+                    <p class="card-text">{{etiquetas.Experiencia}}: {{viaje.experiencia}}</p>
+                    <p class="card-text">{{etiquetas.Precio}}: {{viaje.precio}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="row" *ngIf="ocultaSegundoPanelViajes">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" *ngFor="let viaje of listadoViajesSegundo | slice:0:8;">
+            <div class="card carta" (click)="goToDetalleViaje(viaje)">
+                <img src="{{serverURlImagesViajes}}{{viaje.urlFoto}}" class="card-img-top" alt="..." height="195.3" width="260.5">
+                <div class="card-body">
+                    <h5 class="card-title">{{etiquetas.Destino}}: {{viaje.destino}}</h5>
+                    <p class="card-text">{{etiquetas.Experiencia}}: {{viaje.experiencia}}</p>
+                    <p class="card-text">{{etiquetas.Precio}}: {{viaje.precio}}</p>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+
+    <div class="col-md-2 col-sm-6 col-12 fila">
+        <button class="botonVerMas" (click)="cargarSegundoListadoViajes()" *ngIf="ocultaVerMasViajes">{{etiquetas.verMas}}</button>
+    </div>
+</div>
+
+<div class="homeContainer">
+    <h4 class="titulo">{{etiquetas.lasMejoresEmbarcaciones}}</h4>
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" *ngFor="let embarcacion of listadoEmbarcaciones | slice:0:8;">
+            <div class="card carta" (click)="goToDetalleEmbarcacion(embarcacion)">
+                <img src="{{serverURlImagesEmbarcaciones}}{{embarcacion.urlBarco}}" class="card-img-top" alt="..." height="195.3" width="260.5">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-ship"></i> {{embarcacion.embarcacion_nombre}}
+                    </h5>
+                    <p class="card-text">{{etiquetas.Numerodepasajeros}}: {{embarcacion.numeroPasajeros}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="row" *ngIf="ocultaSegundoPanelEmbarcaciones">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" *ngFor="let embarcacion of listadoEmbarcacionesSegundo | slice:0:8;">
+            <div class="card carta" (click)="goToDetalleEmbarcacion(embarcacion)">
+                <img src="{{serverURlImagesEmbarcaciones}}{{embarcacion.urlBarco}}" class="card-img-top" alt="..." height="195.3" width="260.5">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-ship"></i> {{embarcacion.embarcacion_nombre}}
+                    </h5>
+                    <p class="card-text">{{etiquetas.Numerodepasajeros}}: {{embarcacion.numeroPasajeros}}</p>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="col-md-2 col-sm-6 col-12 fila">
+        <button class="botonVerMas" (click)="cargarSegundoListadoEmbarcaciones()" *ngIf="ocultaVerMasEmbarcaciones">{{etiquetas.verMas}}</button>
+    </div>
+</div>
+
+
+<br>

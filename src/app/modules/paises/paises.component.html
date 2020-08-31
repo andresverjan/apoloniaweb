@@ -1,0 +1,93 @@
+<!--CONTENIDO DEL TAB-->
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+    <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=22 class="botonesdesign">
+        <mat-icon>person_add</mat-icon>
+        {{etiquetas.Adicionar}}
+    </button>
+</mat-card-actions>
+
+<mat-progress-bar mode="indeterminate" *ngIf="IsWait"></mat-progress-bar>
+
+<!--CARD: ADICIONAR USUARIO-->
+
+<mat-card-content class="dashboard-card-content contentprincipal" *ngIf="lShowPanelDatosPaises">
+    <mat-card-header>
+        <mat-card-title>
+            {{etiquetas.AdministraciondePaises}}
+        </mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="userForm" autocomplete="off" novalidate>
+        <mat-card class="cardcontent">
+            <mat-card-title fxLayoutAlign="center">
+                <label> {{etiquetas.DatosBasicos}}</label>
+            </mat-card-title>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+                <div *ngIf="false">
+                    <mat-form-field>
+                        <input matInput formControlName="id" id="id" placeholder="id">
+                    </mat-form-field>
+                </div>
+                <mat-form-field appearance="outline">
+                    <mat-label>{{etiquetas.codigoInternacional}}</mat-label>
+                    <input matInput formControlName="codigoInternacional" id="codigoInternacional" placeholder="codigo {{etiquetas.codigoInternacional}}">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{etiquetas.Country}}</mat-label>
+                    <input matInput formControlName="nombre" id="nombre" placeholder="{{etiquetas.Country}}" required>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>{{etiquetas.countryFlag}}</mat-label>
+                    <input matInput formControlName="bandera" id="bandera" placeholder="{{etiquetas.countryFlag}}" required>
+                </mat-form-field>
+
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                <button mat-raised-button (click)="callAdd()" [disabled]="!userForm.valid" *ngIf="lShowBtnAdicionar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 class="botonesdesign">
+                    <mat-icon>person_add</mat-icon>
+                    {{etiquetas.Adicionar}}
+                </button>
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 (click)="callUpdate()" [disabled]="!userForm.valid" *ngIf="lShowBtnActualizar" class="botonesdesign">
+                    <mat-icon>mode_edit</mat-icon>
+                    {{etiquetas.Actualizar}}
+                </button>
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 (click)="callEliminar(userForm.value)" *ngIf="lShowBtnEliminar" class="botonesdesign">
+                    <mat-icon>more_vert</mat-icon> {{etiquetas.Eliminar}}
+                </button>
+                <button mat-raised-button (click)="callCancelar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 class="botonesdesign">
+                    <mat-icon>cancel</mat-icon>
+                    {{etiquetas.Cancelar}}
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</mat-card-content>
+
+<!--CARD: LISTADO DE PAISES-->
+
+<mat-card-content class="dashboard-card-content" *ngIf="lShowPanelListadoPaises">
+    <mat-card>
+        <mat-card-title fxLayoutAlign="center">
+            <label>{{etiquetas.FiltrarPaises}}</label>
+        </mat-card-title>
+        <mat-card-content fxLayout="row" fxLayoutAlign="space-around center">
+            <mat-form-field fxFlex=40>
+                <input matInput id="filterbyNombre" placeholder="Buscar por País" [(ngModel)]="findByItem.nombre" (keyup)="findBy()">
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-grid-list cols="3" rowHeight="320px">
+        <mat-grid-tile *ngFor="let pais of listadoPaises.data">
+            <mat-card class="dashboard-card" (click)="actualizar(pais)">
+                <img mat-card-image src="{{serverURlImagesBanderas}}{{pais.bandera}}" alt="Bandera" height="150px;" height="150px;" class="cssForCrudListImg">
+                <mat-card-content class="dashboard-card-content">
+                    <h5>{{pais.nombre}}</h5>
+                    <br>
+                    <div>{{pais.bandera}}</div>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card-content>

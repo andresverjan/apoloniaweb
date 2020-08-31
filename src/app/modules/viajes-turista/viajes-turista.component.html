@@ -1,0 +1,92 @@
+<div class="container" style="margin-bottom: 50px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel with-nav-tabs panel-primary">
+                <div class="panel-heading" style="margin-top: 20px;">
+                    <ul class="nav nav-pills nav-fill">
+                        <li class="active nav-item" (click)="MostrarPendientes()"><a class="nav-link active" href="#tab1primary" data-toggle="tab">{{etiquetas.Pendientes}}</a></li>
+                        <li class="nav-item" (click)="MostrarAceptadas()"><a class="nav-link" href="#tab2primary" data-toggle="tab">{{etiquetas.Aceptadas}}</a></li>
+                        <li class="nav-item" (click)="MostrarCancelados()"><a class="nav-link" href="#tab3primary" data-toggle="tab">{{etiquetas.Canceladas}}</a></li>
+                        <li class="nav-item" (click)="MostrarFinalizados()"><a class="nav-link" href="#tab4primary" data-toggle="tab">{{etiquetas.Finalizadas}}</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="showContenedorPendientes" style="margin-bottom: 50px; min-height: 294px;">
+    <mat-progress-bar mode="indeterminate" *ngIf="IsWait"></mat-progress-bar>
+    <div class="row">
+        <h3 *ngIf="showPendientes">{{etiquetas.noHayViajesPendientes}}</h3>
+        <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let miViaje of dataMisViajesPendientes | slice:0:8;">
+            <div class="card carta">
+                <img src="{{serverURlImagesViajes}}{{miViaje.Viajes.urlFoto}}" class="card-img-top" alt="..." height="195.3" width="260.5">
+                <div class="card-body">
+                    <h5 class="card-title">{{etiquetas.Destino}}: {{miViaje.Viajes.destino}}</h5>
+                    <p class="card-text">{{etiquetas.Experiencia}}: {{miViaje.Viajes.experiencia}}</p>
+                    <p class="card-text">{{etiquetas.Precio}}: {{miViaje.Viajes.precio}}</p>
+                    <p class="card-text">{{etiquetas.Numerodedias}}: {{miViaje.Viajes.numeroDias}}</p>
+                    <p class="card-text">{{etiquetas.Numerodepasajeros}}: {{miViaje.Viajes.numeroPasajeros}}</p>
+                    <p class="card-text">{{etiquetas.Tripulacion}}: {{miViaje.Viajes.numeroTripulacion}}</p>
+                    <p class="card-text">{{etiquetas.FechadeViaje}}: {{miViaje.Solicitud.FECHA | date:'yyyy/mm/dd' }}</p>
+                    <p class="card-text">{{etiquetas.FechadeSolicitud}}: {{miViaje.Solicitud.FECHA_SOLICITUD | date:'yyyy/mm/dd' }}</p>
+                    <button type="button" class="btn btn-danger" (click)="cancelarViajePendiente(miViaje)">{{etiquetas.Cancelar}}</button>
+                    <!--<button type="button" class="btn btn-success buttonAcept" (click)="aceptarViajePendiente(miViaje)">Aceptar</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="showContenedorCancelados" style="margin-bottom: 50px; min-height: 294px;">
+    <div class="row">
+        <h3 *ngIf="showCancelados">{{etiquetas.noHayViajesCancelados}}</h3>
+        <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let miViaje of dataMisViajesCancelados | slice:0:8;">
+            <div class="card carta">
+                <img src="{{serverURlImagesViajes}}{{miViaje.Viajes.urlFoto}}" class="card-img-top" alt="..." height="195.3" width="260.5">
+                <div class="card-body">
+                    <h5 class="card-title">{{etiquetas.Destino}}: {{miViaje.Viajes.destino}}</h5>
+                    <p class="card-text">{{etiquetas.Experiencia}}: {{miViaje.Viajes.experiencia}}</p>
+                    <p class="card-text">{{etiquetas.Precio}}: {{miViaje.Viajes.precio}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" *ngIf="showContenedorAceptados" style="margin-bottom: 50px; min-height: 294px;">
+    <div class="row">
+        <h3 *ngIf="showAceptados">{{etiquetas.noHayViajesCancelados}}</h3>
+        <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let miViaje of dataMisViajesAceptados | slice:0:8;">
+            <div class="card carta">
+                <img src="{{serverURlImagesViajes}}{{miViaje.Viajes.urlFoto}}" class="card-img-top" alt="..." height="195.3" width="260.5">
+                <div class="card-body">
+                    <h5 class="card-title">{{etiquetas.Destino}}: {{miViaje.Viajes.destino}}</h5>
+                    <p class="card-text">{{etiquetas.Experiencia}}: {{miViaje.Viajes.experiencia}}</p>
+                    <p class="card-text">{{etiquetas.Precio}}: {{miViaje.Viajes.precio}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" *ngIf="showContenedorFinalizados" style="margin-bottom: 50px; min-height: 294px;">
+    <div class="row">
+        <h2 *ngIf="showFinalizados">{{etiquetas.noHayViajesFinalizados}}</h2>
+        <div class="col-xs-12 col-sm-4 col-md-4" *ngFor="let miViaje of dataMisViajesFinalizados | slice:0:8;">
+            <div class="card carta">
+                <img src="{{serverURlImagesViajes}}{{miViaje.Viajes.urlFoto}}" class="card-img-top" alt="..." height="195.3" width="260.5">
+                <div class="card-body">
+                    <h5 class="card-title">{{etiquetas.Destino}}: {{miViaje.Viajes.destino}}</h5>
+                    <p class="card-text">{{etiquetas.Experiencia}}: {{miViaje.Viajes.experiencia}}</p>
+                    <p class="card-text">{{etiquetas.Precio}}: {{miViaje.Viajes.precio}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+//VARIABLES
+$color_fondo_item: #01579B;
+$color_hover_item: #EEEEEE;
+.sidenav-container {
+    height: 93%;
+}
+
+.profilefoto {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.sidenav {
+    background-image: url("../../../../assets/fondonav.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 250px;
+    box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+}
+
+mat-list-item {
+    outline-style: none;
+    margin-bottom: 12px;
+    cursor: pointer;
+    &:hover {
+        background-color: $color_hover_item;
+        border-radius: 5px;
+    }
+}
+
+.is-active {
+    background-color: $color_fondo_item;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    .menuIcon {
+        padding: 5px;
+        color: white;
+        margin-top: -10px;
+    }
+    &:hover {
+        background-color: hsla(240, 97%, 39%, 0.75);
+    }
+}
+
+.sidenav .mat-toolbar {
+    background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.menuIcon {
+    padding: 5px;
+    color: #9E9E9E;
+    font-size: 23px;
+    margin-right: 10px;
+    margin-top: -10px;
+}

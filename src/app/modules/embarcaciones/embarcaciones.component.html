@@ -1,0 +1,190 @@
+<!--CONTENIDO DEL TAB-->
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+    <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=22 class="botonesdesign">
+        <mat-icon>person_add</mat-icon>
+        {{etiquetas.Adicionar}}
+    </button>
+</mat-card-actions>
+
+<mat-progress-bar mode="indeterminate" *ngIf="IsWait"></mat-progress-bar>
+
+<mat-card-content class="dashboard-card-content contentprincipal" *ngIf="lShowPanelDatosEmbarcacion">
+    <mat-card-header>
+        <mat-card-title>
+            {{etiquetas.AdministraciondeEmbarcacion}}
+        </mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="embarcacionForm" autocomplete="off" novalidate>
+        <mat-card class="cardcontent">
+            <mat-card-title fxLayoutAlign="center">
+                <label>{{etiquetas.DatosBasicos}}</label>
+            </mat-card-title>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+                <img class="avatarOwn" src="{{actualItemUrl}}"  alt="embarcacion"  height="180"  width="180" *ngIf="actualItemUrl">
+                    <div *ngIf="false">
+                        <mat-form-field>
+                            <input matInput formControlName="id" id="id" placeholder="id">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput formControlName="urlBarco" id="urlBarco" placeholder="urlBarco">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput formControlName="countryFlag" id="countryFlag" placeholder="countryFlag">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput formControlName="lat" id="lat" placeholder="lat">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput formControlName="lng" id="lng" placeholder="lng">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="upload-btn-wrapper">
+                        <button mat-raised-button class="botonesdesign" style="cursor:pointer;">{{etiquetas.CargarImagen}}</button>
+                        <input type="file" (change)="selectFile($event)" id="imagen" style="margin-top: 10px; size: 3px; margin-bottom: 40px;">
+                    </div>
+
+                    <mat-form-field style="margin:40px;" *ngIf="session.user.ROL_ID==1">
+                        <mat-label>{{etiquetas.SeleccioneunCapitan}}</mat-label>
+                        <mat-select [(value)]="selected" formControlName="capitan_barco" id="capitan_barco">
+                            <mat-option *ngFor="let capitan of listadoCapitanes" [value]="capitan.ID">
+                                {{capitan.USUARIO_NOMBRE}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Nombredeembarcacion}}</mat-label>
+                        <input matInput formControlName="embarcacion_nombre" id="embarcacion_nombre" placeholder="{{etiquetas.Nombredeembarcacion}}" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Número de Registro</mat-label>
+                        <input matInput formControlName="numeroRegistro" id="numeroRegistro" placeholder="numeroRegistro" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.puerto}}</mat-label>
+                        <input matInput formControlName="puertoMarina" id="puertoMarina" placeholder="{{etiquetas.puerto}}" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Tipodeembarcacion}}</mat-label>
+                        <mat-select [(value)]="embarcacionTipo" formControlName="embarcacionTipo" id="embarcacionTipo" required (valueChange)="onChangeEm()">
+                            <mat-option value="Vela">
+                                {{etiquetas.vela}}
+                            </mat-option>
+                            <mat-option value="Motor">
+                                {{etiquetas.motor}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Clasificacion}}</mat-label>
+                        <mat-select formControlName="clasificacion" id="clasificacion" required>
+                            <mat-option *ngFor="let item of alistaClasificacion" [value]="item.value">
+                                {{item.description}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Marca}}</mat-label>
+                        <input matInput formControlName="marca" id="marca" placeholder="{{etiquetas.Marca}}" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.tamano}}</mat-label>
+                        <input matInput formControlName="size" id="size" placeholder="{{etiquetas.tamano}}" required>
+                    </mat-form-field>
+
+                    <!--<mat-form-field>
+                            <mat-label>Tonelaje</mat-label>
+                        <input matInput formControlName="tonelaje" id="tonelaje" placeholder="tonelaje">
+                    </mat-form-field>-->
+                    <!-- <mat-form-field>
+                            <mat-label>Modelo</mat-label>
+                        <input matInput formControlName="modelo" id="modelo" placeholder="modelo">
+                    </mat-form-field>-->
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.year}}</mat-label>
+                        <input matInput formControlName="year" id="year" placeholder="{{etiquetas.year}}" required>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Numerodepasajeros}}</mat-label>
+                        <input type="number" matInput formControlName="numeroPasajeros" id="numeroPasajeros" placeholder="{{etiquetas.Numerodepasajeros}}" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Tripulacion}}</mat-label>
+                        <input type="number" matInput formControlName="tripulacion" id="tripulacion" placeholder="{{etiquetas.Tripulacion}}" required>
+                    </mat-form-field>
+
+                    <!--<mat-form-field appearance="outline">
+                        <mat-label>Pais</mat-label>
+                        <input matInput formControlName="country" id="country" placeholder="Pais" required>
+                    </mat-form-field>-->
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.NiveldeSeguridad}}</mat-label>
+                        <input matInput formControlName="nivelSeguridad" id="nivelSeguridad" placeholder="{{etiquetas.NiveldeSeguridad}}" required>
+                    </mat-form-field>
+
+            </mat-card-content>
+
+            {{embarcacionForm.valid}}
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                <button mat-raised-button (click)="callAdd()" [disabled]="!embarcacionForm.valid" *ngIf="lShowBtnAdicionar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 class="botonesdesign">
+                    <mat-icon>person_add</mat-icon>
+                    {{etiquetas.Adicionar}}
+                </button>
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 (click)="callUploadService()" *ngIf="lShowBtnActualizar" class="botonesdesign">
+                    <mat-icon>mode_edit</mat-icon>
+                    {{etiquetas.Actualizar}}
+                </button>
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 (click)="callEliminar(embarcacionForm.value)" *ngIf="lShowBtnEliminar" class="botonesdesign">
+                    <mat-icon>more_vert</mat-icon> {{etiquetas.Eliminar}}
+                </button>
+                <button mat-raised-button (click)="callCancelar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 class="botonesdesign">
+                    <mat-icon>cancel</mat-icon>
+                    {{etiquetas.Cancelar}}
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</mat-card-content>
+
+
+<!--CARD: LISTADO DE USUARIOS-->
+
+<mat-card-content class="dashboard-card-content" *ngIf="lShowPanelListadoEmbarcaciones">
+    <mat-card>
+        <mat-card-title fxLayoutAlign="center">
+            <label> {{etiquetas.FiltrarEmbarcaciones}}</label>
+        </mat-card-title>
+        <mat-card-content fxLayout="row" fxLayoutAlign="space-around center">
+            <mat-form-field fxFlex=40>
+                <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="findByItem.embarcacion_nombre" (keyup)="findBy()">
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-grid-list cols="3" rowHeight="320px">
+        <mat-grid-tile *ngFor="let embarcacion of listadoEmbarcaciones">
+            <mat-card class="dashboard-card" (click)="actualizar(embarcacion)">
+                <img mat-card-image src="{{serverURlImagesBanderas}}{{embarcacion.urlBarco}}" alt="embarcacion" height="150px;" class="cssForCrudListImg">
+                <mat-card-content class="dashboard-card-content">
+                    <h5>{{embarcacion.embarcacion_nombre}}</h5>
+                    <br>
+                    <div>{{etiquetas.Tripulacion}}: {{embarcacion.tripulacion}}</div>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</mat-card-content>

@@ -1,0 +1,9 @@
+<div mat-dialog-title fxLayoutAlign="center" color="primary">{{data.titulo}}</div>
+<div mat-dialog-content>
+    <p>{{data.body}}</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="close(button.click());" *ngFor="let button of data.buttons" fxFlex>{{button.text}}</button>
+</div>
+
+

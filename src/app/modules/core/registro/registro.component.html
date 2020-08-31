@@ -1,0 +1,125 @@
+<mat-progress-bar mode="indeterminate" *ngIf="IsWait"></mat-progress-bar>
+
+
+<form [formGroup]="registroForm" autocomplete="off" novalidate>
+    <mat-card class="cardcontent">
+        <mat-card-title fxLayoutAlign="center">
+            <label>{{etiquetas.Registrarme}}</label>
+        </mat-card-title>
+        <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+            <!--<img class="avatarOwn" src=""  alt="Usuarios"  height="180"  width="180">
+                <div class="upload-btn-wrapper">
+                    <button mat-raised-button class="botonesdesign" style="cursor:pointer;">Cargar Imagen</button>
+                    <input type="file" (change)="selectFile($event)" id="imagen" style="margin-top: 10px; size: 3px; margin-bottom: 40px;">
+                </div>-->
+
+            <div *ngIf="false">
+                <mat-form-field>
+                    <input matInput formControlName="ID" id="ID" placeholder="ID">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="USUARIO_ID" id="USUARIO_ID" placeholder="USUARIO_ID">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="CIUDAD_ID" id="CIUDAD_ID" placeholder="CIUDAD_ID">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="EMPRESA_ID" id="EMPRESA_ID" placeholder="EMPRESA_ID">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="MCA_EMPLEADO" id="MCA_EMPLEADO" placeholder="MCA_EMPLEADO">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="USUARIO_ID" id="USUARIO_ID" placeholder="USUARIO_ID">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="USUARIO_ACTIVO" id="USUARIO_ACTIVO" placeholder="USUARIO_ACTIVO">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="USUARIO_CORREO" id="USUARIO_CORREO" placeholder="USUARIO_CORREO">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="USUARIO_ELIMINADO" id="USUARIO_ELIMINADO" placeholder="USUARIO_ELIMINADO">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="USUARIO_LOGIN" id="USUARIO_LOGIN" placeholder="USUARIO_LOGIN">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="ROL_TEXT" id="ROL_TEXT" placeholder="ROL_TEXT">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Apellidos</mat-label>
+                    <input matInput formControlName="USUARIO_APELLIDO" id="USUARIO_APELLIDO" placeholder="Apellido">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput formControlName="USUARIO_TELEFONO" id="USUARIO_TELEFONO" placeholder="Teléfono">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Celular</mat-label>
+                    <input matInput formControlName="CELULAR" id="CELULAR" placeholder="Celular">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Codigo Internacional</mat-label>
+                    <input matInput formControlName="CODIGO_INTERNACIONAL" id="CODIGO_INTERNACIONAL" placeholder="CODIGO_INTERNACIONAL">
+                </mat-form-field>
+
+                <mat-form-field style="margin-top:20px; margin-bottom:20px;" appearance="outline">
+                    <mat-label>COUNTRY</mat-label>
+                    <mat-select [(value)]="selected" formControlName="COUNTRY" id="COUNTRY">
+                        <mat-option *ngFor="let pais of paisesResponse.data" [value]="pais.id">
+                            {{pais.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+            <mat-form-field appearance="outline">
+                <mat-label>{{etiquetas.Nombre}}</mat-label>
+                <input matInput formControlName="USUARIO_NOMBRE" id="USUARIO_NOMBRE" placeholder="{{etiquetas.Nombre}}" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>{{etiquetas.Email}}</mat-label>
+                <input matInput formControlName="USUARIO_CORREO" id="USUARIO_CORREO" placeholder="{{etiquetas.Email}}" required>
+            </mat-form-field>
+
+
+
+            <mat-form-field appearance="outline">
+                <mat-label>{{etiquetas.Password}}</mat-label>
+                <input matInput type="password" formControlName="USUARIO_PASSWORD" id="USUARIO_PASSWORD" placeholder="{{etiquetas.Password}}" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>{{etiquetas.RepetirPassword}}</mat-label>
+                <input matInput type="password" formControlName="USUARIO_PASSWORD2" id="USUARIO_PASSWORD2" placeholder="{{etiquetas.RepetirPassword}}" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>{{etiquetas.FechadeNacimiento}}</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="USUARIO_NACIMIENTO" id="USUARIO_NACIMIENTO" placeholder="{{etiquetas.FechadeNacimiento}}" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+
+            <!--<input matInput formControlName="USUARIO_SEXO" id="USUARIO_SEXO" placeholder="Sexo" required>-->
+            <mat-radio-group aria-label="Sexo" formControlName="USUARIO_SEXO" id="USUARIO_SEXO" style="float: left;
+                        margin-top: 10px; margin-bottom: 15px;" *ngIf="false" required>
+                <mat-radio-button value="Masculino" style="float: left;">{{etiquetas.Masculino}}</mat-radio-button>
+                <mat-radio-button value="Femenino" style=" float: left; margin-left: 20px;">{{etiquetas.Femenino}}</mat-radio-button>
+            </mat-radio-group>
+
+        </mat-card-content>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+            <button mat-button color="primary" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 (click)="callUploadService()" [disabled]="!registroForm.valid" *ngIf="lShowBtnActualizar" class="botonesdesign">
+              {{etiquetas.Registrar}}
+                </button>
+
+        </mat-card-actions>
+
+
+    </mat-card>
+</form>

@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-lg navbar-light header">
+    <img src="{{urlLogo}}" alt="logo" height="60"  width="60" [routerLink]="['inicio']" style="cursor: pointer; outline: none;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  
+  <div  class="collapse navbar-collapse" id="navbarSupportedContent" style="position: absolute;z-index: 2;left: 7em;top: -25px;">
+            
+            
+  
+        <form class="form-inline my-2 my-lg-0" style="margin-left: 20px;">
+            
+            <mat-card-content  class="dashboard-card-content" >
+
+                    <mat-card-content fxLayout="row" fxLayoutAlign="space-around center" style="margin-top: 30px;">
+                        <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input matInput class="form-control mr-sm-2 inputBuscador" type="search" autocomplete="off" placeholder="{{etiquetas.Buscar}}" aria-label="Search" (keydown)="onKeydown($event)" value="{{autoComplete}}" [(ngModel)]="findByItem.destino" (keyup)="findBySearch()" name="item">
+                        </div>
+                        <button class="btn btn-outline-primary my-2 my-sm-0 btnBuscar" (click)="consultarFiltro($event)">{{etiquetas.Buscar}}</button>
+                    </mat-card-content>
+
+                <ul class="list-group" style="margin-left: auto; width: auto" *ngIf="lShowPanelListadoResultados">
+                    <li style="cursor:pointer;"  class="list-group-item"*ngFor="let viaje of listadoResultados" (click)="filtro(viaje.destino)">{{viaje.destino}}</li>
+                </ul>                
+            </mat-card-content>
+        </form>
+    </div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+
+
+            <div class="contenedorItems">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" [routerLink]="['viajes-turista']" routerLinkActive="router-link-active" *ngIf="showMisViajes">{{etiquetas.MenuMisViajes}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" *ngIf="showSerCapitan" (click)="openDialog()" style="cursor: pointer;">{{etiquetas.convierteteEnCapitan}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="goToModalRegistro()" style="cursor: pointer;" *ngIf="showRegistrate">{{etiquetas.Registrarme}}</a>
+                    </li>
+                    <li class="nav-item inline">
+                        <a class="nav-link" (click)="goToModalLogin()" style="cursor: pointer;" *ngIf="showLogin">{{etiquetas.iniciarSesion}}</a>
+                    </li>
+                   
+                    <li   class="nav-item dropdown" style="cursor: pointer;" *ngIf="showCerrarSesion">
+                            <img  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="imgFotoPerfil" src="{{actualUrlFoto}}" alt="logo" height="50"  width="50" style="padding: 1px;margin-top:0px;margin-left: 10px;width: 38px;height: 40px;">  
+                            <div style=" margin-left: -140px;"  class="dropdown-menu">
+                                <a class="nav-link" [routerLink]="['modificar-contrasena']" routerLinkActive="router-link-active" class="dropdown-item" href="#">Modificar Contraseña</a>
+                                <a class="nav-link" [routerLink]="['perfil']" routerLinkActive="router-link-active"  class="dropdown-item" href="#">Ver Perfil</a> 
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" (click)="logout()" href="#">Logout</a>
+                            </div>
+                    </li>
+
+                </ul>
+      
+            </div>
+
+        </div>
+         
+
+</nav>

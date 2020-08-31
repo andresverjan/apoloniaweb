@@ -1,0 +1,160 @@
+<!--CONTENIDO DEL TAB-->
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+    <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=22 class="botonesdesign">
+        <mat-icon>person_add</mat-icon>
+        {{etiquetas.Adicionar}}
+    </button>
+</mat-card-actions>
+
+<mat-progress-bar mode="indeterminate" *ngIf="IsWait"></mat-progress-bar>
+
+<!--CARD: ADICIONAR USUARIO-->
+<mat-card-content class="dashboard-card-content contentprincipal" *ngIf="lShowPanelDatosUsuario">
+    <mat-card-header style="margin-bottom: 10px;">
+        <mat-card-title>
+            <h3>{{etiquetas.AdministraciondeCapitane}}</h3>
+        </mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="userForm" autocomplete="off" novalidate>
+        <mat-card class="cardcontent">
+
+            <mat-card-title fxLayoutAlign="center">
+                <label>{{etiquetas.DatosBasicos}}</label>
+            </mat-card-title>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+                <img class="avatarOwn" src="{{actualItemUrl}}"  alt="Capitanes"  height="180"  width="180" *ngIf="actualItemUrl">
+                    <div *ngIf="false">
+                        <mat-form-field>
+                            <input matInput formControlName="ID" id="ID" placeholder="ID">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="ROL_ID" id="ROL_ID" placeholder="ROL_ID">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="USUARIO_ACTIVO" id="USUARIO_ACTIVO" placeholder="USUARIO_ACTIVO">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="URL_FOTO_PERFIL" id="URL_FOTO_PERFIL" placeholder="URL_FOTO_PERFIL">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="EMPRESA_ID" id="EMPRESA_ID" placeholder="EMPRESA_ID">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="CIUDAD_ID" id="CIUDAD_ID" placeholder="CIUDAD_ID">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput formControlName="PUNTO_ID" id="PUNTO_ID" placeholder="PUNTO_ID">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="USUARIO_PASSWORD" id="USUARIO_PASSWORD" placeholder="USUARIO_PASSWORD">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput formControlName="MCA_EMPLEADO" id="MCA_EMPLEADO" placeholder="MCA_EMPLEADO">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="upload-btn-wrapper">
+                        <button mat-raised-button class="botonesdesign" style="cursor:pointer;">{{etiquetas.CargarImagen}}</button>
+                        <input type="file" (change)="selectFile($event)" id="imagen" style="margin-top: 10px; size: 3px; margin-bottom: 40px;" class="btn btn-success">
+                    </div>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Nombre}}</mat-label>
+                        <input matInput formControlName="USUARIO_NOMBRE" id="USUARIO_NOMBRE" placeholder="{{etiquetas.Nombre}}" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Apellido}}</mat-label>
+                        <input matInput formControlName="USUARIO_APELLIDO" id="USUARIO_APELLIDO" placeholder="Apellido" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Email}}</mat-label>
+                        <input matInput formControlName="USUARIO_CORREO" id="USUARIO_CORREO" placeholder="{{etiquetas.Email}}" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Telefono}}</mat-label>
+                        <input matInput formControlName="USUARIO_TELEFONO" id="USUARIO_TELEFONO" placeholder="Telefono" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Usuario}}</mat-label>
+                        <input matInput formControlName="USUARIO_LOGIN" id="USUARIO_LOGIN" placeholder="{{etiquetas.Usuario}}" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.Country}}</mat-label>
+                        <input matInput formControlName="COUNTRY" id="COUNTRY" placeholder="{{etiquetas.Country}}" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Número de Licencia</mat-label>
+                        <input matInput formControlName="numeroLicencia" id="numeroLicencia" placeholder="Numero de licencia" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{etiquetas.IDIOMA_ID}}</mat-label>
+                        <input matInput formControlName="IDIOMA_ID" id="IDIOMA_ID" placeholder="IDIOMA_ID">
+                    </mat-form-field>
+
+
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                <button mat-raised-button (click)="callAdd()" [disabled]="!userForm.valid" *ngIf="lShowBtnAdicionar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 class="botonesdesign">
+                    <mat-icon>person_add</mat-icon>
+                    {{etiquetas.Adicionar}}
+                </button>
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 (click)="callUploadService()" [disabled]="!userForm.valid" *ngIf="lShowBtnActualizar" class="botonesdesign">
+                    <mat-icon>mode_edit</mat-icon>
+                    {{etiquetas.Actualizar}}
+                </button>
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 (click)="callEliminar(userForm.value)" *ngIf="lShowBtnEliminar" class="botonesdesign">
+                    <mat-icon>more_vert</mat-icon> {{etiquetas.Eliminar}}
+                </button>
+                <button mat-raised-button (click)="callCancelar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 class="botonesdesign">
+                    <mat-icon>cancel</mat-icon>
+                    {{etiquetas.Cancelar}}
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</mat-card-content>
+
+<!--CARD: LISTADO DE USUARIOS-->
+<mat-card-content class="dashboard-card-content" *ngIf="lShowPanelListadoUsuario">
+    <mat-card>
+        <mat-card-title fxLayoutAlign="center">
+            <label>{{etiquetas.Filtrarcapitanes}}</label>
+        </mat-card-title>
+        <mat-card-content fxLayout="row" fxLayoutAlign="space-around center">
+            <mat-form-field fxFlex=40>
+                <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="findByItem.USUARIO_NOMBRE" (keyup)="findBy()">
+            </mat-form-field>
+            <mat-form-field fxFlex=40>
+                <input matInput id="filterbyEmail" placeholder="Buscar por email" [(ngModel)]="findByItem.USUARIO_CORREO" (keyup)="findBy()">
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-grid-list cols="3" rowHeight="320px">
+            <mat-grid-tile *ngFor="let usuario of listadoUsuarios.data">
+                <mat-card class="dashboard-card" (click)="actualizar(usuario)">
+                    <img mat-card-image src="{{serverURlImagesCapitanes}}{{usuario.URL_FOTO_PERFIL}}" alt="perfil" height="150px;" class="cssForCrudListImg">
+                    <mat-card-content class="dashboard-card-content">
+                        <h5>{{usuario.USUARIO_NOMBRE}}</h5>
+                        <br>
+                        <div>{{usuario.USUARIO_CORREO}}</div>
+                    </mat-card-content>
+                </mat-card>
+
+            </mat-grid-tile>
+        </mat-grid-list>
+
+    </mat-card>
+
+
+
+
+</mat-card-content>

@@ -1,0 +1,295 @@
+<mat-card-content class="dashboard-card-content contentprincipal">
+    <form [formGroup]="filtrosForm" autocomplete="off" novalidate>
+        <mat-card class="cardcontent">
+            <mat-card-title fxLayoutAlign="center">
+                <label>Filtros de Búsqueda</label>
+            </mat-card-title>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+                <mat-form-field>
+                    <mat-label>Filtrar por</mat-label>
+                    <mat-select [(value)]="selected" (selectionChange)="filtrarTipo()">
+                        <mat-option value="USU">{{etiquetas.Usuarios}}</mat-option>
+                        <mat-option value="CAP">{{etiquetas.Capitanes}}</mat-option>
+                        <mat-option value="EMB">{{etiquetas.Embarcacion}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" *ngIf="mostrarFiltroUsuario" style="margin-top: 10px;">
+                    <mat-label>{{etiquetas.FiltrarUsuarios}}</mat-label>
+                    <input matInput id="filtroUsuario" placeholder="Usuario" formControlName="filtroUsuario" (click)="abrirModalBuscador('USUARIO')" readonly="true">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" *ngIf="mostrarFiltroCapitan" style="margin-top: 10px;">
+                    <mat-label>{{etiquetas.Filtrarcapitanes}}</mat-label>
+                    <input matInput id="filtroCapitan" formControlName="filtroCapitan" placeholder="Capitan" (click)="abrirModalBuscador('CAPITAN')" readonly="true">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" *ngIf="mostrarFiltroEmbarcacion" style="margin-top: 10px;" (click)="abrirModalBuscador('EMBARCACION')">
+                    <mat-label>{{etiquetas.FiltrarEmbarcaciones}}</mat-label>
+                    <input matInput id="filtroEmbarcacion" formControlName="filtroEmbarcacion" placeholder="Embarcacion" readonly="true">
+                </mat-form-field>
+
+                <div class="row" style="margin-top: 15px;">
+
+                    <div class="col-4">
+                        <mat-label>Ver Eliminados</mat-label>
+                        <mat-radio-group aria-label="Ver Eliminados" formControlName="filtroEliminados" style="float: right;margin-top: 20px;  margin-right:30px; " id="filtroEliminados" required>
+                            <mat-radio-button value="S" style="float: left;">Si</mat-radio-button>
+                            <mat-radio-button value="N" style=" float: left; margin-left: 20px;">No
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="col-4">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha Inicio</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="filtroFechaInicio" id="filtroFechaInicio" placeholder="fecha de inicio">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha Fin</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="filtroFechaFin" id="filtroFechaFin" placeholder="fecha fin">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <mat-form-field>
+                    <mat-label>Filtrar Solicitud Por</mat-label>
+                    <mat-select [(value)]="selectedTipoSolicitud" (selectionChange)="filtrarTipoSolicitud()" formControlName="filtroTipoSolicitud">
+                        <mat-option value="aceptadas">{{etiquetas.SolicitudesAceptadas}}</mat-option>
+                        <mat-option value="pendientes">{{etiquetas.SolicitudesPendientes}}</mat-option>
+                        <mat-option value="canceladas">{{etiquetas.SolicitudesCanceladas}}</mat-option>
+                        <mat-option value="finalizadas">{{etiquetas.SolicitudesFinalizadas}}</mat-option>
+                        <mat-option value="todas">Todas</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 class="botonesdesign" (click)="limpiarFiltros()">
+                    <mat-icon>clear</mat-icon>
+                    Limpiar Filtros
+                  </button>
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 [disabled]="!filtrosForm.valid" class="botonesdesign" (click)="generarReporte()">
+          <mat-icon>check</mat-icon>
+          Generar Reporte
+        </button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+
+    <!-- TABLA DE REPORTE DE SOLICITUDES  Se mostraran cuatro tablas-->
+    <br>
+    <mat-card id="aceptadas" *ngIf="muestraTablaReporte && (selectedTipoSolicitud=='aceptadas' || selectedTipoSolicitud=='todas') ">
+        <h5 style="text-align: center;">{{etiquetas.SolicitudesAceptadas}}</h5>
+        <table mat-table [dataSource]="dataSource.aceptadas" class="mat-elevation-z8" style="width: 100%;">
+            <ng-container matColumnDef="nombreturista">
+                <th mat-header-cell *matHeaderCellDef> Turista </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCliente.USUARIO_NOMBRE}} </td>
+            </ng-container>
+            <ng-container matColumnDef="emailturista">
+                <th mat-header-cell *matHeaderCellDef> Email Turista </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCliente.USUARIO_CORREO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombrecapitan">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Capitan}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCapitan.USUARIO_NOMBRE}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="emailcapitan">
+                <th mat-header-cell *matHeaderCellDef> Email Capitan </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCapitan.USUARIO_CORREO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Origen}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudesaceptadas.SOLICITUD_ORIGEN}} </td>
+            </ng-container>
+            <ng-container matColumnDef="destino">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Destino}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudesaceptadas.SOLICITUD_DESTINO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Fecha">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.FechadeSolicitud}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudesaceptadas.FECHA_SOLICITUD}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="NumeroDias">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Numerodedias}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Viajes.numeroDias}} </td>
+            </ng-container>
+            <ng-container matColumnDef="precio">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Precio}} </th>
+                <td mat-cell *matCellDef="let element">$ {{element.Viajes.precio}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+    </mat-card>
+
+    <mat-card *ngIf="muestraTablaReporte &&  (selectedTipoSolicitud=='pendientes' || selectedTipoSolicitud=='todas') ">
+        <h5 style="text-align: center;">{{etiquetas.SolicitudesPendientes}}</h5>
+        <table mat-table [dataSource]="dataSource.pendientes" class="mat-elevation-z8" style="width: 100%;">
+
+            <ng-container matColumnDef="nombreturista">
+                <th mat-header-cell *matHeaderCellDef> Turista </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCliente.USUARIO_NOMBRE}} </td>
+            </ng-container>
+            <ng-container matColumnDef="emailturista">
+                <th mat-header-cell *matHeaderCellDef> Email Turista </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCliente.USUARIO_CORREO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombrecapitan">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Capitan}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCapitan.USUARIO_NOMBRE}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="emailcapitan">
+                <th mat-header-cell *matHeaderCellDef> Email Capitan </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCapitan.USUARIO_CORREO}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Origen}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitud.SOLICITUD_ORIGEN}} </td>
+            </ng-container>
+            <ng-container matColumnDef="destino">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Destino}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitud.SOLICITUD_DESTINO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Fecha">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.FechadeSolicitud}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitud.FECHA_SOLICITUD}} </td>
+            </ng-container>
+            <ng-container matColumnDef="NumeroDias">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Numerodedias}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Viajes.numeroDias}} </td>
+            </ng-container>
+            <ng-container matColumnDef="precio">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Precio}} </th>
+                <td mat-cell *matCellDef="let element">$ {{element.Viajes.precio}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+    </mat-card>
+
+    <mat-card *ngIf="muestraTablaReporte &&  (selectedTipoSolicitud=='canceladas' || selectedTipoSolicitud=='todas') ">
+        <h5 style="text-align: center;">{{etiquetas.SolicitudesCanceladas}}</h5>
+        <table mat-table [dataSource]="dataSource.canceladas" class="mat-elevation-z8" style="width: 100%;">
+
+            <ng-container matColumnDef="nombreturista">
+                <th mat-header-cell *matHeaderCellDef> Turista </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCliente.USUARIO_NOMBRE}} </td>
+            </ng-container>
+            <ng-container matColumnDef="emailturista">
+                <th mat-header-cell *matHeaderCellDef> Email Turista </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCliente.USUARIO_CORREO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombrecapitan">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Capitan}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCapitan.USUARIO_NOMBRE}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="emailcapitan">
+                <th mat-header-cell *matHeaderCellDef> Email Capitan </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCapitan.USUARIO_CORREO}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Origen}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudescanceladas.SOLICITUD_ORIGEN}} </td>
+            </ng-container>
+            <ng-container matColumnDef="destino">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Destino}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudescanceladas.SOLICITUD_DESTINO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Fecha">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.FechadeSolicitud}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudescanceladas.FECHA_SOLICITUD}} </td>
+            </ng-container>
+            <ng-container matColumnDef="NumeroDias">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Numerodedias}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Viajes.numeroDias}} </td>
+            </ng-container>
+            <ng-container matColumnDef="precio">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Precio}} </th>
+                <td mat-cell *matCellDef="let element">$ {{element.Viajes.precio}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </mat-card>
+
+    <mat-card *ngIf="muestraTablaReporte &&  (selectedTipoSolicitud=='finalizadas' || selectedTipoSolicitud=='todas') ">
+        <h5 style="text-align: center;">{{etiquetas.SolicitudesFinalizadas}}</h5>
+        <table mat-table [dataSource]="dataSource.finalizadas" class="mat-elevation-z8" style="width: 100%;">
+
+            <ng-container matColumnDef="nombreturista">
+                <th mat-header-cell *matHeaderCellDef> Turista </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCliente.USUARIO_NOMBRE}} </td>
+            </ng-container>
+            <ng-container matColumnDef="emailturista">
+                <th mat-header-cell *matHeaderCellDef> Email Turista </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCliente.USUARIO_CORREO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombrecapitan">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Capitan}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCapitan.USUARIO_NOMBRE}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="emailcapitan">
+                <th mat-header-cell *matHeaderCellDef> Email Capitan </th>
+                <td mat-cell *matCellDef="let element"> {{element.UsuarioCapitan.USUARIO_CORREO}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Origen}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudesfinalizadas.SOLICITUD_ORIGEN}} </td>
+            </ng-container>
+            <ng-container matColumnDef="destino">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Destino}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudesfinalizadas.SOLICITUD_DESTINO}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Fecha">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.FechadeSolicitud}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Solicitudesfinalizadas.FECHA_SOLICITUD}} </td>
+            </ng-container>
+            <ng-container matColumnDef="NumeroDias">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Numerodedias}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.Viajes.numeroDias}} </td>
+            </ng-container>
+            <ng-container matColumnDef="precio">
+                <th mat-header-cell *matHeaderCellDef> {{etiquetas.Precio}} </th>
+                <td mat-cell *matCellDef="let element">$ {{element.Viajes.precio}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <!--<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>-->
+    </mat-card>
+
+</mat-card-content>

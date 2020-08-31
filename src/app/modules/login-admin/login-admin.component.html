@@ -1,0 +1,29 @@
+<mat-toolbar style="background-color:#001b5a">
+    <mat-toolbar-row routerLink='./home'>
+        <img src="{{urlLogo}}" alt="logo" height="50"  width="50" style="padding: 3px;">
+            <span style="padding: 3px;  color: white;" routerLink='./home'>{{etiquetas.MenuMarlynkWeb}}</span>
+            <span style="padding: 3px;color: #e2ab11;font-size: 9px;text-align: center;vertical-align: baseline;margin-top: 11px;" routerLink='./home'>{{etiquetas.version}}</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<form [formGroup]="userForm" autocomplete="off" novalidate (ngSubmit)="autenticar()">
+    <mat-card>
+        <mat-card-title fxLayoutAlign="center">
+            <label>{{etiquetas.Login}} en Marlynk </label>
+        </mat-card-title>
+        <mat-card-content fxLayout="row" fxLayoutAlign="center center">
+            <div class="div-container" fxFlex=90>
+                <mat-form-field>
+                    <input matInput placeholder={{etiquetas.Usuario}} formControlName="usuario" id="usuario" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input type="password" matInput placeholder={{etiquetas.Password}} formControlName="password" id="password" required>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+            <!--<button mat-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80 color="primary" [disabled]="!userForm.valid">{{etiquetas.Aceptar}}</button>-->
+            <button  class="btn btn-dark" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80  [disabled]="!userForm.valid">{{etiquetas.Aceptar}}</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
