@@ -1,0 +1,398 @@
+<mat-progress-bar mode="indeterminate" *ngIf="isWating"></mat-progress-bar>
+
+<div class="container" style="overflow: hidden; background-color: white">
+  <mat-card-content
+    class="window-dashboard-card-content contentprincipal"
+    *ngIf="showDetailsPanel"
+  >
+    <mat-toolbar color="primary">
+      <mat-icon matPrefix>account_balance</mat-icon>
+      <span>{{ etiquetaNombreModulo }}</span>
+      <span class="example-spacer"></span>
+      <button
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with share icon"
+        (click)="cerrarDetalle()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <!-- FORM MOSTRAR DETALLE -->
+    <form [formGroup]="form" autocomplete="off" novalidate>
+      <mat-card class="cardcontent">
+        <mat-card-actions
+          fxLayout="row"
+          fxLayoutAlign="end center"
+          style="margin-right: 10px"
+        >
+          <button
+            mat-raised-button
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutAlign="center"
+            fxFlex="22"
+            style="background-color: var(--red); cursor: pointer; color: #fff"
+            *ngIf="status == '1' || status == '2'"
+            (click)="cancelOrder()"
+          >
+            <mat-icon color="white">cancel</mat-icon>
+            Cancel
+          </button>
+          <button
+            mat-raised-button
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutAlign="center"
+            fxFlex="22"
+            color="primary"
+            *ngIf="status == '1'"
+            (click)="acceptOrder()"
+          >
+            <mat-icon>check_box</mat-icon>
+            Accept Order
+          </button>
+          <button
+            mat-raised-button
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutAlign="center"
+            fxFlex="22"
+            style="
+              background-color: var(--purple);
+              cursor: pointer;
+              color: #fff;
+            "
+            *ngIf="status == '2'"
+            (click)="preparedOrder()"
+          >
+            <mat-icon color="white">check_box</mat-icon>
+            Prepared
+          </button>
+          <button
+            mat-raised-button
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutAlign="center"
+            fxFlex="22"
+            style="background-color: var(--blue); cursor: pointer; color: #fff"
+            *ngIf="status == '4'"
+            (click)="deliveredOrder()"
+          >
+            <mat-icon color="white">check</mat-icon>
+            Delivered
+          </button>
+        </mat-card-actions>
+        <mat-card-title fxLayoutAlign="center">
+          <label>Order Detail</label>
+        </mat-card-title>
+
+        <mat-card-content fxLayout="column" fxLayoutAlign="center">
+          <div *ngIf="false">
+            <mat-form-field>
+              <input
+                matInput
+                formControlName="_id"
+                id="_id"
+                placeholder="_"
+                readonly
+              />
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+            <mat-form-field fxFlex>
+              <mat-icon matPrefix>person_outline</mat-icon>
+              <input
+                matInput
+                formControlName="userName"
+                id="userName"
+                placeholder="Name"
+                readonly
+              />
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <mat-icon matPrefix>phone</mat-icon>
+              <input
+                matInput
+                formControlName="userPhone"
+                id="userPhone"
+                placeholder="Phone Number"
+                readonly
+              />
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+            <mat-form-field fxFlex>
+              <mat-icon matPrefix>email</mat-icon>
+              <input
+                matInput
+                formControlName="userEmail"
+                id="userEmail"
+                placeholder="Email"
+                readonly
+              />
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <mat-icon matPrefix>today</mat-icon>
+              <input
+                matInput
+                formControlName="createdAt"
+                id="createdAt"
+                placeholder="Date"
+                readonly
+              />
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+            <mat-form-field fxFlex>
+              <mat-chip-list #chipList>
+                <mat-icon matPrefix>assignment</mat-icon>
+                <mat-chip [selected]="isChipSelected" [color]="chipColour">
+                  <span class="material-icons"> {{ chipIcon }} </span>
+                  {{ chipText }}
+                </mat-chip>
+                <input
+                  matInput
+                  id="status"
+                  placeholder="Curent Status"
+                  [matChipInputFor]="chipList"
+                  readonly
+                />
+              </mat-chip-list>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <mat-icon matPrefix>monetization_on</mat-icon>
+              <input
+                matInput
+                formControlName="total"
+                id="total"
+                placeholder="Total"
+                readonly
+              />
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+
+        <!-- subproductos -->
+        <div
+          id="orderDetails"
+          *ngFor="let detail of this.orderDetails"
+          class="classFotMatGridList"
+        >
+          <mat-grid-list cols="2" rowHeight="120px" cols="3" rowHeight="120px">
+            <mat-grid-tile>
+              <img
+                class="mat-card-image-list"
+                src="{{ detail.subproducto.img }}"
+                alt=""
+              />
+              <h5 class="title">{{ detail.subproducto.name }}</h5>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <div
+                fxLayout="row"
+                fxLayout.xs="column"
+                fxLayoutAlign="center"
+                fxFlex="100"
+                style="color: black"
+              >
+                <mat-icon
+                  style="color: black; font-size: 32px; margin-top: 6px"
+                >
+                  attach_money</mat-icon
+                >
+                <div style="color: black; font-size: 30px">
+                  {{ detail.value }}
+                </div>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <div
+            id="adiciones"
+            style="margin-top: -22px"
+            *ngIf="detail.additions.length > 0"
+          >
+            <mat-chip-list
+              class="no-wrap"
+              style="margin-left: 90px; width: 190px"
+              aria-label="Color selection"
+              flex="50"
+              *ngIf="detail.additions.length > 0"
+            >
+              <mat-chip
+                selected
+                style="
+                  margin-left: 90px;
+                  background-color: rgb(75, 0, 130);
+                  width: 250px;
+                "
+              >
+                <span class="material-icons" style="margin-right: 10px">
+                  add_box </span
+                >Additions</mat-chip
+              >
+            </mat-chip-list>
+            <div
+              *ngFor="let addition of detail.additions"
+              class="classFotMatGridList"
+              style="margin-left: 90px; width: 80%"
+            >
+              <div *ngIf="addition.addition">
+                <img
+                  class="mat-card-image-list"
+                  src="{{ addition.addition.img }}"
+                  alt=""
+                />
+                {{ addition.addition.name }}
+                {{ addition.value }}
+                <br />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="cerrarDetalle()"
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutAlign="center"
+            fxFlex="85"
+          >
+            <mat-icon>close</mat-icon>
+            Close
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </mat-card-content>
+
+  <mat-card-content
+    *ngIf="showOrdersList"
+    class="window-dashboard-card-content contentprincipal"
+  >
+    <mat-toolbar color="primary">
+      <mat-icon matPrefix>request_page</mat-icon>
+      <span>{{ etiquetaListado }}</span>
+    </mat-toolbar>
+
+    <!-- Títulos chips colores -->
+    <mat-chip-list
+      aria-label="Fish selection"
+      style="padding: 15px"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
+      <mat-chip
+        style="background-color: var(--success); cursor: pointer"
+        selected
+        (click)="filterOrders('1')"
+      >
+        <span class="material-icons"> check_box </span> Requested
+      </mat-chip>
+      <mat-chip
+        style="background-color: var(--purple); cursor: pointer"
+        selected
+        (click)="filterOrders('2')"
+      >
+        <span class="material-icons"> miscellaneous_services </span>In Progress
+      </mat-chip>
+
+      <mat-chip
+        style="background-color: var(--gray); cursor: pointer"
+        selected
+        (click)="filterOrders('4')"
+      >
+        <span class="material-icons"> room_service </span>Prepared
+      </mat-chip>
+      <mat-chip
+        style="background-color: var(--primary); cursor: pointer"
+        selected
+        (click)="filterOrders('5')"
+      >
+        <span class="material-icons"> check </span>Delivered
+      </mat-chip>
+      <mat-chip
+        style="background-color: var(--danger); cursor: pointer"
+        selected
+        (click)="filterOrders('3')"
+      >
+        <span class="material-icons"> cancel_presentation </span>Cancelled
+      </mat-chip>
+    </mat-chip-list>
+    <!-- END Títulos chips colores -->
+    <mat-grid-list
+      class="styleForGrid"
+      cols="5"
+      rowHeight="120px"
+      (click)="verDetalle(order)"
+      *ngFor="let order of orders"
+      [ngClass]="{
+        solicitado: order.status == 1,
+        preparacion: order.status == 2,
+        cancelado: order.status == 3,
+        recoger: order.status == 4,
+        entregado: order.status == 5
+      }"
+    >
+      <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <img
+          class="mat-card-image-list"
+          src="{{ order.details[0].subproducto.img }}"
+          alt="{{ order.details[0].subproducto.name }}"
+        />
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="2" [rowspan]="1">
+        <div
+          class="title"
+          style="
+            float: left;
+            width: 100%;
+            text-align: left;
+            margin-left: 15px;
+            font-size: 20px;
+            color: white;
+            font-weight: 600;
+          "
+        >
+          {{ order.details[0].subproducto.name }}
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <div
+          style="
+            float: left;
+            width: 100%;
+            text-align: left;
+            margin-left: 15px;
+            font-size: 16px;
+            color: white;
+            font-weight: 600;
+          "
+        >
+          {{ formatDate(order.createdAt) }}
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="100"
+          style="color: white"
+        >
+          <mat-icon style="color: white; font-size: 32px; margin-top: 6px">
+            attach_money</mat-icon
+          >
+          <div style="color: white; font-size: 30px">
+            {{ order.total }}
+          </div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</div>

@@ -1,0 +1,137 @@
+<!--CONTENIDO DE ACTIONS-->
+
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+    <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="22">
+        <mat-icon>person_add</mat-icon>
+        Adicion
+    </button>
+</mat-card-actions>
+
+<!--PROGRESS-BAR -->
+
+<mat-progress-bar mode="indeterminate" *ngIf="IsWait"></mat-progress-bar>
+
+<!--CARD: DATOS USERS -->
+
+<div class="container" style="overflow: hidden">
+    <mat-card-content class="window-dashboard-card-content contentprincipal" *ngIf="lShowPanelDatos">
+        <mat-toolbar color="primary">
+            <mat-icon matPrefix>people</mat-icon>
+            <span>{{ etiquetaNombreModulo }}</span>
+            <span class="example-spacer"></span>
+
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="cancelar()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar>
+        <mat-card-header>
+            <mat-card-title> </mat-card-title>
+        </mat-card-header>
+        <form [formGroup]="userForm" autocomplete="off" novalidate>
+            <mat-card class="cardcontent">
+                <mat-card-title fxLayoutAlign="center">
+                    <label>Datos de {{ etiquetaNombreModulo }}</label>
+                </mat-card-title>
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div *ngIf="false">
+                        <mat-form-field>
+                            <input matInput formControlName="_id" id="_id" placeholder="_" />
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                        <mat-form-field fxFlex>
+                            <mat-icon matPrefix>edit</mat-icon>
+                            <input matInput formControlName="name" id="name" placeholder="Nombre" />
+                        </mat-form-field>
+                        <mat-form-field fxFlex>
+                            <mat-icon matPrefix>edit</mat-icon>
+                            <input matInput formControlName="lastName" id="lastName" placeholder="Apellido" />
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                        <mat-form-field fxFlex>
+                            <mat-icon matPrefix>email</mat-icon>
+                            <input matInput formControlName="email" id="email" placeholder="Email" />
+                        </mat-form-field>
+                        <mat-form-field fxFlex>
+                            <mat-icon matPrefix>call</mat-icon>
+                            <input matInput formControlName="phoneNumber" id="phoneNumber" placeholder="Numero de Telefono" />
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                        <app-select label="Rol" [data]=roles icono="local_police" (valSelected)="procesarRolAdd($event)" default="{{userForm.controls['rol_id'].value}}" fxFlex="50" ></app-select>
+                        <mat-form-field fxFlex>
+                            <mat-icon matPrefix>edit</mat-icon>
+                            <input matInput formControlName="urlPhoto" id="urlPhoto" placeholder="url Photo" />
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                    <button mat-raised-button (click)="guardar()" color="primary" [disabled]="!userForm.valid" *ngIf="lShowBtnAdicionar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
+                        <mat-icon>person_add</mat-icon>
+                        Adicionar
+                    </button>
+                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80" [disabled]="!userForm.valid" *ngIf="lShowBtnActualizar" (click)="actualizar()">
+                        <mat-icon>mode_edit</mat-icon>
+                        Actualizar
+                    </button>
+                    <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80" (click)="eliminar()" *ngIf="lShowBtnEliminar">
+                        <mat-icon>more_vert</mat-icon>
+                        Eliminar
+                    </button>
+                    <button mat-raised-button (click)="cancelar()" color="warn" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
+                        <mat-icon>cancel</mat-icon>
+                        Cancelar
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </mat-card-content>
+    <!--CARD: USERS -->
+
+    <mat-card-content class="window-dashboard-card-content" *ngIf="lShowPanelListado" style="overflow-block: hidden">
+        <mat-toolbar color="primary">
+            <mat-icon matPrefix>people</mat-icon>
+            <span>{{ etiquetaListado }}</span>
+            <span class="example-spacer"></span>
+            <mat-icon>info</mat-icon>
+        </mat-toolbar>
+
+        <mat-card fxFill>
+            <mat-card-title fxLayoutAlign="center">
+                <label>BUSCAR</label>
+            </mat-card-title>
+            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                <app-select label="Rol" [data]=roles icono="local_police" (valSelected)="procesarRol($event)"  fxFlex="50" ></app-select>
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                    <mat-icon matPrefix>search</mat-icon>
+                    <mat-form-field fxFlex="50">
+                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.name" (keyup)="findBy()" />
+                    </mat-form-field>
+                    <mat-icon matPrefix>search</mat-icon>
+                    <mat-form-field fxFlex="45">
+                        <input matInput id="filterbyApellido" placeholder="Buscar por Apellido" [(ngModel)]="filter.lastName" (keyup)="findBy()" />
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!--CARD: USERS -->
+        <mat-grid-list cols="3" rowHeight="400px">
+            <mat-grid-tile *ngFor="let usuario of listadoUsers" style="overflow-x: hidden">
+                <mat-card class="dashboard-card" (click)="verDetalle(usuario)">
+                    <img mat-card-image src="{{ usuario.urlPhoto }}" alt="perfil " height="150px; " class="cssForCrudListImg " />
+                    <mat-card-content class="dashboard-card-content ">
+                        <h5>{{ usuario.name }}</h5>
+                        <div>{{ usuario.lastName }}</div>
+                        <br />
+                        <div>{{ usuario.email }}</div>
+                        <div>{{ usuario.phoneNumber }}</div>
+                        <div>{{ usuario.rol_id }}</div>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card-content>
+</div>

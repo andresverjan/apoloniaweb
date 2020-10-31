@@ -6,14 +6,7 @@ import { MatDialogConfig, MatDialog } from '@angular/material';
 import { LoadingComponent } from '../loading/loading.component';
 import * as Globals from '../globals';
 import { ModalComponent } from '../modal/modal.component';
-import { LoginComponent } from '../authentication/login/login.component';
-import { RegistroComponent } from '../registro/registro.component';
-
-import { AboutComponent } from '../authentication/about/about.component';
-import { DetalleComponent } from '../../detalle/detalle.component';
-import { PaisesComponent } from '../../paises/paises.component';
 import { Router } from '@angular/router';
-
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +33,7 @@ export class ToolsService {
     this.messageSource.next(message);
   }
 
-  addDataFiltroReporte(message:any){
+  addDataFiltroReporte(message: any) {
     this.dataFiltroReporte.next(message);
   }
 
@@ -78,7 +71,7 @@ export class ToolsService {
     })
   }
 
-  showBuscadorModal(component:any, tipoFiltro:any){
+  showBuscadorModal(component: any, tipoFiltro: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
@@ -133,6 +126,7 @@ export class ToolsService {
     }
     const dialogRef = this.dialog.open(ModalComponent, dialogConfig);
 
+    console.log("EHEREE");
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         switch (data.servicio) {
@@ -156,7 +150,7 @@ export class ToolsService {
     let json = JSON.stringify(obj);
     console.log(json);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.httpClient.post(this.serverUrl + 'Homes/uploadBase64', json, { headers: headers });
+    return this.httpClient.post(this.serverUrl + 'Homes/uploadBase64', json, { headers: headers })
   };
 
   listarPaises(objeTosend?): Observable<any> {
@@ -209,5 +203,27 @@ export class ToolsService {
     }
     return false;
   }
+  public getParams(filtro, ordenamiento): string {
+    let params = ''
+
+    if (filtro.length > 1) {
+      params = "(" + filtro;
+    }
+    if (ordenamiento.length > 1) {
+      if (params.length > 1) {
+        params += ",";
+      } else {
+        params += "(";
+      }
+      params += ordenamiento;
+    }
+
+    if (params.length > 1) {
+      params += ")";
+    }
+
+    return params
+
+  };
 
 }

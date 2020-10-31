@@ -1,10 +1,9 @@
-<mat-form-field>
-      <mat-label>{{label}}</mat-label>
-  <div>
-      <mat-select>
+<mat-form-field  fxFlex>
+      <mat-icon matPrefix>{{icono}}</mat-icon>
+      <mat-label >{{label}}</mat-label>
+      <mat-select [(value)]="default">
           <mat-option *ngFor="let obj of data" [value]="obj.value" (click)=runOnChange(obj)>
             {{obj.nombre}}
           </mat-option>
         </mat-select>
-  </div>
 </mat-form-field>

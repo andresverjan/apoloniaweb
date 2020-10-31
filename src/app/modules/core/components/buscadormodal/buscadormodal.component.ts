@@ -1,8 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { UsuariosService } from '../../../usuarios/usuarios.service';
-import { CapitanesService } from '../../../capitanes/capitanes.service';
-import { EmbarcacionesService } from '../../../embarcaciones/embarcaciones.service';
 import { UserSession } from '../../interfaces/usersession.interface';
 import { ToolsService } from '../../services/tools.service';
 
@@ -23,8 +20,7 @@ export class BuscadormodalComponent implements OnInit {
   };
   public etiquetas:any= {};
   constructor(public dialogRef: MatDialogRef<BuscadormodalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data2: any, private usuarioService: UsuariosService,
-    private capitanesService: CapitanesService, private embarcacionesService: EmbarcacionesService,
+    @Inject(MAT_DIALOG_DATA) public data2: any,
     private toolService: ToolsService) {
     this.session = JSON.parse(localStorage.getItem('USER'));
     this.etiquetas = JSON.parse(localStorage.getItem("ETIQUETAS"));
@@ -41,30 +37,9 @@ export class BuscadormodalComponent implements OnInit {
   loadListado(objFindItem?: any) {
     if (this.data2.tipoServicio === 'USUARIO') {
       this.tituloServicio = 'Buscar Usuario';
-      this.usuarioService.cargarUsuarios(objFindItem).subscribe(data => {
-        console.log('DATA USUARIO');
-        console.log(data.data);
-        this.dataSource = data.data;
-      });
+    
     }
-
-    if (this.data2.tipoServicio === 'CAPITAN') {
-      this.tituloServicio = 'Buscar Capitán';
-      this.capitanesService.cargarUsuarios(objFindItem).subscribe(data => {
-        console.log('DATA CAPITANES');
-        console.log(data);
-        this.dataSource = data.data;
-      });
-    }
-
-    if (this.data2.tipoServicio === 'EMBARCACION') {
-      this.tituloServicio = 'Buscar Embarcación';
-      this.embarcacionesService.filtrarEmbarcaciones(objFindItem).subscribe(data => {
-        console.log('DATA EMBARCACIONES');
-        console.log(data);
-        this.dataSource = data.data;
-      });
-    }
+     
   }
 
   findBy() {

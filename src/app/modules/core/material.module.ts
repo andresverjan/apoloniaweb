@@ -1,32 +1,32 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
 
-import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule, MatButtonModule, MatSelectModule, MatIconModule, MatMenuModule } from '@angular/material';
-import { MatCardModule} from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTabsModule} from '@angular/material/tabs';
+import { FormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
-  MatListModule,
-  MatToolbarModule,
-} from '@angular/material';
-import {MatDialogModule} from '@angular/material/dialog';
+  MatInputModule,
+  MatButtonModule,
+  MatSelectModule,
+  MatIconModule,
+  MatMenuModule,
+} from "@angular/material";
+import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatListModule, MatToolbarModule } from "@angular/material";
+import { MatDialogModule } from "@angular/material/dialog";
 
-import {MatGridListModule} from '@angular/material/grid-list';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatTableModule} from '@angular/material/table';
-
-import {MatPaginatorModule} from '@angular/material/paginator';
-
-
-
+import { MatGridListModule } from "@angular/material/grid-list";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material";
+import { MatRadioModule } from "@angular/material/radio";
+import { MatTableModule } from "@angular/material/table";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -55,11 +55,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatNativeDateModule,
     MatRadioModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatChipsModule,
     //componentes de rutas
   ],
 
-  exports :[
+  exports: [
     BrowserAnimationsModule,
     FormsModule,
     MatInputModule,
@@ -82,11 +83,11 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatNativeDateModule,
     MatRadioModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatChipsModule,
   ],
 
   providers: [],
-  bootstrap: [],//componente
-
+  bootstrap: [], //componente
 })
-export class MaterialModule { }
+export class MaterialModule {}

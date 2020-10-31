@@ -1,20 +1,13 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToolsService } from '../../../core/services/tools.service';
-import { LoginComponent } from '../../authentication/login/login.component';
-import { RegistroComponent } from '../../registro/registro.component';
 import { UserSession } from '../../interfaces/usersession.interface';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'angularx-social-login';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { ModalComponent } from '../../modal/modal.component';
-import { ViajesService } from '../../../viajes/viajes.service';
 import { EtiquetasService } from '../../services/etiquetas.service';
 import { Embarcacion } from '../../../core/interfaces/embarcacion.interface';
 import * as Globals from '../../globals';
-
-
-
-
 
 @Component({
   selector: 'app-headerturista',
@@ -24,46 +17,42 @@ import * as Globals from '../../globals';
 export class HeaderturistaComponent implements OnInit {
 
   listadoResultados: Array<Embarcacion>;
-  public urlLogo:String;
-  public showMisViajes:boolean = false;
-  public showSerCapitan:boolean = false;
-  public showCerrarSesion:boolean = false;
-  public showLogin:boolean = true;
-  public showRegistrate:boolean = true;
+  public urlLogo: String;
+  public showMisViajes: boolean = false;
+  public showSerCapitan: boolean = false;
+  public showCerrarSesion: boolean = false;
+  public showLogin: boolean = true;
+  public showRegistrate: boolean = true;
   private session: UserSession;
-  private actualUrlFoto: string ="";
-  public etiquetas:any= {};
+  private actualUrlFoto: string = "";
+  public etiquetas: any = {};
   public IsWait: Boolean = false;
   public lShowPanelListadoResultados: Boolean = true;
   public serverURlImagesCapitanes: String;
   public autoComplete: string;
 
-  message : boolean;
+  message: boolean;
 
 
 
 
-  public findByItem ={
+  public findByItem = {
     destino: "",
-    _search   : true   //si queremos hacer filtro, debe ir como true.
+    _search: true   //si queremos hacer filtro, debe ir como true.
   }
 
-  constructor(private toolService: ToolsService, private router:Router,private authService: AuthService, private route: ActivatedRoute,
-    private dialog: MatDialog,  private etiquetasService: EtiquetasService,private viajesServices :ViajesService) {
+  constructor(private toolService: ToolsService, private router: Router, private authService: AuthService, private route: ActivatedRoute,
+    private dialog: MatDialog, private etiquetasService: EtiquetasService) {
     this.loadEtiquetas();
     //this.etiquetas = JSON.parse(localStorage.getItem("ETIQUETAS"));
-     this.urlLogo = this.toolService.getWebRoot() +"assets/imgs/logoMarlynkTransparente.png";
+    this.urlLogo = this.toolService.getWebRoot() + "assets/imgs/logoMarlynkTransparente.png";
     this.session = JSON.parse(localStorage.getItem('USER'));
     console.log(this.session);
-   
-   
-   
+
     //this.serverURlImagesUsuarios = this.usuarioService.getWebRootUrl();
+  }
 
-
-   }
-
-   loadEtiquetas() {
+  loadEtiquetas() {
     var objEtiqueta = {
       id: Globals.DEFAULT_LANGUAGE
     };
@@ -76,9 +65,6 @@ export class HeaderturistaComponent implements OnInit {
   };
 
 
-
-
-  
   findBySearch() {
     console.log(this.findByItem);
     this.cargarResultados();
@@ -87,13 +73,7 @@ export class HeaderturistaComponent implements OnInit {
 
   cargarResultados() {
     this.IsWait = true;
-    this.viajesServices.cargarResultadosBusqueda(this.findByItem).subscribe(response => {
-      this.listadoResultados = response.data;
-      this.IsWait = false;
-    })
-
     this.lShowPanelListadoResultados = true;
-
   }
 
   filtro(objSeleccionado) {
@@ -132,9 +112,9 @@ export class HeaderturistaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-       var request = {
-          USUARIO_CORREO:this.session.user.USUARIO_CORREO,
-          token : this.session.user.USUARIO_TOKEN,
+        var request = {
+          USUARIO_CORREO: this.session.user.USUARIO_CORREO,
+          token: this.session.user.USUARIO_TOKEN,
           ID: this.session.user.ID,
 
         };
@@ -158,30 +138,22 @@ export class HeaderturistaComponent implements OnInit {
 
   }
 
-  presionoBoton(){
+  presionoBoton() {
     console.log('FILTRO 2', this.findByItem);
   }
 
-  goToModalLogin(){
-    this.toolService.showDialogLogin(LoginComponent);
-  }
-
-  goToModalRegistro(){
-    this.toolService.showDialogLogin(RegistroComponent);
-  }
-
-  goToViajesTuristas(){
+  goToViajesTuristas() {
     this.router.navigate(['viajes-turista']);
   }
-  goToModificarContrasena(){
+  goToModificarContrasena() {
     this.router.navigate(['modificar-contrasena']);
   }
 
-  goToPerfilUsuario(){
+  goToPerfilUsuario() {
     this.router.navigate(['perfil']);
   }
 
-  ocultarItemsLogueado(){
+  ocultarItemsLogueado() {
     this.showRegistrate = false;
     this.showLogin = false;
     this.showSerCapitan = true;
@@ -189,7 +161,7 @@ export class HeaderturistaComponent implements OnInit {
     this.showMisViajes = true;
   }
 
-  showItemsLogout(){
+  showItemsLogout() {
     this.showRegistrate = true;
     this.showLogin = true;
     this.showSerCapitan = false;
@@ -197,7 +169,7 @@ export class HeaderturistaComponent implements OnInit {
     this.showMisViajes = false;
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem("USER");
     this.router.navigate(['../../home']);
     this.showItemsLogout();
@@ -205,35 +177,16 @@ export class HeaderturistaComponent implements OnInit {
     console.log(this.authService);
     console.log('SALIENDO.. GOOGLE AND FACEBOOK');
 
-}
+  }
   ngOnInit() {
-    if (this.session != null){
-      if(this.session.user.ROL_ID === '6'){
+    if (this.session != null) {
+      if (this.session.user.ROL_ID === '6') {
         console.log(this.toolService.getWebRoot());
-        this.actualUrlFoto =  this.toolService.getWebRoot() + this.session.user.URL_FOTO_PERFIL;
+        this.actualUrlFoto = this.toolService.getWebRoot() + this.session.user.URL_FOTO_PERFIL;
         console.log(this.actualUrlFoto);
         this.ocultarItemsLogueado();
       }
-
     }
-
-
-  }
-
-  consultarFiltro(event){
-    event.preventDefault();
-    this.viajesServices.listarViajesBuscador(this.findByItem).subscribe(response => {
-     
-      this.message = true;
-      this.toolService.changeMessage(response);
-      this.lShowPanelListadoResultados = false;
-
-
-    });
-
-    this.toolService.currentMessage.subscribe(response =>{
-      this.message = response;
-    });
 
   }
 

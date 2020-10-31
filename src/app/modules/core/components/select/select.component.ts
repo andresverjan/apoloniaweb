@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-select',
@@ -8,15 +8,25 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SelectComponent implements OnInit {
    @Input() data: any;
    @Input() label: string;
-   @Input() runOnChange:any;
+   @Input() icono: string;
+   @Input() default: string;
+   @Output() valSelected = new EventEmitter<string>();
 
-  constructor() { 
-    console.log(this.data);
-    console.log(this.runOnChange);
+  constructor() {
+    
   }
 
 
   ngOnInit() {
+    console.log(this.default);
+    const exist =  this.data.some( (r: { value: string; }) => r.value == "");
+    if (!exist){
+      this.data.push({value: "", nombre: "All"});
+    }
+  }
+
+  runOnChange(valSelect: any) {
+    this.valSelected.emit(valSelect);
   }
 
 }

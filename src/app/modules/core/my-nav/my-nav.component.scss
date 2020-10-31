@@ -1,8 +1,10 @@
 //VARIABLES
-$color_fondo_item: #01579B;
-$color_hover_item: #EEEEEE;
+@import '../../../../assets/scss/partials/variables.scss';
+$color_hover_item:  ($cprimary);
+
+
 .sidenav-container {
-    height: 93%;
+    min-height: 90%;
 }
 
 .profilefoto {
@@ -13,7 +15,6 @@ $color_hover_item: #EEEEEE;
 }
 
 .sidenav {
-    background-image: url("../../../../assets/fondonav.jpg");
     background-position: center;
     background-repeat: no-repeat;
     width: 250px;
@@ -27,25 +28,28 @@ mat-list-item {
     margin-bottom: 12px;
     cursor: pointer;
     &:hover {
-        background-color: $color_hover_item;
+        background-color: $cprimary;
         border-radius: 5px;
+        .menuIcon{
+            color: white;
+        }
     }
 }
-
 .is-active {
-    background-color: $color_fondo_item;
-    color: white;
+    background-color: $cprimary; 
+    color:  white;
     border-radius: 5px;
     box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
     -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
-    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);    
     .menuIcon {
         padding: 5px;
         color: white;
         margin-top: -10px;
+        margin-right: 15px;        
     }
     &:hover {
-        background-color: hsla(240, 97%, 39%, 0.75);
+        background-color: $cprimary;
     }
 }
 
@@ -61,8 +65,17 @@ mat-list-item {
 
 .menuIcon {
     padding: 5px;
-    color: #9E9E9E;
+    color: $cprimary;
     font-size: 23px;
     margin-right: 10px;
     margin-top: -10px;
 }
+
+mat-sidenav-content {
+    background-color: #f1f1f1;
+}
+
+mat-sidenav-container {
+    background-color: #f1f1f1;
+}
+

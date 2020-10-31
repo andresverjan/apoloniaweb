@@ -5,17 +5,20 @@ export const SERVER_FOLDER_WEBROOT = "webroot/";
 export const SERVER_FOLDER_IMAGENES = "webroot/images/";
 export const SERVER_FOLDER_IMAGENES_BANDERAS = "webroot/images/banderas/";
 
-export const DEFAULT_LANGUAGE = "1"; 
+export const DEFAULT_LANGUAGE = "1";
 
-/* 
+/*
  *  Definicion de constantes de uRl de Servidores
  */
-export const SERVER_DEV = "http://localhost/WsBoater/";
-export const SERVER_PROD = "https://www.marlynk.com/WsBoater/";
-export const SERVER_PROD_IP = "http://144.217.242.247/WsBoater/";
-export const SERVER = SERVER_PROD; 
+//export const SERVER_DEV = "https://mrmango.herokuapp.com/graphql";
+export const SERVER_DEV = "http://localhost:3000/graphql";
+export const SERVER_PROD = "https://mrmango.herokuapp.com/graphql";
+export const SERVER_PROD_IP = "http://localhost:3000/graphql";
+//export const SERVER_PROD = "https://mrmango.herokuapp.com/graphql";
+//export const SERVER_PROD_IP = "https://mrmango.herokuapp.com/graphql";
+export const SERVER = SERVER_PROD;
 
-/* 
+/*
  *  Definicion de constantes de providers Google facebook
  */
 

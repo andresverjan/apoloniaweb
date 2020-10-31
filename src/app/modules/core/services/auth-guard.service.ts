@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {LoginService} from '../authentication/login/login.service';
 import { UserSession } from '../interfaces/usersession.interface';
 
 @Injectable({
@@ -8,7 +7,7 @@ import { UserSession } from '../interfaces/usersession.interface';
 })
 export class AuthGuardService implements CanActivate{
 
-  constructor(private loginService: LoginService , private router: Router) {
+  constructor( private router: Router) {
 
   }
 
@@ -21,7 +20,8 @@ export class AuthGuardService implements CanActivate{
       return true;
     }else{
       console.log("no LOGUEADO");
-      this.router.navigate(['/login'], {
+      return true; //Temporal. HAVERJAN...
+      this.router.navigate(['/login-admin'], {
         queryParams: {
           return: state.url
         }

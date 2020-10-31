@@ -1,73 +1,77 @@
-<mat-toolbar style="background-color:#001b5a">
+<mat-toolbar class="matToolbarCss">
     <mat-toolbar-row>
-        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" style="color: white;">
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" style="color: white">
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <!-- <img src="{{urlLogo}}" alt="logo" height="50"  width="50" style="padding: 3px;">-->
-        <span style="padding: 3px;  color: white;">{{etiquetas.MenuMarlynkWeb}}</span>
+        <span style="padding: 3px; color: white">{{
+      etiquetas.MenuMarlynkWeb
+    }}</span>
     </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
-        <mat-toolbar style="margin-top: 15px;">
-            <img mat-card-avatar src="{{serverURlImagesUsuarios}}{{actualUrlFoto}}" class="profilefoto"  alt="bandera" (click)="goToProfile()">
-                <span style="font-size: 12px;">{{session.user.USUARIO_NOMBRE}}</span>
-        </mat-toolbar>
-        <mat-list style="margin-left: 20px; margin-right: 20px;">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)"
+  >
+    <mat-toolbar style="margin-top: 25px">
+      <img class="cssLogo" src="{{ urlLogo }}" alt="logo" style="float: left" />
+    </mat-toolbar>
+    <mat-list style="margin-left: 20px; margin-right: 20px">
+      <mat-list-item
+        routerLink="./perfil"
+        [routerLinkActive]="['is-active']"
+        style="margin-top: 15px"
+        (click)="mostrarRouter()"
+      >
+        <mat-icon class="menuIcon">account_circle</mat-icon>
+        Perfil
+      </mat-list-item>
 
-            <mat-list-item (click)="goToProfile()" routerLinkActive='is-active' style="margin-top: 15px;" (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">account_circle</mat-icon>
-                {{etiquetas.Perfil}}
-            </mat-list-item>
+      <mat-list-item
+        routerLink="./comercios"
+        [routerLinkActive]="['is-active']"
+        (click)="mostrarRouter()"
+        *ngIf= "usuario.rol_id==1"
+      >
+        <mat-icon class="menuIcon" >account_balance</mat-icon>
+          Admin Comercios
+        </mat-list-item>
 
-            <mat-list-item routerLink='./usuarios' routerLinkActive='is-active' *ngIf="session.user.ROL_ID=='1'" (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">people</mat-icon>
-                {{etiquetas.Usuarios}}
-            </mat-list-item>
-            <mat-list-item routerLink='./capitanes' routerLinkActive='is-active' *ngIf="session.user.ROL_ID=='1'" (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">portrait</mat-icon>
-                {{etiquetas.Capitanes}}
-            </mat-list-item>
-            <mat-list-item routerLink='./idiomas' routerLinkActive='is-active' *ngIf="session.user.ROL_ID=='1'" (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">g_translate</mat-icon>
-                {{etiquetas.Idiomas}}
-            </mat-list-item>
-            <mat-list-item routerLink='./paises' routerLinkActive='is-active' *ngIf="session.user.ROL_ID=='1'" (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">language</mat-icon>
-                Paises
-            </mat-list-item>
-            <mat-list-item routerLink='./embarcaciones' routerLinkActive='is-active' (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">directions_ferry</mat-icon>
-                {{etiquetas.Embarcaciones}}
-            </mat-list-item>
-            <mat-list-item routerLink='./viajes' routerLinkActive='is-active' (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">local_airport</mat-icon>
-                {{etiquetas.Viajes}}
-            </mat-list-item>
-            <mat-list-item (click)="mostrarSolicitudes()" routerLinkActive='is-active' *ngIf="session.user.ROL_ID=='5'">
-                <mat-icon class="menuIcon">mode_edit</mat-icon>
-                Solicitudes
-            </mat-list-item>
-            <mat-list-item routerLink='./correos' routerLinkActive='is-active' *ngIf="session.user.ROL_ID=='1'" (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">email</mat-icon>
-                Correos
-            </mat-list-item>
-            <mat-list-item routerLink='./reportes' routerLinkActive='is-active' *ngIf="session.user.ROL_ID=='1'" (click)="mostrarRouter()">
-                <mat-icon class="menuIcon">insert_drive_file</mat-icon>
-                Reportes
-            </mat-list-item>
-            <mat-list-item (click)="logout()">
-                <mat-icon class="menuIcon">mode_edit</mat-icon>
-                {{etiquetas.MenuLogout}}
-            </mat-list-item>
+        <mat-list-item routerLink="./productos" [routerLinkActive]="['is-active']" (click)="mostrarRouter()" *ngIf= "usuario.rol_id==1">
+            <mat-icon class="menuIcon">shopping_cart</mat-icon>
+            Admin Productos
+        </mat-list-item>
+        <mat-list-item routerLink="./users" [routerLinkActive]="['is-active']" (click)="mostrarRouter()" *ngIf= "usuario.rol_id==1">
+            <mat-icon class="menuIcon">people</mat-icon>
+            Admin Usuarios
+        </mat-list-item>
+        <mat-list-item routerLink="./adiciones" [routerLinkActive]="['is-active']" (click)="mostrarRouter()" *ngIf= "usuario.rol_id==1">
+          <mat-icon class="menuIcon">add_shopping_cart</mat-icon>
+          Admin Adiciones
+        </mat-list-item>
+        <mat-list-item routerLink='./subproductos' [routerLinkActive]="['is-active']"  (click)="mostrarRouter()" *ngIf= "usuario.rol_id==1">
+          <mat-icon class="menuIcon">shopping_cart</mat-icon>
+          Subproductos
+        </mat-list-item>
 
-        </mat-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <div class="container">
-            <app-viajes-turista *ngIf="MostrarSolicitudesCapitan"></app-viajes-turista>
-        </div>
-        <router-outlet *ngIf="MostrarRouter"></router-outlet>
-    </mat-sidenav-content>
+        <mat-list-item routerLink='./orders' [routerLinkActive]="['is-active']"  (click)="mostrarRouter()">
+          <mat-icon class="menuIcon">request_quote</mat-icon>
+          Orders
+        </mat-list-item>
+
+        <mat-list-item (click)="logout()">
+          <mat-icon class="menuIcon">mode_edit</mat-icon>
+          Salir
+        </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="container"></div>
+    <router-outlet *ngIf="MostrarRouter"></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

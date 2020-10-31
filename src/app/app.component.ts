@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   providers: []
 })
 export class AppComponent implements OnInit {
-  title = 'MarlynkWeb';
+  title = 'Mr Mango Web App';
 
   data: any = {
 
@@ -18,12 +18,6 @@ export class AppComponent implements OnInit {
   constructor(private service: ServicesService, private router: Router) { }
 
   ngOnInit() {
-    /*this.service.cargarEtiquetas('2').subscribe(res => {
-      console.log('DESDE COMPONENTE ', res);
-      this.data = res.data;
-      let respuesta = res.mensaje;
-      console.log(respuesta);
-    })*/
 
   }
 

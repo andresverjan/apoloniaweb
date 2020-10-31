@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UserSession } from '../interfaces/usersession.interface';
-import { UsuariosService } from '../../usuarios/usuarios.service';
 
 
 @Component({
@@ -20,19 +19,19 @@ export class MyNavComponent {
   public etiquetas:any= {};
   public MostrarSolicitudesCapitan:boolean = false;
   public MostrarRouter:boolean = true;
-
+  public urlLogo: string;
+  public usuario;
+  userKey: string='USUARIO';
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
     );
+    
 
-  constructor(private breakpointObserver: BreakpointObserver, private router:Router, private usuarioService:UsuariosService) {
-    this.etiquetas = JSON.parse(localStorage.getItem("ETIQUETAS"));
-    this.session = JSON.parse(localStorage.getItem('USER'));
-    this.serverURlImagesUsuarios = this.usuarioService.getWebRootUrl();
-    this.actualUrlFoto = this.session.user.URL_FOTO_PERFIL;
-
+  constructor(private breakpointObserver: BreakpointObserver, private router:Router) {
+    this.urlLogo = "../../../assets/small.png";
+    this.usuario= JSON.parse(localStorage.getItem(this.userKey));
   }
 
   goToProfile(){
@@ -43,19 +42,15 @@ export class MyNavComponent {
   logout(){
       localStorage.removeItem('USER');
       this.router.navigate(['home/inicio']);
-
   }
 
   mostrarSolicitudes(){
-    this.MostrarSolicitudesCapitan = true;
     this.MostrarRouter = false;
   }
 
   mostrarRouter(){
-    this.MostrarSolicitudesCapitan = false;
     this.MostrarRouter = true;
   }
-
-
+  
 
 }

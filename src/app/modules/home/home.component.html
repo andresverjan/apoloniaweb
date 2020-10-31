@@ -63,21 +63,7 @@
             </div>
         </div>
     </div>
-
-    <!--<div class="row" *ngIf="ocultaSegundoPanelViajes">
-        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" *ngFor="let viaje of listadoViajesSegundo | slice:0:8;">
-            <div class="card carta" (click)="goToDetalleViaje(viaje)">
-                <img src="{{serverURlImagesViajes}}{{viaje.urlFoto}}" class="card-img-top" alt="..." height="195.3" width="260.5">
-                <div class="card-body">
-                    <h5 class="card-title">{{etiquetas.Destino}}: {{viaje.destino}}</h5>
-                    <p class="card-text">{{etiquetas.Experiencia}}: {{viaje.experiencia}}</p>
-                    <p class="card-text">{{etiquetas.Precio}}: {{viaje.precio}}</p>
-                </div>
-            </div>
-        </div>
-    </div>-->
-
-
+ 
     <div class="col-md-2 col-sm-6 col-12 fila">
         <button class="botonVerMas" (click)="cargarSegundoListadoViajes()" *ngIf="ocultaVerMasViajes">{{etiquetas.verMas}}</button>
     </div>
@@ -98,20 +84,7 @@
             </div>
         </div>
     </div>
-
-    <!--<div class="row" *ngIf="ocultaSegundoPanelEmbarcaciones">
-        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3" *ngFor="let embarcacion of listadoEmbarcacionesSegundo | slice:0:8;">
-            <div class="card carta" (click)="goToDetalleEmbarcacion(embarcacion)">
-                <img src="{{serverURlImagesEmbarcaciones}}{{embarcacion.urlBarco}}" class="card-img-top" alt="..." height="195.3" width="260.5">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fas fa-ship"></i> {{embarcacion.embarcacion_nombre}}
-                    </h5>
-                    <p class="card-text">{{etiquetas.Numerodepasajeros}}: {{embarcacion.numeroPasajeros}}</p>
-                </div>
-            </div>
-        </div>
-    </div>-->
+ 
 
     <div class="col-md-2 col-sm-6 col-12 fila">
         <button class="botonVerMas" (click)="cargarSegundoListadoEmbarcaciones()" *ngIf="ocultaVerMasEmbarcaciones">{{etiquetas.verMas}}</button>
