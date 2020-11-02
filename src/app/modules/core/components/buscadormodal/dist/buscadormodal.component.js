@@ -16,11 +16,17 @@ var BuscadormodalComponent = /** @class */ (function () {
     function BuscadormodalComponent(dialog) {
         this.dialog = dialog;
         this.selected = new core_1.EventEmitter();
-        console.log("LLEGARON LAS COLUMNAS!!");
-        console.log(this.columnas);
     }
     BuscadormodalComponent.prototype.ngOnInit = function () {
-        this.itemBuscar = this.defaultObjValue.id + " - " + this.defaultObjValue.nombre;
+        var _this = this;
+        var propiedades = this.resultInputText;
+        var resultString = [];
+        propiedades.forEach(function (propiedad) {
+            if (_this.defaultObjValue.hasOwnProperty(propiedad)) {
+                resultString.push(_this.defaultObjValue[propiedad]);
+            }
+        });
+        this.itemBuscar = resultString.join(' - ');
     };
     BuscadormodalComponent.prototype.openDialog = function () {
         var _this = this;
@@ -34,7 +40,16 @@ var BuscadormodalComponent = /** @class */ (function () {
             disableClose: true
         });
         dialogRef.afterClosed().subscribe(function (result) {
-            _this.itemBuscar = result.id + " - " + result.nombre;
+            console.log(result);
+            console.log(_this.resultInputText);
+            var propiedades = _this.resultInputText;
+            var resultString = [];
+            propiedades.forEach(function (propiedad) {
+                if (result.hasOwnProperty(propiedad)) {
+                    resultString.push(result[propiedad]);
+                }
+            });
+            _this.itemBuscar = resultString.join(' - ');
             _this.selected.emit(result);
         });
     };
@@ -47,6 +62,9 @@ var BuscadormodalComponent = /** @class */ (function () {
     __decorate([
         core_1.Input()
     ], BuscadormodalComponent.prototype, "columnas");
+    __decorate([
+        core_1.Input()
+    ], BuscadormodalComponent.prototype, "resultInputText");
     __decorate([
         core_1.Input()
     ], BuscadormodalComponent.prototype, "defaultObjValue");
@@ -97,9 +115,6 @@ var DialogOverviewExample = /** @class */ (function () {
         else {
             this.service.getAll().subscribe(function (res) {
                 _this.dataSource = res.data[Object.keys(res.data)[0]];
-                var listKeys = Object.keys(_this.dataSource[0]);
-                console.log("KEYS!");
-                console.log(listKeys);
                 _this.loading = false;
             });
         }

@@ -14,22 +14,29 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
   styleUrls: ["./buscadormodal.component.scss"],
 })
 export class BuscadormodalComponent implements OnInit {
-  @Input()  service: any;
-  @Input()  tituloBusqueda: string;
-  @Input()  columnas: any;
-  @Input()  defaultObjValue: any;
+  @Input()  service: any;                //Servicio a Ejecutar.
+  @Input()  tituloBusqueda: string;      //Titulo
+  @Input()  columnas: any;               //Objeto que contiene columnas que quiere mostrar del listado, y el texto para cada columna. Ejemplo: { id: "Identificador" }
+  @Input()  resultInputText: [];         //Array de String, con Indice o columnas que usara para armar el texto del resultado. normalmente es ['id', 'Nombre']  Quedaria : 1 - PRUEBA
+  @Input()  defaultObjValue: any;        //Objeto Inicial, para setear valores iniciales al componente.
   @Output() selected: EventEmitter<any>; //objeto seleccionado.
 
   public itemBuscar: any;
 
   constructor(public dialog: MatDialog) {
     this.selected = new EventEmitter();
-    console.log("LLEGARON LAS COLUMNAS!!");
-    console.log(this.columnas);
   }
 
   ngOnInit() {
-    this.itemBuscar= this.defaultObjValue.id + " - " + this.defaultObjValue.nombre;
+    let propiedades = this.resultInputText;
+    let resultString = [];
+    propiedades.forEach(propiedad => {
+      if (this.defaultObjValue.hasOwnProperty(propiedad)){
+        resultString.push(this.defaultObjValue[propiedad]);
+      }
+    });
+    this.itemBuscar = resultString.join(' - ');
+
   }
 
   openDialog(): void {
@@ -44,7 +51,16 @@ export class BuscadormodalComponent implements OnInit {
     });
     
     dialogRef.afterClosed().subscribe((result) => {
-      this.itemBuscar = result.id + " - " + result.nombre;
+      console.log(result);
+      console.log(this.resultInputText);
+      let propiedades = this.resultInputText;
+      let resultString = [];
+      propiedades.forEach(propiedad => {
+        if (result.hasOwnProperty(propiedad)){
+          resultString.push(result[propiedad]);
+        }
+      });
+      this.itemBuscar = resultString.join(' - ');
       this.selected.emit(result);
     });
   }
@@ -98,9 +114,6 @@ export class DialogOverviewExample {
     } else {
       this.service.getAll().subscribe((res) => {
         this.dataSource = res.data[Object.keys(res.data)[0]];
-        let listKeys = Object.keys(this.dataSource[0]);
-        console.log("KEYS!");
-        console.log(listKeys);
         this.loading = false;
       });
     }
