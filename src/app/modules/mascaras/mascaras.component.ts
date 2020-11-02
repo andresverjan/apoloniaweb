@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { TableService } from '../core/services/table.service';
+import { ColumnaService } from '../core/services/columna.service';
 import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
 import { MascarasService } from "./mascaras.service";
 @Component({
@@ -10,29 +12,38 @@ export class MascarasComponent implements OnInit {
   public IsWaiting: boolean;
   public showListado: boolean = true;
   public mascaras = [];
-  public tipoCampos = [];
   public etiquetaListado = "Listado de Mascaras";
+  public selectedMascara: any;
+  
+  public mascara: any;
+  public tipoCampo: any;
+  public tablas: any;
+
   constructor(
     public _mascarasService: MascarasService,
-    public _tipoCampoService: TipoCampoService
+    public _tipoCampoService: TipoCampoService,
+    public _tableService: TableService,
+    public _columnaService: ColumnaService,
   ) {
     this.get();
   }
 
-  public mascara: any;
-  public tipoCampo: any;
 
-  setCurrent(current: any) {
-    this.mascara = current;
+  ngOnInit() {
+    //Creo valores por defecto o iniciales para cada componente.
+    // de esta forma debe el backend devolver cada valor, como un objeto.
+    this.mascara = {
+      id : 1,
+      nombre : "prueba"
+    }
+    this.tipoCampo = {
+      id : 1,
+      nombre : "pruebaTipoCampo"
+    }
+    this.tablas = {
+      TABLE_NAME : "Default Table Name"
+    }
   }
-  setTipoCampot(tipoCampo) {
-    this.tipoCampo = tipoCampo;
-  }
-
-  public columnas = ["id", "nombre", "descripcion"];
-
-  ngOnInit() {}
-
   get = (filter?) => {
     this.IsWaiting = true;
     this._mascarasService.getAll(filter).subscribe((res) => {

@@ -26,19 +26,33 @@
       </mat-card-title>
 
       <app-buscadormodal
-        *ngIf="!IsWaiting && mascaras"
-        (selected)="setCurrent($event)"
-        [columnas]="columnas"
+        *ngIf="!IsWaiting"
+        (selected)="mascara=$event"
+        [columnas]    =  "{id: 'Id', nombre:'Nombre', descripcion:'Descripcion'}"
+        [resultInputText] = "['id', 'nombre']"
         [service]="_mascarasService"
         tituloBusqueda="Mascaras"
+        [defaultObjValue] = mascara
       ></app-buscadormodal>
+
       <app-buscadormodal
-        *ngIf="!IsWaiting && tipoCampos"
-        (selected)="setTipoCampo($event)"
-        [columnas]="columnas"
-        [service]="_tipoCampoService"
-        nombreArr="tipocampo"
-        tituloBusqueda="Tipo Campo"
+        *ngIf="!IsWaiting"
+        tituloBusqueda= "Tipo Campo"
+        [columnas]    =  "{id: 'Id', nombre:'Nombre', descripcion:'Descripcion'}"
+        [resultInputText] = "['id', 'nombre']"
+        [service]     = "_tipoCampoService"
+        (selected)="tipoCampo=$event"
+        [defaultObjValue] = tipoCampo
+      ></app-buscadormodal>
+      
+      <app-buscadormodal
+      *ngIf="!IsWaiting"
+      tituloBusqueda="Listado de Tablas"
+      [columnas] = "{TABLE_NAME: 'Nombre de la Tabla'}"
+      [resultInputText] = "['TABLE_NAME']"
+      [service]="_tableService"
+      (selected)="tablas=$event"
+      [defaultObjValue] = tablas
       ></app-buscadormodal>
 
       <!-- 
@@ -46,7 +60,11 @@
         [columnas]="columnas"
         [service]="_mascarasService"
       ></app-filtro-busqueda> -->
+      <button mat-raised-button color="primary" (click)="test()" >Ingresar</button>
+
     </mat-card>
+
+    
 
     <mat-grid-list *ngIf="showListado" cols="3" rowHeight="320px">
       <mat-grid-tile

@@ -14,40 +14,53 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
   styleUrls: ["./buscadormodal.component.scss"],
 })
 export class BuscadormodalComponent implements OnInit {
-  @Input() service: any;
-  @Input() tituloBusqueda: string;
-  @Input() columnas: Array<string>;
-  @Input() nombreArr: Array<string>;
-
+  @Input()  service: any;                //Servicio a Ejecutar.
+  @Input()  tituloBusqueda: string;      //Titulo
+  @Input()  columnas: any;               //Objeto que contiene columnas que quiere mostrar del listado, y el texto para cada columna. Ejemplo: { id: "Identificador" }
+  @Input()  resultInputText: [];         //Array de String, con Indice o columnas que usara para armar el texto del resultado. normalmente es ['id', 'Nombre']  Quedaria : 1 - PRUEBA
+  @Input()  defaultObjValue: any;        //Objeto Inicial, para setear valores iniciales al componente.
   @Output() selected: EventEmitter<any>; //objeto seleccionado.
 
-  dataSource: [any];
-
   public itemBuscar: any;
-  public tituloServicio: any;
 
-  public etiquetas: any = {};
   constructor(public dialog: MatDialog) {
     this.selected = new EventEmitter();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    let propiedades = this.resultInputText;
+    let resultString = [];
+    propiedades.forEach(propiedad => {
+      if (this.defaultObjValue.hasOwnProperty(propiedad)){
+        resultString.push(this.defaultObjValue[propiedad]);
+      }
+    });
+    this.itemBuscar = resultString.join(' - ');
+
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExample, {
-      // width: "250px",
+      width: "650px",
       data: {
         service: this.service,
         columnas: this.columnas,
-        nombreArr: this.nombreArr,
-        tituloBusqueda: this.tituloBusqueda,
+        tituloBusqueda: this.tituloBusqueda
       },
       disableClose: true,
     });
-
+    
     dialogRef.afterClosed().subscribe((result) => {
-      this.itemBuscar = result.id + " - " + result.nombre;
-
+      console.log(result);
+      console.log(this.resultInputText);
+      let propiedades = this.resultInputText;
+      let resultString = [];
+      propiedades.forEach(propiedad => {
+        if (result.hasOwnProperty(propiedad)){
+          resultString.push(result[propiedad]);
+        }
+      });
+      this.itemBuscar = resultString.join(' - ');
       this.selected.emit(result);
     });
   }
@@ -62,25 +75,26 @@ export class DialogOverviewExample {
   public loading: boolean = true;
   service: any;
   columnas: any;
-  nombreArr: any;
   tituloBusqueda: any;
+  properties: any;
+  tituloColumnas: any;
 
   constructor(
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.service = data.service;
-    this.columnas = data.columnas;
-    this.nombreArr = data.nombreArr;
+    this.service        = data.service;
+    this.columnas       = data.columnas;
     this.tituloBusqueda = data.tituloBusqueda;
-
+    this.properties     = Object.keys(data.columnas);
+    this.tituloColumnas = Object.values(data.columnas);
     this.findBy();
   }
   public dataSource: [any];
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
+  }  
 
   getItem(element) {
     this.dialogRef.close(element);
