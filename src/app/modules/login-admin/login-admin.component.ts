@@ -36,20 +36,21 @@ export class LoginAdminComponent implements OnInit {
 
  
   login() {
+    this.router.navigate(['/dashboard']); // se salta la autenticación
       
     this.loginService.loginWeb(this.userForm.value).subscribe(response => {
       this.IsWait = false;
       this.userData = response;
- 
+    
       
-      if(this.userData.data.loginWeb !== null){
-      localStorage.setItem(this.userKey, JSON.stringify(this.userData.data.loginWeb));
-      this.router.navigate(['/dashboard']);
+      // if(this.userData.data.loginWeb !== null){
+      // localStorage.setItem(this.userKey, JSON.stringify(this.userData.data.loginWeb));
+      // this.router.navigate(['/dashboard']);
       
-      }else{
+      // }else{
 
-      this.showMsgBadLogin(this.userData.errors[0].message);
-      }
+      // this.showMsgBadLogin(this.userData.errors[0].message);
+      // }
     });
 
     

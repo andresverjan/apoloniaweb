@@ -10,8 +10,9 @@ import { LoginAdminComponent } from "../login-admin/login-admin.component";
 import { ComerciosComponent } from "../comercios/comercios.component";
 import { ProductosComponent } from "../productos/productos.component";
 import { AdditionComponent } from "../addition/addition.component";
-import { OrdersComponent } from '../orders/orders.component';
-import { SubproductosComponent } from '../subproductos/subproductos.component';
+import { OrdersComponent } from "../orders/orders.component";
+import { SubproductosComponent } from "../subproductos/subproductos.component";
+import { MascarasComponent } from "../mascaras/mascaras.component";
 
 export const routes: Routes = [
   {
@@ -60,11 +61,15 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
       },
       {
-        path: "users",
-        component: UsersComponent,
+        path: "mascaras",
+        component: MascarasComponent,
         canActivate: [AuthGuardService],
       },
-      { path: 'subproductos', component: SubproductosComponent, canActivate: [AuthGuardService] },
+      {
+        path: "subproductos",
+        component: SubproductosComponent,
+        canActivate: [AuthGuardService],
+      },
       { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
     ],
   },

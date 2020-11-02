@@ -17,7 +17,14 @@ import {
   FacebookLoginProvider,
   LinkedInLoginProvider,
 } from "angularx-social-login";
-
+import { MascarasComponent } from "./modules/mascaras/mascaras.component";
+import { FiltroBusquedaComponent } from "./modules/core/components/filtro-busqueda/filtro-busqueda.component";
+import { TipoCampoComponent } from "./modules/tipo-campo/tipo-campo.component";
+import {
+  BuscadormodalComponent,
+  DialogOverviewExample,
+} from "./modules/core/components/buscadormodal/buscadormodal.component";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 
 const config = new AuthServiceConfig([
   {
@@ -35,7 +42,14 @@ export function provideConfig() {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    MascarasComponent,
+    BuscadormodalComponent,
+
+    TipoCampoComponent,
+    DialogOverviewExample,
+  ],
   imports: [
     BrowserModule,
     routing,
@@ -44,13 +58,16 @@ export function provideConfig() {
     MaterialModule,
     LayoutModule,
     FlexLayoutModule,
-    SocialLoginModule
+    SocialLoginModule,
   ],
   providers: [
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig,
     },
+
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
   ],
   bootstrap: [AppComponent],
 })
