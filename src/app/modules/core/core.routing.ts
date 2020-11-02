@@ -11,7 +11,7 @@ import { ComerciosComponent } from "../comercios/comercios.component";
 import { ProductosComponent } from "../productos/productos.component";
 import { AdditionComponent } from "../addition/addition.component";
 import { OrdersComponent } from '../orders/orders.component';
-import { SubproductosComponent } from '../subproductos/subproductos.component';
+import { ApplicationsComponent } from '../applications/applications.component';
 
 export const routes: Routes = [
   {
@@ -64,7 +64,10 @@ export const routes: Routes = [
         component: UsersComponent,
         canActivate: [AuthGuardService],
       },
-      { path: 'subproductos', component: SubproductosComponent, canActivate: [AuthGuardService] },
+      { path: 'applications',
+        component: ApplicationsComponent,
+        canActivate: [AuthGuardService]
+      },
       { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
     ],
   },

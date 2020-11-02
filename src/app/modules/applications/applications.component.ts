@@ -1,21 +1,22 @@
-import { ProductosService } from './../productos/productos.service';
+//import { ProductosService } from './../productos/productos.service';
 import { Component, OnInit } from '@angular/core';
 import Swal from "sweetalert2";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { SubproductosService } from './subproductos.service';
-import { ComerciosService } from './../comercios/comercios.service';
+import { ApplicationService } from './applications.service';
+//import { ComerciosService } from './../comercios/comercios.service';
 
 
 @Component({
-  selector: 'app-subproductos',
-  templateUrl: './subproductos.component.html',
-  styleUrls: ['./subproductos.component.scss']
+  selector: 'app-applications',
+  templateUrl: './applications.component.html',
+  styleUrls: ['./applications.component.scss']
 })
 
-export class SubproductosComponent implements OnInit {
-  constructor(private subproductosService: SubproductosService,
+export class ApplicationsComponent implements OnInit {
+  constructor(private applicationService: ApplicationService /*,
     private productosService: ProductosService,
-    private comerciosService: ComerciosService) {}
+    private comerciosService: ComerciosService*/
+  ) {}
 
   public IsWaiting: Boolean = false;
   public lShowBtnActualizar: Boolean = true;
@@ -25,18 +26,18 @@ export class SubproductosComponent implements OnInit {
   public lShowPanelDatos: Boolean = false;
   public lShowPanelListado: Boolean = true;
 
-  public etiquetaNombreModulo = "Sub-Productos";
-  public etiquetaListado = "Listado de Sub-Productos";
+  public etiquetaNombreModulo = "Aplicaciones";
+  public etiquetaListado = "Listado de Aplicaciones";
   public form: FormGroup;
 
-  public subproductos: any = [];
+  public applications: any = [];
   public productos: any = [];
   public comercios: any = [];
 
   public paramsFetchInfoProd = {
     // filter: {},
     order: { name: "asc" },
-    properties: `_id id name comercioId description img`,
+    properties: `id nombre nombreTabla active createdBy createdAt updatedAt`,
   };
 
   public paramsFetchInfoCom = {
@@ -48,41 +49,38 @@ export class SubproductosComponent implements OnInit {
   ngOnInit() {
 
     this.getSubProducts();
-    this.listProductos(this.paramsFetchInfoProd);
-    this.listComercios(this.paramsFetchInfoCom);
+/*    this.listProductos(this.paramsFetchInfoProd);
+    this.listComercios(this.paramsFetchInfoCom);*/
 
     this.form = new FormGroup({
-      _id: new FormControl("", [Validators.maxLength(50)]),
-      name: new FormControl("", [
+      id: new FormControl("", [Validators.maxLength(50)]),
+      nombre: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      description: new FormControl("", [
+      nombreTabla: new FormControl("", [
         Validators.required,
         Validators.maxLength(255),
       ]),
-      value: new FormControl("", [
+      active: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      comercioId: new FormControl("", [
+      createdBy: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      productoId: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      img: new FormControl("", [Validators.required]),
+
+//      img: new FormControl("", [Validators.required]),
     });
   }
 
   public filter: any = {};
 
-  listProductos(obj?) {
+  /*listProductos(obj?) {
   this.productosService.fetchProductos(obj).subscribe(res =>{
     res.data.listarProductos.forEach(prod => {
-      this.productos.push({value: prod.id, nombre: prod.name});
+      this.productos.push({value: prod.id, nombre: prod.nombre});
     });
     });
   }
@@ -91,7 +89,7 @@ export class SubproductosComponent implements OnInit {
     this.comerciosService.ListComercios(obj).subscribe(res =>{
       res.data.comercios.forEach(c => {
         let comercioName = c.location + " - " + c.name;
-        this.comercios.push({value: c.id, nombre: comercioName});      
+        this.comercios.push({value: c.id, nombre: comercioName});
       });
       });
   }
@@ -99,10 +97,10 @@ export class SubproductosComponent implements OnInit {
   procesarValSelect(prodSelect: any) {
     this.filter.productoId = prodSelect.value;
     this.findBy();
-  }
+  }*/
 
   procesarValSelect2(comSelect: any) {
-    this.filter.comercioId = comSelect.value;
+    this.filter.active = comSelect.value;
     this.findBy();
   }
 
@@ -131,8 +129,8 @@ export class SubproductosComponent implements OnInit {
   }
 
   findBy() {
-    if (this.filter.name || this.filter.productoId ||
-        this.filter.comercioId) {
+    if (this.filter.nombre || this.filter.active ||
+        this.filter.nombreTabla) {
       this.getSubProducts(this.filter);
     } else {
       this.getSubProducts();
@@ -143,11 +141,11 @@ export class SubproductosComponent implements OnInit {
   actualizar() {
     this.IsWaiting = true;
 
-    this.subproductosService
-      .updateSubproduct(this.form.value)
+    this.applicationService
+      .listarApplications(this.form.value)
       .subscribe((res) => {
         this.IsWaiting = false;
-        Swal.fire("Sub-Productos", "Actualizado correctamente.", "success");
+        Swal.fire("Aplicaciones", "Actualizado correctamente.", "success");
         this.getSubProducts();
         this.form.reset();
         this.lShowPanelDatos = false;
@@ -155,13 +153,13 @@ export class SubproductosComponent implements OnInit {
       });
   }
 
-  eliminar() {
+ /* eliminar() {
     let producto = this.form.value;
     let _id = producto._id;
 
     this.IsWaiting = true;
 
-    this.subproductosService.deleteSubproducto(_id).subscribe((reponse) => {
+    this.applicationService.deleteSubproducto(_id).subscribe((reponse) => {
       this.IsWaiting = false;
       Swal.fire("Subproducto", "Eliminado correctamente.", "success");
       this.getSubProducts();
@@ -170,9 +168,9 @@ export class SubproductosComponent implements OnInit {
       this.lShowPanelListado = true;
     });
     this.IsWaiting = false;
-  }
+  }*/
 
-  guardar() {
+  /*guardar() {
     this.IsWaiting = true;
 
     this.subproductosService
@@ -185,22 +183,23 @@ export class SubproductosComponent implements OnInit {
         this.lShowPanelDatos = false;
         this.lShowPanelListado = true;
       });
-  }
+  }*/
 
   getSubProducts = (obj?) => {
     this.IsWaiting = true;
-    this.subproductosService.listarSubproductos(obj).subscribe((res) => {
-      this.subproductos = res.data.listarSubproductos;
+    this.applicationService.listarApplications(obj).subscribe((res) => {
+      this.applications = res.data.applications;
+      console.log("LLAMADO DESDE COMPOENENTe", this.applications);
       this.IsWaiting = false;
     });
   };
-  
-  procesarComercioAdd(rolSelected: any ){
+
+  /*procesarComercioAdd(rolSelected: any ){
     this.form.controls['comercioId'].setValue(rolSelected.value);
   }
 
   procesarProductoAdd(rolSelected: any ){
     this.form.controls['productoId'].setValue(rolSelected.value);
-  }
+  }*/
 
 }

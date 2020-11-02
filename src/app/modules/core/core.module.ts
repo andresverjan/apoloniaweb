@@ -33,7 +33,7 @@ import { ComerciosComponent } from "../comercios/comercios.component";
 import { ProductosComponent } from "../productos/productos.component";
 import { AdditionComponent } from "../addition/addition.component";
 import { OrdersComponent } from '../orders/orders.component';
-import { SubproductosComponent } from '../subproductos/subproductos.component';
+import { ApplicationsComponent } from '../applications/applications.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,7 @@ import { SubproductosComponent } from '../subproductos/subproductos.component';
     ComerciosComponent,
     ProductosComponent,
     AdditionComponent,
-    SubproductosComponent,
+    ApplicationsComponent,
     OrdersComponent,
   ],
 

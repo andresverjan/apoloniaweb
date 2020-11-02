@@ -11,9 +11,9 @@ export const DEFAULT_LANGUAGE = "1";
  *  Definicion de constantes de uRl de Servidores
  */
 //export const SERVER_DEV = "https://mrmango.herokuapp.com/graphql";
-export const SERVER_DEV = "http://localhost:3000/graphql";
-export const SERVER_PROD = "https://mrmango.herokuapp.com/graphql";
-export const SERVER_PROD_IP = "http://localhost:3000/graphql";
+export const SERVER_DEV = "http://localhost:3000/api";
+export const SERVER_PROD = "https://apoloniaoe.herokuapp.com/api";
+export const SERVER_PROD_IP = "http://localhost:3000/api";
 //export const SERVER_PROD = "https://mrmango.herokuapp.com/graphql";
 //export const SERVER_PROD_IP = "https://mrmango.herokuapp.com/graphql";
 export const SERVER = SERVER_PROD;

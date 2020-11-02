@@ -21,7 +21,7 @@ export class LoginAdminComponent implements OnInit {
   public userData: any= {};
   userKey: string='USUARIO';
   constructor(
-    private loginService: LoginService, 
+    private loginService: LoginService,
     private router: Router,
   ) {
     this.urlLogo = "../../../assets/small.png";
@@ -34,25 +34,25 @@ export class LoginAdminComponent implements OnInit {
     });
   }
 
- 
+
   login() {
-      
+    this.router.navigate(['/dashboard']);
+
     this.loginService.loginWeb(this.userForm.value).subscribe(response => {
       this.IsWait = false;
       this.userData = response;
- 
-      
+
       if(this.userData.data.loginWeb !== null){
       localStorage.setItem(this.userKey, JSON.stringify(this.userData.data.loginWeb));
       this.router.navigate(['/dashboard']);
-      
+
       }else{
 
       this.showMsgBadLogin(this.userData.errors[0].message);
       }
     });
 
-    
+
   }
 
   showMsgBadLogin(mensaje: string) {
@@ -68,5 +68,5 @@ export class LoginAdminComponent implements OnInit {
     if (this.userForm.valid) {
       this.login();
     }
-  } 
+  }
 }
