@@ -52,11 +52,11 @@
         </mat-list-item>
         <mat-list-item routerLink="./adiciones" [routerLinkActive]="['is-active']" (click)="mostrarRouter()" *ngIf= "usuario.rol_id==1">
           <mat-icon class="menuIcon">add_shopping_cart</mat-icon>
-          Admin Adiciones
+          Admin Apliciones
         </mat-list-item>
-        <mat-list-item routerLink='./subproductos' [routerLinkActive]="['is-active']"  (click)="mostrarRouter()" *ngIf= "usuario.rol_id==1">
+        <mat-list-item routerLink='./applications' [routerLinkActive]="['is-active']"  (click)="mostrarRouter()" *ngIf= "usuario.rol_id==1">
           <mat-icon class="menuIcon">shopping_cart</mat-icon>
-          Subproductos
+          Aplicaciones
         </mat-list-item>
 
         <mat-list-item routerLink='./orders' [routerLinkActive]="['is-active']"  (click)="mostrarRouter()">
