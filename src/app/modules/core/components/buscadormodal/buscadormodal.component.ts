@@ -35,7 +35,7 @@ export class BuscadormodalComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExample, {
-      // width: "250px",
+      width: "650px",
       data: {
         service: this.service,
         columnas: this.columnas,
