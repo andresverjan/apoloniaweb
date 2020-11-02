@@ -18,7 +18,6 @@ import {
   LinkedInLoginProvider,
 } from "angularx-social-login";
 import { MascarasComponent } from "./modules/mascaras/mascaras.component";
-import { FiltroBusquedaComponent } from "./modules/core/components/filtro-busqueda/filtro-busqueda.component";
 import { TipoCampoComponent } from "./modules/tipo-campo/tipo-campo.component";
 import {
   BuscadormodalComponent,
