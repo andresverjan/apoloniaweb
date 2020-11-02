@@ -28,7 +28,8 @@
       <app-buscadormodal
         *ngIf="!IsWaiting"
         (selected)="mascara=$event"
-        [columnas]="columnas"
+        [columnas]    =  "{id: 'Id', nombre:'Nombre', descripcion:'Descripcion'}"
+        [resultInputText] = "['id', 'nombre']"
         [service]="_mascarasService"
         tituloBusqueda="Mascaras"
         [defaultObjValue] = mascara
@@ -36,9 +37,10 @@
 
       <app-buscadormodal
         *ngIf="!IsWaiting"
-        tituloBusqueda="Tipo Campo"
-        [columnas]="columnas"
-        [service]="_tipoCampoService"
+        tituloBusqueda= "Tipo Campo"
+        [columnas]    =  "{id: 'Id', nombre:'Nombre', descripcion:'Descripcion'}"
+        [resultInputText] = "['id', 'nombre']"
+        [service]     = "_tipoCampoService"
         (selected)="tipoCampo=$event"
         [defaultObjValue] = tipoCampo
       ></app-buscadormodal>
@@ -46,12 +48,12 @@
       <app-buscadormodal
       *ngIf="!IsWaiting"
       tituloBusqueda="Listado de Tablas"
-      [columnas]="objCol"
+      [columnas] = "{TABLE_NAME: 'Nombre de la Tabla'}"
+      [resultInputText] = "['TABLE_NAME']"
       [service]="_tableService"
-      (selected)="tipoCampo=$event"
-      [defaultObjValue] = tipoCampo
+      (selected)="tablas=$event"
+      [defaultObjValue] = tablas
       ></app-buscadormodal>
-
 
       <!-- 
       <app-filtro-busqueda

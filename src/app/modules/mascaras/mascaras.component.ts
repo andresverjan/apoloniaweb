@@ -14,8 +14,10 @@ export class MascarasComponent implements OnInit {
   public mascaras = [];
   public etiquetaListado = "Listado de Mascaras";
   public selectedMascara: any;
+  
   public mascara: any;
   public tipoCampo: any;
+  public tablas: any;
 
   constructor(
     public _mascarasService: MascarasService,
@@ -26,15 +28,6 @@ export class MascarasComponent implements OnInit {
     this.get();
   }
 
-  public columnas = {
-    id: "Identificador",
-    nombre: "Nombre",
-    description: "Descripción"
- };
- 
-  public objCol = {
-     TABLE_NAME: "Nombre Tabla"     
-  };
 
   ngOnInit() {
     //Creo valores por defecto o iniciales para cada componente.
@@ -46,6 +39,9 @@ export class MascarasComponent implements OnInit {
     this.tipoCampo = {
       id : 1,
       nombre : "pruebaTipoCampo"
+    }
+    this.tablas = {
+      TABLE_NAME : "Default Table Name"
     }
   }
   get = (filter?) => {

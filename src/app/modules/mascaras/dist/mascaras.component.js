@@ -18,14 +18,6 @@ var MascarasComponent = /** @class */ (function () {
         this.showListado = true;
         this.mascaras = [];
         this.etiquetaListado = "Listado de Mascaras";
-        this.columnas = {
-            id: "Identificador",
-            nombre: "Nombre",
-            description: "Descripción"
-        };
-        this.objCol = {
-            TABLE_NAME: "Nombre Tabla"
-        };
         this.get = function (filter) {
             _this.IsWaiting = true;
             _this._mascarasService.getAll(filter).subscribe(function (res) {
@@ -45,6 +37,9 @@ var MascarasComponent = /** @class */ (function () {
         this.tipoCampo = {
             id: 1,
             nombre: "pruebaTipoCampo"
+        };
+        this.tablas = {
+            TABLE_NAME: "Default Table Name"
         };
     };
     MascarasComponent = __decorate([
