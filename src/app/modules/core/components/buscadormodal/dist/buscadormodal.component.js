@@ -16,6 +16,8 @@ var BuscadormodalComponent = /** @class */ (function () {
     function BuscadormodalComponent(dialog) {
         this.dialog = dialog;
         this.selected = new core_1.EventEmitter();
+        console.log("LLEGARON LAS COLUMNAS!!");
+        console.log(this.columnas);
     }
     BuscadormodalComponent.prototype.ngOnInit = function () {
         this.itemBuscar = this.defaultObjValue.id + " - " + this.defaultObjValue.nombre;
@@ -73,6 +75,8 @@ var DialogOverviewExample = /** @class */ (function () {
         this.service = data.service;
         this.columnas = data.columnas;
         this.tituloBusqueda = data.tituloBusqueda;
+        this.properties = Object.keys(data.columnas);
+        this.tituloColumnas = Object.values(data.columnas);
         this.findBy();
     }
     DialogOverviewExample.prototype.onNoClick = function () {
@@ -93,6 +97,9 @@ var DialogOverviewExample = /** @class */ (function () {
         else {
             this.service.getAll().subscribe(function (res) {
                 _this.dataSource = res.data[Object.keys(res.data)[0]];
+                var listKeys = Object.keys(_this.dataSource[0]);
+                console.log("KEYS!");
+                console.log(listKeys);
                 _this.loading = false;
             });
         }

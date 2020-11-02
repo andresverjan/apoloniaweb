@@ -16,7 +16,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 export class BuscadormodalComponent implements OnInit {
   @Input()  service: any;
   @Input()  tituloBusqueda: string;
-  @Input()  columnas: Array<string>;
+  @Input()  columnas: any;
   @Input()  defaultObjValue: any;
   @Output() selected: EventEmitter<any>; //objeto seleccionado.
 
@@ -24,6 +24,8 @@ export class BuscadormodalComponent implements OnInit {
 
   constructor(public dialog: MatDialog) {
     this.selected = new EventEmitter();
+    console.log("LLEGARON LAS COLUMNAS!!");
+    console.log(this.columnas);
   }
 
   ngOnInit() {
@@ -58,6 +60,8 @@ export class DialogOverviewExample {
   service: any;
   columnas: any;
   tituloBusqueda: any;
+  properties: any;
+  tituloColumnas: any;
 
   constructor(
     public dialogRef: MatDialogRef<any>,
@@ -66,13 +70,15 @@ export class DialogOverviewExample {
     this.service        = data.service;
     this.columnas       = data.columnas;
     this.tituloBusqueda = data.tituloBusqueda;
+    this.properties     = Object.keys(data.columnas);
+    this.tituloColumnas = Object.values(data.columnas);
     this.findBy();
   }
   public dataSource: [any];
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
+  }  
 
   getItem(element) {
     this.dialogRef.close(element);
@@ -92,6 +98,9 @@ export class DialogOverviewExample {
     } else {
       this.service.getAll().subscribe((res) => {
         this.dataSource = res.data[Object.keys(res.data)[0]];
+        let listKeys = Object.keys(this.dataSource[0]);
+        console.log("KEYS!");
+        console.log(listKeys);
         this.loading = false;
       });
     }
