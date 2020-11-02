@@ -1,0 +1,93 @@
+<mat-card-actions
+  fxLayout="row"
+  fxLayoutAlign="end center"
+  style="margin-right: 10px"
+>
+</mat-card-actions>
+
+<mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
+
+<div class="container" style="overflow: hidden">
+  <mat-card-content
+    class="window-dashboard-card-content"
+    style="overflow-block: hidden"
+  >
+    <mat-toolbar color="primary">
+      <mat-icon matPrefix>account_balance</mat-icon>
+      <span>{{ etiquetaListado }}</span>
+      <span class="example-spacer"></span>
+
+      <mat-icon>info</mat-icon>
+    </mat-toolbar>
+
+    <mat-card fxFill>
+      <mat-card-title fxLayoutAlign="center">
+        <label>BUSCAR</label>
+      </mat-card-title>
+
+      <app-buscadormodal
+        *ngIf="!IsWaiting"
+        (selected)="mascara=$event"
+        [columnas]    =  "{id: 'Id', nombre:'Nombre', descripcion:'Descripcion'}"
+        [resultInputText] = "['id', 'nombre']"
+        [service]="_mascarasService"
+        tituloBusqueda="Mascaras"
+        [defaultObjValue] = mascara
+      ></app-buscadormodal>
+
+      <app-buscadormodal
+        *ngIf="!IsWaiting"
+        tituloBusqueda= "Tipo Campo"
+        [columnas]    =  "{id: 'Id', nombre:'Nombre', descripcion:'Descripcion'}"
+        [resultInputText] = "['id', 'nombre']"
+        [service]     = "_tipoCampoService"
+        (selected)="tipoCampo=$event"
+        [defaultObjValue] = tipoCampo
+      ></app-buscadormodal>
+      
+      <app-buscadormodal
+      *ngIf="!IsWaiting"
+      tituloBusqueda="Listado de Tablas"
+      [columnas] = "{TABLE_NAME: 'Nombre de la Tabla'}"
+      [resultInputText] = "['TABLE_NAME']"
+      [service]="_tableService"
+      (selected)="tablas=$event"
+      [defaultObjValue] = tablas
+      ></app-buscadormodal>
+
+      <!-- 
+      <app-filtro-busqueda
+        [columnas]="columnas"
+        [service]="_mascarasService"
+      ></app-filtro-busqueda> -->
+      <button mat-raised-button color="primary" (click)="test()" >Ingresar</button>
+
+    </mat-card>
+
+    
+
+    <mat-grid-list *ngIf="showListado" cols="3" rowHeight="320px">
+      <mat-grid-tile
+        *ngFor="let mascara of mascaras"
+        style="overflow-x: hidden"
+      >
+        <mat-card class="dashboard-card">
+          <img
+            mat-card-image
+            src="./assets/comercio.png"
+            alt="producto"
+            height="150px; "
+            class="cssForCrudListImg"
+          />
+          <mat-card-content class="dashboard-card-content">
+            <h5>{{ mascara.nombre }}</h5>
+            <hr />
+            <div>{{ mascara.descripcion }}</div>
+            <div>Created by{{ mascara.createdBy }}</div>
+            <div>Active{{ mascara.active }}</div>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</div>

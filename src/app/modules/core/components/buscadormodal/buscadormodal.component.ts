@@ -1,83 +1,125 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { UserSession } from '../../interfaces/usersession.interface';
-import { ToolsService } from '../../services/tools.service';
-
+import {
+  Component,
+  OnInit,
+  Inject,
+  Input,
+  Output,
+  EventEmitter,
+} from "@angular/core";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 
 @Component({
-  selector: 'app-buscadormodal',
-  templateUrl: './buscadormodal.component.html',
-  styleUrls: ['./buscadormodal.component.scss']
+  selector: "app-buscadormodal",
+  templateUrl: "./buscadormodal.component.html",
+  styleUrls: ["./buscadormodal.component.scss"],
 })
 export class BuscadormodalComponent implements OnInit {
-  dataSource: any;
+  @Input()  service: any;                //Servicio a Ejecutar.
+  @Input()  tituloBusqueda: string;      //Titulo
+  @Input()  columnas: any;               //Objeto que contiene columnas que quiere mostrar del listado, y el texto para cada columna. Ejemplo: { id: "Identificador" }
+  @Input()  resultInputText: [];         //Array de String, con Indice o columnas que usara para armar el texto del resultado. normalmente es ['id', 'Nombre']  Quedaria : 1 - PRUEBA
+  @Input()  defaultObjValue: any;        //Objeto Inicial, para setear valores iniciales al componente.
+  @Output() selected: EventEmitter<any>; //objeto seleccionado.
+
   public itemBuscar: any;
-  public findByItem: any = {}
-  public tituloServicio: any;
-  public session: UserSession;
-  public dataFromPage = {
-    tipoServicio : ''
-  };
-  public etiquetas:any= {};
-  constructor(public dialogRef: MatDialogRef<BuscadormodalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data2: any,
-    private toolService: ToolsService) {
-    this.session = JSON.parse(localStorage.getItem('USER'));
-    this.etiquetas = JSON.parse(localStorage.getItem("ETIQUETAS"));
-    console.log('data buscador modal');
-    console.log(this.data2);
-    this.dataFromPage = this.data2;
-    console.log(this.dataFromPage);
+
+  constructor(public dialog: MatDialog) {
+    this.selected = new EventEmitter();
   }
 
   ngOnInit() {
-    this.loadListado();
+    let propiedades = this.resultInputText;
+    let resultString = [];
+    propiedades.forEach(propiedad => {
+      if (this.defaultObjValue.hasOwnProperty(propiedad)){
+        resultString.push(this.defaultObjValue[propiedad]);
+      }
+    });
+    this.itemBuscar = resultString.join(' - ');
+
   }
 
-  loadListado(objFindItem?: any) {
-    if (this.data2.tipoServicio === 'USUARIO') {
-      this.tituloServicio = 'Buscar Usuario';
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewExample, {
+      width: "650px",
+      data: {
+        service: this.service,
+        columnas: this.columnas,
+        tituloBusqueda: this.tituloBusqueda
+      },
+      disableClose: true,
+    });
     
-    }
-     
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      console.log(this.resultInputText);
+      let propiedades = this.resultInputText;
+      let resultString = [];
+      propiedades.forEach(propiedad => {
+        if (result.hasOwnProperty(propiedad)){
+          resultString.push(result[propiedad]);
+        }
+      });
+      this.itemBuscar = resultString.join(' - ');
+      this.selected.emit(result);
+    });
   }
+}
 
-  findBy() {
-    if (this.itemBuscar.length > 1 && this.data2.tipoServicio === 'USUARIO') {
-      this.findByItem._search = true;
-      this.findByItem.USUARIO_NOMBRE = this.itemBuscar;
-      console.log("DEBE LLAMAR SERVICIO DE BUSQUEDA USUARIO");
-      this.loadListado(this.findByItem);
-    } else if (this.itemBuscar.length > 1 && this.data2.tipoServicio === 'CAPITAN') {
-      this.findByItem._search = true;
-      this.findByItem.USUARIO_NOMBRE = this.itemBuscar;
-      console.log("DEBE  LLAMAR SERVICIO DE BUSQUEDA USUARIO");
-      this.loadListado(this.findByItem);
-    } else if (this.itemBuscar.length > 1 && this.data2.tipoServicio === 'EMBARCACION') {
-      this.findByItem._search = true;
-      this.findByItem.embarcacion_nombre = this.itemBuscar;
-      this.findByItem.userId = this.session.user.ID;
-      this.findByItem.token = this.session.token;
-      console.log("DEBE  LLAMAR SERVICIO DE BUSQUEDA USUARIO");
-      this.loadListado(this.findByItem);
-    } else {
-      this.loadListado();
-    }
-  }
+// COMPONENTE MODAL
+@Component({
+  selector: "dbuscadormodal-dialog",
+  templateUrl: "buscadormodal-dialog.component.html",
+})
+export class DialogOverviewExample {
+  public loading: boolean = true;
+  service: any;
+  columnas: any;
+  tituloBusqueda: any;
+  properties: any;
+  tituloColumnas: any;
 
-  getUsuario(element) {
-    console.log(element);
-    this.toolService.addDataFiltroReporte(element);
-    this.close();
+  constructor(
+    public dialogRef: MatDialogRef<any>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.service        = data.service;
+    this.columnas       = data.columnas;
+    this.tituloBusqueda = data.tituloBusqueda;
+    this.properties     = Object.keys(data.columnas);
+    this.tituloColumnas = Object.values(data.columnas);
+    this.findBy();
   }
+  public dataSource: [any];
 
   onNoClick(): void {
     this.dialogRef.close();
+  }  
+
+  getItem(element) {
+    this.dialogRef.close(element);
+  }
+
+  public filter = {
+    nombre: "",
+  };
+
+  findBy() {
+    this.loading = true;
+    if (this.filter.nombre.length > 1) {
+      this.service.getAll(this.filter).subscribe((res) => {
+        this.dataSource = res.data[Object.keys(res.data)[0]];
+        this.loading = false;
+      });
+    } else {
+      this.service.getAll().subscribe((res) => {
+        this.dataSource = res.data[Object.keys(res.data)[0]];
+        this.loading = false;
+      });
+    }
   }
 
   close(resp?: any) {
     this.dialogRef.close(resp);
   }
-
-
 }

@@ -26,9 +26,9 @@ export class ApplicationService {
         filter +=   `${objeTosend.nombre? "," : ""} nombreTabla: "${objeTosend.nombreTabla}"`;
       }
 
-      /*if(objeTosend.name) {
-        filter +=   `${objeTosend.comercioId? "," : ""} ${objeTosend.productoId? "," : ""}  name: "${objeTosend.name}"`;
-      }*/
+      if(objeTosend.active) {
+        filter +=   `${objeTosend.nombre? "," : ""} ${objeTosend.nombreTabla? "," : ""}  active: "${objeTosend.active}"`;
+      }
 
       filter += '})';
     }
@@ -44,7 +44,6 @@ export class ApplicationService {
         createdAt
         updatedAt } }`
     }
-    console.log("a ver que SALIó en BODYYY", body);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(this.serverUrl, body, { headers: headers })
   }

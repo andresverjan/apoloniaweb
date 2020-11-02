@@ -10,8 +10,11 @@ import { LoginAdminComponent } from "../login-admin/login-admin.component";
 import { ComerciosComponent } from "../comercios/comercios.component";
 import { ProductosComponent } from "../productos/productos.component";
 import { AdditionComponent } from "../addition/addition.component";
+
 import { OrdersComponent } from '../orders/orders.component';
 import { ApplicationsComponent } from '../applications/applications.component';
+
+import { MascarasComponent } from "../mascaras/mascaras.component";
 
 export const routes: Routes = [
   {
@@ -60,14 +63,16 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
       },
       {
-        path: "users",
-        component: UsersComponent,
+        path: "mascaras",
+        component: MascarasComponent,
         canActivate: [AuthGuardService],
       },
+
       { path: 'applications',
         component: ApplicationsComponent,
         canActivate: [AuthGuardService]
       },
+
       { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
     ],
   },

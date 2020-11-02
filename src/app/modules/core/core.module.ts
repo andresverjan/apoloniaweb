@@ -22,18 +22,22 @@ import {
   MatMenuModule,
   MatIconModule,
   MatButtonModule,
+  MatDialogRef,
 } from "@angular/material";
 import { SelectComponent } from "./components/select/select.component";
 import { HomeComponent } from "../home/home.component";
 import { HeaderturistaComponent } from "./components/headerturista/headerturista.component";
 import { FooterTursitaComponent } from "../core/components/footer-tursita/footer-tursita.component";
 import { LoginAdminComponent } from "../login-admin/login-admin.component";
-import { BuscadormodalComponent } from "./components/buscadormodal/buscadormodal.component";
 import { ComerciosComponent } from "../comercios/comercios.component";
 import { ProductosComponent } from "../productos/productos.component";
 import { AdditionComponent } from "../addition/addition.component";
 import { OrdersComponent } from '../orders/orders.component';
 import { ApplicationsComponent } from '../applications/applications.component';
+import {
+  BuscadormodalComponent,
+  DialogOverviewExample,
+} from "./components/buscadormodal/buscadormodal.component";
 
 @NgModule({
   declarations: [
@@ -50,7 +54,6 @@ import { ApplicationsComponent } from '../applications/applications.component';
     HeaderturistaComponent,
     FooterTursitaComponent,
     LoginAdminComponent,
-    BuscadormodalComponent,
     UsersComponent,
     ComerciosComponent,
     ProductosComponent,
@@ -72,7 +75,7 @@ import { ApplicationsComponent } from '../applications/applications.component';
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-//    ProductosComponent
+    //    ProductosComponent
     //componentes de rutas
   ],
 
@@ -82,11 +85,16 @@ import { ApplicationsComponent } from '../applications/applications.component';
     ReactiveFormsModule,
     MaterialModule,
     MyNavComponent,
-//    ProductosComponent
+    //    ProductosComponent
   ],
 
   providers: [ServicesService],
   bootstrap: [], //componente
-  entryComponents: [ModalComponent, LoadingComponent, BuscadormodalComponent],
+  entryComponents: [
+    ModalComponent,
+    LoadingComponent,
+    BuscadormodalComponent,
+    DialogOverviewExample,
+  ],
 })
 export class CoreModule {}

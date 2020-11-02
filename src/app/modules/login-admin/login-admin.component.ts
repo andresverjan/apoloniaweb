@@ -48,7 +48,8 @@ export class LoginAdminComponent implements OnInit {
 
       }else{
 
-      this.showMsgBadLogin(this.userData.errors[0].message);
+
+      // this.showMsgBadLogin(this.userData.errors[0].message);
       }
     });
 

@@ -63,6 +63,10 @@
           <mat-icon class="menuIcon">request_quote</mat-icon>
           Orders
         </mat-list-item>
+        <mat-list-item routerLink='./mascaras' [routerLinkActive]="['is-active']"  (click)="mostrarRouter()">
+          <mat-icon class="menuIcon">request_quote</mat-icon>
+          Mascaras
+        </mat-list-item>
 
         <mat-list-item (click)="logout()">
           <mat-icon class="menuIcon">mode_edit</mat-icon>

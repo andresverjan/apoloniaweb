@@ -1,60 +1,21 @@
-<h5 style="text-align: center;">{{tituloServicio}}</h5>
-<mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
-    <mat-form-field appearance="outline" style="margin-top: 15px;">
-        <mat-label>{{etiquetas.Nombre}}</mat-label>
-        <input matInput id="nombre" placeholder="{{etiquetas.Nombre}}" [(ngModel)]="itemBuscar" (keyup)="findBy()" style="text-align: center;" autocomplete="off">
-    </mat-form-field>
-
-    <!--
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="max-height: 30px;">
-
-        <ng-container matColumnDef="nombre">
-            <th mat-header-cell *matHeaderCellDef> Nombre </th>
-            <td mat-cell *matCellDef="let element" (click)="getUsuario(element)"> {{element.USUARIO_NOMBRE}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="correo">
-            <th mat-header-cell *matHeaderCellDef> Correo </th>
-            <td mat-cell *matCellDef="let element" (click)="getUsuario(element)"> {{element.USUARIO_CORREO}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="telefono">
-            <th mat-header-cell *matHeaderCellDef> Telefono </th>
-            <td mat-cell *matCellDef="let element" (click)="getUsuario(element)"> {{element.USUARIO_TELEFONO}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="apellido">
-            <th mat-header-cell *matHeaderCellDef> Apellido </th>
-            <td mat-cell *matCellDef="let element" (click)="getUsuario(element)"> {{element.USUARIO_APELLIDO}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    -->
-    <mat-card class="cardcontent">
-        <table class="table table-hover table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">{{etiquetas.Nombre}}</th>
-                    <th scope="col" *ngIf="dataFromPage.tipoServicio!='EMBARCACION'">{{etiquetas.Apellido}}</th>
-                    <th scope="col" *ngIf="dataFromPage.tipoServicio!='EMBARCACION'">{{etiquetas.Email}}</th>
-                    <th scope="col" *ngIf="dataFromPage.tipoServicio!='EMBARCACION'">{{etiquetas.Telefono}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let usuario of dataSource | slice:0:5;" (click)="getUsuario(usuario)" style="cursor: pointer;">
-                    <th scope="row" *ngIf="dataFromPage.tipoServicio!='EMBARCACION'">{{usuario.USUARIO_NOMBRE}}</th>
-                    <td *ngIf="dataFromPage.tipoServicio!='EMBARCACION'">{{usuario.USUARIO_APELLIDO}}</td>
-                    <td *ngIf="dataFromPage.tipoServicio!='EMBARCACION'">{{usuario.USUARIO_CORREO}}</td>
-                    <td *ngIf="dataFromPage.tipoServicio!='EMBARCACION'">{{usuario.USUARIO_TELEFONO}}</td>
-
-                    <th scope="row" *ngIf="dataFromPage.tipoServicio=='EMBARCACION'">{{usuario.embarcacion_nombre}}</th>
-                </tr>
-
-            </tbody>
-        </table>
-    </mat-card>
-
-
-</mat-card-content>
+<div class="input-group mb-3">
+  <input
+    [(ngModel)]="itemBuscar"
+    id="nombre"
+    type="text"
+    placeholder="{{ tituloBusqueda }}"
+    class="form-control"
+    aria-label="Name"
+    aria-describedby="button-addon2"
+    (click)="openDialog()"
+  />
+  <div class="input-group-append">
+    <button
+      class="btn btn-outline-success"
+      type="button"
+      (click)="openDialog()"
+    >
+      Search
+    </button>
+  </div>
+</div>
