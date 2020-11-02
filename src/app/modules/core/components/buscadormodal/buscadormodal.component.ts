@@ -14,24 +14,21 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
   styleUrls: ["./buscadormodal.component.scss"],
 })
 export class BuscadormodalComponent implements OnInit {
-  @Input() service: any;
-  @Input() tituloBusqueda: string;
-  @Input() columnas: Array<string>;
-  @Input() nombreArr: Array<string>;
-
+  @Input()  service: any;
+  @Input()  tituloBusqueda: string;
+  @Input()  columnas: Array<string>;
+  @Input()  defaultObjValue: any;
   @Output() selected: EventEmitter<any>; //objeto seleccionado.
 
-  dataSource: [any];
-
   public itemBuscar: any;
-  public tituloServicio: any;
 
-  public etiquetas: any = {};
   constructor(public dialog: MatDialog) {
     this.selected = new EventEmitter();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.itemBuscar= this.defaultObjValue.id + " - " + this.defaultObjValue.nombre;
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExample, {
@@ -39,15 +36,13 @@ export class BuscadormodalComponent implements OnInit {
       data: {
         service: this.service,
         columnas: this.columnas,
-        nombreArr: this.nombreArr,
-        tituloBusqueda: this.tituloBusqueda,
+        tituloBusqueda: this.tituloBusqueda
       },
       disableClose: true,
     });
-
+    
     dialogRef.afterClosed().subscribe((result) => {
       this.itemBuscar = result.id + " - " + result.nombre;
-
       this.selected.emit(result);
     });
   }
@@ -62,18 +57,15 @@ export class DialogOverviewExample {
   public loading: boolean = true;
   service: any;
   columnas: any;
-  nombreArr: any;
   tituloBusqueda: any;
 
   constructor(
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.service = data.service;
-    this.columnas = data.columnas;
-    this.nombreArr = data.nombreArr;
+    this.service        = data.service;
+    this.columnas       = data.columnas;
     this.tituloBusqueda = data.tituloBusqueda;
-
     this.findBy();
   }
   public dataSource: [any];
