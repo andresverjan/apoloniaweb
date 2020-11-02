@@ -9,14 +9,23 @@ exports.__esModule = true;
 exports.MascarasComponent = void 0;
 var core_1 = require("@angular/core");
 var MascarasComponent = /** @class */ (function () {
-    function MascarasComponent(_mascarasService, _tipoCampoService) {
+    function MascarasComponent(_mascarasService, _tipoCampoService, _tableService, _columnaService) {
         var _this = this;
         this._mascarasService = _mascarasService;
         this._tipoCampoService = _tipoCampoService;
+        this._tableService = _tableService;
+        this._columnaService = _columnaService;
         this.showListado = true;
         this.mascaras = [];
         this.etiquetaListado = "Listado de Mascaras";
-        this.columnas = ["id", "nombre", "descripcion"];
+        this.columnas = {
+            id: "Identificador",
+            nombre: "Nombre",
+            description: "Descripción"
+        };
+        this.objCol = {
+            TABLE_NAME: "Nombre Tabla"
+        };
         this.get = function (filter) {
             _this.IsWaiting = true;
             _this._mascarasService.getAll(filter).subscribe(function (res) {

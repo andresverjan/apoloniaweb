@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { TableService } from '../core/services/table.service';
+import { ColumnaService } from '../core/services/columna.service';
 import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
 import { MascarasService } from "./mascaras.service";
 @Component({
@@ -17,12 +19,23 @@ export class MascarasComponent implements OnInit {
 
   constructor(
     public _mascarasService: MascarasService,
-    public _tipoCampoService: TipoCampoService
+    public _tipoCampoService: TipoCampoService,
+    public _tableService: TableService,
+    public _columnaService: ColumnaService,
   ) {
     this.get();
   }
 
-  public columnas = ["id", "nombre", "descripcion"];
+  public columnas = {
+    id: "Identificador",
+    nombre: "Nombre",
+    description: "Descripción"
+ };
+ 
+  public objCol = {
+     TABLE_NAME: "Nombre Tabla"     
+  };
+
   ngOnInit() {
     //Creo valores por defecto o iniciales para cada componente.
     // de esta forma debe el backend devolver cada valor, como un objeto.

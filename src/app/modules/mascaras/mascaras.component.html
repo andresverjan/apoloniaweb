@@ -42,6 +42,16 @@
         (selected)="tipoCampo=$event"
         [defaultObjValue] = tipoCampo
       ></app-buscadormodal>
+      
+      <app-buscadormodal
+      *ngIf="!IsWaiting"
+      tituloBusqueda="Listado de Tablas"
+      [columnas]="objCol"
+      [service]="_tableService"
+      (selected)="tipoCampo=$event"
+      [defaultObjValue] = tipoCampo
+      ></app-buscadormodal>
+
 
       <!-- 
       <app-filtro-busqueda
