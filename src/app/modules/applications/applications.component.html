@@ -3,7 +3,17 @@
   fxLayoutAlign="end center"
   style="margin-right: 10px"
 >
-
+  <button
+    mat-raised-button
+    (click)="adicionar()"
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="center"
+    fxFlex="22"
+  >
+    <mat-icon>add_circle_outline</mat-icon>
+    Adicion
+  </button>
 </mat-card-actions>
 
 <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
@@ -11,106 +21,29 @@
 <div class="container" style="overflow: hidden">
   <mat-card-content
     class="window-dashboard-card-content contentprincipal"
-    *ngIf="lShowPanelDatos"
+    *ngIf="showForm"
   >
-    <mat-toolbar color="primary">
-      <mat-icon matPrefix>account_balance</mat-icon>
-      <span>{{ etiquetaNombreModulo }}</span>
-      <span class="example-spacer"></span>
-      <button
-        mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with share icon"
-        (click)="cancelar()"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-toolbar>
-    <mat-card-header>
-      <mat-card-title> </mat-card-title>
-    </mat-card-header>
-    <form [formGroup]="form" autocomplete="off" novalidate>
+    <div>
       <mat-card class="cardcontent">
         <mat-card-title fxLayoutAlign="center">
           <label>Datos de {{ etiquetaNombreModulo }}</label>
         </mat-card-title>
-        <mat-card-content fxLayout="column" fxLayoutAlign="center">
-          <div *ngIf="false">
-            <mat-form-field>
-              <input matInput formControlName="id" id="id" placeholder="_" />
-            </mat-form-field>
-          </div>
-          <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-
-            <mat-form-field fxFlex>
-              <mat-icon matPrefix>edit</mat-icon>
-              <input
-                matInput
-                formControlName="nombre"
-                id="nombre"
-                placeholder="Nombre del Sub-Producto"
-              />
-            </mat-form-field>
-            <mat-form-field fxFlex>
-              <mat-icon matPrefix>info</mat-icon>
-              <input
-                matInput
-                formControlName="nombreTabla"
-                id="nombreTabla"
-                placeholder="nombreTabla"
-              />
-            </mat-form-field>
-          </div>
-
-          <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-            <mat-form-field fxFlex>
-              <mat-icon matPrefix>attach_money</mat-icon>
-              <input
-                matInput
-                formControlName="active"
-                id="active"
-                placeholder="Active"
-              />
-            </mat-form-field>
-          </div>
-        </mat-card-content>
-        <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-
-          <button
-            mat-raised-button
-            fxLayout="row"
-            (click)="actualizar()"
-            fxLayout.xs="column"
-            fxLayoutAlign="center"
-            fxFlex="80"
-            [disabled]="!form.valid"
-            *ngIf="lShowBtnActualizar"
-            color="primary"
-          >
-            <mat-icon>mode_edit</mat-icon>
-            Actualizar
-          </button>
-
-          <button
-            mat-raised-button
-            (click)="cancelar()"
-            fxLayout="row"
-            fxLayout.xs="column"
-            fxLayoutAlign="center"
-            fxFlex="80"
-            color="warn"
-          >
-            <mat-icon>cancel</mat-icon>
-            Cancelar
-          </button>
-        </mat-card-actions>
+        <app-buscadormodal
+          *ngIf="!IsWaiting"
+          (selected)="onTableSelected($event)"
+          [columnas]="{ TABLE_NAME: 'Nombre Tabla' }"
+          [resultInputText]="['TABLE_NAME']"
+          [service]="_tableService"
+          tituloBusqueda="Tablas"
+          [defaultObjValue]="tabla"
+        ></app-buscadormodal>
       </mat-card>
-    </form>
+    </div>
   </mat-card-content>
 
   <mat-card-content
     class="window-dashboard-card-content"
-    *ngIf="lShowPanelListado"
+    *ngIf="showListado"
     style="overflow-block: hidden"
   >
     <mat-toolbar color="primary">
@@ -152,9 +85,12 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-grid-list cols="5" rowHeight="230px">
-      <mat-grid-tile *ngFor="let app of applications" style="overflow-x: hidden">
-        <mat-card class="dashboard-card" >
+    <mat-grid-list *ngIf="showContent" cols="5" rowHeight="230px">
+      <mat-grid-tile
+        *ngFor="let app of applications"
+        style="overflow-x: hidden"
+      >
+        <mat-card class="dashboard-card">
           <mat-card-content class="dashboard-card-content">
             <h5>{{ app.nombre }}</h5>
             <br />

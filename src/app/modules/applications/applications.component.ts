@@ -1,19 +1,91 @@
-//import { ProductosService } from './../productos/productos.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import Swal from "sweetalert2";
+import { ApplicationService } from "./applications.service";
+import { MascarasService } from "../mascaras/mascaras.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ApplicationService } from './applications.service';
-//import { ComerciosService } from './../comercios/comercios.service';
-
+import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
+import { TableService } from "../core/services/table.service";
+import { ColumnaService } from "../core/services/columna.service";
 
 @Component({
-  selector: 'app-applications',
-  templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.scss']
+  selector: "app-applications",
+  templateUrl: "./applications.component.html",
+  styleUrls: ["./applications.component.scss"],
 })
-
 export class ApplicationsComponent implements OnInit {
-  constructor(private applicationService: ApplicationService) {}
+  public tabla: any;
+  public camposForm: FormGroup;
+
+  public mascaras = [];
+  public campos = [];
+
+  constructor(
+    private applicationService: ApplicationService,
+    public _mascarasService: MascarasService,
+    public _tipoCampoService: TipoCampoService,
+    public _tableService: TableService,
+    public _columnaService: ColumnaService
+  ) {
+    this.camposForm = new FormGroup({
+      Id: new FormControl("", [Validators.maxLength(50)]),
+      ApplicacionId: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      Nombre: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      NombreUI: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      TipoCampo: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      Requerido: new FormControl(false, [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      Visible: new FormControl(false, [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      Orden: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      Mascara: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      MinLength: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      MaxLength: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      Buscador: new FormControl(false, [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      VerList: new FormControl(false, [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      CreatedAt: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      UpdatedAt: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+    });
+  }
 
   public IsWaiting: Boolean = false;
   public lShowBtnActualizar: Boolean = true;
@@ -25,52 +97,22 @@ export class ApplicationsComponent implements OnInit {
 
   public etiquetaNombreModulo = "Aplicaciones";
   public etiquetaListado = "Listado de Aplicaciones";
-  public form: FormGroup;
-
+  public filter: any = {};
   public applications: any = [];
-  public productos: any = [];
-  public comercios: any = [];
 
-  public paramsFetchInfoProd = {
-    // filter: {},
-    order: { name: "asc" },
-    properties: `id nombre nombreTabla active createdBy createdAt updatedAt`,
-  };
+  public tipoCampos = [];
 
-  public paramsFetchInfoCom = {
-    // filter: {},
-    order: { id: "asc" },
-    properties: "_id id name location description lat lng ",
-  };
 
   ngOnInit() {
+    this.fetchApplications();
+    this.fetchMascaras();
+    this.fetchTipoCampos();
 
-    this.getSubProducts();
-
-    this.form = new FormGroup({
-      id: new FormControl("", [Validators.maxLength(50)]),
-      nombre: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      nombreTabla: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(255),
-      ]),
-      active: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      createdBy: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-
-//      img: new FormControl("", [Validators.required]),
-    });
+    
+    this.tabla = {
+      TABLE_NAME: "Seleccione Tabla",
+    };
   }
-
-  public filter: any = {};
 
   procesarValSelect2(comSelect: any) {
     this.filter.active = comSelect.value;
@@ -83,30 +125,49 @@ export class ApplicationsComponent implements OnInit {
     this.lShowBtnActualizar = true;
     this.lShowBtnEliminar = true;
     this.lShowBtnAdicionar = false;
-    this.form.patchValue(dataInput);
+  }
+  guardar() {
+    this.IsWaiting = true;
+
+    this.applicationService
+      //TODO:
+      .getAll()
+      .subscribe((reponse) => {
+        this.IsWaiting = false;
+        Swal.fire("Comercios", "Agregado correctamente.", "success");
+        this.lShowPanelDatos = false;
+        this.lShowPanelListado = true;
+        this.fetchApplications();
+      });
+  }
+
+  onTableSelected(selected){
+    this.tabla = selected;
+    console.log(this.tabla);
+
+    this.fetchCamposByTabla(this.tabla);
+    
   }
 
   cancelar() {
     this.lShowPanelDatos = false;
     this.lShowPanelListado = true;
-    this.form.reset();
   }
 
+  public showContent: boolean = true;
+  public showListado: boolean = true;
+  public showForm: boolean = false;
   adicionar() {
-    this.lShowPanelListado = false;
-    this.lShowPanelDatos = true;
-    this.form.reset();
-    this.lShowBtnActualizar = false;
-    this.lShowBtnEliminar = false;
-    this.lShowBtnAdicionar = true;
+    this.showListado = false;
+    this.showContent = false;
+    this.showForm = true;
   }
 
   findBy() {
-    if (this.filter.nombre || this.filter.active ||
-        this.filter.nombreTabla) {
-      this.getSubProducts(this.filter);
+    if (this.filter.nombre || this.filter.active || this.filter.nombreTabla) {
+      this.fetchApplications();
     } else {
-      this.getSubProducts();
+      this.fetchApplications();
     }
     this.IsWaiting = true;
   }
@@ -114,24 +175,45 @@ export class ApplicationsComponent implements OnInit {
   actualizar() {
     this.IsWaiting = true;
 
-    this.applicationService
-      .listarApplications(this.form.value)
-      .subscribe((res) => {
-        this.IsWaiting = false;
-        Swal.fire("Aplicaciones", "Actualizado correctamente.", "success");
-        this.getSubProducts();
-        this.form.reset();
-        this.lShowPanelDatos = false;
-        this.lShowPanelListado = true;
-      });
+    this.applicationService.getAll().subscribe((res) => {
+      this.IsWaiting = false;
+      Swal.fire("Aplicaciones", "Actualizado correctamente.", "success");
+      this.fetchApplications();
+      this.lShowPanelDatos = false;
+      this.lShowPanelListado = true;
+    });
   }
 
-  getSubProducts = (obj?) => {
+  fetchApplications = () => {
     this.IsWaiting = true;
-    this.applicationService.listarApplications(obj).subscribe((res) => {
+    this.applicationService.getAll().subscribe((res) => {
       this.applications = res.data.applications;
       this.IsWaiting = false;
     });
   };
 
+  fetchMascaras() {
+    this.IsWaiting = true;
+    this._mascarasService.getAll().subscribe((res) => {
+      this.mascaras= res.data.mascaras;
+      console.log(this.mascaras);
+      this.IsWaiting = false;
+    });
+  }
+  fetchTipoCampos() {
+    this.IsWaiting = true;
+    this._tipoCampoService.getAll().subscribe((res) => {
+      this.tipoCampos= res.data.tipocampos;
+      console.log(this.tipoCampos);
+      this.IsWaiting = false;
+    });
+  }
+  fetchCamposByTabla(obj) {
+    this.IsWaiting = true;
+    this._columnaService.getAll(obj).subscribe((res) => {
+      this.campos= res.data.listaCamposTable;
+      console.log(this.campos);
+      this.IsWaiting = false;
+    });
+  }
 }

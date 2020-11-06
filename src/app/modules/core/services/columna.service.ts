@@ -14,13 +14,13 @@ export class ColumnaService {
   }
   
   /* ES Obligatorio Enviar objeTosend FILTER; REQUIERE EL NOMBRE DE LA TABLA*/
-  getAll(objeTosend?: any): Observable<any> {
+  getAll(objeTosend: any): Observable<any> {
     let filter = "";
 
     //si trae filtro
     if (objeTosend) {
       filter = `(filter: {
-        TABLE_NAME: "${objeTosend.nombre}",
+        TABLE_NAME: "${objeTosend.TABLE_NAME}",
       })`;
     }
 
