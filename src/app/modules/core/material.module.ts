@@ -9,6 +9,7 @@ import {
   MatSelectModule,
   MatIconModule,
   MatMenuModule,
+  MatSlideToggleModule,
 } from "@angular/material";
 import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -57,6 +58,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
     MatTableModule,
     MatPaginatorModule,
     MatChipsModule,
+    MatSlideToggleModule,
     //componentes de rutas
   ],
 

@@ -12,7 +12,7 @@ export class ColumnaService {
   constructor(private http: HttpClient) {
     this.serverUrl = Globals.SERVER;
   }
-  
+
   /* ES Obligatorio Enviar objeTosend FILTER; REQUIERE EL NOMBRE DE LA TABLA*/
   getAll(objeTosend: any): Observable<any> {
     let filter = "";
@@ -27,10 +27,8 @@ export class ColumnaService {
     let body = {
       query: `{
         listaCamposTable ${filter}{
-          COLUMN_NAME    
-          DATA_TYPE
-          COLUMN_TYPE    
-          CHARACTER_MAXIMUM_LENGTH 
+          nombre
+          tipoDato
         }
       }
       `,

@@ -23,6 +23,7 @@
     class="window-dashboard-card-content contentprincipal"
     *ngIf="showForm"
   >
+    <!-- componente de busqueda -->
     <div>
       <mat-card class="cardcontent">
         <mat-card-title fxLayoutAlign="center">
@@ -37,8 +38,223 @@
           tituloBusqueda="Tablas"
           [defaultObjValue]="tabla"
         ></app-buscadormodal>
+
+        <mat-card [formGroup]="aplicacionForm" fxFill>
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+            <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+              <mat-form-field class="example-full-width">
+                <mat-label>Nombre Tabla</mat-label>
+                <mat-icon matPrefix>table_chart</mat-icon>
+                <input
+                  matInput
+                  id="nombreTabla"
+                  formControlName="nombreTabla"
+                  placeholder="nombreTabla"
+                />
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </mat-card>
     </div>
+
+    <div [formGroup]="aplicacionForm">
+      <!-- titulos tabla -->
+      <mat-grid-list cols="13" class="styleForGrid" fxLayout rowHeight="120px">
+        <mat-grid-tile><strong>Nombre</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Nombre UI</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Tipo Dato</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Tipo Campo</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Requerido</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Visible</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Orden</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Mascaras</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Min Length</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Max Length</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Buscador</strong></mat-grid-tile>
+        <mat-grid-tile><strong>Ver List</strong></mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-grid-list
+        *ngFor="let campo of campos"
+        cols="13"
+        class="styleForGrid"
+        fxLayout
+        rowHeight="80px"
+      >
+        <!-- Nombre -->
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              placeholder="Nombre"
+              [(ngModel)]="campo.nombre"
+              [ngModelOptions]="{ standalone: true }"
+              readonly
+            />
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Nombre UI-->
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              placeholder="Nombre UI"
+              [(ngModel)]="campo.nombreUi"
+              [ngModelOptions]="{ standalone: true }"
+            />
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <!-- Tipo Dato -->
+        <mat-grid-tile>
+          <input
+            matInput
+            placeholder="Tipo Dato"
+            [(ngModel)]="campo.tipoDato"
+            [ngModelOptions]="{ standalone: true }"
+            readonly
+          />
+        </mat-grid-tile>
+
+        <!-- Tipo campos -->
+        <mat-grid-tile>
+          <app-select
+            label="TipoCampos"
+            [data]="tipoCampos"
+            (valSelected)="setTipoCampoId(campo, $event)"
+            fxFlex="50"
+          ></app-select>
+        </mat-grid-tile>
+
+        <!-- Requerido -->
+        <mat-grid-tile>
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="campo.requerido"
+            [ngModelOptions]="{ standalone: true }"
+          ></mat-slide-toggle>
+        </mat-grid-tile>
+
+        <!-- Visible -->
+        <mat-grid-tile>
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="campo.visible"
+            [ngModelOptions]="{ standalone: true }"
+          ></mat-slide-toggle>
+        </mat-grid-tile>
+
+        <!-- Orden -->
+        <mat-grid-tile>
+          <input
+            matInput
+            type="number"
+            placeholder="Orden"
+            onkeypress="return event.charCode >= 48"
+            min="1"
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="campo.orden"
+          />
+        </mat-grid-tile>
+
+        <!-- Mascara ID  -->
+        <mat-grid-tile>
+          <app-select
+            label="Mascara"
+            [data]="mascaras"
+            (valSelected)="setMascaras(campo, $event)"
+            default="{{ campo.mascaraId }}"
+            fxFlex="50"
+          ></app-select>
+        </mat-grid-tile>
+
+        <!-- Min Length -->
+        <mat-grid-tile>
+          <input
+            matInput
+            type="number"
+            placeholder="Min Length"
+            onkeypress="return event.charCode >= 48"
+            min="1"
+            [(ngModel)]="campo.minLength"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </mat-grid-tile>
+        <!-- Max Length -->
+        <mat-grid-tile>
+          <input
+            matInput
+            type="number"
+            placeholder="Max Length"
+            [(ngModel)]="campo.maxLength"
+            onkeypress="return event.charCode >= 48"
+            min="1"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </mat-grid-tile>
+
+        <!-- Buscador -->
+        <mat-grid-tile>
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="campo.buscador"
+            [ngModelOptions]="{ standalone: true }"
+          ></mat-slide-toggle>
+        </mat-grid-tile>
+
+        <!-- Ver Lista -->
+        <mat-grid-tile>
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="campo.verList"
+            [ngModelOptions]="{ standalone: true }"
+          ></mat-slide-toggle>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <!--actions -->
+    <mat-card class="cardcontent">
+      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-raised-button
+          (click)="aceptar()"
+          color="primary"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
+          <mat-icon>person_add</mat-icon>
+          Adicionar
+        </button>
+        <button
+          mat-raised-button
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="80"
+          (click)="eliminar()"
+          *ngIf="lShowBtnEliminar"
+        >
+          <mat-icon>more_vert</mat-icon>
+          Eliminar
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="cancelar()"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+      </mat-card-actions></mat-card
+    >
   </mat-card-content>
 
   <mat-card-content

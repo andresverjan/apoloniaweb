@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
 import { TableService } from "../core/services/table.service";
 import { ColumnaService } from "../core/services/columna.service";
+import { Campo } from "../core/interfaces/campoTable.interace";
 
 @Component({
   selector: "app-applications",
@@ -14,10 +15,10 @@ import { ColumnaService } from "../core/services/columna.service";
 })
 export class ApplicationsComponent implements OnInit {
   public tabla: any;
-  public camposForm: FormGroup;
+  public aplicacionForm: FormGroup;
 
   public mascaras = [];
-  public campos = [];
+  public campos: [Campo];
 
   constructor(
     private applicationService: ApplicationService,
@@ -26,70 +27,17 @@ export class ApplicationsComponent implements OnInit {
     public _tableService: TableService,
     public _columnaService: ColumnaService
   ) {
-    this.camposForm = new FormGroup({
-      Id: new FormControl("", [Validators.maxLength(50)]),
-      ApplicacionId: new FormControl("", [
-        Validators.required,
+    this.aplicacionForm = new FormGroup({
+      nombre: new FormControl("", [Validators.maxLength(50)]),
+      nombreTabla: new FormControl("", [
         Validators.maxLength(50),
-      ]),
-      Nombre: new FormControl("", [
         Validators.required,
-        Validators.maxLength(50),
-      ]),
-      NombreUI: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      TipoCampo: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      Requerido: new FormControl(false, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      Visible: new FormControl(false, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      Orden: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      Mascara: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      MinLength: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      MaxLength: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      Buscador: new FormControl(false, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      VerList: new FormControl(false, [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      CreatedAt: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      UpdatedAt: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
       ]),
     });
   }
 
   public IsWaiting: Boolean = false;
   public lShowBtnActualizar: Boolean = true;
-  public lShowBtnAdicionar: Boolean = true;
   public lShowBtnEliminar: Boolean = true;
   public dialogRef: any;
   public lShowPanelDatos: Boolean = false;
@@ -102,16 +50,19 @@ export class ApplicationsComponent implements OnInit {
 
   public tipoCampos = [];
 
-
   ngOnInit() {
     this.fetchApplications();
     this.fetchMascaras();
     this.fetchTipoCampos();
 
-    
     this.tabla = {
       TABLE_NAME: "Seleccione Tabla",
     };
+  }
+  adicionar() {
+    this.showContent = false;
+    this.showListado = false;
+    this.showForm = true;
   }
 
   procesarValSelect2(comSelect: any) {
@@ -119,13 +70,6 @@ export class ApplicationsComponent implements OnInit {
     this.findBy();
   }
 
-  verDetalle(dataInput: any) {
-    this.lShowPanelListado = false;
-    this.lShowPanelDatos = true;
-    this.lShowBtnActualizar = true;
-    this.lShowBtnEliminar = true;
-    this.lShowBtnAdicionar = false;
-  }
   guardar() {
     this.IsWaiting = true;
 
@@ -140,27 +84,24 @@ export class ApplicationsComponent implements OnInit {
         this.fetchApplications();
       });
   }
-
-  onTableSelected(selected){
+  onTableSelected(selected) {
     this.tabla = selected;
-    console.log(this.tabla);
-
     this.fetchCamposByTabla(this.tabla);
-    
+    this.aplicacionForm.controls["nombre"].setValue(selected.TABLE_NAME);
   }
 
   cancelar() {
-    this.lShowPanelDatos = false;
-    this.lShowPanelListado = true;
+    this.showForm = false;
+    this.showListado = true;
+    this.showContent = true;
   }
 
   public showContent: boolean = true;
   public showListado: boolean = true;
   public showForm: boolean = false;
-  adicionar() {
-    this.showListado = false;
-    this.showContent = false;
-    this.showForm = true;
+
+  eliminar() {
+    //TODO: SERVICIO ELIMINAR
   }
 
   findBy() {
@@ -195,25 +136,61 @@ export class ApplicationsComponent implements OnInit {
   fetchMascaras() {
     this.IsWaiting = true;
     this._mascarasService.getAll().subscribe((res) => {
-      this.mascaras= res.data.mascaras;
-      console.log(this.mascaras);
+      this.mascaras = res.data.mascaras;
       this.IsWaiting = false;
     });
   }
   fetchTipoCampos() {
     this.IsWaiting = true;
     this._tipoCampoService.getAll().subscribe((res) => {
-      this.tipoCampos= res.data.tipocampos;
-      console.log(this.tipoCampos);
+      this.tipoCampos = res.data.tipocampos;
       this.IsWaiting = false;
     });
   }
   fetchCamposByTabla(obj) {
     this.IsWaiting = true;
     this._columnaService.getAll(obj).subscribe((res) => {
-      this.campos= res.data.listaCamposTable;
+      this.campos = res.data.listaCamposTable;
       console.log(this.campos);
       this.IsWaiting = false;
     });
+  }
+  setMascaras(campo: Campo, value) {
+    campo.mascaraId = Number.parseInt(value.id);
+    console.log(campo);
+  }
+  setTipoCampoId(campo: Campo, value) {
+    campo.tipoCampoId = Number.parseInt(value.id);
+    console.log(campo);
+  }
+
+  aceptar() {
+    if (this.aplicacionForm.valid) {
+      //crear el objeto a enviar
+      const obj = {
+        application: {
+          nombre: this.aplicacionForm.controls["nombre"].value,
+          nombreTabla: this.aplicacionForm.controls["nombreTabla"].value,
+        },
+        campos: [...this.campos],
+      };
+      console.log(obj);
+      // llamar al servicio para enviar
+      this.applicationService
+        .saveApplication(obj)
+        .subscribe((res) => console.log(res));
+
+      this.showForm = false;
+
+      this.aplicacionForm.reset();
+      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+
+      this.fetchApplications();
+
+      this.showListado = true;
+      this.showContent = true;
+    } else {
+      Swal.fire("Error", "Todos los campos deben ser requeridos.", "error");
+    }
   }
 }

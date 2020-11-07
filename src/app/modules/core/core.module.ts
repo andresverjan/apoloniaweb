@@ -23,6 +23,7 @@ import {
   MatIconModule,
   MatButtonModule,
   MatDialogRef,
+  MatSlideToggleModule,
 } from "@angular/material";
 import { SelectComponent } from "./components/select/select.component";
 import { HomeComponent } from "../home/home.component";
@@ -80,6 +81,7 @@ import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
+    MatSlideToggleModule,
     //    ProductosComponent
     //componentes de rutas
   ],

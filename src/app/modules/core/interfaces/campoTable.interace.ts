@@ -1,13 +1,14 @@
 export interface Campo {
   nombre: string;
+  nombreUi: string;
   tipoDato: string;
-  tipoCampo: any;
+  tipoCampoId: number;
   requerido: boolean;
   visible: boolean;
   orden: number;
-  mascara: any;
+  mascaraId: number;
   minLength: number;
   maxLength: number;
-  buscdor: boolean;
+  buscador: boolean;
   verList: boolean;
 }
