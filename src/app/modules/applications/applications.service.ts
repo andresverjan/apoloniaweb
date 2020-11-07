@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import * as Globals from '../core/globals';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import * as Globals from "../core/globals";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Campo } from "../core/interfaces/campoTable.interace";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ApplicationService {
   serverUrl: string;
@@ -13,39 +14,68 @@ export class ApplicationService {
     this.serverUrl = Globals.SERVER;
   }
 
-  listarApplications(objeTosend: any): Observable<any> {
-    let filter = ``;
-    if (objeTosend) {//
-      filter = `(filter: {`;
+  saveApplication(obj: any): Observable<any> {
+    const { application, campos } = obj;
+    const params = `
+    (application: {application: {
+      nombre: "${application.nombre}",
+      nombreTabla: "${application.nombreTabla}"}
 
-      if(objeTosend.nombre) {
-        filter +=   `nombre: "${objeTosend.nombre}"`;
-      }
+      campos: [
+        ${[
+          campos.map((val: Campo) => {
+            return `{nombre: "${val.nombre}",
+                      tipoDato: "${val.tipoDato}",
+                      nombreUi:"${val.nombreUi}",
+                      requerido:${val.requerido},
+                      tipoCampoId: ${val.tipoCampoId},
+                      visible:${val.visible},
+                      orden: ${val.orden},
+                      mascaraId:${val.mascaraId},
+                      minLength: ${val.minLength},
+                      maxLength: ${val.maxLength},
+                      buscador: ${val.buscador},
+                      verList:${val.verList}
+                      }`;
+          }),
+        ]}
+      ]})
+    `;
 
-      if(objeTosend.nombreTabla) {
-        filter +=   `${objeTosend.nombre? "," : ""} nombreTabla: "${objeTosend.nombreTabla}"`;
-      }
-
-      if(objeTosend.active) {
-        filter +=   `${objeTosend.nombre? "," : ""} ${objeTosend.nombreTabla? "," : ""}  active: "${objeTosend.active}"`;
-      }
-
-      filter += '})';
-    }
-
-    console.log('applications service json: ', filter);
     let body = {
-      query: `{ applications ${filter} {
-        id
-        nombre
-        nombreTabla
-        active
-        createdBy
-        createdAt
-        updatedAt } }`
-    }
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(this.serverUrl, body, { headers: headers })
+      query: `mutation{
+        saveAppFields ${params}
+        {
+          id
+          nombre
+          nombreTabla
+          active
+          createdBy
+          createdAt
+          updatedAt
+        }
+      }`,
+    };
+    console.log(body);
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
+  getAll(): Observable<any> {
+    let body = {
+      query: `{
+        applications{
+          id
+          nombre
+          nombreTabla
+          active
+          createdBy
+          createdAt
+          updatedAt
+        }
+      }`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
 }

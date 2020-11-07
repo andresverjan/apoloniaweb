@@ -41,14 +41,7 @@ export function provideConfig() {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MascarasComponent,
-    BuscadormodalComponent,
-
-    TipoCampoComponent,
-    DialogOverviewExample,
-  ],
+  declarations: [AppComponent, DialogOverviewExample],
   imports: [
     BrowserModule,
     routing,

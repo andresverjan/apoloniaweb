@@ -23,6 +23,7 @@ import {
   MatIconModule,
   MatButtonModule,
   MatDialogRef,
+  MatSlideToggleModule,
 } from "@angular/material";
 import { SelectComponent } from "./components/select/select.component";
 import { HomeComponent } from "../home/home.component";
@@ -32,12 +33,14 @@ import { LoginAdminComponent } from "../login-admin/login-admin.component";
 import { ComerciosComponent } from "../comercios/comercios.component";
 import { ProductosComponent } from "../productos/productos.component";
 import { AdditionComponent } from "../addition/addition.component";
-import { OrdersComponent } from '../orders/orders.component';
-import { ApplicationsComponent } from '../applications/applications.component';
+import { OrdersComponent } from "../orders/orders.component";
+import { ApplicationsComponent } from "../applications/applications.component";
 import {
   BuscadormodalComponent,
   DialogOverviewExample,
 } from "./components/buscadormodal/buscadormodal.component";
+import { MascarasComponent } from "../mascaras/mascaras.component";
+import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 
 @NgModule({
   declarations: [
@@ -60,6 +63,9 @@ import {
     AdditionComponent,
     ApplicationsComponent,
     OrdersComponent,
+    MascarasComponent,
+    BuscadormodalComponent,
+    TipoCampoComponent,
   ],
 
   imports: [
@@ -75,6 +81,7 @@ import {
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
+    MatSlideToggleModule,
     //    ProductosComponent
     //componentes de rutas
   ],
@@ -90,11 +97,6 @@ import {
 
   providers: [ServicesService],
   bootstrap: [], //componente
-  entryComponents: [
-    ModalComponent,
-    LoadingComponent,
-    BuscadormodalComponent,
-    DialogOverviewExample,
-  ],
+  entryComponents: [ModalComponent, LoadingComponent, DialogOverviewExample],
 })
 export class CoreModule {}
