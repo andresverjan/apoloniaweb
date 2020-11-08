@@ -183,7 +183,6 @@ export class ApplicationsComponent implements OnInit {
   fetchMascaras() {
     this.IsWaiting = true;
     this._mascarasService.getAll().subscribe((res) => {
-      this.mascaras = res.data.mascaras;
       res.data.mascaras.forEach(mascara => {
         this.mascaras.push({value: mascara.id, nombre: mascara.nombre });
       });
