@@ -20,10 +20,22 @@ var ColumnaService = /** @class */ (function () {
         var filter = "";
         //si trae filtro
         if (objeTosend) {
-            filter = "(filter: {\n        TABLE_NAME: \"" + objeTosend.nombre + "\",\n      })";
+            filter = "(filter: {\n        TABLE_NAME: \"" + objeTosend.TABLE_NAME + "\",\n      })";
         }
         var body = {
-            query: "{\n        listaCamposTable " + filter + "{\n          COLUMN_NAME    \n          DATA_TYPE\n          COLUMN_TYPE    \n          CHARACTER_MAXIMUM_LENGTH \n        }\n      }\n      "
+            query: "{\n        listaCamposTable " + filter + "{\n          nombre\n          tipoDato\n        }\n      }\n      "
+        };
+        var headers = new http_1.HttpHeaders().set("Content-Type", "application/json");
+        return this.http.post(this.serverUrl, body, { headers: headers });
+    };
+    ColumnaService.prototype.getFields = function (objeTosend) {
+        var filter = "";
+        //si trae filtro
+        if (objeTosend) {
+            filter = "(applicationId: " + objeTosend + " )";
+        }
+        var body = {
+            query: "{\n        getFieldsByAppId " + filter + "{\n          nombre\n          nombreUi\n          tipoDato\n          id\n          tipoCampoId\n          requerido\n          visible\n          orden\n          mascaraId\n          minLength\n          maxLength\n          buscador\n          verList\n          applicationId\n        }\n      }\n      "
         };
         var headers = new http_1.HttpHeaders().set("Content-Type", "application/json");
         return this.http.post(this.serverUrl, body, { headers: headers });

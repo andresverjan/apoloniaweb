@@ -49,6 +49,7 @@ export class ColumnaService {
       query: `{
         getFieldsByAppId ${filter}{
           nombre
+          nombreUi
           tipoDato
           id
           tipoCampoId
