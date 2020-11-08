@@ -37,19 +37,20 @@
           [service]="_tableService"
           tituloBusqueda="Tablas"
           [defaultObjValue]="tabla"
+          readonly="showBtnActualizar"
         ></app-buscadormodal>
 
         <mat-card [formGroup]="aplicacionForm" fxFill>
           <mat-card-content fxLayout="column" fxLayoutAlign="center">
             <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
               <mat-form-field class="example-full-width">
-                <mat-label>Nombre Tabla</mat-label>
+                <mat-label>Nombre Aplicación</mat-label>
                 <mat-icon matPrefix>table_chart</mat-icon>
                 <input
                   matInput
-                  id="nombreTabla"
-                  formControlName="nombreTabla"
-                  placeholder="nombreTabla"
+                  id="nombre"
+                  formControlName="nombre"
+                  placeholder="nombre"
                 />
               </mat-form-field>
             </div>
@@ -223,20 +224,35 @@
           color="primary"
           fxLayout="row"
           fxLayout.xs="column"
+          *ngIf="!showBtnActualizar"
           fxLayoutAlign="center"
           fxFlex="80"
         >
           <mat-icon>person_add</mat-icon>
-          Adicionar
+          Aceptar
+        </button>
+        <button
+          mat-raised-button
+          (click)="actionActualizar()"
+          color="primary"
+          fxLayout="row"
+          fxLayout.xs="column"
+          *ngIf="showBtnActualizar"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
+          <mat-icon>person_add</mat-icon>
+          Actualizar
         </button>
         <button
           mat-raised-button
           fxLayout="row"
+          color="warn"
           fxLayout.xs="column"
           fxLayoutAlign="center"
           fxFlex="80"
           (click)="eliminar()"
-          *ngIf="lShowBtnEliminar"
+          *ngIf="showBtnEliminar"
         >
           <mat-icon>more_vert</mat-icon>
           Eliminar
@@ -306,7 +322,7 @@
         *ngFor="let app of applications"
         style="overflow-x: hidden"
       >
-        <mat-card class="dashboard-card">
+        <mat-card (click)="actualizar(app)" class="dashboard-card">
           <mat-card-content class="dashboard-card-content">
             <h5>{{ app.nombre }}</h5>
             <br />
