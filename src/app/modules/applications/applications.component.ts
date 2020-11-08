@@ -222,10 +222,12 @@ export class ApplicationsComponent implements OnInit {
     });
   }
   setMascaras(campo: Campo, value) {
-    campo.mascaraId = Number.parseInt(value.id);
+    console.log(value);
+    campo.mascaraId = Number.parseInt(value.value);
   }
   setTipoCampoId(campo: Campo, value) {
-    campo.tipoCampoId = Number.parseInt(value.id);
+    console.log(value);
+    campo.tipoCampoId = Number.parseInt(value.value);
   }
 
   aceptar() {
@@ -245,6 +247,7 @@ export class ApplicationsComponent implements OnInit {
       this.showForm = false;
 
       this.aplicacionForm.reset();
+      this.campos = new Array<Campo>();
       Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
 
       this.fetchApplications();
