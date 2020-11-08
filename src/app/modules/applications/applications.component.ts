@@ -93,7 +93,7 @@ export class ApplicationsComponent implements OnInit {
       campos: [...this.campos],
     };
 
-    this.applicationService.updateApplication(obj);
+    this.applicationService.updateApplication(obj).subscribe((res) => res);
 
     this.showForm = false;
 
@@ -132,7 +132,9 @@ export class ApplicationsComponent implements OnInit {
   public showForm: boolean = false;
 
   eliminar() {
-    this.applicationService.deleteApplication(this.application.id);
+    this.applicationService
+      .deleteApplication(this.application.id)
+      .subscribe((res) => res);
 
     //TODO: confirmar al eliminar
 
@@ -227,7 +229,7 @@ export class ApplicationsComponent implements OnInit {
       };
       // llamar al servicio para enviar
 
-      this.applicationService.saveApplication(obj);
+      this.applicationService.saveApplication(obj).subscribe((res) => res);
 
       this.showForm = false;
 
