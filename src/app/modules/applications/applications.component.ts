@@ -18,7 +18,7 @@ export class ApplicationsComponent implements OnInit {
   public aplicacionForm: FormGroup;
 
   public mascaras = [];
-  public campos: [Campo];
+  public campos: Campo[] = [];
 
   constructor(
     private applicationService: ApplicationService,
@@ -102,6 +102,8 @@ export class ApplicationsComponent implements OnInit {
 
     this.fetchApplications();
 
+    this.showBtnActualizar = false;
+    this.showBtnEliminar = false;
     this.showListado = true;
     this.showContent = true;
   }
@@ -121,10 +123,15 @@ export class ApplicationsComponent implements OnInit {
     this.showForm = false;
     this.showListado = true;
     this.showContent = true;
-    this.aplicacionForm.reset();
+    this.showBtnActualizar = false;
+    this.showBtnEliminar = false;
     this.tabla = {
       TABLE_NAME: "Seleccione Tabla",
     };
+
+    this.campos = new Array<Campo>();
+
+    this.aplicacionForm.reset();
   }
 
   public showContent: boolean = true;
@@ -183,8 +190,8 @@ export class ApplicationsComponent implements OnInit {
   fetchMascaras() {
     this.IsWaiting = true;
     this._mascarasService.getAll().subscribe((res) => {
-      res.data.mascaras.forEach(mascara => {
-        this.mascaras.push({value: mascara.id, nombre: mascara.nombre });
+      res.data.mascaras.forEach((mascara) => {
+        this.mascaras.push({ value: mascara.id, nombre: mascara.nombre });
       });
       this.IsWaiting = false;
     });
@@ -192,8 +199,8 @@ export class ApplicationsComponent implements OnInit {
   fetchTipoCampos() {
     this.IsWaiting = true;
     this._tipoCampoService.getAll().subscribe((res) => {
-      res.data.tipocampos.forEach(item => {
-        this.tipoCampos.push({value: item.id, nombre: item.nombre });
+      res.data.tipocampos.forEach((item) => {
+        this.tipoCampos.push({ value: item.id, nombre: item.nombre });
       });
       this.IsWaiting = false;
     });
