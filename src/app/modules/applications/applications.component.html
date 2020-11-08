@@ -53,7 +53,7 @@
         <mat-grid-tile colspan="2"><strong>Ver List</strong></mat-grid-tile>
       </mat-grid-list>
 
-      <mat-grid-list *ngFor="let campo of campos" cols="35" class="styleForGrid" fxLayout rowHeight="50px">
+      <mat-grid-list *ngFor="let campo of campos" cols="35" class="styleForGrid" fxLayout rowHeight="55px">
         <!-- Nombre -->
         <mat-grid-tile colspan="4">
           <input matInput placeholder="Nombre" [(ngModel)]="campo.nombre" [ngModelOptions]="{ standalone: true }"
@@ -74,7 +74,7 @@
 
         <!-- Tipo campos -->
         <mat-grid-tile colspan="5">
-          <app-select label="TipoCampos" [data]="tipoCampos" (valSelected)="setTipoCampoId(campo, $event)" fxFlex="50">
+          <app-select label="TipoCampos" [data]="tipoCampos" (valSelected)="setTipoCampoId(campo, $event)" fxFlex="50" default=1>
           </app-select>
         </mat-grid-tile>
 

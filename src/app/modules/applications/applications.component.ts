@@ -184,13 +184,18 @@ export class ApplicationsComponent implements OnInit {
     this.IsWaiting = true;
     this._mascarasService.getAll().subscribe((res) => {
       this.mascaras = res.data.mascaras;
+      res.data.mascaras.forEach(mascara => {
+        this.mascaras.push({value: mascara.id, nombre: mascara.nombre });
+      });
       this.IsWaiting = false;
     });
   }
   fetchTipoCampos() {
     this.IsWaiting = true;
     this._tipoCampoService.getAll().subscribe((res) => {
-      this.tipoCampos = res.data.tipocampos;
+      res.data.tipocampos.forEach(item => {
+        this.tipoCampos.push({value: item.id, nombre: item.nombre });
+      });
       this.IsWaiting = false;
     });
   }
