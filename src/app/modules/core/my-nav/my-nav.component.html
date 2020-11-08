@@ -1,12 +1,6 @@
 <mat-toolbar class="matToolbarCss">
   <mat-toolbar-row>
-    <button
-      type="button"
-      aria-label="Toggle sidenav"
-      mat-icon-button
-      (click)="drawer.toggle()"
-      style="color: white"
-    >
+    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" style="color: white">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
     <span style="padding: 3px; color: white">{{
@@ -16,83 +10,29 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport="true"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)"
-  >
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
     <mat-toolbar style="margin-top: 25px">
       <img class="cssLogo" src="{{ urlLogo }}" alt="logo" style="float: left" />
     </mat-toolbar>
     <mat-list style="margin-left: 20px; margin-right: 20px">
-      <mat-list-item
-        routerLink="./perfil"
-        [routerLinkActive]="['is-active']"
-        style="margin-top: 15px"
-        (click)="mostrarRouter()"
-      >
+      <mat-list-item routerLink="./perfil" [routerLinkActive]="['is-active']" style="margin-top: 15px"
+        (click)="mostrarRouter()">
         <mat-icon class="menuIcon">account_circle</mat-icon>
         Perfil
-      </mat-list-item>
-
-      <mat-list-item
-        routerLink="./comercios"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">account_balance</mat-icon>
-        Admin Comercios
-      </mat-list-item>
-
-      <mat-list-item
-        routerLink="./productos"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">shopping_cart</mat-icon>
-        Admin Productos
-      </mat-list-item>
-      <mat-list-item
-        routerLink="./users"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
+      </mat-list-item>     
+      <mat-list-item routerLink="./users" [routerLinkActive]="['is-active']" (click)="mostrarRouter()">
         <mat-icon class="menuIcon">people</mat-icon>
         Admin Usuarios
       </mat-list-item>
-      <mat-list-item
-        routerLink="./adiciones"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">add_shopping_cart</mat-icon>
-        Admin Apliciones
-      </mat-list-item>
-      <mat-list-item
-        routerLink="./applications"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
+
+      <mat-list-item routerLink="./applications" [routerLinkActive]="['is-active']" (click)="mostrarRouter()">
         <mat-icon class="menuIcon">shopping_cart</mat-icon>
         Aplicaciones
       </mat-list-item>
 
-      <mat-list-item
-        routerLink="./orders"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">request_quote</mat-icon>
-        Orders
-      </mat-list-item>
-      <mat-list-item
-        routerLink="./mascaras"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
+      <mat-list-item routerLink="./mascaras" [routerLinkActive]="['is-active']" (click)="mostrarRouter()">
         <mat-icon class="menuIcon">request_quote</mat-icon>
         Mascaras
       </mat-list-item>
