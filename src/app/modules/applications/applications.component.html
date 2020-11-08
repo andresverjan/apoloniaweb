@@ -26,7 +26,7 @@
             </mat-form-field>
             <app-buscadormodal *ngIf="!IsWaiting" (selected)="onTableSelected($event)"
               [columnas]="{ TABLE_NAME: 'Nombre Tabla' }" [resultInputText]="['TABLE_NAME']" [service]="_tableService"
-              tituloBusqueda="Tablas" [defaultObjValue]="tabla" readonly="showBtnActualizar"></app-buscadormodal>
+              tituloBusqueda="Tablas" [defaultObjValue]="tabla" [readonly]="showBtnActualizar"></app-buscadormodal>
 
           </mat-card-content>
         </mat-card>
@@ -74,14 +74,13 @@
 
         <!-- Tipo campos -->
         <mat-grid-tile colspan="5">
-          <app-select label="TipoCampos" [data]="tipoCampos" (valSelected)="setTipoCampoId(campo, $event)" fxFlex="50" default=1>
+          <app-select label="TipoCampos" [data]="tipoCampos" (valSelected)="setTipoCampoId(campo, $event)" default="{{campo.tipoCampoId}}" fxFlex="50">
           </app-select>
         </mat-grid-tile>
 
         <!-- Mascara ID  -->
         <mat-grid-tile colspan="5">
-          <app-select label="Mascara" [data]="mascaras" (valSelected)="setMascaras(campo, $event)"
-            default="{{ campo.mascaraId }}" fxFlex="50"></app-select>
+          <app-select label="Mascara" [data]="mascaras" default="{{campo.mascaraId}}" (valSelected)="setMascaras(campo, $event)" fxFlex="50"></app-select>
         </mat-grid-tile>
 
         <!-- Orden -->

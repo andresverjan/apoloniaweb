@@ -15,6 +15,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 })
 export class BuscadormodalComponent implements OnInit {
   @Input() service: any; //Servicio a Ejecutar.
+  @Input() readonly: boolean; //Propiedad readonly (editable).
   @Input() tituloBusqueda: string; //Titulo
   @Input() columnas: any; //Objeto que contiene columnas que quiere mostrar del listado, y el texto para cada columna. Ejemplo: { id: "Identificador" }
   @Input() resultInputText: []; //Array de String, con Indice o columnas que usara para armar el texto del resultado. normalmente es ['id', 'Nombre']  Quedaria : 1 - PRUEBA
@@ -40,28 +41,29 @@ export class BuscadormodalComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogOverviewExample, {
-      width: "650px",
-      data: {
-        service: this.service,
-        columnas: this.columnas,
-        tituloBusqueda: this.tituloBusqueda,
-      },
-      disableClose: true,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-      let propiedades = this.resultInputText;
-      let resultString = [];
-      propiedades.forEach((propiedad) => {
-        if (result.hasOwnProperty(propiedad)) {
-          resultString.push(result[propiedad]);
-        }
+    if (!this.readonly) {
+      const dialogRef = this.dialog.open(DialogOverviewExample, {
+        width: "650px",
+        data: {
+          service: this.service,
+          columnas: this.columnas,
+          tituloBusqueda: this.tituloBusqueda,
+        },
+        disableClose: true,
       });
-      this.itemBuscar = resultString.join(" - ");
-      this.selected.emit(result);
-    });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        let propiedades = this.resultInputText;
+        let resultString = [];
+        propiedades.forEach((propiedad) => {
+          if (result.hasOwnProperty(propiedad)) {
+            resultString.push(result[propiedad]);
+          }
+        });
+        this.itemBuscar = resultString.join(" - ");
+        this.selected.emit(result);
+      });
+    }
   }
 }
 
