@@ -61,6 +61,66 @@ export class ApplicationService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
+  updateApplication(obj: any): Observable<any> {
+    const { application, campos } = obj;
+    const params = `
+    (application: {application: {
+      id: ${application.id},
+      nombre: "${application.nombre}",
+    }
+
+      campos: [
+        ${[
+          campos.map((val: Campo) => {
+            return `{nombre: "${val.nombre}",
+                      tipoDato: "${val.tipoDato}",
+                      nombreUi:"${val.nombreUi}",
+                      requerido:${val.requerido},
+                      tipoCampoId: ${val.tipoCampoId},
+                      visible:${val.visible},
+                      orden: ${val.orden},
+                      mascaraId:${val.mascaraId},
+                      minLength: ${val.minLength},
+                      maxLength: ${val.maxLength},
+                      buscador: ${val.buscador},
+                      verList:${val.verList}
+                      }`;
+          }),
+        ]}
+      ]})
+    `;
+
+    let body = {
+      query: `mutation{
+        updateAppField ${params}
+        {
+          id
+          nombre
+          nombreTabla
+          active
+          createdBy
+          createdAt
+          updatedAt
+        }
+      }`,
+    };
+    console.log(body);
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+
+  deleteApplication(applicationId: number) {
+    console.log(applicationId);
+
+    let body = {
+      query: `mutation{
+        deleteAppField(applicationId: ${applicationId})
+      }`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+
   getAll(): Observable<any> {
     let body = {
       query: `{

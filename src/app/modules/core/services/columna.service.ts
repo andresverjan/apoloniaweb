@@ -36,4 +36,36 @@ export class ColumnaService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
+
+  getFields(objeTosend: number): Observable<any> {
+    let filter = "";
+
+    //si trae filtro
+    if (objeTosend) {
+      filter = `(applicationId: ${objeTosend} )`;
+    }
+
+    let body = {
+      query: `{
+        getFieldsByAppId ${filter}{
+          nombre
+          tipoDato
+          id
+          tipoCampoId
+          requerido
+          visible
+          orden
+          mascaraId
+          minLength
+          maxLength
+          buscador
+          verList
+          applicationId
+        }
+      }
+      `,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
 }

@@ -28,6 +28,7 @@ export class ApplicationsComponent implements OnInit {
     public _columnaService: ColumnaService
   ) {
     this.aplicacionForm = new FormGroup({
+      //TODO: corregir: nombre -> nombre app; nombreTabla -> nombre tabla
       nombre: new FormControl("", [Validators.maxLength(50)]),
       nombreTabla: new FormControl("", [
         Validators.maxLength(50),
@@ -37,8 +38,8 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public IsWaiting: Boolean = false;
-  public lShowBtnActualizar: Boolean = true;
-  public lShowBtnEliminar: Boolean = true;
+  public showBtnActualizar: Boolean = false;
+  public showBtnEliminar: Boolean = false;
   public dialogRef: any;
   public lShowPanelDatos: Boolean = false;
   public lShowPanelListado: Boolean = true;
@@ -47,6 +48,7 @@ export class ApplicationsComponent implements OnInit {
   public etiquetaListado = "Listado de Aplicaciones";
   public filter: any = {};
   public applications: any = [];
+  public application: any;
 
   public tipoCampos = [];
 
@@ -65,35 +67,64 @@ export class ApplicationsComponent implements OnInit {
     this.showForm = true;
   }
 
+  actualizar(application: any) {
+    this.showListado = false;
+    this.showContent = false;
+    this.showForm = true;
+    this.showBtnActualizar = true;
+    this.showBtnEliminar = true;
+    this.application = application;
+
+    this.tabla = {
+      TABLE_NAME: application.nombreTabla,
+    };
+
+    this.aplicacionForm.controls["nombreTabla"].setValue(this.tabla);
+    this.aplicacionForm.controls["nombre"].setValue(application.nombre);
+
+    this.fetchCamposValues(application.id);
+  }
+  actionActualizar() {
+    const obj = {
+      application: {
+        id: this.application.id,
+        nombre: this.aplicacionForm.controls["nombre"].value,
+      },
+      campos: [...this.campos],
+    };
+
+    this.applicationService.updateApplication(obj);
+
+    this.showForm = false;
+
+    this.aplicacionForm.reset();
+    Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+
+    this.fetchApplications();
+
+    this.showListado = true;
+    this.showContent = true;
+  }
+
   procesarValSelect2(comSelect: any) {
     this.filter.active = comSelect.value;
     this.findBy();
   }
 
-  guardar() {
-    this.IsWaiting = true;
-
-    this.applicationService
-      //TODO:
-      .getAll()
-      .subscribe((reponse) => {
-        this.IsWaiting = false;
-        Swal.fire("Comercios", "Agregado correctamente.", "success");
-        this.lShowPanelDatos = false;
-        this.lShowPanelListado = true;
-        this.fetchApplications();
-      });
-  }
   onTableSelected(selected) {
     this.tabla = selected;
     this.fetchCamposByTabla(this.tabla);
-    this.aplicacionForm.controls["nombre"].setValue(selected.TABLE_NAME);
+    this.aplicacionForm.controls["nombreTabla"].setValue(selected.TABLE_NAME);
   }
 
   cancelar() {
     this.showForm = false;
     this.showListado = true;
     this.showContent = true;
+    this.aplicacionForm.reset();
+    this.tabla = {
+      TABLE_NAME: "Seleccione Tabla",
+    };
   }
 
   public showContent: boolean = true;
@@ -101,7 +132,33 @@ export class ApplicationsComponent implements OnInit {
   public showForm: boolean = false;
 
   eliminar() {
-    //TODO: SERVICIO ELIMINAR
+    this.applicationService.deleteApplication(this.application.id);
+
+    //TODO: confirmar al eliminar
+
+    // Swal.fire({
+    //   title: "Do you want to save the changes?",
+    //   showDenyButton: true,
+    //   showCancelButton: true,
+    //   confirmButtonText: `Save`,
+    //   denyButtonText: `Don't save`,
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     Swal.fire("Saved!", "", "success");
+    //   } else if (result.isDenied) {
+    //     Swal.fire("Changes are not saved", "", "info");
+    //   }
+    // });
+
+    this.showForm = false;
+
+    this.aplicacionForm.reset();
+    Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+
+    this.fetchApplications();
+
+    this.showListado = true;
+    this.showContent = true;
   }
 
   findBy() {
@@ -111,18 +168,6 @@ export class ApplicationsComponent implements OnInit {
       this.fetchApplications();
     }
     this.IsWaiting = true;
-  }
-
-  actualizar() {
-    this.IsWaiting = true;
-
-    this.applicationService.getAll().subscribe((res) => {
-      this.IsWaiting = false;
-      Swal.fire("Aplicaciones", "Actualizado correctamente.", "success");
-      this.fetchApplications();
-      this.lShowPanelDatos = false;
-      this.lShowPanelListado = true;
-    });
   }
 
   fetchApplications = () => {
@@ -147,21 +192,27 @@ export class ApplicationsComponent implements OnInit {
       this.IsWaiting = false;
     });
   }
+
   fetchCamposByTabla(obj) {
     this.IsWaiting = true;
     this._columnaService.getAll(obj).subscribe((res) => {
       this.campos = res.data.listaCamposTable;
-      console.log(this.campos);
+      this.IsWaiting = false;
+    });
+  }
+
+  fetchCamposValues(obj: number) {
+    this.IsWaiting = true;
+    this._columnaService.getFields(obj).subscribe((res) => {
+      this.campos = res.data.getFieldsByAppId;
       this.IsWaiting = false;
     });
   }
   setMascaras(campo: Campo, value) {
     campo.mascaraId = Number.parseInt(value.id);
-    console.log(campo);
   }
   setTipoCampoId(campo: Campo, value) {
     campo.tipoCampoId = Number.parseInt(value.id);
-    console.log(campo);
   }
 
   aceptar() {
@@ -174,11 +225,9 @@ export class ApplicationsComponent implements OnInit {
         },
         campos: [...this.campos],
       };
-      console.log(obj);
       // llamar al servicio para enviar
-      this.applicationService
-        .saveApplication(obj)
-        .subscribe((res) => console.log(res));
+
+      this.applicationService.saveApplication(obj);
 
       this.showForm = false;
 
