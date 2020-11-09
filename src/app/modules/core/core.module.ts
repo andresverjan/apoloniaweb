@@ -6,9 +6,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { ServicesService } from "./services/services.service";
 import { PrincipalComponent } from "../principal/principal.component";
 import { ProfileComponent } from "../profile/profile.component";
-
 import { routing } from "./core.routing";
-
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "../core/material.module";
@@ -16,22 +14,19 @@ import { MyNavComponent } from "./my-nav/my-nav.component";
 import { ModalComponent } from "./modal/modal.component";
 import { LoadingComponent } from "./loading/loading.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import {
-  MatGridListModule,
-  MatCardModule,
-  MatMenuModule,
-  MatIconModule,
-  MatButtonModule,
-  MatDialogRef,
-  MatSlideToggleModule,
-} from "@angular/material";
+
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatCardModule} from '@angular/material/card';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 import { SelectComponent } from "./components/select/select.component";
 import { HomeComponent } from "../home/home.component";
-import { HeaderturistaComponent } from "./components/headerturista/headerturista.component";
 import { FooterTursitaComponent } from "../core/components/footer-tursita/footer-tursita.component";
 import { LoginAdminComponent } from "../login-admin/login-admin.component";
-import { ComerciosComponent } from "../comercios/comercios.component";
-import { ProductosComponent } from "../productos/productos.component";
 import { AdditionComponent } from "../addition/addition.component";
 import { OrdersComponent } from "../orders/orders.component";
 import { ApplicationsComponent } from "../applications/applications.component";
@@ -54,17 +49,15 @@ import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
     PrincipalComponent,
     ProfileComponent,
     HomeComponent,
-    HeaderturistaComponent,
     FooterTursitaComponent,
     LoginAdminComponent,
     UsersComponent,
-    ComerciosComponent,
-    ProductosComponent,
     AdditionComponent,
     ApplicationsComponent,
     OrdersComponent,
     MascarasComponent,
     BuscadormodalComponent,
+    DialogOverviewExample,
     TipoCampoComponent,
   ],
 

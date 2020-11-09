@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'
 import { map, catchError, tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig} from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
+
 import { LoadingComponent } from '../loading/loading.component';
 import * as Globals from '../globals';
 import { ModalComponent } from '../modal/modal.component';
@@ -24,7 +27,7 @@ export class ToolsService {
   private dataFiltroReporte = new BehaviorSubject<any>("");
   currentMessageFiltroReporte = this.dataFiltroReporte.asObservable();
 
-  constructor(private dialog: MatDialog, private httpClient: HttpClient, private router: Router) {
+  constructor(private dialog: MatDialog, private httpClient: HttpClient, private router: Router) {    
     this.serverUrl = Globals.SERVER;
     this.webRoot = this.serverUrl + Globals.SERVER_FOLDER_WEBROOT;
   }

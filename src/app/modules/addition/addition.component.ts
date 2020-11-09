@@ -104,7 +104,7 @@ export class AdditionComponent implements OnInit {
 
     this.lService.createAddition(this.additionForm.value).subscribe((reponse) => {
       this.IsWait = false;
-      Swal.fire("Additions", "Agregado correctamente.", "success");
+      Swal.fire('Additions', 'Agregado correctamente.', 'success');
       this.loadListado();
       this.additionForm.reset();
       this.lShowPanelDatos = false;
@@ -117,7 +117,7 @@ export class AdditionComponent implements OnInit {
 
     this.lService.updateAddition(this.additionForm.value).subscribe((reponse) => {
       this.IsWait = false;
-      Swal.fire("Additions", "Actualizado correctamente.", "success");
+      Swal.fire('Additions', 'Actualizado correctamente.', 'success');
       this.loadListado();
       this.additionForm.reset();
       this.lShowPanelDatos = false;
@@ -134,7 +134,7 @@ export class AdditionComponent implements OnInit {
     this.lService.deleteAddition(_id).subscribe((reponse) => {
       this.IsWait = false;
 
-      Swal.fire("Additions", "Eliminado correctamente.", "success");
+      Swal.fire('Additions', 'Eliminado correctamente.', 'success');
 
       this.loadListado();
       this.additionForm.reset();

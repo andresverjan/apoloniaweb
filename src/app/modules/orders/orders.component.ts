@@ -138,7 +138,7 @@ export class OrdersComponent implements OnInit {
     this.showDetailsPanel = false;
     this.getOrders(this.paramsFetchInfo);
     this.showOrdersList = true;
-    Swal.fire("Request", "Sucessfully.", "success");
+    Swal.fire('Request', 'Sucessfully.', 'success');
   }
 
   preparedOrder() {
@@ -147,7 +147,7 @@ export class OrdersComponent implements OnInit {
     this.showDetailsPanel = false;
     this.getOrders(this.paramsFetchInfo);
     this.showOrdersList = true;
-    Swal.fire("Request", "Sucessfully.", "success");
+    Swal.fire('Request', 'Sucessfully.', 'success');
   }
 
   cancelOrder() {
@@ -156,7 +156,7 @@ export class OrdersComponent implements OnInit {
     this.showDetailsPanel = false;
     this.getOrders(this.paramsFetchInfo);
     this.showOrdersList = true;
-    Swal.fire("cancelled", "Sucessfully.", "success");
+    Swal.fire('cancelled', 'Sucessfully.', 'success');
   }
   deliveredOrder() {
     this.ordersService.deliveredOrder(this._id).subscribe((res) => {
@@ -164,7 +164,7 @@ export class OrdersComponent implements OnInit {
     this.showDetailsPanel = false;
     this.getOrders(this.paramsFetchInfo);
     this.showOrdersList = true;
-    Swal.fire("Request", "Sucessfully.", "success");
+    Swal.fire('Request', 'Sucessfully.', 'success');
   }
   getOrders = (obj: any) => {
     this.isWating = true;
