@@ -57,12 +57,13 @@ export class LoginAdminComponent implements OnInit {
   }
 
   showMsgBadLogin(mensaje: string) {
-    Swal.fire({
+    /*Swal.fire({
+      icon: 'error',
       title: '',
       text: mensaje,
       type: 'warning',
       showCancelButton: false,
-    });
+    });*/
   }
 
   autenticar() {

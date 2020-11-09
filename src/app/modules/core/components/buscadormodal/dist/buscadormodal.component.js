@@ -11,7 +11,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 exports.__esModule = true;
 exports.DialogOverviewExample = exports.BuscadormodalComponent = void 0;
 var core_1 = require("@angular/core");
-var material_1 = require("@angular/material");
+var dialog_1 = require("@angular/material/dialog");
 var BuscadormodalComponent = /** @class */ (function () {
     function BuscadormodalComponent(dialog) {
         this.dialog = dialog;
@@ -26,36 +26,39 @@ var BuscadormodalComponent = /** @class */ (function () {
                 resultString.push(_this.defaultObjValue[propiedad]);
             }
         });
-        this.itemBuscar = resultString.join(' - ');
+        this.itemBuscar = resultString.join(" - ");
     };
     BuscadormodalComponent.prototype.openDialog = function () {
         var _this = this;
-        var dialogRef = this.dialog.open(DialogOverviewExample, {
-            width: "650px",
-            data: {
-                service: this.service,
-                columnas: this.columnas,
-                tituloBusqueda: this.tituloBusqueda
-            },
-            disableClose: true
-        });
-        dialogRef.afterClosed().subscribe(function (result) {
-            console.log(result);
-            console.log(_this.resultInputText);
-            var propiedades = _this.resultInputText;
-            var resultString = [];
-            propiedades.forEach(function (propiedad) {
-                if (result.hasOwnProperty(propiedad)) {
-                    resultString.push(result[propiedad]);
-                }
+        if (!this.readonly) {
+            var dialogRef = this.dialog.open(DialogOverviewExample, {
+                width: "650px",
+                data: {
+                    service: this.service,
+                    columnas: this.columnas,
+                    tituloBusqueda: this.tituloBusqueda
+                },
+                disableClose: true
             });
-            _this.itemBuscar = resultString.join(' - ');
-            _this.selected.emit(result);
-        });
+            dialogRef.afterClosed().subscribe(function (result) {
+                var propiedades = _this.resultInputText;
+                var resultString = [];
+                propiedades.forEach(function (propiedad) {
+                    if (result.hasOwnProperty(propiedad)) {
+                        resultString.push(result[propiedad]);
+                    }
+                });
+                _this.itemBuscar = resultString.join(" - ");
+                _this.selected.emit(result);
+            });
+        }
     };
     __decorate([
         core_1.Input()
     ], BuscadormodalComponent.prototype, "service");
+    __decorate([
+        core_1.Input()
+    ], BuscadormodalComponent.prototype, "readonly");
     __decorate([
         core_1.Input()
     ], BuscadormodalComponent.prototype, "tituloBusqueda");
@@ -127,7 +130,7 @@ var DialogOverviewExample = /** @class */ (function () {
             selector: "dbuscadormodal-dialog",
             templateUrl: "buscadormodal-dialog.component.html"
         }),
-        __param(1, core_1.Inject(material_1.MAT_DIALOG_DATA))
+        __param(1, core_1.Inject(dialog_1.MAT_DIALOG_DATA))
     ], DialogOverviewExample);
     return DialogOverviewExample;
 }());
