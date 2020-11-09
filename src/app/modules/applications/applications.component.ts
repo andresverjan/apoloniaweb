@@ -56,7 +56,6 @@ export class ApplicationsComponent implements OnInit {
     this.fetchApplications();
     this.fetchMascaras();
     this.fetchTipoCampos();
-
     this.tabla = {
       TABLE_NAME: "Seleccione Tabla",
     };
@@ -98,7 +97,7 @@ export class ApplicationsComponent implements OnInit {
     this.showForm = false;
 
     this.aplicacionForm.reset();
-    Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+    Swal.fire('Operación exitosa', 'Aplicación agragada!.', 'success');
 
     this.fetchApplications();
 
@@ -139,12 +138,30 @@ export class ApplicationsComponent implements OnInit {
   public showForm: boolean = false;
 
   eliminar() {
-    this.applicationService
-      .deleteApplication(this.application.id)
-      .subscribe((res) => res);
+    console.log("ELIMINAR BTN");
+    Swal.fire({
+      title: 'Realmente quieres eliminar la Applicación seleccionada?',
+      showCancelButton: true,
+      confirmButtonText: `Aceptar`,
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.applicationService
+         .deleteApplication(this.application.id)
+         .subscribe((res) =>  {
+          this.showForm = false;
+          this.aplicacionForm.reset();
+          Swal.fire('Operación exitosa', 'Aplicación Eliminada Correctamente!.', 'success');      
+          this.fetchApplications();      
+          this.showListado = true;
+          this.showContent = true;
+         });        
+      } else if (result.isDenied) {
+        //Swal.fire('Changes are not saved', '', 'info')
+      }
+    });
 
     //TODO: confirmar al eliminar
-
     // Swal.fire({
     //   title: "Do you want to save the changes?",
     //   showDenyButton: true,
@@ -159,15 +176,7 @@ export class ApplicationsComponent implements OnInit {
     //   }
     // });
 
-    this.showForm = false;
-
-    this.aplicacionForm.reset();
-    Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
-
-    this.fetchApplications();
-
-    this.showListado = true;
-    this.showContent = true;
+    
   }
 
   findBy() {
@@ -248,14 +257,14 @@ export class ApplicationsComponent implements OnInit {
 
       this.aplicacionForm.reset();
       this.campos = new Array<Campo>();
-      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+      Swal.fire('Operación exitosa', 'Aplicación agragada!.', 'success');
 
       this.fetchApplications();
 
       this.showListado = true;
       this.showContent = true;
     } else {
-      Swal.fire("Error", "Todos los campos deben ser requeridos.", "error");
+      Swal.fire('Error', 'Todos los campos deben ser requeridos.', 'error');
     }
   }
 }

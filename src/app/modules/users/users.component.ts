@@ -98,7 +98,7 @@ export class UsersComponent implements OnInit {
 
     this.lService.createUsers(this.userForm.value).subscribe((reponse) => {
       this.IsWait = false;
-      Swal.fire("Usuario", "Agregado correctamente.", "success");
+      Swal.fire('Usuario', 'Agregado correctamente.', 'success');
       this.obtenerDatos();
       this.userForm.reset();
       this.lShowPanelDatos = false;
@@ -120,7 +120,7 @@ export class UsersComponent implements OnInit {
 
     this.lService.updateUsers(this.userForm.value).subscribe((reponse) => {
       this.IsWait = false;
-      Swal.fire("Usuarios", "Actualizado correctamente.", "success");
+      Swal.fire('Usuarios', 'Actualizado correctamente.', 'success');
       this.obtenerDatos();
       this.userForm.reset();
       this.lShowPanelDatos = false;
@@ -146,7 +146,7 @@ export class UsersComponent implements OnInit {
     this.lService.deleteUsers(_id).subscribe((reponse) => {
       this.IsWait = false;
 
-      Swal.fire("Usuario", "Eliminado correctamente.", "success");
+      Swal.fire('Usuario', 'Eliminado correctamente.', 'success');
 
       this.obtenerDatos();
       this.userForm.reset();
