@@ -23,6 +23,9 @@ export class LoginService {
           USUARIO_NOMBRE
           USUARIO_CORREO
           USUARIO_LOGIN
+          USUARIO_APELLIDO
+          USUARIO_TELEFONO
+          URL_FOTO_PERFIL
           STATUS_ONLINE
           EMPRESA_ID
           PERMISOS {
