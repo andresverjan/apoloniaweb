@@ -9,8 +9,8 @@ import { ProfileService } from "./profile.service";
 })
 export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
-  public usuario = {
-    urlPhoto: "",
+  public USUARIO = {    
+    URL_FOTO_PERFIL: ""
   };
   public IsWait: Boolean = false;
   lShowPanelDatosViaje: boolean;
@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   lShowImagen: boolean;
   userKey: string='USUARIO';
 
-  public findByItem = {
+  /*public findByItem = {
     embarcacion_nombre: "",
     _search: true,
     userId: "",
@@ -29,22 +29,21 @@ export class ProfileComponent implements OnInit {
       _id: this.getUserFromLocalStorage()._id 
     },
     properties: "_id  name lastName, email, phoneNumber,latlng, urlPhoto ",
-  };
+  };*/
   public etiquetas: any = {};
 
   constructor(private profileService: ProfileService) {
     this.profileForm = new FormGroup({
-      _id: new FormControl(""),
-      urlPhoto: new FormControl(""),
-      name: new FormControl(""),
-      lastName: new FormControl(""),
-      email: new FormControl(""),
-      phoneNumber: new FormControl(""),
-      latlng: new FormControl(""),
+      USUARIO_NOMBRE: new FormControl(""),
+      USUARIO_CORREO: new FormControl(""),      
+      USUARIO_LOGIN: new FormControl(""),      
+      USUARIO_APELLIDO: new FormControl(""),      
+      USUARIO_TELEFONO: new FormControl(""),      
+      URL_FOTO_PERFIL: new FormControl(""),      
     });
 
-    this.LoadProfileData();
-    console.log(this.getUserFromLocalStorage());
+    //this.LoadProfileData();
+    //console.log(this.getUserFromLocalStorage());
     
   }
 
@@ -52,9 +51,10 @@ export class ProfileComponent implements OnInit {
     this.lShowPanelDatosViaje = true;
     this.lShowBtnActualizar = true;
     this.lShowImagen = true;
+    this.getUserFromLocalStorage();
   }
 
-  LoadProfileData() {
+  /*LoadProfileData() {
     this.IsWait = true;
     this.profileService
       .getMyProfile(this.paramsFetchInfo)
@@ -63,9 +63,12 @@ export class ProfileComponent implements OnInit {
         this.IsWait = false;
         this.profileForm.patchValue(this.usuario);
       });
-  }
+  }*/
 
   getUserFromLocalStorage() {
-    return JSON.parse(localStorage.getItem(this.userKey));
+    this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
+    console.log(this.USUARIO);
+    this.profileForm.patchValue(this.USUARIO);
+    this.USUARIO.URL_FOTO_PERFIL='assets/Dentist6.png';
   }
 }
