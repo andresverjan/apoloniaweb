@@ -17,24 +17,32 @@ export class LoginService {
   loginWeb(objeTosend): Observable<any> {
     let body = {
       query: `
-      mutation {
-        loginWeb(login: {
-            username: "${objeTosend.usuario}",
-            password: "${objeTosend.password}",
-        }){
-          _id
-          name
-          lastName
-          email
-          phoneNumber
-          createdAt
-          latlng
-          jwt
-          urlPhoto
-          comercioId
-          online
-          rol_id
-          username
+      query {
+        login( username: "${objeTosend.usuario}",
+               password: "${objeTosend.password}"){
+          USUARIO_NOMBRE
+          USUARIO_CORREO
+          USUARIO_LOGIN
+          USUARIO_APELLIDO
+          USUARIO_TELEFONO
+          URL_FOTO_PERFIL
+          STATUS_ONLINE
+          EMPRESA_ID
+          PERMISOS {
+            nombre
+            descripcion
+            icon
+            url_menu
+          }
+          IDIOMA{
+            NOMBRE_IDIOMA
+            BANDERA
+          }
+          ETIQUETAS {
+            LABEL
+            NOMBRE
+            DESRIPCION
+          }
   } 
       }
       `,
