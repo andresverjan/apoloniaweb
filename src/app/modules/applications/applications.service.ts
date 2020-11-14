@@ -56,7 +56,7 @@ export class ApplicationService {
         }
       }`,
     };
-    console.log(body);
+
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
@@ -75,15 +75,15 @@ export class ApplicationService {
             return `{nombre: "${val.nombre}",
                       tipoDato: "${val.tipoDato}",
                       nombreUi:"${val.nombreUi}",
-                      requerido:${val.requerido},
+                      requerido:${val.requerido ? val.requerido : false},
                       tipoCampoId: ${val.tipoCampoId},
-                      visible:${val.visible},
+                      visible:${val.visible ? val.visible : false},
                       orden: ${val.orden},
                       mascaraId:${val.mascaraId},
                       minLength: ${val.minLength},
                       maxLength: ${val.maxLength},
-                      buscador: ${val.buscador},
-                      verList:${val.verList}
+                      buscador: ${val.buscador ? val.buscador : false},
+                      verList:${val.verList ? val.verList : false}
                       }`;
           }),
         ]}
@@ -104,14 +104,12 @@ export class ApplicationService {
         }
       }`,
     };
-    console.log(body);
+
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   deleteApplication(applicationId: number) {
-    console.log(applicationId);
-
     let body = {
       query: `mutation{
         deleteAppField(applicationId: ${applicationId})

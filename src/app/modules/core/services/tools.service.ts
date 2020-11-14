@@ -1,18 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'
-import { map, catchError, tap } from 'rxjs/operators';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { map, catchError, tap } from "rxjs/operators";
+import { Observable, BehaviorSubject } from "rxjs";
 
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig} from '@angular/material/dialog';
-import {MatDialogModule} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogConfig,
+} from "@angular/material/dialog";
+import { MatDialogModule } from "@angular/material/dialog";
 
-import { LoadingComponent } from '../loading/loading.component';
-import * as Globals from '../globals';
-import { ModalComponent } from '../modal/modal.component';
-import { Router } from '@angular/router';
+import { LoadingComponent } from "../loading/loading.component";
+import * as Globals from "../globals";
+import { ModalComponent } from "../modal/modal.component";
+import { Router } from "@angular/router";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ToolsService {
   serverUrl: string;
@@ -27,7 +32,11 @@ export class ToolsService {
   private dataFiltroReporte = new BehaviorSubject<any>("");
   currentMessageFiltroReporte = this.dataFiltroReporte.asObservable();
 
-  constructor(private dialog: MatDialog, private httpClient: HttpClient, private router: Router) {    
+  constructor(
+    private dialog: MatDialog,
+    private httpClient: HttpClient,
+    private router: Router
+  ) {
     this.serverUrl = Globals.SERVER;
     this.webRoot = this.serverUrl + Globals.SERVER_FOLDER_WEBROOT;
   }
@@ -49,17 +58,16 @@ export class ToolsService {
       dialogConfig.data = {
         titulo: data.titulo,
         body: data.body,
-        buttons: data.buttons
-      }
+        buttons: data.buttons,
+      };
     }
 
     const msgDialogRef = this.dialog.open(ModalComponent, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    })
+    msgDialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
+    });
   }
-
 
   showDialogLogin(component) {
     const dialogConfig = new MatDialogConfig();
@@ -69,9 +77,9 @@ export class ToolsService {
 
     const msgDialogRef = this.dialog.open(component, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    })
+    msgDialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
+    });
   }
 
   showBuscadorModal(component: any, tipoFiltro: any) {
@@ -80,16 +88,15 @@ export class ToolsService {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "600px";
     dialogConfig.data = {
-      tipoServicio: tipoFiltro
+      tipoServicio: tipoFiltro,
     };
 
     const msgDialogRef = this.dialog.open(component, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    msgDialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
     });
   }
-
 
   showLoading() {
     const dialogConfig = new MatDialogConfig();
@@ -98,16 +105,14 @@ export class ToolsService {
     dialogConfig.width = "300px";
     dialogConfig.data = {
       titulo: "Eliminar idioma",
-      buttons: [
-      ]
-    }
+      buttons: [],
+    };
     this.dialogRef = this.dialog.open(LoadingComponent, dialogConfig);
   }
 
   closeLoading() {
     this.dialogRef.close();
   }
-
 
   openDialogBtnAceptar(data: any): void {
     const dialogConfig = new MatDialogConfig();
@@ -123,50 +128,48 @@ export class ToolsService {
           icon: "ui-icon-heart",
           click: function () {
             return true;
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    };
     const dialogRef = this.dialog.open(ModalComponent, dialogConfig);
 
-    console.log("EHEREE");
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result == true) {
         switch (data.servicio) {
           case "RESERVA":
-            this.router.navigate(['home']);
+            this.router.navigate(["home"]);
             break;
           case "MISVIAJES":
             break;
         }
         //this.llamarServicioEliminar(request);
-
       } else {
-        console.log('The dialog was closed');
+        console.log("The dialog was closed");
       }
     });
-
   }
 
   uploadData(objeTosend): Observable<any> {
     let obj = [objeTosend];
     let json = JSON.stringify(obj);
-    console.log(json);
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.httpClient.post(this.serverUrl + 'Homes/uploadBase64', json, { headers: headers })
-  };
+
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.httpClient.post(this.serverUrl + "Homes/uploadBase64", json, {
+      headers: headers,
+    });
+  }
 
   listarPaises(objeTosend?): Observable<any> {
     const params = new HttpParams({
-      fromObject: objeTosend
+      fromObject: objeTosend,
     });
-    return this.httpClient.get(this.serverUrl + 'Paises/listar', { params });
-
-  };
+    return this.httpClient.get(this.serverUrl + "Paises/listar", { params });
+  }
 
   getWebRoot(): String {
     return this.webRoot;
-  };
+  }
 
   setReloadLogout() {
     this.isReloadLogout = true;
@@ -178,15 +181,17 @@ export class ToolsService {
 
   convertirseCapitan(objeTosend): Observable<any> {
     const params = new HttpParams({
-      fromObject: objeTosend
+      fromObject: objeTosend,
     });
-    return this.httpClient.get<any>(this.serverUrl + 'WsUsuarios/becaptain', { params });
+    return this.httpClient.get<any>(this.serverUrl + "WsUsuarios/becaptain", {
+      params,
+    });
   }
 
   /**
    * Se crea este metodo con el objetivo de tomar cualquier FORMULARIO FORM
    * y poder detectar el nombre del attributo que esta invalido
-  */
+   */
   public getInvalidControlsInForm(lForm): string[] {
     const invalid = [];
     const controls = lForm.controls;
@@ -200,14 +205,16 @@ export class ToolsService {
 
   public validateEmail(valor): boolean {
     let regexp: RegExp;
-    regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    regexp = new RegExp(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
     if (regexp.test(valor)) {
       return true;
     }
     return false;
   }
   public getParams(filtro, ordenamiento): string {
-    let params = ''
+    let params = "";
 
     if (filtro.length > 1) {
       params = "(" + filtro;
@@ -225,8 +232,6 @@ export class ToolsService {
       params += ")";
     }
 
-    return params
-
-  };
-
+    return params;
+  }
 }
