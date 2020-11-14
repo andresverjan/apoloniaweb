@@ -15,13 +15,13 @@ import { ModalComponent } from "./modal/modal.component";
 import { LoadingComponent } from "./loading/loading.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatCardModule} from '@angular/material/card';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatCardModule } from "@angular/material/card";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 import { SelectComponent } from "./components/select/select.component";
 import { HomeComponent } from "../home/home.component";
@@ -36,6 +36,7 @@ import {
 } from "./components/buscadormodal/buscadormodal.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
+import { GenericComponent } from "../generic/generic.component";
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
     BuscadormodalComponent,
     DialogOverviewExample,
     TipoCampoComponent,
+    GenericComponent,
   ],
 
   imports: [

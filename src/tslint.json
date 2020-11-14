@@ -13,5 +13,10 @@
       "app",
       "kebab-case"
     ]
-  }
+  },
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowJs": true
+}
 }

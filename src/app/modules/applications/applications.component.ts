@@ -28,7 +28,6 @@ export class ApplicationsComponent implements OnInit {
     public _columnaService: ColumnaService
   ) {
     this.aplicacionForm = new FormGroup({
-      //TODO: corregir: nombre -> nombre app; nombreTabla -> nombre tabla
       nombre: new FormControl("", [Validators.maxLength(50)]),
       nombreTabla: new FormControl("", [
         Validators.maxLength(50),
@@ -97,7 +96,7 @@ export class ApplicationsComponent implements OnInit {
     this.showForm = false;
 
     this.aplicacionForm.reset();
-    Swal.fire('Operación exitosa', 'Aplicación agragada!.', 'success');
+    Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
 
     this.fetchApplications();
 
@@ -138,45 +137,30 @@ export class ApplicationsComponent implements OnInit {
   public showForm: boolean = false;
 
   eliminar() {
-    console.log("ELIMINAR BTN");
     Swal.fire({
-      title: 'Realmente quieres eliminar la Applicación seleccionada?',
+      title: "Realmente quieres eliminar la Applicación seleccionada?",
       showCancelButton: true,
       confirmButtonText: `Aceptar`,
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
         this.applicationService
-         .deleteApplication(this.application.id)
-         .subscribe((res) =>  {
-          this.showForm = false;
-          this.aplicacionForm.reset();
-          Swal.fire('Operación exitosa', 'Aplicación Eliminada Correctamente!.', 'success');      
-          this.fetchApplications();      
-          this.showListado = true;
-          this.showContent = true;
-         });        
+          .deleteApplication(this.application.id)
+          .subscribe((res) => {
+            this.showForm = false;
+            this.aplicacionForm.reset();
+            Swal.fire(
+              "Operación exitosa",
+              "Aplicación Eliminada Correctamente!.",
+              "success"
+            );
+            this.fetchApplications();
+            this.showListado = true;
+            this.showContent = true;
+          });
       } else if (result.isDenied) {
-        //Swal.fire('Changes are not saved', '', 'info')
       }
     });
-
-    //TODO: confirmar al eliminar
-    // Swal.fire({
-    //   title: "Do you want to save the changes?",
-    //   showDenyButton: true,
-    //   showCancelButton: true,
-    //   confirmButtonText: `Save`,
-    //   denyButtonText: `Don't save`,
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     Swal.fire("Saved!", "", "success");
-    //   } else if (result.isDenied) {
-    //     Swal.fire("Changes are not saved", "", "info");
-    //   }
-    // });
-
-    
   }
 
   findBy() {
@@ -231,17 +215,14 @@ export class ApplicationsComponent implements OnInit {
     });
   }
   setMascaras(campo: Campo, value) {
-    console.log(value);
     campo.mascaraId = Number.parseInt(value.value);
   }
   setTipoCampoId(campo: Campo, value) {
-    console.log(value);
     campo.tipoCampoId = Number.parseInt(value.value);
   }
 
   aceptar() {
     if (this.aplicacionForm.valid) {
-      //crear el objeto a enviar
       const obj = {
         application: {
           nombre: this.aplicacionForm.controls["nombre"].value,
@@ -249,22 +230,24 @@ export class ApplicationsComponent implements OnInit {
         },
         campos: [...this.campos],
       };
-      // llamar al servicio para enviar
 
       this.applicationService.saveApplication(obj).subscribe((res) => res);
 
       this.showForm = false;
 
+      this.tabla = {
+        TABLE_NAME: "Seleccione Tabla",
+      };
       this.aplicacionForm.reset();
       this.campos = new Array<Campo>();
-      Swal.fire('Operación exitosa', 'Aplicación agragada!.', 'success');
+      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
 
       this.fetchApplications();
 
       this.showListado = true;
       this.showContent = true;
     } else {
-      Swal.fire('Error', 'Todos los campos deben ser requeridos.', 'error');
+      Swal.fire("Error", "Todos los campos deben ser requeridos.", "error");
     }
   }
 }

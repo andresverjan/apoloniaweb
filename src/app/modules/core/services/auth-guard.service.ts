@@ -1,33 +1,31 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { UserSession } from '../interfaces/usersession.interface';
+import { Injectable } from "@angular/core";
+import {
+  CanActivate,
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from "@angular/router";
+import { UserSession } from "../interfaces/usersession.interface";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-export class AuthGuardService implements CanActivate{
-
-  constructor( private router: Router) {
-
-  }
+export class AuthGuardService implements CanActivate {
+  constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('entro canActivate')
-
-    let UserSession =  localStorage.getItem("USER");
-    if (UserSession !== null ){
-      console.log("logueado OK");
+    let UserSession = localStorage.getItem("USER");
+    if (UserSession !== null) {
       return true;
-    }else{
-      console.log("no LOGUEADO");
+    } else {
       return true; //Temporal. HAVERJAN...
-      this.router.navigate(['/login-admin'], {
+      this.router.navigate(["/login-admin"], {
         queryParams: {
-          return: state.url
-        }
+          return: state.url,
+        },
       });
     }
 
-return false;
+    return false;
   }
 }
