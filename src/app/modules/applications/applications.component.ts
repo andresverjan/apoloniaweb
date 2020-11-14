@@ -165,16 +165,16 @@ export class ApplicationsComponent implements OnInit {
 
   findBy() {
     if (this.filter.nombre || this.filter.active || this.filter.nombreTabla) {
-      this.fetchApplications();
+      this.fetchApplications(this.filter);
     } else {
       this.fetchApplications();
     }
     this.IsWaiting = true;
   }
 
-  fetchApplications = () => {
+  fetchApplications = (obj?) => {
     this.IsWaiting = true;
-    this.applicationService.getAll().subscribe((res) => {
+    this.applicationService.getAll(obj).subscribe((res) => {
       this.applications = res.data.applications;
       this.IsWaiting = false;
     });
