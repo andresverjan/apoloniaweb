@@ -119,10 +119,21 @@ export class ApplicationService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  getAll(): Observable<any> {
+  getAll(objeTosend?: any): Observable<any> {
+    let filter = ``;
+    if (objeTosend) {
+      filter = `(filter: {`;
+      if(objeTosend.nombre) {
+        filter +=   `nombre: "${objeTosend.nombre}"`;
+      }
+      if(objeTosend.nombreTabla) {
+        filter +=   `${objeTosend.nombre? "," : ""} nombreTabla: "${objeTosend.nombreTabla}"`;
+      }
+      filter += '})';
+    }
     let body = {
       query: `{
-        applications{
+        applications ${filter} {
           id
           nombre
           nombreTabla
