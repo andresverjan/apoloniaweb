@@ -56,7 +56,7 @@ export class ApplicationService {
         }
       }`,
     };
-    console.log(body);
+
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
@@ -75,15 +75,15 @@ export class ApplicationService {
             return `{nombre: "${val.nombre}",
                       tipoDato: "${val.tipoDato}",
                       nombreUi:"${val.nombreUi}",
-                      requerido:${val.requerido},
+                      requerido:${val.requerido ? val.requerido : false},
                       tipoCampoId: ${val.tipoCampoId},
-                      visible:${val.visible},
+                      visible:${val.visible ? val.visible : false},
                       orden: ${val.orden},
                       mascaraId:${val.mascaraId},
                       minLength: ${val.minLength},
                       maxLength: ${val.maxLength},
-                      buscador: ${val.buscador},
-                      verList:${val.verList}
+                      buscador: ${val.buscador ? val.buscador : false},
+                      verList:${val.verList ? val.verList : false}
                       }`;
           }),
         ]}
@@ -104,14 +104,12 @@ export class ApplicationService {
         }
       }`,
     };
-    console.log(body);
+
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   deleteApplication(applicationId: number) {
-    console.log(applicationId);
-
     let body = {
       query: `mutation{
         deleteAppField(applicationId: ${applicationId})
@@ -121,10 +119,21 @@ export class ApplicationService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  getAll(): Observable<any> {
+  getAll(objeTosend?: any): Observable<any> {
+    let filter = ``;
+    if (objeTosend) {
+      filter = `(filter: {`;
+      if(objeTosend.nombre) {
+        filter +=   `nombre: "${objeTosend.nombre}"`;
+      }
+      if(objeTosend.nombreTabla) {
+        filter +=   `${objeTosend.nombre? "," : ""} nombreTabla: "${objeTosend.nombreTabla}"`;
+      }
+      filter += '})';
+    }
     let body = {
       query: `{
-        applications{
+        applications ${filter} {
           id
           nombre
           nombreTabla

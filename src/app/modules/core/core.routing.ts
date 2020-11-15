@@ -9,10 +9,11 @@ import { HomeComponent } from "../home/home.component";
 import { LoginAdminComponent } from "../login-admin/login-admin.component";
 import { AdditionComponent } from "../addition/addition.component";
 
-import { OrdersComponent } from '../orders/orders.component';
-import { ApplicationsComponent } from '../applications/applications.component';
+import { OrdersComponent } from "../orders/orders.component";
+import { ApplicationsComponent } from "../applications/applications.component";
 
 import { MascarasComponent } from "../mascaras/mascaras.component";
+import { GenericComponent } from "../generic/generic.component";
 
 export const routes: Routes = [
   {
@@ -56,9 +57,16 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
       },
 
-      { path: 'applications',
+      {
+        path: "applications",
         component: ApplicationsComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuardService],
+      },
+
+      {
+        path: "generic-list",
+        component: GenericComponent,
+        canActivate: [AuthGuardService],
       },
 
       { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
