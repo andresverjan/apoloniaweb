@@ -34,6 +34,66 @@ export class GenericService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
+  updateGeneric(generic: any) {
+    console.log(generic);
+    const { id, application, campos } = generic;
+    let body = {
+      query: `
+      mutation{
+        genericUpdate(
+            application: {
+              id: ${id}
+              application:{
+                id: ${application.id}
+                nombre: "${application.nombre}"
+                nombreTabla: "${application.nombreTabla}"
+              }
+              campos : [
+                ${campos.map((item) => {
+                  return `{
+                    nombre: "${item.nombre}"
+                    id: ${item.id}
+                    valor: "${item.valor}"
+                    }`;
+                })}
+              ]
+            }
+        ){
+          success
+          message
+          internalMessage
+        }
+      }`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+
+  deleteGeneric(generic: any): Observable<any> {
+    console.log(generic);
+    const { id, application } = generic;
+    let body = {
+      query: `mutation{
+        genericDelete(
+            application: {
+              id: ${id}
+              application:{
+                id: ${application.id}
+                nombre: "${application.nombre}"
+                nombreTabla: "${application.nombreTabla}"
+              }
+            }
+        ){
+          success
+          message
+          internalMessage
+        }
+      }`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+
   saveGeneric(generic: Generic): Observable<any> {
     const { application, campos } = generic;
 
