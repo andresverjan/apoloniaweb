@@ -216,16 +216,12 @@ export class GenericComponent implements OnInit {
       this.application = application;
       this.campos = campos.map((campo) => {
         return JSON.parse(campo);
-      });
-
-      this.appColumnas = this.appColumnas.map((columnaConf) => {
-        return columnaConf;
-      });   
-      
+      });      
       this.campos = this.campos.map((campo) => {
         campo.conf = this.appColumnas;
         return campo;
       });
+      this.etiquetaListado = application.nombre;
       console.log(this.campos);
       this.isWaiting = false;
     });

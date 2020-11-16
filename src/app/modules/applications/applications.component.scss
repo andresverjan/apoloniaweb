@@ -10,9 +10,9 @@
   text-align: center;
 }
 
-.styleForGrid{ 
-  padding: 5px; 
-  border-radius: 4px;  
+.styleForGrid {
+  padding: 5px;
+  border-radius: 4px;
   margin-left: 1px;
   margin-right: 6px;
   margin-bottom: 2px;
@@ -24,7 +24,7 @@
   flex-direction: column;
 }
 
-.div-container > * {
+.div-container>* {
   width: 100%;
 }
 
@@ -55,4 +55,10 @@
   margin-left: 5px;
   margin-right: 5px;
   margin-top: 5px;
+}
+
+.cssRow {
+  padding: 2px;
+  color: #512774;
+  font-weight: 900;
 }
