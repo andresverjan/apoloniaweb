@@ -44,7 +44,7 @@ export class GenericComponent implements OnInit {
   public campos = [];
 
   ngOnInit(): void {
-    this.fetchItems();
+    this.getColumnsApplication();    
   }
 
   adicionar() {
@@ -80,11 +80,6 @@ export class GenericComponent implements OnInit {
   }
   detalle(item) {
     this.item = item;
-    // 1: 3
-    // createdAt: "2020-11-14T02:17:42.000Z"
-    // id: 3
-    // nombre: "PRUEBA JSON STRING"
-
     this.showListado = false;
     this.showContent = false;
     this.columnasService
@@ -136,20 +131,17 @@ export class GenericComponent implements OnInit {
           })),
         ],
       };
-      this.genericService.updateGeneric(obj).subscribe((res) => res);
-
-      this.showForm = false;
-
-      this.genericForm.reset();
-      this.genericForm = new FormGroup({});
-
-      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
-      this.fetchItems();
-
-      this.showListado = true;
-      this.showContent = true;
-      this.showBtnActualizar = false;
-      this.showBtnEliminar = false;
+      this.genericService.updateGeneric(obj).subscribe((res) => {
+        this.showForm = false;
+        this.genericForm.reset();
+        this.genericForm = new FormGroup({});
+        Swal.fire("Operación exitosa", "Actualizado correctamente!.", "success");
+        this.fetchItems();
+        this.showListado = true;
+        this.showContent = true;
+        this.showBtnActualizar = false;
+        this.showBtnEliminar = false;
+      });
     } else {
       Swal.fire(
         "Error",
@@ -160,7 +152,7 @@ export class GenericComponent implements OnInit {
   }
   eliminar() {
     Swal.fire({
-      title: "Realmente quieres eliminar la Applicación seleccionada?",
+      title: "Realmente quieres eliminar el registro seleccionado?",
       showCancelButton: true,
       confirmButtonText: `Aceptar`,
       denyButtonText: `Cancelar`,
@@ -202,14 +194,10 @@ export class GenericComponent implements OnInit {
       };
 
       this.genericService.saveGeneric(obj).subscribe((res) => res);
-
       this.showForm = false;
-
       this.genericForm.reset();
-
-      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+      Swal.fire("Operación exitosa", "guardado correctamente!.", "success");
       this.fetchItems();
-
       this.showListado = true;
       this.showContent = true;
     } else {
@@ -226,13 +214,31 @@ export class GenericComponent implements OnInit {
     this.genericService.getAll().subscribe(({ data }) => {
       const { application, campos } = data.genericList[0];
       this.application = application;
-
       this.campos = campos.map((campo) => {
         return JSON.parse(campo);
       });
+
+      this.appColumnas = this.appColumnas.map((columnaConf) => {
+        return columnaConf;
+      });   
+      
+      this.campos = this.campos.map((campo) => {
+        campo.conf = this.appColumnas;
+        return campo;
+      });
+      console.log(this.campos);
       this.isWaiting = false;
     });
   }
+
+  getColumnsApplication() {
+    this.columnasService
+      .getFields(23) //Quemado Temporal: HAVERJAN
+      .subscribe(({ data }) => {
+        this.appColumnas = data.getFieldsByAppId;
+        this.fetchItems();
+      })
+  };
 }
 
 interface Application {

@@ -94,11 +94,12 @@
         <mat-grid-tile *ngFor="let campo of campos" style="overflow-x: hidden">
           <mat-card class="dashboard-card" (click)="detalle(campo)">
             <mat-card-content class="dashboard-card-content">
-              <div class="row" *ngFor="let item of campo | keyvalue">
-                <h5>
-                  {{ item.key }} - <small>{{ item.value }}</small>
-                </h5>
-                <br />
+              <div *ngFor="let campoConf of campo.conf">
+                <div class="row" *ngFor="let item of campo | keyvalue">
+                  <h5 *ngIf="campoConf.nombre == item.key && campoConf.verList">
+                    {{ campoConf.nombreUi }} - <small>{{ item.value }}</small>
+                  </h5>
+                </div>
               </div>
             </mat-card-content>
           </mat-card>
