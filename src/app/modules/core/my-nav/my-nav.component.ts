@@ -21,6 +21,7 @@ export class MyNavComponent {
   public MostrarRouter:boolean = true;
   public urlLogo: string;
   public usuario;
+  public array;
   userKey: string='USUARIO';
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -33,7 +34,10 @@ export class MyNavComponent {
     this.urlLogo = "../../../assets/small.png";
     this.usuario= JSON.parse(localStorage.getItem(this.userKey));
   }
-
+  ngOnInit(){
+    this.getUserFromLocalStorage();
+    this.array=this.usuario.PERMISOS;
+  }
   goToProfile(){
     this.mostrarRouter();
     this.router.navigate(['/dashboard/perfil']);
@@ -52,5 +56,10 @@ export class MyNavComponent {
     this.MostrarRouter = true;
   }
   
+  getUserFromLocalStorage() {
+    this.usuario = JSON.parse(localStorage.getItem(this.userKey));
+    console.log(this.usuario);
+   
+  }
 
 }

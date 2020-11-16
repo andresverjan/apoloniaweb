@@ -33,9 +33,10 @@
         [routerLinkActive]="['is-active']"
         style="margin-top: 15px"
         (click)="mostrarRouter()"
+        *ngFor = "let item of array"
       >
-        <mat-icon class="menuIcon">account_circle</mat-icon>
-        Perfil
+        <mat-icon class="menuIcon">{{item.icon}}</mat-icon>
+        {{item.nombre}}
       </mat-list-item>
       <mat-list-item
         routerLink="./users"
