@@ -35,7 +35,6 @@ export class GenericService {
   }
 
   updateGeneric(generic: any) {
-    console.log(generic);
     const { id, application, campos } = generic;
     let body = {
       query: `
@@ -70,7 +69,6 @@ export class GenericService {
   }
 
   deleteGeneric(generic: any): Observable<any> {
-    console.log(generic);
     const { id, application } = generic;
     let body = {
       query: `mutation{
@@ -90,6 +88,7 @@ export class GenericService {
         }
       }`,
     };
+
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
