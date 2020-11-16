@@ -1,1 +1,11 @@
 node_modules
+src/app/modules/generic/dist
+src/app/modules/applications/dist
+src/app/modules/core/loading/dist
+src/app/modules/login-admin/dist
+src/app/modules/users/dist
+src/assets/scss/partials/dist
+src/app/modules/orders/dist
+src/app/modules/core/components/input/dist
+src/app/modules/core/modal/dist
+src/app/modules/core/services/dist

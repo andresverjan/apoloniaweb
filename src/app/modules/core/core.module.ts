@@ -37,6 +37,7 @@ import {
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
+import { InputComponent } from './components/input/input.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { GenericComponent } from "../generic/generic.component";
     DialogOverviewExample,
     TipoCampoComponent,
     GenericComponent,
+    InputComponent,
   ],
 
   imports: [

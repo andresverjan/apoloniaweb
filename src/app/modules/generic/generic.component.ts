@@ -14,7 +14,7 @@ export class GenericComponent implements OnInit {
   constructor(
     private genericService: GenericService,
     private columnasService: ColumnaService
-  ) {}
+  ) { }
 
   public showBtnActualizar: boolean = false;
   public showBtnEliminar: boolean = false;
@@ -27,6 +27,7 @@ export class GenericComponent implements OnInit {
   public appColumnas = [];
   public genericForm: FormGroup;
   public item: any;
+  public testVar;
   public application: Application = {
     id: 0,
     nombre: "",
@@ -62,7 +63,6 @@ export class GenericComponent implements OnInit {
 
         this.appColumnas.forEach((field: Campo) => {
           let constraints = [];
-
           if (field.requerido) {
             constraints.push(Validators.required);
           }
@@ -72,10 +72,8 @@ export class GenericComponent implements OnInit {
           if (field.minLength && field.minLength != 0) {
             constraints.push(Validators.minLength(field.minLength));
           }
-
           formGroup[field.nombre] = new FormControl("", constraints);
         });
-
         this.genericForm = new FormGroup(formGroup);
         this.isWaiting = false;
       });
@@ -131,13 +129,13 @@ export class GenericComponent implements OnInit {
         application: { ...this.application },
         campos: [
           ...this.appColumnas.map((item) => ({
+            tipoCampoId: item.tipoCampoId,
             id: item.id,
             nombre: item.nombre,
             valor: this.genericForm.controls[item.nombre].value,
           })),
         ],
       };
-
       this.genericService.updateGeneric(obj).subscribe((res) => res);
 
       this.showForm = false;
