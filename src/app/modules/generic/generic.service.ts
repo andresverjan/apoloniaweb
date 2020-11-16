@@ -19,7 +19,7 @@ export class GenericService {
     let body = {
       query: `query{ 
         genericList(filter:{
-           id:13
+           id:23
         }) {
           application {
              id
@@ -50,6 +50,7 @@ export class GenericService {
               campos : [
                 ${campos.map((item) => {
                   return `{
+                    tipoCampoId: ${item.tipoCampoId}
                     nombre: "${item.nombre}"
                     id: ${item.id}
                     valor: "${item.valor}"
