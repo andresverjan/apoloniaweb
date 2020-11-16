@@ -34,6 +34,7 @@ export class LoginService {
             descripcion
             icon
             url_menu
+            applicationId
           }
           IDIOMA{
             NOMBRE_IDIOMA
