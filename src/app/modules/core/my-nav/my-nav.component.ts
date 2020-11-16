@@ -38,22 +38,32 @@ export class MyNavComponent {
     this.getUserFromLocalStorage();
     this.array=this.usuario.PERMISOS;
   }
-  goToProfile(){
-    this.mostrarRouter();
-    this.router.navigate(['/dashboard/perfil']);
-  }
+  // goToProfile(){
+  //   this.mostrarRouter();
+  //   this.router.navigate(['/dashboard/perfil']);
+  // }
 
-  logout(){
-      localStorage.removeItem('USER');
-      this.router.navigate(['home/inicio']);
+  logout(ruta){
+      localStorage.removeItem(this.userKey);
+      this.router.navigate([ruta]);
   }
 
   mostrarSolicitudes(){
     this.MostrarRouter = false;
   }
 
-  mostrarRouter(){
+  mostrarRouter(item){
     this.MostrarRouter = true;
+    console.log(item);
+    if(item.applicationId){
+      this.router.navigate([item.url_menu], {​​ queryParams: {​​ applicationId: item.applicationId }​​ }​​);
+    }else{
+      if(item.url_menu== '/salida'){
+        this.logout(item.url_menu);
+      }else{
+      this.router.navigate([item.url_menu]);
+      }
+    }
   }
   
   getUserFromLocalStorage() {

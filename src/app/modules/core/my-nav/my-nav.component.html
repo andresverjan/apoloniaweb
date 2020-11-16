@@ -32,52 +32,13 @@
         routerLink="./perfil"
         [routerLinkActive]="['is-active']"
         style="margin-top: 15px"
-        (click)="mostrarRouter()"
+        (click)="mostrarRouter(item)"
         *ngFor = "let item of array"
       >
         <mat-icon class="menuIcon">{{item.icon}}</mat-icon>
         {{item.nombre}}
       </mat-list-item>
-      <mat-list-item
-        routerLink="./users"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">people</mat-icon>
-        Admin Usuarios
-      </mat-list-item>
-
-      <mat-list-item
-        routerLink="./applications"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">shopping_cart</mat-icon>
-        Aplicaciones
-      </mat-list-item>
-
-      <mat-list-item
-        routerLink="./mascaras"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">request_quote</mat-icon>
-        Mascaras
-      </mat-list-item>
-
-      <mat-list-item
-        routerLink="./generic-list"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">format_list_numbered</mat-icon>
-        Generic
-      </mat-list-item>
-
-      <mat-list-item (click)="logout()">
-        <mat-icon class="menuIcon">mode_edit</mat-icon>
-        Salir
-      </mat-list-item>
+    
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>

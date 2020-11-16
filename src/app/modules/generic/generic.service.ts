@@ -16,11 +16,11 @@ export class GenericService {
     this.serverUrl = Globals.SERVER;
   }
 
-  getAll(): Observable<any> {
+  getAll(applicationId): Observable<any> {
     let body = {
       query: `query{ 
         genericList(filter:{
-           id:23
+           id:${applicationId}
         }) {
           application {
              id
