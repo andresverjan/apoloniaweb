@@ -33,6 +33,7 @@ export class GenericComponent implements OnInit {
   public application: Application = {
     id: 0,
     nombre: "",
+    icono: "extensions",
     nombreTabla: "",
   };
 
@@ -245,6 +246,7 @@ export class GenericComponent implements OnInit {
 interface Application {
   id: number;
   nombre: string;
+  icono: string;
   nombreTabla: string;
 }
 export interface Generic {

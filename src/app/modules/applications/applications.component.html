@@ -26,6 +26,10 @@
             <app-buscadormodal *ngIf="!IsWaiting" (selected)="onTableSelected($event)"
               [columnas]="{ TABLE_NAME: 'Nombre Tabla' }" [resultInputText]="['TABLE_NAME']" [service]="_tableService"
               tituloBusqueda="Tablas" [defaultObjValue]="tabla" [readonly]="showBtnActualizar"></app-buscadormodal>
+
+              <app-buscadormodalicon *ngIf="!IsWaiting" (selected)="onIconoSelected($event)"
+              [columnas]="{ nombre: 'Nombre Icono'}" [resultInputText]="['nombre']" [service]="_iconoService"
+              tituloBusqueda="Icono" [defaultObjValue]="icono"></app-buscadormodalicon>
           </mat-card-content>
         </mat-card>
       </mat-card>
