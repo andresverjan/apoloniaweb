@@ -1,0 +1,7 @@
+<mat-icon matPrefix>edit</mat-icon>
+<label>{{campo.nombreUi.toString().toUpperCase()}}</label>
+<input matInput [formControlName]="campo.nombre" *ngIf="campo.visible" id="{{ campo.nombre }}" placeholder="" />
+<!-- errores de validators -->
+<mat-hint *ngIf="genericForm.controls[campo.nombre].errors?.maxlength">error-maxlenght</mat-hint>
+<mat-hint *ngIf="genericForm.controls[campo.nombre].errors?.minlength">error-minliength</mat-hint>
+<mat-hint *ngIf="genericForm.controls[campo.nombre].errors?.required">error-required</mat-hint>

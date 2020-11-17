@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import {​​ ActivatedRoute }​​ from '@angular/router';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import Swal from "sweetalert2";
 import { Campo } from "../core/interfaces/campoTable.interace";
@@ -13,8 +14,9 @@ import { GenericService } from "./generic.service";
 export class GenericComponent implements OnInit {
   constructor(
     private genericService: GenericService,
-    private columnasService: ColumnaService
-  ) {}
+    private columnasService: ColumnaService,
+    private route: ActivatedRoute,
+  ) { }
 
   public showBtnActualizar: boolean = false;
   public showBtnEliminar: boolean = false;
@@ -27,6 +29,7 @@ export class GenericComponent implements OnInit {
   public appColumnas = [];
   public genericForm: FormGroup;
   public item: any;
+  public testVar;
   public application: Application = {
     id: 0,
     nombre: "",
@@ -43,7 +46,10 @@ export class GenericComponent implements OnInit {
   public campos = [];
 
   ngOnInit(): void {
-    this.fetchItems();
+    this.route.queryParams.subscribe(params => {​​
+      this.application.id= params['applicationId']
+      }​​); 
+    this.getColumnsApplication();    
   }
 
   adicionar() {
@@ -62,7 +68,6 @@ export class GenericComponent implements OnInit {
 
         this.appColumnas.forEach((field: Campo) => {
           let constraints = [];
-
           if (field.requerido) {
             constraints.push(Validators.required);
           }
@@ -72,21 +77,14 @@ export class GenericComponent implements OnInit {
           if (field.minLength && field.minLength != 0) {
             constraints.push(Validators.minLength(field.minLength));
           }
-
           formGroup[field.nombre] = new FormControl("", constraints);
         });
-
         this.genericForm = new FormGroup(formGroup);
         this.isWaiting = false;
       });
   }
   detalle(item) {
     this.item = item;
-    // 1: 3
-    // createdAt: "2020-11-14T02:17:42.000Z"
-    // id: 3
-    // nombre: "PRUEBA JSON STRING"
-
     this.showListado = false;
     this.showContent = false;
     this.columnasService
@@ -131,27 +129,24 @@ export class GenericComponent implements OnInit {
         application: { ...this.application },
         campos: [
           ...this.appColumnas.map((item) => ({
+            tipoCampoId: item.tipoCampoId,
             id: item.id,
             nombre: item.nombre,
             valor: this.genericForm.controls[item.nombre].value,
           })),
         ],
       };
-
-      this.genericService.updateGeneric(obj).subscribe((res) => res);
-
-      this.showForm = false;
-
-      this.genericForm.reset();
-      this.genericForm = new FormGroup({});
-
-      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
-      this.fetchItems();
-
-      this.showListado = true;
-      this.showContent = true;
-      this.showBtnActualizar = false;
-      this.showBtnEliminar = false;
+      this.genericService.updateGeneric(obj).subscribe((res) => {
+        this.showForm = false;
+        this.genericForm.reset();
+        this.genericForm = new FormGroup({});
+        Swal.fire("Operación exitosa", "Actualizado correctamente!.", "success");
+        this.fetchItems();
+        this.showListado = true;
+        this.showContent = true;
+        this.showBtnActualizar = false;
+        this.showBtnEliminar = false;
+      });
     } else {
       Swal.fire(
         "Error",
@@ -162,7 +157,7 @@ export class GenericComponent implements OnInit {
   }
   eliminar() {
     Swal.fire({
-      title: "Realmente quieres eliminar la Applicación seleccionada?",
+      title: "Realmente quieres eliminar el registro seleccionado?",
       showCancelButton: true,
       confirmButtonText: `Aceptar`,
       denyButtonText: `Cancelar`,
@@ -204,14 +199,10 @@ export class GenericComponent implements OnInit {
       };
 
       this.genericService.saveGeneric(obj).subscribe((res) => res);
-
       this.showForm = false;
-
       this.genericForm.reset();
-
-      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+      Swal.fire("Operación exitosa", "guardado correctamente!.", "success");
       this.fetchItems();
-
       this.showListado = true;
       this.showContent = true;
     } else {
@@ -225,16 +216,30 @@ export class GenericComponent implements OnInit {
 
   fetchItems() {
     this.isWaiting = true;
-    this.genericService.getAll().subscribe(({ data }) => {
+    this.genericService.getAll(this.application.id).subscribe(({ data }) => {
       const { application, campos } = data.genericList[0];
       this.application = application;
-
       this.campos = campos.map((campo) => {
         return JSON.parse(campo);
+      });      
+      this.campos = this.campos.map((campo) => {
+        campo.conf = this.appColumnas;
+        return campo;
       });
+      this.etiquetaListado = application.nombre;
+      console.log(this.campos);
       this.isWaiting = false;
     });
   }
+
+  getColumnsApplication() {
+    this.columnasService
+      .getFields(this.application.id) 
+      .subscribe(({ data }) => {
+        this.appColumnas = data.getFieldsByAppId;
+        this.fetchItems();
+      })
+  };
 }
 
 interface Application {

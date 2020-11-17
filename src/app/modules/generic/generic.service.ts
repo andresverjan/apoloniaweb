@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Generic } from "./generic.component";
 import { Campo } from "../core/interfaces/campoTable.interace";
+import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
@@ -11,15 +12,15 @@ import { Campo } from "../core/interfaces/campoTable.interace";
 export class GenericService {
   serverUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
 
-  getAll(): Observable<any> {
+  getAll(applicationId): Observable<any> {
     let body = {
       query: `query{ 
         genericList(filter:{
-           id:13
+           id:${applicationId}
         }) {
           application {
              id
@@ -30,8 +31,7 @@ export class GenericService {
         }
       }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   updateGeneric(generic: any) {
@@ -50,6 +50,7 @@ export class GenericService {
               campos : [
                 ${campos.map((item) => {
                   return `{
+                    tipoCampoId: ${item.tipoCampoId}
                     nombre: "${item.nombre}"
                     id: ${item.id}
                     valor: "${item.valor}"
@@ -64,8 +65,7 @@ export class GenericService {
         }
       }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   deleteGeneric(generic: any): Observable<any> {
@@ -89,8 +89,7 @@ export class GenericService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   saveGeneric(generic: Generic): Observable<any> {
@@ -123,7 +122,6 @@ export class GenericService {
         }
       }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 }
