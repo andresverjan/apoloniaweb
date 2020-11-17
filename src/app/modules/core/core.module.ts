@@ -34,6 +34,10 @@ import {
   BuscadormodalComponent,
   DialogOverviewExample,
 } from "./components/buscadormodal/buscadormodal.component";
+import {
+  BuscadormodaliconComponent,
+  DialogOverviewExampleIcon,
+} from "./components/buscadormodalicon/buscadormodalicon.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
@@ -60,6 +64,8 @@ import { InputComponent } from './components/input/input.component';
     MascarasComponent,
     BuscadormodalComponent,
     DialogOverviewExample,
+    BuscadormodaliconComponent,
+    DialogOverviewExampleIcon,
     TipoCampoComponent,
     GenericComponent,
     InputComponent,

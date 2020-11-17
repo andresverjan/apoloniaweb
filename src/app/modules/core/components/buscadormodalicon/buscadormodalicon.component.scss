@@ -1,0 +1,27 @@
+table {
+    width: 100%;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: #777;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.cardcontent {
+    box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+    padding-bottom: 30px;
+}
+
+.material-icons {
+    font-size: 33px;    
+    text-align: center;
+}
