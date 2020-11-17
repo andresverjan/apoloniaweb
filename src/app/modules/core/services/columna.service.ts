@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as Globals from "../globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { HttpService } from "./HttpService";
 
 @Injectable({
   providedIn: "root",
@@ -9,7 +10,7 @@ import { Observable } from "rxjs";
 export class ColumnaService {
   serverUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
 
@@ -33,8 +34,7 @@ export class ColumnaService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   getFields(objeTosend: number): Observable<any> {
@@ -66,7 +66,6 @@ export class ColumnaService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 }

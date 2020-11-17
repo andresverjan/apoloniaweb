@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import {​​ ActivatedRoute }​​ from '@angular/router';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import Swal from "sweetalert2";
 import { Campo } from "../core/interfaces/campoTable.interace";
@@ -13,7 +14,8 @@ import { GenericService } from "./generic.service";
 export class GenericComponent implements OnInit {
   constructor(
     private genericService: GenericService,
-    private columnasService: ColumnaService
+    private columnasService: ColumnaService,
+    private route: ActivatedRoute,
   ) { }
 
   public showBtnActualizar: boolean = false;
@@ -44,6 +46,9 @@ export class GenericComponent implements OnInit {
   public campos = [];
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {​​
+      this.application.id= params['applicationId']
+      }​​); 
     this.getColumnsApplication();    
   }
 
@@ -211,7 +216,7 @@ export class GenericComponent implements OnInit {
 
   fetchItems() {
     this.isWaiting = true;
-    this.genericService.getAll().subscribe(({ data }) => {
+    this.genericService.getAll(this.application.id).subscribe(({ data }) => {
       const { application, campos } = data.genericList[0];
       this.application = application;
       this.campos = campos.map((campo) => {
@@ -229,7 +234,7 @@ export class GenericComponent implements OnInit {
 
   getColumnsApplication() {
     this.columnasService
-      .getFields(23) //Quemado Temporal: HAVERJAN
+      .getFields(this.application.id) 
       .subscribe(({ data }) => {
         this.appColumnas = data.getFieldsByAppId;
         this.fetchItems();
