@@ -57,6 +57,7 @@ export class MyNavComponent {
     this.MostrarRouter = true;
     console.log(item);
     if(item.applicationId){
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.navigate([item.url_menu], {​​ queryParams: {​​ applicationId: item.applicationId }​​ }​​);
     }else{
       if(item.url_menu== '/salida'){
