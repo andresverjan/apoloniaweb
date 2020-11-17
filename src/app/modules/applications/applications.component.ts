@@ -82,6 +82,7 @@ export class ApplicationsComponent implements OnInit {
 
     this.fetchCamposValues(application.id);
   }
+
   actionActualizar() {
     const obj = {
       application: {

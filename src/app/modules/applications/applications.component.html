@@ -18,7 +18,6 @@
         </mat-card-title>
         <mat-card [formGroup]="aplicacionForm" fxFill>
           <mat-card-content fxLayout="column" fxLayoutAlign="center">
-
             <mat-form-field class="example-full-width">
               <mat-label>Nombre Aplicación</mat-label>
               <mat-icon matPrefix>table_chart</mat-icon>
@@ -27,13 +26,11 @@
             <app-buscadormodal *ngIf="!IsWaiting" (selected)="onTableSelected($event)"
               [columnas]="{ TABLE_NAME: 'Nombre Tabla' }" [resultInputText]="['TABLE_NAME']" [service]="_tableService"
               tituloBusqueda="Tablas" [defaultObjValue]="tabla" [readonly]="showBtnActualizar"></app-buscadormodal>
-
           </mat-card-content>
         </mat-card>
       </mat-card>
     </div>
 
-    
     <div [formGroup]="aplicacionForm">
       <!-- titulos tabla -->
       <mat-grid-list cols="35" class="styleForGrid" fxLayout rowHeight="60px">
@@ -74,13 +71,15 @@
 
         <!-- Tipo campos -->
         <mat-grid-tile colspan="5">
-          <app-select label="TipoCampos" [data]="tipoCampos" (valSelected)="setTipoCampoId(campo, $event)" default="{{campo.tipoCampoId}}" fxFlex="50">
+          <app-select label="TipoCampos" [data]="tipoCampos" (valSelected)="setTipoCampoId(campo, $event)"
+            default="{{ campo.tipoCampoId }}" fxFlex="50">
           </app-select>
         </mat-grid-tile>
 
         <!-- Mascara ID  -->
         <mat-grid-tile colspan="5">
-          <app-select label="Mascara" [data]="mascaras" default="{{campo.mascaraId}}" (valSelected)="setMascaras(campo, $event)" fxFlex="50"></app-select>
+          <app-select label="Mascara" [data]="mascaras" default="{{ campo.mascaraId }}"
+            (valSelected)="setMascaras(campo, $event)" fxFlex="50"></app-select>
         </mat-grid-tile>
 
         <!-- Orden -->
@@ -125,6 +124,7 @@
         </mat-grid-tile>
       </mat-grid-list>
     </div>
+
     <!--actions -->
     <mat-card class="cardcontent">
       <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
@@ -154,7 +154,7 @@
 
   <mat-card-content class="window-dashboard-card-content" *ngIf="showListado" style="overflow-block: hidden">
     <mat-toolbar color="primary">
-      <mat-icon matPrefix>shopping_cart</mat-icon>
+      <mat-icon matPrefix>web</mat-icon>
       <span>{{ etiquetaListado }}</span>
       <span class="example-spacer"></span>
 
@@ -185,8 +185,9 @@
       <mat-grid-tile *ngFor="let app of applications" style="overflow-x: hidden">
         <mat-card (click)="actualizar(app)" class="dashboard-card">
           <mat-card-content class="dashboard-card-content">
-            <h5>{{ app.nombre }}</h5>
-            <br />
+            <mat-icon>web</mat-icon>
+            <h5 class="cssRow">{{ app.nombre }}</h5>
+            <br/>
             <div>{{ app.nombreTabla }}</div>
             <div>{{ app.active }}</div>
           </mat-card-content>

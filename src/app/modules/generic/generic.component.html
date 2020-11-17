@@ -1,16 +1,6 @@
-<mat-card-actions
-  fxLayout="row"
-  fxLayoutAlign="end center"
-  style="margin-right: 10px"
->
-  <button
-    mat-raised-button
-    (click)="adicionar()"
-    fxLayout="row"
-    fxLayout.xs="column"
-    fxLayoutAlign="center"
-    fxFlex="22"
-  >
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+  <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+    fxFlex="22">
     <mat-icon>add_circle_outline</mat-icon>
     Adicion
   </button>
@@ -19,25 +9,15 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar>
 
 <div class="container" style="overflow: hidden">
-  <mat-card-content
-    class="window-dashboard-card-content"
-    style="overflow-block: hidden"
-  >
-    <mat-card-content
-      class="window-dashboard-card-content contentprincipal"
-      *ngIf="showForm"
-    >
+  <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
+    <mat-card-content class="window-dashboard-card-content contentprincipal" *ngIf="showForm">
       <mat-toolbar color="primary">
         <mat-icon matPrefix>account_balance</mat-icon>
         <span>{{ etiquetaNombreModulo }}</span>
         <span class="example-spacer"></span>
 
-        <button
-          mat-icon-button
-          class="example-icon"
-          aria-label="Example icon-button with share icon"
-          (click)="cancelar()"
-        >
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+          (click)="cancelar()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-toolbar>
@@ -52,87 +32,49 @@
 
           <mat-card-content fxLayout="column" fxLayoutAlign="center">
             <div *ngIf="!isWaiting" fxFlex fxLayoutAlign="space-between center">
-              <!-- TODO: NGSWITHCASE (INPUT-TOGGLE) -->
               <!-- TODO: COMPONENTE (QUEMADO)-->
-              <!-- [ngSwitch]="item.tipoCampoId" -->
-              <mat-form-field *ngFor="let item of appColumnas" fxFlex>
-                <!-- [ngSwitchCase]="1" -->
-                <mat-icon matPrefix>edit</mat-icon>
-                <input
-                  matInput
-                  [formControlName]="item.nombre"
-                  *ngIf="item.visible"
-                  id="{{ item.nombre }}"
-                  placeholder="{{ item.nombreUi.toString().toUpperCase() }}"
-                />
-                <!-- [ngSwitchCase]="4" -->
-                <!-- <app-select label="{{item.nombre}}" [data]= (valSelected)="setTipoCampoId(campo, $event)" default="{{campo.tipoCampoId}}" fxFlex="50">
-                </app-select> -->
-                <mat-hint
-                  *ngIf="genericForm.controls[item.nombre].errors?.maxlength"
-                  >error-maxlenght</mat-hint
-                >
-                <mat-hint
-                  *ngIf="genericForm.controls[item.nombre].errors?.minlength"
-                  >error-minliength</mat-hint
-                >
-                <mat-hint
-                  *ngIf="genericForm.controls[item.nombre].errors?.required"
-                  >error-required</mat-hint
-                >
-              </mat-form-field>
+              <div [ngSwitch]="item.tipoCampoId" *ngFor="let item of appColumnas">
+                <div *ngSwitchCase="1">
+                  <mat-form-field *ngIf="item.visible">
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <label>{{item.nombreUi.toString().toUpperCase()}}</label>
+                    <input matInput [formControlName]="item.nombre" *ngIf="item.visible" id="{{ item.nombre }}"
+                      placeholder="" />
+                    <!-- errores de validators -->
+                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.maxlength">error-maxlenght</mat-hint>
+                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.minlength">error-minliength</mat-hint>
+                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.required">error-required</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div *ngSwitchCase="4">
+                  <mat-form-field *ngIf="item.visible">
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <label>{{item.nombreUi.toString().toUpperCase()}}</label>
+                    <mat-slide-toggle [formControlName]="item.nombre" color="primary"></mat-slide-toggle>
+                    <textarea matInput hidden [formControlName]="item.nombre"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
           </mat-card-content>
           <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-            <button
-              mat-raised-button
-              (click)="guardar()"
-              color="primary"
-              [disabled]="!genericForm.valid"
-              *ngIf="!showBtnActualizar"
-              fxLayout="row"
-              fxLayout.xs="column"
-              fxLayoutAlign="center"
-              fxFlex="80"
-            >
+            <button mat-raised-button (click)="guardar()" color="primary" [disabled]="!genericForm.valid"
+              *ngIf="!showBtnActualizar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
               <mat-icon>person_add</mat-icon>
               Adicionar
             </button>
-            <button
-              mat-raised-button
-              fxLayout="row"
-              fxLayout.xs="column"
-              fxLayoutAlign="center"
-              fxFlex="80"
-              color="primary"
-              [disabled]="!genericForm.valid"
-              *ngIf="showBtnActualizar"
-              (click)="actualizar()"
-            >
+            <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80"
+              color="primary" [disabled]="!genericForm.valid" *ngIf="showBtnActualizar" (click)="actualizar()">
               <mat-icon>mode_edit</mat-icon>
               Actualizar
             </button>
-            <button
-              mat-raised-button
-              fxLayout="row"
-              fxLayout.xs="column"
-              fxLayoutAlign="center"
-              fxFlex="80"
-              (click)="eliminar()"
-              *ngIf="showBtnEliminar"
-            >
+            <button mat-raised-button fxLayout="row" color="warn" fxLayout.xs="column" fxLayoutAlign="center"
+              fxFlex="80" (click)="eliminar(item)" *ngIf="showBtnEliminar">
               <mat-icon>more_vert</mat-icon>
               Eliminar
             </button>
-            <button
-              mat-raised-button
-              (click)="cancelar()"
-              fxLayout="row"
-              fxLayout.xs="column"
-              fxLayoutAlign="center"
-              color="warn"
-              fxFlex="80"
-            >
+            <button mat-raised-button (click)="cancelar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+              color="warn" fxFlex="80">
               <mat-icon>cancel</mat-icon>
               Cancelar
             </button>
@@ -143,20 +85,28 @@
 
     <div *ngIf="showContent">
       <mat-toolbar color="primary">
-        <mat-icon matPrefix>shopping_cart</mat-icon>
+        <mat-icon matPrefix>extension</mat-icon>
         <span>{{ etiquetaListado }}</span>
         <span class="example-spacer"></span>
         <mat-icon>info</mat-icon>
       </mat-toolbar>
       <mat-grid-list cols="5" *ngIf="showListado" rowHeight="230px">
         <mat-grid-tile *ngFor="let campo of campos" style="overflow-x: hidden">
-          <mat-card class="dashboard-card">
+          <mat-card class="dashboard-card" (click)="detalle(campo)">
             <mat-card-content class="dashboard-card-content">
-              <div class="row" *ngFor="let item of campo | keyvalue">
-                <h5>
-                  {{ item.key }} - <small>{{ item.value }}</small>
-                </h5>
-                <br />
+              <mat-icon>extension</mat-icon>
+              <div *ngFor="let campoConf of campo.conf">
+                <div *ngFor="let item of campo | keyvalue">
+                  <div *ngIf="campoConf.nombre == item.key && campoConf.verList">
+                    <span class="cssRow">
+                      {{ campoConf.nombreUi }}
+                    </span>
+                    <br>
+                    <span class="cssVal">
+                      <b>{{ item.value }}</b>
+                    </span>
+                  </div>
+                </div>
               </div>
             </mat-card-content>
           </mat-card>
