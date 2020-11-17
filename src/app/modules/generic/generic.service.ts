@@ -25,6 +25,7 @@ export class GenericService {
           application {
              id
              nombre
+             icono
              nombreTabla
           }
           campos

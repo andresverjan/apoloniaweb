@@ -20,6 +20,7 @@ export class ApplicationService {
     const params = `
     (application: {application: {
       nombre: "${application.nombre}",
+      icono: "${application.icono}",
       nombreTabla: "${application.nombreTabla}"}
 
       campos: [
@@ -66,6 +67,7 @@ export class ApplicationService {
     (application: {application: {
       id: ${application.id},
       nombre: "${application.nombre}",
+      icono: "${application.icono}",
     }
 
       campos: [
@@ -133,6 +135,7 @@ export class ApplicationService {
         applications ${filter} {
           id
           nombre
+          icono
           nombreTabla
           active
           createdBy
