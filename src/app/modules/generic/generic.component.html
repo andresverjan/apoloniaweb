@@ -85,7 +85,7 @@
 
     <div *ngIf="showContent">
       <mat-toolbar color="primary">
-        <mat-icon matPrefix>extension</mat-icon>
+        <mat-icon matPrefix>{{application.icono}}</mat-icon>
         <span>{{ etiquetaListado }}</span>
         <span class="example-spacer"></span>
         <mat-icon>info</mat-icon>
@@ -94,7 +94,7 @@
         <mat-grid-tile *ngFor="let campo of campos" style="overflow-x: hidden">
           <mat-card class="dashboard-card" (click)="detalle(campo)">
             <mat-card-content class="dashboard-card-content">
-              <mat-icon>extension</mat-icon>
+              <mat-icon>{{application.icono}}</mat-icon>
               <div *ngFor="let campoConf of campo.conf">
                 <div *ngFor="let item of campo | keyvalue">
                   <div *ngIf="campoConf.nombre == item.key && campoConf.verList">

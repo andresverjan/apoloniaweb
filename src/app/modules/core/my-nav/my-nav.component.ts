@@ -37,7 +37,15 @@ export class MyNavComponent {
   }
   ngOnInit(){
     this.getUserFromLocalStorage();
-    this.array=this.usuario.PERMISOS;
+    this.array= this.usuario.PERMISOS.map(item=> {
+      if (item.applicationId){
+        item.routerLink = item.url_menu + item.applicationId;
+      }else{
+        item.routerLink = item.url_menu;
+      }
+      return item;
+    });
+    console.log(this.array);
   }
   // goToProfile(){
   //   this.mostrarRouter();
