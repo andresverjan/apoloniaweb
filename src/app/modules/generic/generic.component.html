@@ -39,7 +39,7 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <label>{{item.nombreUi.toString().toUpperCase()}}</label>
                     <input matInput [formControlName]="item.nombre" *ngIf="item.visible" id="{{ item.nombre }}"
-                      placeholder="" />
+                      placeholder=""  style="margin-left: -28px;"/>
                     <!-- errores de validators -->
                     <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.maxlength">error-maxlenght</mat-hint>
                     <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.minlength">error-minliength</mat-hint>
