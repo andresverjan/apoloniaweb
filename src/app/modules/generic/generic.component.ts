@@ -126,6 +126,11 @@ export class GenericComponent implements OnInit {
       });
   }
 
+
+  selected(valor, item){
+    console.log(valor);
+    console.log(item);
+  }
   actualizar() {
     if (this.genericForm.valid) {
       //crear el objeto a enviar
