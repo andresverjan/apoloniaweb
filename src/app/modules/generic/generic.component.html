@@ -31,31 +31,38 @@
           </mat-card-title>
 
           <mat-card-content fxLayout="column" fxLayoutAlign="center">
-            <div *ngIf="!isWaiting" fxFlex fxLayoutAlign="space-between center">
-              <!-- TODO: COMPONENTE (QUEMADO)-->
-              <div [ngSwitch]="item.tipoCampoId" *ngFor="let item of appColumnas">
-                <div *ngSwitchCase="1">
-                  <mat-form-field *ngIf="item.visible">
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <label>{{item.nombreUi.toString().toUpperCase()}}</label>
-                    <input matInput [formControlName]="item.nombre" *ngIf="item.visible" id="{{ item.nombre }}"
-                      placeholder=""  style="margin-left: -28px;"/>
-                    <!-- errores de validators -->
-                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.maxlength">error-maxlenght</mat-hint>
-                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.minlength">error-minliength</mat-hint>
-                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.required">error-required</mat-hint>
-                  </mat-form-field>
+            <mat-grid-list cols="2" rowHeight="70px" gutterSize="5px" style="margin-left: 15px;margin-right: 15px;">
+              <ng-container *ngFor="let item of appColumnas">
+              <mat-grid-tile *ngIf="item.visible">
+                <div *ngIf="!isWaiting" fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <!-- TODO: COMPONENTE (QUEMADO)-->
+                  <div [ngSwitch]="item.tipoCampoId" fxFlex=100>
+                      <div *ngSwitchCase="1" fxFlex=100>
+                        <mat-form-field *ngIf="item.visible" fxFlex=100>
+                          <mat-icon matPrefix>edit</mat-icon>
+                          <label>{{item.nombreUi.toString().toUpperCase()}}</label>
+                          <input matInput [formControlName]="item.nombre" *ngIf="item.visible" id="{{ item.nombre }}"
+                            placeholder="" style="margin-left: -28px;"/>
+                          <!-- errores de validators -->
+                          <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.maxlength">error-maxlenght</mat-hint>
+                          <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.minlength">error-minliength</mat-hint>
+                          <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.required">error-required</mat-hint>
+                        </mat-form-field>
+                      </div>
+                      <div *ngSwitchCase="4" fxFlex=100>
+                        <mat-form-field *ngIf="item.visible" fxFlex=100 style="padding-bottom: 0px;">
+                          <mat-icon matPrefix>edit</mat-icon>
+                          <label>{{item.nombreUi.toString().toUpperCase()}}</label>
+                          <mat-slide-toggle [formControlName]="item.nombre" color="primary" style="margin-left: -28px;"></mat-slide-toggle>
+                          <textarea matInput hidden [formControlName]="item.nombre"></textarea>
+                        </mat-form-field>
+                      </div>
+                  </div>
                 </div>
-                <div *ngSwitchCase="4">
-                  <mat-form-field *ngIf="item.visible">
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <label>{{item.nombreUi.toString().toUpperCase()}}</label>
-                    <mat-slide-toggle [formControlName]="item.nombre" color="primary"></mat-slide-toggle>
-                    <textarea matInput hidden [formControlName]="item.nombre"></textarea>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
+              </mat-grid-tile>
+            </ng-container>              
+            </mat-grid-list>
+           
           </mat-card-content>
           <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
             <button mat-raised-button (click)="guardar()" color="primary" [disabled]="!genericForm.valid"
