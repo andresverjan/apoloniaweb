@@ -41,7 +41,11 @@ import {
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
-import { InputComponent } from './components/input/input.component';
+import { InputComponent } from "./components/input/input.component";
+import { FlatpickrModule } from "angularx-flatpickr";
+import { CalendarModule, DateAdapter } from "angular-calendar";
+import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
+import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -85,6 +89,13 @@ import { InputComponent } from './components/input/input.component';
     MatIconModule,
     MatButtonModule,
     MatSlideToggleModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+
     //    ProductosComponent
     //componentes de rutas
   ],
