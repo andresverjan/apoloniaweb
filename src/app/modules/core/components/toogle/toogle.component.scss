@@ -1,0 +1,32 @@
+.mat-slide-toggle {
+  padding: 5px;
+    display: block;
+  }
+  ::ng-deep .mat-slide-toggle .mat-checked .mat-slide-toggle-thumb-container {
+    transform: translate3d(10px, 0, 0) !important;
+  }
+  
+  /*Tamaño de  la linea.*/
+  ::ng-deep .difSized .mat-slide-toggle-bar {
+    height: 22px;
+    width: 70px;
+    border-radius: 40px;
+  }
+  
+  /*Tamaño del circulo*/
+  ::ng-deep .difSized .mat-slide-toggle-thumb {
+    height: 30px;
+    width: 30px;
+  }
+  
+  ::ng-deep .difSized.mat-checked .mat-slide-toggle-thumb-container {
+    transform: translate3d(-65px, 0, 0) !important;
+  }
+  
+  ::ng-deep .difSized .mat-slide-toggle-thumb-container {
+    width: 15px;
+    height: 15px;
+    top: -4px;
+    left: 58px;
+  }
+  

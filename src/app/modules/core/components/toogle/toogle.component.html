@@ -1,0 +1,12 @@
+<div [formGroup]="form">
+    <mat-form-field *ngIf="campo.visible" fxFlex=100 style="padding-bottom: 0px;">
+        <mat-icon matPrefix>edit</mat-icon>
+        <label>{{campo.nombreUi.toString().toUpperCase()}}</label>
+        <mat-slide-toggle class="difSized" size="large" [formControlName]="campo.nombre" color="primary" style="margin-left: -28px;"></mat-slide-toggle>
+        <!--<mat-slide-toggle  class="difSized" size="large" [formControlName]="campo.nombre" color="primary" style="margin-left: -28px;"></mat-slide-toggle>-->
+        <textarea matInput hidden [formControlName]="campo.nombre"></textarea>
+      </mat-form-field>
+  </div>
+
+  
+
