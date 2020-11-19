@@ -1,0 +1,24 @@
+<!-- TODO: READONLY -->
+<div class="input-group mb-3">
+  <mat-icon matPrefix fxFlex=8> {{itemBuscar}} </mat-icon>
+  <input
+    [(ngModel)]="itemBuscar"
+    id="nombre"
+    type="text"
+    placeholder="{{ tituloBusqueda }}"
+    class="form-control"
+    aria-label="Name"
+    aria-describedby="button-addon2"
+    (click)="openDialog()"
+    [readonly]="readonly"
+    fxFlex=85
+  />  
+  <div class="input-group-append" fxFlex=7>
+    <button mat-raised-button color="primary"
+      type="button"
+      (click)="openDialog()"
+    >
+      Search
+    </button>
+  </div>
+</div>

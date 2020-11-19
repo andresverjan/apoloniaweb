@@ -22,6 +22,7 @@ export class MyNavComponent {
   public urlLogo: string;
   public usuario;
   public array;
+  public navSizeCss = {'margin-left': '255px;' };
   userKey: string='USUARIO';
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -36,7 +37,15 @@ export class MyNavComponent {
   }
   ngOnInit(){
     this.getUserFromLocalStorage();
-    this.array=this.usuario.PERMISOS;
+    this.array= this.usuario.PERMISOS.map(item=> {
+      if (item.applicationId){
+        item.routerLink = item.url_menu + item.applicationId;
+      }else{
+        item.routerLink = item.url_menu;
+      }
+      return item;
+    });
+    console.log(this.array);
   }
   // goToProfile(){
   //   this.mostrarRouter();
@@ -56,6 +65,7 @@ export class MyNavComponent {
     this.MostrarRouter = true;
     console.log(item);
     if(item.applicationId){
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.navigate([item.url_menu], {​​ queryParams: {​​ applicationId: item.applicationId }​​ }​​);
     }else{
       if(item.url_menu== '/salida'){
@@ -68,8 +78,11 @@ export class MyNavComponent {
   
   getUserFromLocalStorage() {
     this.usuario = JSON.parse(localStorage.getItem(this.userKey));
-    console.log(this.usuario);
-   
+    console.log(this.usuario);   
   }
+
+  afterClick(){    
+    this.navSizeCss = this.navSizeCss["margin-left"]=='0px;'?{'margin-left': '255px;'}:{'margin-left': '0px;'};
+  } 
 
 }

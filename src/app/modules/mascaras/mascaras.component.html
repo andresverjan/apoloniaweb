@@ -1,84 +1,180 @@
-<mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
-
-<!-- Panel listado -->
-<div class="container" *ngIf="showContent" style="overflow: hidden">
-  <mat-card-content
-    class="window-dashboard-card-content"
-    style="overflow-block: hidden"
-  >
-    <mat-toolbar color="primary">
-      <mat-icon matPrefix>account_balance</mat-icon>
-      <span>{{ etiquetaListado }}</span>
-      <span class="example-spacer"></span>
-
-      <mat-icon>info</mat-icon>
-    </mat-toolbar>
-
-    <mat-card fxFill>
-      <mat-card-title fxLayoutAlign="center">
-        <label>BUSCAR</label>
-      </mat-card-title>
-
-      <app-buscadormodal
-        *ngIf="!IsWaiting"
-        (selected)="mascara = $event"
-        [columnas]="{ id: 'Id', nombre: 'Nombre', descripcion: 'Descripcion' }"
-        [resultInputText]="['id', 'nombre']"
-        [service]="_mascarasService"
-        tituloBusqueda="Mascaras"
-        [defaultObjValue]="mascara"
-      ></app-buscadormodal>
-
-      <app-buscadormodal
-        *ngIf="!IsWaiting"
-        tituloBusqueda="Tipo Campo"
-        [columnas]="{ id: 'Id', nombre: 'Nombre', descripcion: 'Descripcion' }"
-        [resultInputText]="['id', 'nombre']"
-        [service]="_tipoCampoService"
-        (selected)="tipoCampo = $event"
-        [defaultObjValue]="tipoCampo"
-      ></app-buscadormodal>
-
-      <app-buscadormodal
-        *ngIf="!IsWaiting"
-        tituloBusqueda="Listado de Tablas"
-        [columnas]="{ TABLE_NAME: 'Nombre de la Tabla' }"
-        [resultInputText]="['TABLE_NAME']"
-        [service]="_tableService"
-        (selected)="tablas = $event"
-        [defaultObjValue]="tablas"
-      ></app-buscadormodal>
-
-      <!-- 
-      <app-filtro-busqueda
-        [columnas]="columnas"
-        [service]="_mascarasService"
-      ></app-filtro-busqueda> -->
-      <button mat-raised-button color="primary">Ingresar</button>
-    </mat-card>
-
-    <mat-grid-list *ngIf="showListado" cols="3" rowHeight="320px">
-      <mat-grid-tile
-        *ngFor="let mascara of mascaras"
-        style="overflow-x: hidden"
+<div class="row text-center">
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div
+        class="btn btn-primary"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()"
       >
-        <mat-card class="dashboard-card">
-          <img
-            mat-card-image
-            src="./assets/comercio.png"
-            alt="producto"
-            height="150px; "
-            class="cssForCrudListImg"
+        Previous
+      </div>
+      <div
+        class="btn btn-outline-secondary"
+        mwlCalendarToday
+        [(viewDate)]="viewDate"
+      >
+        Today
+      </div>
+      <div
+        class="btn btn-primary"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()"
+      >
+        Next
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h3>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h3>
+  </div>
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div
+        class="btn btn-primary"
+        (click)="setView(CalendarView.Month)"
+        [class.active]="view === CalendarView.Month"
+      >
+        Month
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="setView(CalendarView.Week)"
+        [class.active]="view === CalendarView.Week"
+      >
+        Week
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="setView(CalendarView.Day)"
+        [class.active]="view === CalendarView.Day"
+      >
+        Day
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div [ngSwitch]="view">
+  <mwl-calendar-month-view
+    *ngSwitchCase="CalendarView.Month"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view
+    *ngSwitchCase="CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-week-view>
+  <mwl-calendar-day-view
+    *ngSwitchCase="CalendarView.Day"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-day-view>
+</div>
+
+<!-- Everything you see below is just for the demo, you don't need to include it in your app -->
+
+<br /><br /><br />
+
+<h3>
+  Edit events
+  <button class="btn btn-primary float-right" (click)="addEvent()">
+    Add new
+  </button>
+  <div class="clearfix"></div>
+</h3>
+
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Primary color</th>
+        <th>Secondary color</th>
+        <th>Starts at</th>
+        <th>Ends at</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let event of events">
+        <td>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="event.title"
+            (keyup)="refresh.next()"
           />
-          <mat-card-content class="dashboard-card-content">
-            <h5>{{ mascara.nombre }}</h5>
-            <hr />
-            <div>{{ mascara.descripcion }}</div>
-            <div>Created by{{ mascara.createdBy }}</div>
-            <div>Active{{ mascara.active }}</div>
-          </mat-card-content>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </mat-card-content>
+        </td>
+        <td>
+          <input
+            type="color"
+            [(ngModel)]="event.color.primary"
+            (change)="refresh.next()"
+          />
+        </td>
+        <td>
+          <input
+            type="color"
+            [(ngModel)]="event.color.secondary"
+            (change)="refresh.next()"
+          />
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            mwlFlatpickr
+            [(ngModel)]="event.start"
+            (ngModelChange)="refresh.next()"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+          />
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            mwlFlatpickr
+            [(ngModel)]="event.end"
+            (ngModelChange)="refresh.next()"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            dateFormat="Y-m-dTH:i"
+            altFormat="F j, Y H:i"
+            placeholder="Not set"
+          />
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteEvent(event)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
