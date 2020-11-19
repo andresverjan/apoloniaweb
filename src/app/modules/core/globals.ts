@@ -17,7 +17,7 @@ export const SERVER_PROD_IP = "http://localhost:3000/api";
 
 //export const SERVER_PROD = "https://mrmango.herokuapp.com/graphql";
 //export const SERVER_PROD_IP = "https://mrmango.herokuapp.com/graphql";
-export const SERVER = SERVER_PROD;
+export const SERVER = SERVER_DEV;
 
 /*
  *  Definicion de constantes de providers Google facebook

@@ -1,3 +1,7 @@
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction';
+
 import { UsersComponent } from "./../users/users.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -38,6 +42,19 @@ import { MascarasComponent } from "../mascaras/mascaras.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from './components/input/input.component';
+import { AgendaComponent } from "../agenda/agenda.component";
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  timeGridPlugin,
+  listPlugin,
+  interactionPlugin
+])
 
 @NgModule({
   declarations: [
@@ -63,6 +80,7 @@ import { InputComponent } from './components/input/input.component';
     TipoCampoComponent,
     GenericComponent,
     InputComponent,
+    AgendaComponent
   ],
 
   imports: [
@@ -79,6 +97,12 @@ import { InputComponent } from './components/input/input.component';
     MatIconModule,
     MatButtonModule,
     MatSlideToggleModule,
+    FullCalendarModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     //    ProductosComponent
     //componentes de rutas
   ],

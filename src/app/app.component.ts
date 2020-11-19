@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { CalendarOptions } from '@fullcalendar/angular';
 import { ServicesService } from "./modules/core/services/services.service";
 import { Router } from "@angular/router";
 
@@ -14,6 +15,10 @@ export class AppComponent implements OnInit {
   data: any = {};
 
   constructor(private service: ServicesService, private router: Router) {}
+
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth'
+  };
 
   ngOnInit() {}
 
