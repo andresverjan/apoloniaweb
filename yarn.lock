@@ -1550,6 +1550,13 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+angular-calendar-scheduler@^10.0.4:
+  version "10.0.4"
+  resolved "https://registry.yarnpkg.com/angular-calendar-scheduler/-/angular-calendar-scheduler-10.0.4.tgz#b6efb6701b00e9ed740e3568a8eb2aa4399d3fa5"
+  integrity sha512-51eLmeiBJvHZtegCLjYXkIHtfCmjlDm9CqT411cdNVdVTQcva5KQn6oANGCXJDgRBqDZN8pybyspDEN3hNWcxw==
+  dependencies:
+    tslib "^2.0.0"
+
 angular-material@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/angular-material/-/angular-material-1.2.1.tgz#03766710d71d11f5e0eadf10e830bb654c5d80b4"
@@ -3087,6 +3094,11 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+date-fns@^2.16.1:
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
+  integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
 
 date-format@^2.0.0:
   version "2.1.0"

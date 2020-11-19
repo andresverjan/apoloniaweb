@@ -14,6 +14,7 @@ import { ApplicationsComponent } from "../applications/applications.component";
 
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { GenericComponent } from "../generic/generic.component";
+import { AgendaComponent } from "../agenda/agenda.component";
 
 export const routes: Routes = [
   {
@@ -66,6 +67,11 @@ export const routes: Routes = [
       {
         path: "generic-list",
         component: GenericComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: "agenda",
+        component: AgendaComponent,
         canActivate: [AuthGuardService],
       },
 
