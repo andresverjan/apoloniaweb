@@ -10,15 +10,25 @@ import {
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.sass']
+  styleUrls: ['./input.component.scss']
 })
 export class InputComponent implements OnInit {
   @Input() campo: any;
-  @Input() genericForm: any;
+  @Input() form: any;
   @Output() valor: EventEmitter<any>;
-  constructor() { }
+
+  public val: any;
+
+  constructor() { 
+    this.valor = new EventEmitter();    
+  }
+
+  emitValor(){
+    this.valor.emit(this.val);
+  }
 
   ngOnInit(): void {
+
   }
 
 }

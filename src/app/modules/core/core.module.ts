@@ -42,6 +42,7 @@ import { MascarasComponent } from "../mascaras/mascaras.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from './components/input/input.component';
+import { ToogleComponent } from './components/toogle/toogle.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { InputComponent } from './components/input/input.component';
     TipoCampoComponent,
     GenericComponent,
     InputComponent,
+    ToogleComponent,
   ],
 
   imports: [

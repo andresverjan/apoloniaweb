@@ -108,6 +108,10 @@ export class GenericComponent implements OnInit {
             constraints.push(Validators.minLength(field.minLength));
           }
 
+          if (field.tipoCampoId && field.tipoCampoId == 4) {//Formatear el valor Booleano.
+            this.item[field.nombre] =  this.item[field.nombre] ==1?true:false;
+          }
+
           formGroup[field.nombre] = new FormControl(
             this.item[field.nombre],
             constraints
@@ -122,6 +126,11 @@ export class GenericComponent implements OnInit {
       });
   }
 
+
+  selected(valor, item){
+    console.log(valor);
+    console.log(item);
+  }
   actualizar() {
     if (this.genericForm.valid) {
       //crear el objeto a enviar
@@ -225,6 +234,9 @@ export class GenericComponent implements OnInit {
       });      
       this.campos = this.campos.map((campo) => {
         campo.conf = this.appColumnas;
+        if(campo.conf.tipoCampoId==4){
+          console.log(campo);
+        }
         return campo;
       });
       this.etiquetaListado = application.nombre;
