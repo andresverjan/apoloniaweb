@@ -1,3 +1,4 @@
+import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction';
@@ -48,6 +49,8 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import { MultilistComponent } from './components/multilist/multilist.component';
+import { MatListModule } from '@angular/material/list';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -80,7 +83,9 @@ FullCalendarModule.registerPlugins([
     TipoCampoComponent,
     GenericComponent,
     InputComponent,
-    AgendaComponent
+    AgendaComponent,
+    MultilistComponent,
+    MultilistTestComponent
   ],
 
   imports: [
@@ -98,6 +103,7 @@ FullCalendarModule.registerPlugins([
     MatButtonModule,
     MatSlideToggleModule,
     FullCalendarModule,
+    MatListModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

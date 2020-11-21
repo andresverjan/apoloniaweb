@@ -1,0 +1,41 @@
+<p>multilist works!</p>
+
+<table>
+<tr>
+  <td><p>Lista 1</p></td>
+  <td style="width: 100px;;">&nbsp;</td>
+  <td><p>Lista 2</p></td>
+</tr>
+<tr>
+  <td>
+    <div>
+      <input matInput  [(ngModel)]="sel1Filter" placeholder="name"/>
+  </div>
+  </td>
+  <td></td>
+  <td>
+    <div>
+      <input matInput  [(ngModel)]="sel2Filter" placeholder="name"/>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td style="vertical-align: top;">
+    <mat-selection-list [multiple]="false" >
+      <mat-list-option *ngFor="let obj of getSel1Options()" (click)=passElement(obj) [value]="obj">
+        {{obj.name}}
+      </mat-list-option>
+    </mat-selection-list>
+  </td>
+  <td></td>
+  <td style="vertical-align: top;">
+    <mat-selection-list [multiple]="false">
+      <mat-list-option *ngFor="let obj of getSel2Options()" (click)=returnElement(obj) [value]="obj">
+        {{obj.name}}
+      </mat-list-option>
+    </mat-selection-list>
+  </td>
+</tr>
+</table>
+
+
