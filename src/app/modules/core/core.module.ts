@@ -1,4 +1,3 @@
-import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction';
@@ -56,6 +55,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { MultilistComponent } from './components/multilist/multilist.component';
+import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { MatListModule } from '@angular/material/list';
 
 FullCalendarModule.registerPlugins([
