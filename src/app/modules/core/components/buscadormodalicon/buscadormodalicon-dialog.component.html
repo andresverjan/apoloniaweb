@@ -1,0 +1,53 @@
+<mat-toolbar color="primary">
+  <mat-icon matPrefix>account_balance</mat-icon>
+  <span></span>
+  <span class="example-spacer"></span>
+  <mat-icon (click)="onNoClick()">close</mat-icon>
+</mat-toolbar>
+
+<mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
+  <mat-form-field appearance="outline" style="margin-top: 15px">
+    <mat-label>{{ tituloBusqueda }}</mat-label>
+    <button *ngIf="!dataSource" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <input matInput id="nombre" placeholder="{{ tituloBusqueda }}" [(ngModel)]="filter.nombre" (keyup)="findBy()"
+      style="text-align: center" autocomplete="off"  />
+  </mat-form-field>
+
+  <mat-card style="overflow-y: auto; height: 350px;"  class="cardcontent">
+    <mat-toolbar color="primary">
+      <mat-icon matPrefix>account_balance</mat-icon>
+      <span>Listado</span>
+      <span class="example-spacer"></span>
+      <mat-icon>info</mat-icon>
+    </mat-toolbar>
+
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark" color="primary">
+        <tr>
+          <th scope="col" *ngFor="let column of tituloColumnas">
+            {{ column }}
+          </th>
+          <th>
+            Icono
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataSource" (click)="getItem(item)" style="cursor: pointer">
+          <th scope="row" *ngFor="let property of properties">
+            <div *ngIf="item.hasOwnProperty(property)">
+              {{item[property]}}
+            </div>                   
+          </th>
+          <th scope="row" *ngFor="let property of properties">
+            <div *ngIf="item.hasOwnProperty(property)">
+              <mat-icon matPrefix style=" font-size: 33px; text-align: center;"> {{item[property]}} </mat-icon>
+            </div>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card>
+</mat-card-content>

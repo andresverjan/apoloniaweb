@@ -1,0 +1,33 @@
+.mat-slide-toggle {
+  padding: 5px;
+    display: block;
+  }
+  
+  ::ng-deep .mat-slide-toggle .mat-checked .mat-slide-toggle-thumb-container {
+    transform: translate3d(19px, 0, 0) !important;
+  }
+  
+  /*Tamaño de  la linea.*/
+  ::ng-deep .difSized .mat-slide-toggle-bar {
+    height: 21px;
+    width: 69px;
+    border-radius: 40px;
+  }
+  
+  /*Tamaño del circulo*/
+  ::ng-deep .difSized .mat-slide-toggle-thumb {
+    height: 27px;
+    width: 27px;
+  }
+  
+  ::ng-deep .difSized.mat-checked .mat-slide-toggle-thumb-container {
+    transform: translate3d(-60px, 0, 0) !important;
+  }
+  
+  ::ng-deep .difSized .mat-slide-toggle-thumb-container {
+    width: 5px;
+    height: 5px;
+    top: -4px;
+    left: 58px;
+  }
+  

@@ -81,11 +81,11 @@ export const routes: Routes = [
         component: MultilistComponent,
         canActivate: [AuthGuardService],
       },
-      /*{
+      {
         path: "multilist-test",
         component: MultilistTestComponent,
         canActivate: [AuthGuardService],
-      },*/
+      },
 
       { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
     ],

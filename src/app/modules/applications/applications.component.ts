@@ -5,6 +5,7 @@ import { MascarasService } from "../mascaras/mascaras.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
 import { TableService } from "../core/services/table.service";
+import { IconosService } from "../core/services/iconos.service";
 import { ColumnaService } from "../core/services/columna.service";
 import { Campo } from "../core/interfaces/campoTable.interace";
 
@@ -15,6 +16,7 @@ import { Campo } from "../core/interfaces/campoTable.interace";
 })
 export class ApplicationsComponent implements OnInit {
   public tabla: any;
+  public icono: any;
   public aplicacionForm: FormGroup;
 
   public mascaras = [];
@@ -25,10 +27,12 @@ export class ApplicationsComponent implements OnInit {
     public _mascarasService: MascarasService,
     public _tipoCampoService: TipoCampoService,
     public _tableService: TableService,
+    public _iconoService: IconosService,
     public _columnaService: ColumnaService
   ) {
     this.aplicacionForm = new FormGroup({
       nombre: new FormControl("", [Validators.maxLength(50)]),
+      icono: new FormControl("", [Validators.maxLength(50)]),
       nombreTabla: new FormControl("", [
         Validators.maxLength(50),
         Validators.required,
@@ -58,6 +62,10 @@ export class ApplicationsComponent implements OnInit {
     this.tabla = {
       TABLE_NAME: "Seleccione Tabla",
     };
+    this.icono = {
+      nombre: "Seleccione Icono",
+    };
+
   }
   adicionar() {
     this.showContent = false;
@@ -66,6 +74,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   actualizar(application: any) {
+    console.log(application);
     this.showListado = false;
     this.showContent = false;
     this.showForm = true;
@@ -75,6 +84,10 @@ export class ApplicationsComponent implements OnInit {
 
     this.tabla = {
       TABLE_NAME: application.nombreTabla,
+    };
+
+    this.icono = {
+      nombre: application.icono,
     };
 
     this.aplicacionForm.controls["nombreTabla"].setValue(this.tabla);
@@ -88,6 +101,7 @@ export class ApplicationsComponent implements OnInit {
       application: {
         id: this.application.id,
         nombre: this.aplicacionForm.controls["nombre"].value,
+        icono: this.aplicacionForm.controls["icono"].value,
       },
       campos: [...this.campos],
     };
@@ -97,7 +111,7 @@ export class ApplicationsComponent implements OnInit {
     this.showForm = false;
 
     this.aplicacionForm.reset();
-    Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+    Swal.fire("Operación exitosa", "Aplicación agregada correctamente!.", "success");
 
     this.fetchApplications();
 
@@ -116,6 +130,12 @@ export class ApplicationsComponent implements OnInit {
     this.tabla = selected;
     this.fetchCamposByTabla(this.tabla);
     this.aplicacionForm.controls["nombreTabla"].setValue(selected.TABLE_NAME);
+  }
+
+  onIconoSelected(selected) {
+    console.log(selected);    
+    this.icono = selected;
+    this.aplicacionForm.controls["icono"].setValue(this.icono.nombre);
   }
 
   cancelar() {
@@ -203,7 +223,24 @@ export class ApplicationsComponent implements OnInit {
   fetchCamposByTabla(obj) {
     this.IsWaiting = true;
     this._columnaService.getAll(obj).subscribe((res) => {
-      this.campos = res.data.listaCamposTable;
+      console.log(res.data.listaCamposTable);
+      //this.campos = res.data.listaCamposTable;      
+
+      this.campos = res.data.listaCamposTable.map( item =>  {        
+        item.nombreUi = item.nombre;
+        item.mascaraId = 1;
+        item.tipoCampoId=1;
+        item.orden= 1;
+        item.minLength= 1;
+        item.maxLength= 255;
+
+        item.requerido = false;
+        item.visible= false;
+        item.buscador= false;
+        item.verList= false;
+        return item;
+      });
+      
       this.IsWaiting = false;
     });
   }
@@ -241,7 +278,7 @@ export class ApplicationsComponent implements OnInit {
       };
       this.aplicacionForm.reset();
       this.campos = new Array<Campo>();
-      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+      Swal.fire("Operación exitosa", "Aplicación guardada correctamente!.", "success");
 
       this.fetchApplications();
 
