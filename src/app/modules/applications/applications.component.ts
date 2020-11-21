@@ -111,7 +111,7 @@ export class ApplicationsComponent implements OnInit {
     this.showForm = false;
 
     this.aplicacionForm.reset();
-    Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+    Swal.fire("Operación exitosa", "Aplicación agregada correctamente!.", "success");
 
     this.fetchApplications();
 

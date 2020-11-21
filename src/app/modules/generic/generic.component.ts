@@ -178,7 +178,8 @@ export class GenericComponent implements OnInit {
           application: { ...this.application },
         };
         this.genericService.deleteGeneric(obj).subscribe((res) => {
-          this.showForm = false;
+          if (res.data.genericDelete.success == true){
+            this.showForm = false;
           this.genericForm.reset();
           Swal.fire(
             "Operación exitosa",
@@ -188,6 +189,9 @@ export class GenericComponent implements OnInit {
           this.fetchItems();
           this.showListado = true;
           this.showContent = true;
+          }else{
+            Swal.fire("Error ", "Problemas Eliminando!.", "warning");
+          }
         });
       } else if (result.isDenied) {
       }
@@ -201,6 +205,7 @@ export class GenericComponent implements OnInit {
         application: { ...this.application },
         campos: [
           ...this.appColumnas.map((item) => ({
+            tipoCampoId: item.tipoCampoId,
             id: item.id,
             nombre: item.nombre,
             valor: this.genericForm.controls[item.nombre].value,
@@ -208,13 +213,19 @@ export class GenericComponent implements OnInit {
         ],
       };
 
-      this.genericService.saveGeneric(obj).subscribe((res) => res);
-      this.showForm = false;
-      this.genericForm.reset();
-      Swal.fire("Operación exitosa", "guardado correctamente!.", "success");
-      this.fetchItems();
-      this.showListado = true;
-      this.showContent = true;
+      this.genericService.saveGeneric(obj).subscribe((res) => {
+        console.log(res.data);
+        if (res.data.genericSave.success == true){
+          this.showForm = false;
+          this.genericForm.reset();
+          Swal.fire("Operación exitosa", "guardado correctamente!.", "success");
+          this.fetchItems();
+          this.showListado = true;
+          this.showContent = true;
+        }else{
+          Swal.fire("Error ", "Problemas Guardando!.", "warning");
+        }
+      });      
     } else {
       Swal.fire(
         "Error",
