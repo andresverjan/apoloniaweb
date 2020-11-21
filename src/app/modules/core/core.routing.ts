@@ -1,3 +1,5 @@
+import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
+import { MultilistComponent } from './components/multilist/multilist.component';
 import { UsersComponent } from "./../users/users.component";
 import { Routes, RouterModule, Route } from "@angular/router";
 import { ModuleWithProviders } from "@angular/core";
@@ -74,6 +76,16 @@ export const routes: Routes = [
         component: AgendaComponent,
         canActivate: [AuthGuardService],
       },
+      {
+        path: "multilist",
+        component: MultilistComponent,
+        canActivate: [AuthGuardService],
+      },
+      /*{
+        path: "multilist-test",
+        component: MultilistTestComponent,
+        canActivate: [AuthGuardService],
+      },*/
 
       { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
     ],
