@@ -58,6 +58,7 @@ export class GenericComponent implements OnInit {
     this.showContent = false;
     this.showListado = false;
     this.showForm = true;
+    this.showBtnActualizar = false;
 
     this.isWaiting = true;
     this.columnasService
