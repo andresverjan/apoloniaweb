@@ -31,31 +31,25 @@
           </mat-card-title>
 
           <mat-card-content fxLayout="column" fxLayoutAlign="center">
-            <div *ngIf="!isWaiting" fxFlex fxLayoutAlign="space-between center">
-              <!-- TODO: COMPONENTE (QUEMADO)-->
-              <div [ngSwitch]="item.tipoCampoId" *ngFor="let item of appColumnas">
-                <div *ngSwitchCase="1">
-                  <mat-form-field *ngIf="item.visible">
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <label>{{item.nombreUi.toString().toUpperCase()}}</label>
-                    <input matInput [formControlName]="item.nombre" *ngIf="item.visible" id="{{ item.nombre }}"
-                      placeholder="" />
-                    <!-- errores de validators -->
-                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.maxlength">error-maxlenght</mat-hint>
-                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.minlength">error-minliength</mat-hint>
-                    <mat-hint *ngIf="genericForm.controls[item.nombre].errors?.required">error-required</mat-hint>
-                  </mat-form-field>
+            <mat-grid-list cols="2" rowHeight="75px" gutterSize="5px" style="margin-left: 15px;margin-right: 15px;">
+              <ng-container *ngFor="let item of appColumnas">
+              <mat-grid-tile *ngIf="item.visible">
+                <div *ngIf="!isWaiting" fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <!-- TODO: COMPONENTE (QUEMADO)-->
+                  <div [ngSwitch]="item.tipoCampoId" fxFlex=100>
+                      <div *ngSwitchCase="1" fxFlex=100>
+                        <app-input [form]="genericForm" [campo]="item"></app-input>
+                        <textarea matInput hidden [formControlName]="item.nombre"></textarea>
+                      </div>
+                      <div *ngSwitchCase="4" fxFlex=100>                        
+                        <app-toogle [form]="genericForm" [campo]="item" ></app-toogle>
+                        <textarea matInput hidden [formControlName]="item.nombre"></textarea>
+                      </div>
+                  </div>
                 </div>
-                <div *ngSwitchCase="4">
-                  <mat-form-field *ngIf="item.visible">
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <label>{{item.nombreUi.toString().toUpperCase()}}</label>
-                    <mat-slide-toggle [formControlName]="item.nombre" color="primary"></mat-slide-toggle>
-                    <textarea matInput hidden [formControlName]="item.nombre"></textarea>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
+              </mat-grid-tile>
+            </ng-container>
+            </mat-grid-list>
           </mat-card-content>
           <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
             <button mat-raised-button (click)="guardar()" color="primary" [disabled]="!genericForm.valid"
@@ -85,7 +79,7 @@
 
     <div *ngIf="showContent">
       <mat-toolbar color="primary">
-        <mat-icon matPrefix>extension</mat-icon>
+        <mat-icon matPrefix>{{application.icono}}</mat-icon>
         <span>{{ etiquetaListado }}</span>
         <span class="example-spacer"></span>
         <mat-icon>info</mat-icon>
@@ -94,7 +88,7 @@
         <mat-grid-tile *ngFor="let campo of campos" style="overflow-x: hidden">
           <mat-card class="dashboard-card" (click)="detalle(campo)">
             <mat-card-content class="dashboard-card-content">
-              <mat-icon>extension</mat-icon>
+              <mat-icon>{{application.icono}}</mat-icon>
               <div *ngFor="let campoConf of campo.conf">
                 <div *ngFor="let item of campo | keyvalue">
                   <div *ngIf="campoConf.nombre == item.key && campoConf.verList">

@@ -25,6 +25,7 @@ export class GenericService {
           application {
              id
              nombre
+             icono
              nombreTabla
           }
           campos
@@ -104,6 +105,7 @@ export class GenericService {
       campos : [
         ${campos.map((item) => {
           return `{
+            tipoCampoId: ${item.tipoCampoId}
             nombre: "${item.nombre}"
             id: ${item.id}
             valor: "${item.valor}"

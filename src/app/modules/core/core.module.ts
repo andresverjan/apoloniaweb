@@ -39,10 +39,16 @@ import {
   BuscadormodalComponent,
   DialogOverviewExample,
 } from "./components/buscadormodal/buscadormodal.component";
+import {
+  BuscadormodaliconComponent,
+  DialogOverviewExampleIcon,
+} from "./components/buscadormodalicon/buscadormodalicon.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from './components/input/input.component';
+import { ToogleComponent } from './components/toogle/toogle.component';
+
 import { AgendaComponent } from "../agenda/agenda.component";
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -58,6 +64,7 @@ FullCalendarModule.registerPlugins([
   listPlugin,
   interactionPlugin
 ])
+
 
 @NgModule({
   declarations: [
@@ -80,12 +87,15 @@ FullCalendarModule.registerPlugins([
     MascarasComponent,
     BuscadormodalComponent,
     DialogOverviewExample,
+    BuscadormodaliconComponent,
+    DialogOverviewExampleIcon,
     TipoCampoComponent,
     GenericComponent,
     InputComponent,
     AgendaComponent,
     MultilistComponent,
-    MultilistTestComponent
+    MultilistTestComponent,
+    ToogleComponent
   ],
 
   imports: [
