@@ -1,5 +1,5 @@
-import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { MultilistComponent } from './components/multilist/multilist.component';
+import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { UsersComponent } from "./../users/users.component";
 import { Routes, RouterModule, Route } from "@angular/router";
 import { ModuleWithProviders } from "@angular/core";
