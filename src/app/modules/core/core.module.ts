@@ -1,3 +1,7 @@
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction';
+
 import { UsersComponent } from "./../users/users.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -41,11 +45,26 @@ import {
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
-import { InputComponent } from "./components/input/input.component";
-import { FlatpickrModule } from "angularx-flatpickr";
-import { CalendarModule, DateAdapter } from "angular-calendar";
-import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
-import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
+import { InputComponent } from './components/input/input.component';
+import { ToogleComponent } from './components/toogle/toogle.component';
+
+import { AgendaComponent } from "../agenda/agenda.component";
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import { MultilistComponent } from './components/multilist/multilist.component';
+import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
+import { MatListModule } from '@angular/material/list';
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  timeGridPlugin,
+  listPlugin,
+  interactionPlugin
+])
+
 
 @NgModule({
   declarations: [
@@ -73,6 +92,10 @@ import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
     TipoCampoComponent,
     GenericComponent,
     InputComponent,
+    AgendaComponent,
+    MultilistComponent,
+    MultilistTestComponent,
+    ToogleComponent
   ],
 
   imports: [
@@ -89,13 +112,13 @@ import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
     MatIconModule,
     MatButtonModule,
     MatSlideToggleModule,
-    NgbModalModule,
+    FullCalendarModule,
+    MatListModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-
     //    ProductosComponent
     //componentes de rutas
   ],

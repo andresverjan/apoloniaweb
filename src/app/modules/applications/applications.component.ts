@@ -111,7 +111,7 @@ export class ApplicationsComponent implements OnInit {
     this.showForm = false;
 
     this.aplicacionForm.reset();
-    Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+    Swal.fire("Operación exitosa", "Aplicación agregada correctamente!.", "success");
 
     this.fetchApplications();
 
@@ -223,7 +223,24 @@ export class ApplicationsComponent implements OnInit {
   fetchCamposByTabla(obj) {
     this.IsWaiting = true;
     this._columnaService.getAll(obj).subscribe((res) => {
-      this.campos = res.data.listaCamposTable;
+      console.log(res.data.listaCamposTable);
+      //this.campos = res.data.listaCamposTable;      
+
+      this.campos = res.data.listaCamposTable.map( item =>  {        
+        item.nombreUi = item.nombre;
+        item.mascaraId = 1;
+        item.tipoCampoId=1;
+        item.orden= 1;
+        item.minLength= 1;
+        item.maxLength= 255;
+
+        item.requerido = false;
+        item.visible= false;
+        item.buscador= false;
+        item.verList= false;
+        return item;
+      });
+      
       this.IsWaiting = false;
     });
   }
@@ -261,7 +278,7 @@ export class ApplicationsComponent implements OnInit {
       };
       this.aplicacionForm.reset();
       this.campos = new Array<Campo>();
-      Swal.fire("Operación exitosa", "Aplicación agragada!.", "success");
+      Swal.fire("Operación exitosa", "Aplicación guardada correctamente!.", "success");
 
       this.fetchApplications();
 

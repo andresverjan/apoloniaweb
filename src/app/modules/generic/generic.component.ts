@@ -58,6 +58,7 @@ export class GenericComponent implements OnInit {
     this.showContent = false;
     this.showListado = false;
     this.showForm = true;
+    this.showBtnActualizar = false;
 
     this.isWaiting = true;
     this.columnasService
@@ -108,6 +109,10 @@ export class GenericComponent implements OnInit {
             constraints.push(Validators.minLength(field.minLength));
           }
 
+          if (field.tipoCampoId && field.tipoCampoId == 4) {//Formatear el valor Booleano.
+            this.item[field.nombre] =  this.item[field.nombre] ==1?true:false;
+          }
+
           formGroup[field.nombre] = new FormControl(
             this.item[field.nombre],
             constraints
@@ -122,6 +127,11 @@ export class GenericComponent implements OnInit {
       });
   }
 
+
+  selected(valor, item){
+    console.log(valor);
+    console.log(item);
+  }
   actualizar() {
     if (this.genericForm.valid) {
       //crear el objeto a enviar
@@ -169,7 +179,8 @@ export class GenericComponent implements OnInit {
           application: { ...this.application },
         };
         this.genericService.deleteGeneric(obj).subscribe((res) => {
-          this.showForm = false;
+          if (res.data.genericDelete.success == true){
+            this.showForm = false;
           this.genericForm.reset();
           Swal.fire(
             "Operación exitosa",
@@ -179,6 +190,9 @@ export class GenericComponent implements OnInit {
           this.fetchItems();
           this.showListado = true;
           this.showContent = true;
+          }else{
+            Swal.fire("Error ", "Problemas Eliminando!.", "warning");
+          }
         });
       } else if (result.isDenied) {
       }
@@ -192,6 +206,7 @@ export class GenericComponent implements OnInit {
         application: { ...this.application },
         campos: [
           ...this.appColumnas.map((item) => ({
+            tipoCampoId: item.tipoCampoId,
             id: item.id,
             nombre: item.nombre,
             valor: this.genericForm.controls[item.nombre].value,
@@ -199,13 +214,19 @@ export class GenericComponent implements OnInit {
         ],
       };
 
-      this.genericService.saveGeneric(obj).subscribe((res) => res);
-      this.showForm = false;
-      this.genericForm.reset();
-      Swal.fire("Operación exitosa", "guardado correctamente!.", "success");
-      this.fetchItems();
-      this.showListado = true;
-      this.showContent = true;
+      this.genericService.saveGeneric(obj).subscribe((res) => {
+        console.log(res.data);
+        if (res.data.genericSave.success == true){
+          this.showForm = false;
+          this.genericForm.reset();
+          Swal.fire("Operación exitosa", "guardado correctamente!.", "success");
+          this.fetchItems();
+          this.showListado = true;
+          this.showContent = true;
+        }else{
+          Swal.fire("Error ", "Problemas Guardando!.", "warning");
+        }
+      });      
     } else {
       Swal.fire(
         "Error",
@@ -225,6 +246,9 @@ export class GenericComponent implements OnInit {
       });      
       this.campos = this.campos.map((campo) => {
         campo.conf = this.appColumnas;
+        if(campo.conf.tipoCampoId==4){
+          console.log(campo);
+        }
         return campo;
       });
       this.etiquetaListado = application.nombre;
