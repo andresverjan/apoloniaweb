@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import {​​ ActivatedRoute }​​ from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import Swal from "sweetalert2";
 import { Campo } from "../core/interfaces/campoTable.interace";
 import { ColumnaService } from "../core/services/columna.service";
 import { GenericService } from "./generic.service";
+import { find } from "rxjs/operators";
 
 @Component({
   selector: "app-generic",
@@ -15,9 +16,8 @@ export class GenericComponent implements OnInit {
   constructor(
     private genericService: GenericService,
     private columnasService: ColumnaService,
-    private route: ActivatedRoute,
-  ) { }
-
+    private route: ActivatedRoute
+  ) {}
   public showBtnActualizar: boolean = false;
   public showBtnEliminar: boolean = false;
   public isWaiting: boolean = true;
@@ -28,6 +28,7 @@ export class GenericComponent implements OnInit {
   public showForm: boolean = false;
   public appColumnas = [];
   public genericForm: FormGroup;
+  public filterForm: FormGroup;
   public item: any;
   public testVar;
   public application: Application = {
@@ -36,6 +37,7 @@ export class GenericComponent implements OnInit {
     icono: "extensions",
     nombreTabla: "",
   };
+  public filter = {};
 
   cancelar() {
     this.showListado = true;
@@ -47,10 +49,10 @@ export class GenericComponent implements OnInit {
   public campos = [];
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {​​
-      this.application.id= params['applicationId']
-      }​​); 
-    this.getColumnsApplication();    
+    this.route.queryParams.subscribe((params) => {
+      this.application.id = params["applicationId"];
+    });
+    this.getColumnsApplication();
   }
 
   adicionar() {
@@ -85,6 +87,7 @@ export class GenericComponent implements OnInit {
         this.isWaiting = false;
       });
   }
+
   detalle(item) {
     this.item = item;
     this.showListado = false;
@@ -109,8 +112,9 @@ export class GenericComponent implements OnInit {
             constraints.push(Validators.minLength(field.minLength));
           }
 
-          if (field.tipoCampoId && field.tipoCampoId == 4) {//Formatear el valor Booleano.
-            this.item[field.nombre] =  this.item[field.nombre] ==1?true:false;
+          if (field.tipoCampoId && field.tipoCampoId == 4) {
+            this.item[field.nombre] =
+              this.item[field.nombre] == 1 ? true : false;
           }
 
           formGroup[field.nombre] = new FormControl(
@@ -127,11 +131,12 @@ export class GenericComponent implements OnInit {
       });
   }
 
-
-  selected(valor, item){
+  selected(valor, item) {
+    //TODO: NECESARIO????
     console.log(valor);
     console.log(item);
   }
+
   actualizar() {
     if (this.genericForm.valid) {
       //crear el objeto a enviar
@@ -147,11 +152,16 @@ export class GenericComponent implements OnInit {
           })),
         ],
       };
+
       this.genericService.updateGeneric(obj).subscribe((res) => {
         this.showForm = false;
         this.genericForm.reset();
         this.genericForm = new FormGroup({});
-        Swal.fire("Operación exitosa", "Actualizado correctamente!.", "success");
+        Swal.fire(
+          "Operación exitosa",
+          "Actualizado correctamente!.",
+          "success"
+        );
         this.fetchItems();
         this.showListado = true;
         this.showContent = true;
@@ -166,6 +176,7 @@ export class GenericComponent implements OnInit {
       );
     }
   }
+
   eliminar() {
     Swal.fire({
       title: "Realmente quieres eliminar el registro seleccionado?",
@@ -179,24 +190,28 @@ export class GenericComponent implements OnInit {
           application: { ...this.application },
         };
         this.genericService.deleteGeneric(obj).subscribe((res) => {
-          if (res.data.genericDelete.success == true){
+          if (res.data.genericDelete.success == true) {
             this.showForm = false;
-          this.genericForm.reset();
-          Swal.fire(
-            "Operación exitosa",
-            "Item Eliminado Correctamente!.",
-            "success"
-          );
-          this.fetchItems();
-          this.showListado = true;
-          this.showContent = true;
-          }else{
+            this.genericForm.reset();
+            Swal.fire(
+              "Operación exitosa",
+              "Item Eliminado Correctamente!.",
+              "success"
+            );
+            this.fetchItems();
+            this.showListado = true;
+            this.showContent = true;
+          } else {
             Swal.fire("Error ", "Problemas Eliminando!.", "warning");
           }
         });
       } else if (result.isDenied) {
       }
     });
+  }
+
+  trackByFn(index: any, item: any) {
+    return index;
   }
 
   guardar() {
@@ -215,18 +230,17 @@ export class GenericComponent implements OnInit {
       };
 
       this.genericService.saveGeneric(obj).subscribe((res) => {
-        console.log(res.data);
-        if (res.data.genericSave.success == true){
+        if (res.data.genericSave.success == true) {
           this.showForm = false;
           this.genericForm.reset();
           Swal.fire("Operación exitosa", "guardado correctamente!.", "success");
           this.fetchItems();
           this.showListado = true;
           this.showContent = true;
-        }else{
+        } else {
           Swal.fire("Error ", "Problemas Guardando!.", "warning");
         }
-      });      
+      });
     } else {
       Swal.fire(
         "Error",
@@ -238,33 +252,57 @@ export class GenericComponent implements OnInit {
 
   fetchItems() {
     this.isWaiting = true;
-    this.genericService.getAll(this.application.id).subscribe(({ data }) => {
+
+    const campos: Array<any> = [];
+
+    for (const value in this.filter) {
+      campos.push({
+        id: 0,
+        campo: value,
+        valor: this.filter[value],
+      });
+    }
+
+    const obj: Obj = {
+      applicationId: this.application.id,
+      campos,
+    };
+
+    this.genericService.getAll(obj).subscribe(({ data }) => {
       const { application, campos } = data.genericList[0];
       this.application = application;
       this.campos = campos.map((campo) => {
         return JSON.parse(campo);
-      });      
+      });
       this.campos = this.campos.map((campo) => {
         campo.conf = this.appColumnas;
-        if(campo.conf.tipoCampoId==4){
+        if (campo.conf.tipoCampoId == 4) {
+          //TODO: NECESARIO????
           console.log(campo);
         }
         return campo;
       });
       this.etiquetaListado = application.nombre;
-      console.log(this.campos);
+
       this.isWaiting = false;
     });
   }
 
   getColumnsApplication() {
     this.columnasService
-      .getFields(this.application.id) 
+      .getFields(this.application.id)
       .subscribe(({ data }) => {
         this.appColumnas = data.getFieldsByAppId;
+
+        this.appColumnas.forEach((field: Campo) => {
+          if (field.buscador) {
+            this.filter[field.nombre] = "";
+          }
+        });
+
         this.fetchItems();
-      })
-  };
+      });
+  }
 }
 
 interface Application {
@@ -273,7 +311,13 @@ interface Application {
   icono: string;
   nombreTabla: string;
 }
+
 export interface Generic {
   application: Application;
+  campos: Array<any>;
+}
+
+interface Obj {
+  applicationId: number;
   campos: Array<any>;
 }
