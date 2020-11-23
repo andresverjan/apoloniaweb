@@ -28,6 +28,7 @@ export class GenericComponent implements OnInit {
   public showForm: boolean = false;
   public appColumnas = [];
   public genericForm: FormGroup;
+  public filterForm: FormGroup;
   public item: any;
   public testVar;
   public application: Application = {
@@ -209,6 +210,10 @@ export class GenericComponent implements OnInit {
     });
   }
 
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+
   guardar() {
     if (this.genericForm.valid) {
       //crear el objeto a enviar
@@ -245,10 +250,6 @@ export class GenericComponent implements OnInit {
     }
   }
 
-  findBy(item) {
-    console.log(item);
-  }
-
   fetchItems() {
     this.isWaiting = true;
 
@@ -266,8 +267,6 @@ export class GenericComponent implements OnInit {
       applicationId: this.application.id,
       campos,
     };
-
-    console.log(obj);
 
     this.genericService.getAll(obj).subscribe(({ data }) => {
       const { application, campos } = data.genericList[0];
