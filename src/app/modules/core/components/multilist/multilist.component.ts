@@ -46,8 +46,6 @@ export class MultilistComponent implements OnInit {
     this.sel2Change.emit(this.sel2);
   }
 
-
-
 }
 
 interface SelItem {

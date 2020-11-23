@@ -1,0 +1,8 @@
+<span style="color:red;" *ngIf="message">{{message}}</span>
+<div class="avatar">
+  <img *ngIf="url" width=300 height=300 [src]="url" />
+  <label *ngIf="editmode" for="uploader-input" appDrag  (files)="filesDropped($event)" >
+    <div class="infotext"><span *ngIf="!url" >Drop your picture<br>or click to upload</span></div>
+  </label>
+  <input *ngIf="editmode" type="file" #file  (change)="preview(file.files)" id="uploader-input" style="display:none" />
+</div>
