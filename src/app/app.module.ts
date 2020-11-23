@@ -1,5 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+
 import { routing } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
@@ -13,6 +14,8 @@ import { SocialLoginModule } from "angularx-social-login";
 
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
+
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -23,7 +26,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
     MaterialModule,
     LayoutModule,
     FlexLayoutModule,
-    SocialLoginModule,
+    SocialLoginModule
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },

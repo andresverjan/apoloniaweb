@@ -1,3 +1,5 @@
+import { MultilistComponent } from './components/multilist/multilist.component';
+import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { UsersComponent } from "./../users/users.component";
 import { Routes, RouterModule, Route } from "@angular/router";
 import { ModuleWithProviders } from "@angular/core";
@@ -14,6 +16,7 @@ import { ApplicationsComponent } from "../applications/applications.component";
 
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { GenericComponent } from "../generic/generic.component";
+import { AgendaComponent } from "../agenda/agenda.component";
 
 export const routes: Routes = [
   {
@@ -66,6 +69,21 @@ export const routes: Routes = [
       {
         path: "generic-list",
         component: GenericComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: "agenda",
+        component: AgendaComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: "multilist",
+        component: MultilistComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: "multilist-test",
+        component: MultilistTestComponent,
         canActivate: [AuthGuardService],
       },
 
