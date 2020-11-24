@@ -9,7 +9,7 @@ import { ProfileService } from "./profile.service";
 })
 export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
-  public USUARIO = {    
+  public USUARIO = {
     URL_FOTO_PERFIL: ""
   };
   public IsWait: Boolean = false;
@@ -17,6 +17,13 @@ export class ProfileComponent implements OnInit {
   lShowBtnActualizar: boolean;
   lShowImagen: boolean;
   userKey: string='USUARIO';
+
+
+  public picurl: string = '';
+
+  public clear() {
+    this.picurl = '';
+  }
 
   /*public findByItem = {
     embarcacion_nombre: "",
@@ -26,7 +33,7 @@ export class ProfileComponent implements OnInit {
   };
   public paramsFetchInfo = {
     filter: {
-      _id: this.getUserFromLocalStorage()._id 
+      _id: this.getUserFromLocalStorage()._id
     },
     properties: "_id  name lastName, email, phoneNumber,latlng, urlPhoto ",
   };*/
@@ -35,16 +42,16 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService: ProfileService) {
     this.profileForm = new FormGroup({
       USUARIO_NOMBRE: new FormControl(""),
-      USUARIO_CORREO: new FormControl(""),      
-      USUARIO_LOGIN: new FormControl(""),      
-      USUARIO_APELLIDO: new FormControl(""),      
-      USUARIO_TELEFONO: new FormControl(""),      
-      URL_FOTO_PERFIL: new FormControl(""),      
+      USUARIO_CORREO: new FormControl(""),
+      USUARIO_LOGIN: new FormControl(""),
+      USUARIO_APELLIDO: new FormControl(""),
+      USUARIO_TELEFONO: new FormControl(""),
+      URL_FOTO_PERFIL: new FormControl(""),
     });
 
     //this.LoadProfileData();
     //console.log(this.getUserFromLocalStorage());
-    
+
   }
 
   ngOnInit() {
