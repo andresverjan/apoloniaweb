@@ -25,7 +25,7 @@ $color_hover_item:  ($cprimary);
 
 mat-list-item {
     outline-style: none;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     cursor: pointer;
     &:hover {
         background-color: $cprimary;
@@ -79,3 +79,6 @@ mat-sidenav-container {
     background-color: #f1f1f1;
 }
 
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+    height: 43px;
+}

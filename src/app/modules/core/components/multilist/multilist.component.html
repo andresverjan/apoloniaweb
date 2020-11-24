@@ -1,41 +1,52 @@
-<p>multilist works!</p>
+<mat-grid-list
+  cols="2"
+  rowHeight="60px"
+  gutterSize="10px"
+  style="margin-left: 15px; margin-right: 15px"
+>
+  <mat-grid-tile fxFlex=40>
+      <mat-form-field fxFlex>
+        <mat-label>Nombre Campo</mat-label>
+        <mat-icon matPrefix>table_chart</mat-icon>
+        <input matInput [(ngModel)]="sel1Filter" placeholder="name" />
+      </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile fxFlex=40>
+      <mat-form-field fxFlex>
+        <mat-label>Nombre Campo</mat-label>
+        <mat-icon matPrefix>table_chart</mat-icon>
+        <input matInput [(ngModel)]="sel2Filter" placeholder="name" />
+      </mat-form-field>    
+  </mat-grid-tile>
+</mat-grid-list>
 
-<table>
-<tr>
-  <td><p>Lista 1</p></td>
-  <td style="width: 100px;;">&nbsp;</td>
-  <td><p>Lista 2</p></td>
-</tr>
-<tr>
-  <td>
-    <div>
-      <input matInput  [(ngModel)]="sel1Filter" placeholder="name"/>
-  </div>
-  </td>
-  <td></td>
-  <td>
-    <div>
-      <input matInput  [(ngModel)]="sel2Filter" placeholder="name"/>
-    </div>
-  </td>
-</tr>
-<tr>
-  <td style="vertical-align: top;">
-    <mat-selection-list [multiple]="false" >
-      <mat-list-option *ngFor="let obj of getSel1Options()" (click)=passElement(obj) [value]="obj">
-        {{obj.name}}
-      </mat-list-option>
-    </mat-selection-list>
-  </td>
-  <td></td>
-  <td style="vertical-align: top;">
-    <mat-selection-list [multiple]="false">
-      <mat-list-option *ngFor="let obj of getSel2Options()" (click)=returnElement(obj) [value]="obj">
-        {{obj.name}}
-      </mat-list-option>
-    </mat-selection-list>
-  </td>
-</tr>
-</table>
-
-
+<mat-grid-list
+  cols="2"
+  rowHeight="280px"
+  gutterSize="10px"
+  style="margin-left: 15px; margin-right: 15px"
+>
+  <mat-grid-tile fxFlex=40>
+      <mat-selection-list [multiple]="false" fxFlex>
+        <mat-list-option
+          *ngFor="let obj of getSel1Options()"
+          (click)="passElement(obj)"
+          [value]="obj"
+        >
+          {{ obj.name }}
+        </mat-list-option>
+      </mat-selection-list>  
+  </mat-grid-tile>
+  <mat-grid-tile fxFlex=40>  
+      <mat-selection-list [multiple]="false" fxFlex>
+        <mat-list-option
+          *ngFor="let obj of getSel2Options()"
+          (click)="returnElement(obj)"
+          [value]="obj"
+        >
+          {{ obj.name }}
+        </mat-list-option>
+      </mat-selection-list>
+  </mat-grid-tile>
+</mat-grid-list>
+ 

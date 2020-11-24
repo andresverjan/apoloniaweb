@@ -1,0 +1,37 @@
+
+.avatar {
+  position: relative;
+  z-index: 1;
+  background-image:url(/assets/avatar.png);
+  background-size: contain;
+  border-radius: 50em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.avatar img {
+  position: absolute;
+  z-index: 2;
+  border-radius: 50em;
+}
+
+.avatar label {
+  position: relative;
+  z-index: 3;
+}
+
+.avatar .drag-over .infotext {
+  color: white;
+  border: dashed 5px white;
+}
+
+.avatar .infotext {  
+  min-height: 100%;
+  min-width: 100%;
+  vertical-align: middle;
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+  border: dashed 3px rgba(255,255,255,0.8);
+  border-radius: 50em;
+  font-size: 100%;
+}
+

@@ -1,3 +1,4 @@
+import { AvatarComponent } from './components/avatar/avatar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction';
@@ -58,6 +59,7 @@ import listPlugin from '@fullcalendar/list';
 import { MultilistComponent } from './components/multilist/multilist.component';
 import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { MatListModule } from '@angular/material/list';
+import { AvatarDragDirective } from './components/avatar/avatarDragDropDirective';
 
 
 FullCalendarModule.registerPlugins([
@@ -98,7 +100,8 @@ FullCalendarModule.registerPlugins([
     MultilistComponent,
     MultilistTestComponent,
     ToogleComponent,
-    SchedulerComponent
+    AvatarComponent,
+    AvatarDragDirective
   ],
 
   imports: [
