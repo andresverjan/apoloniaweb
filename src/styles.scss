@@ -3,6 +3,7 @@
 @import "./assets/scss/partials/variables.scss";
 @import "./assets/scss/partials/base.scss";
 @import "./assets/scss/partials/gradients.scss";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 html,
 body {
@@ -224,10 +225,9 @@ mat-form-field {
 }
 
 mat-icon {
-    padding-right: 30px;
+  padding-right: 30px;
 }
- 
+
 .example-spacer {
   flex: 1 1 auto;
 }
-
