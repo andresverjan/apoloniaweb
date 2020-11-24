@@ -101,7 +101,8 @@ FullCalendarModule.registerPlugins([
     MultilistTestComponent,
     ToogleComponent,
     AvatarComponent,
-    AvatarDragDirective
+    AvatarDragDirective,
+    SchedulerComponent
   ],
 
   imports: [
