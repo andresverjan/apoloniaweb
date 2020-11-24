@@ -14,6 +14,9 @@ export class AvatarComponent implements OnInit {
   @Input()
   editmode = false;
 
+  @Input('width') public width: number;
+//  @Input('height') public height: number;
+
   @Input()
   url: string | ArrayBuffer | SafeUrl = '';
 
@@ -34,7 +37,7 @@ export class AvatarComponent implements OnInit {
     this.preview(fi);
   }
 
-  preview(files) {
+  preview(files: File[]) {
     console.log('files : ', files);
     if (files.length === 0) {
       return;
@@ -51,6 +54,7 @@ export class AvatarComponent implements OnInit {
     reader.onload = (_event) => {
       this.url = reader.result;
       this.urlChange.emit(this.url);
+      this.message = "";
     }
   }
 
