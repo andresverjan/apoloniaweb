@@ -3,6 +3,8 @@ import { TableService } from "../core/services/table.service";
 import { ColumnaService } from "../core/services/columna.service";
 import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
 import { MascarasService } from "./mascaras.service";
+import frLocale from "@fullcalendar/core/locales/fr";
+
 import {
   startOfDay,
   endOfDay,
@@ -22,6 +24,9 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from "angular-calendar";
+import { Cita } from '../core/components/scheduler/scheduler.component';
+import { CalendarOptions } from '@fullcalendar/angular';
+import {SchedulerComponent} from '../core/components/scheduler/scheduler.component';
 
 @Component({
   selector: "app-mascaras",
@@ -36,6 +41,7 @@ export class MascarasComponent implements OnInit {
   public mascaras = [];
   public etiquetaListado = "Listado de Mascaras";
   public etiquetaNombreModulo = "Campos";
+  public agendadas :Array<Cita>=[];
 
   public colors: any = {
     red: {
@@ -58,6 +64,19 @@ export class MascarasComponent implements OnInit {
 
   public tipoCampo: any;
 
+  citas: Array<Cita>=[
+    {title:'Cita1',start:'2020-11-25',end:'2020-11-26'},
+    {title:"Cita2",start:"2020-11-27",end:"2020-11-27"}
+  ];
+
+   calendar: CalendarOptions = {
+    slotDuration: "00:30",
+    events:this.citas,
+    
+  };
+
+
+
   constructor(
     public _mascarasService: MascarasService,
     public _tipoCampoService: TipoCampoService,
@@ -67,6 +86,10 @@ export class MascarasComponent implements OnInit {
   ) {
     this.fetchMascaras();
   }
+  
+
+  
+   
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {

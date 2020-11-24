@@ -47,6 +47,7 @@ import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from './components/input/input.component';
 import { ToogleComponent } from './components/toogle/toogle.component';
+import{SchedulerComponent} from './components/scheduler/scheduler.component';
 
 import { AgendaComponent } from "../agenda/agenda.component";
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -57,6 +58,7 @@ import listPlugin from '@fullcalendar/list';
 import { MultilistComponent } from './components/multilist/multilist.component';
 import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { MatListModule } from '@angular/material/list';
+
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -95,7 +97,8 @@ FullCalendarModule.registerPlugins([
     AgendaComponent,
     MultilistComponent,
     MultilistTestComponent,
-    ToogleComponent
+    ToogleComponent,
+    SchedulerComponent
   ],
 
   imports: [
