@@ -14,7 +14,7 @@ export class MultilistComponent implements OnInit {
   @Input() sel2: SelItem[]; // input/output
   @Output() sel2Change = new EventEmitter<SelItem[]>();
   sel1Filter = '';
-  sel2Filter = '';
+  sel2Filter = '';  
 
   constructor() { }
 
