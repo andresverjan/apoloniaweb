@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { UsersService } from "./users.service";
-import { RolService } from "../rol/rol.service";
+import { RolService } from "../roles/roles.service";
 
 
 @Component({
@@ -62,16 +62,16 @@ export class UsersComponent implements OnInit {
   }
 
   listRoles() {
-    this.rolService.listar(null).subscribe(res =>{
+    this.rolService.getAll(null).subscribe(res =>{
       res.data.roles.forEach(rol => {
-        this.roles.push({value: rol.id, nombre: rol.name});
+        this.roles.push({value: rol.id, nombre: rol.nombre});
       });
-      });
-    }
-    
-    procesarRolAdd(rolSelected: any ){
-      this.userForm.controls['rol_id'].setValue(rolSelected.value);
-    }
+    });
+  }
+
+  procesarRolAdd(rolSelected: any ){
+    this.userForm.controls['rol_id'].setValue(rolSelected.value);
+  }
 
   procesarRol(rolSelected: any ){
     this.userForm.controls['rol_id'].setValue(rolSelected.value);

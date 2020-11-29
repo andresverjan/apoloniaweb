@@ -1,0 +1,29 @@
+
+<div class="container" style="overflow: hidden">
+  <mat-card-content class="window-dashboard-card-content contentprincipal" >
+    <!-- componente de busqueda -->
+    <div>
+      <mat-card class="cardcontent">
+        <mat-card-content fxLayout="column" fxLayoutAlign="center">
+
+
+          <app-buscadormodal  *ngIf="true"  (selected)="onRolSelected($event)"
+            [columnas]="{ 'nombre': 'Nombre' }" [resultInputText]="['nombre']"
+            [service]="rolService" tituloBusqueda="Roles" [defaultObjValue]="rol"
+            [readonly]="showBtnActualizar">
+          </app-buscadormodal>
+
+
+
+        </mat-card-content>
+
+
+      </mat-card>
+      <mat-card>
+        <mat-card-content>
+          <app-multilist [sel1]="fetchPermisos" [(sel2)]="fetchPermisosByRol" ></app-multilist>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
+</div>

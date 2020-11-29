@@ -1,3 +1,4 @@
+import { RolesComponent } from './../roles/roles.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
@@ -99,7 +100,8 @@ FullCalendarModule.registerPlugins([
     MultilistTestComponent,
     ToogleComponent,
     AvatarComponent,
-    AvatarDragDirective
+    AvatarDragDirective,
+    RolesComponent
   ],
 
   imports: [
