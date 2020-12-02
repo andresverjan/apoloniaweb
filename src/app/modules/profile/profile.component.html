@@ -47,10 +47,18 @@
                     <input matInput formControlName="USUARIO_CONFIRMACION" id="email">
                 </mat-form-field>
                 
-                    <button mat-raised-button (click)="changePassword()" >Confirmar</button>
+                    <button mat-raised-button (click)="changePassword()" class="buttons" >Confirmar</button>
                
                 </div>
-                <button mat-raised-button (click)="showChange()" >Cambiar contraseña</button>
+                <div *ngIf="shows">
+                <mat-action-list>
+                    <button mat-list-item (click)="changeIdiomEn()"> English </button>
+                    <button mat-list-item (click)="changeIdiomEs()"> Español </button>
+                  </mat-action-list>
+                </div>
+                <button mat-raised-button (click)="showChange()" class="buttons">Cambiar contraseña</button>
+                
+                <button mat-raised-button (click)="showChanges()" class="buttons">Cambiar idioma</button>
                 
 
             </mat-card-content>
