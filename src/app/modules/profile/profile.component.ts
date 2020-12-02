@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
   lShowImagen: boolean;
   userKey: string='USUARIO';
   show:boolean = false;
+  shows:boolean = false;
 
 
   public picurl: string = '';
@@ -101,9 +102,37 @@ export class ProfileComponent implements OnInit {
     
   
   }
+  changeIdiomEn(){
+    const usuarioIdiom={
+     USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
+     IDIOMA_ID: "1"
+   }
+   
+   this.profileService.updateIdiom(usuarioIdiom).subscribe((response) => {
+    Swal.fire('Idiom', 'Updated successfully', 'success');
+     this.shows= false;
+     return response;
+   });
+ }
+ changeIdiomEs(){
+  const usuarioIdiom={
+   USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
+   IDIOMA_ID: "2"
+ }
+ 
+ this.profileService.updateIdiom(usuarioIdiom).subscribe((response) => {
+  Swal.fire('Idioma', 'Actualizado correctamente.', 'success');
+   this.shows= false;
+   return response;
+ });
+}
    showChange(){
     this.show= true;
    }
+   showChanges(){
+    this.shows= true;
+   }
 
+ 
   
 }

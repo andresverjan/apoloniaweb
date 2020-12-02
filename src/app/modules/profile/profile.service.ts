@@ -65,6 +65,22 @@ export class ProfileService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
+  updateIdiom(objeTosend): Observable<any> {
+    let body = {
+      query: `
+      mutation {
+        updateIdiom (idiom: {
+          USUARIO_CORREO: "${objeTosend.USUARIO_CORREO}",
+          IDIOMA_ID: "${objeTosend.IDIOMA_ID}"
+        }) {     
+          IDIOMA_ID
+        }  
+      }
+      `,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
   getWebRootUrl(): string {
     return this.serverUrl + Globals.SERVER_FOLDER_WEBROOT;
   }
