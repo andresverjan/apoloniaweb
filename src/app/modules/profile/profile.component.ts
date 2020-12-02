@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
+import Swal from 'sweetalert2';
 import { ProfileService } from "./profile.service";
 
 @Component({
@@ -9,14 +10,13 @@ import { ProfileService } from "./profile.service";
 })
 export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
-  public USUARIO = {
-    URL_FOTO_PERFIL: ""
-  };
+  public USUARIO ;
   public IsWait: Boolean = false;
   lShowPanelDatosViaje: boolean;
   lShowBtnActualizar: boolean;
   lShowImagen: boolean;
   userKey: string='USUARIO';
+  show:boolean = false;
 
 
   public picurl: string = '';
@@ -47,6 +47,8 @@ export class ProfileComponent implements OnInit {
       USUARIO_APELLIDO: new FormControl(""),
       USUARIO_TELEFONO: new FormControl(""),
       URL_FOTO_PERFIL: new FormControl(""),
+      USUARIO_PASSWORD: new FormControl(""),
+      USUARIO_CONFIRMACION: new FormControl(""),
     });
 
     //this.LoadProfileData();
@@ -78,4 +80,30 @@ export class ProfileComponent implements OnInit {
     this.profileForm.patchValue(this.USUARIO);
     this.USUARIO.URL_FOTO_PERFIL='assets/Dentist6.png';
   }
+
+  changePassword(){
+     const usuarioPass={
+      USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
+      USUARIO_PASSWORD: this.profileForm.controls['USUARIO_CONFIRMACION'].value
+    }
+    if(this.profileForm.controls['USUARIO_PASSWORD'].value== this.profileForm.controls['USUARIO_CONFIRMACION'].value){
+    this.profileService.updatePassword(usuarioPass).subscribe((response) => {
+      Swal.fire('Contraseña', 'Actualizada correctamente.', 'success');
+      this.profileForm.controls['USUARIO_PASSWORD'].reset();
+      this.profileForm.controls['USUARIO_CONFIRMACION'].reset();
+      this.show= false;
+      return response;
+    });
+    
+  }else{
+    Swal.fire('Contraseña', 'No es la misma contraseña.', 'error');
+    }
+    
+  
+  }
+   showChange(){
+    this.show= true;
+   }
+
+  
 }

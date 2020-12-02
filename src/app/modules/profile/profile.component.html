@@ -36,8 +36,25 @@
                     <mat-label>Telefono</mat-label>
                     <input matInput formControlName="USUARIO_TELEFONO" id="email" placeholder="{{etiquetas.Email}}" required readonly>
                 </mat-form-field>
+                <div *ngIf="show">
+                <mat-form-field appearance="outline">
+                    <mat-label>Nueva Contraseña</mat-label>
+                    <input matInput formControlName="USUARIO_PASSWORD" id="email" placeholder="{{etiquetas.Email}}" >
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Confirmar Contraseña</mat-label>
+                    <input matInput formControlName="USUARIO_CONFIRMACION" id="email">
+                </mat-form-field>
+                
+                    <button mat-raised-button (click)="changePassword()" >Confirmar</button>
+               
+                </div>
+                <button mat-raised-button (click)="showChange()" >Cambiar contraseña</button>
+                
 
             </mat-card-content>
+           
             <!--<mat-card-actions fxLayout="row" fxLayoutAlign="center center">
                 <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80
                     (click)="callUpdate()" [disabled]="!profileForm.valid" *ngIf="lShowBtnActualizar">
