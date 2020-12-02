@@ -9,13 +9,15 @@ import { ToolsService } from '../core/services/tools.service'
 })
 export class ProfileService {
   serverUrl: string;
+  public USUARIO;
+  userKey: string='USUARIO';
   SERVER_RECURSO_GET_PROFILE = "WsUsers/getMyProfile";
   SERVER_RECURSO_ACTUALIZAR_PROFILE = "WsUsers/actualizar";
   SERVER_RECURSO_ACTUALIZAR_PROFILE_FOTO = "WsUsers/actualizarProfileFoto";
 
   constructor(private http: HttpClient, private toolService: ToolsService) {
     this.serverUrl = Globals.SERVER;
-
+    this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
   }
 
   getMyProfile(objeTosend): Observable<any> {
@@ -45,7 +47,24 @@ export class ProfileService {
     });
     return this.http.get(this.serverUrl + this.SERVER_RECURSO_ACTUALIZAR_PROFILE, { params });
   };
-
+  
+  updatePassword(objeTosend): Observable<any> {
+    
+    let body = {
+      query: `
+      mutation {
+        updatePassword (password: {
+          USUARIO_CORREO: "${objeTosend.USUARIO_CORREO}",
+           USUARIO_PASSWORD: "${objeTosend.USUARIO_PASSWORD}"
+        }) {     
+           USUARIO_PASSWORD
+        }  
+      }
+      `,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
   getWebRootUrl(): string {
     return this.serverUrl + Globals.SERVER_FOLDER_WEBROOT;
   }
