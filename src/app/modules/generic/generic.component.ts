@@ -262,6 +262,10 @@ export class GenericComponent implements OnInit {
     }
   }
 
+  filterItems(){
+    this.pageNumber = 1;
+    this.fetchItems();
+  }
   fetchItems() {
     this.isWaiting = true;
 

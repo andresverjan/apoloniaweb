@@ -184,7 +184,7 @@
                     id="filterby{{ item.key }}"
                     placeholder="Buscar por {{ item.key }}"
                     [(ngModel)]="filter[item.key]"
-                    (keyup)="fetchItems()"
+                    (keyup)="filterItems()"
                   />
                 </mat-form-field>
               </mat-grid-tile>
