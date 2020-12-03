@@ -1,3 +1,4 @@
+import { RolesComponent } from './../roles/roles.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
@@ -102,6 +103,7 @@ FullCalendarModule.registerPlugins([
     ToogleComponent,
     AvatarComponent,
     AvatarDragDirective,
+    RolesComponent,
     SchedulerComponent
   ],
 
@@ -125,9 +127,7 @@ FullCalendarModule.registerPlugins([
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    }),
-    //    ProductosComponent
-    //componentes de rutas
+    })
   ],
 
   exports: [
@@ -135,8 +135,7 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    MyNavComponent,
-    //    ProductosComponent
+    MyNavComponent
   ],
 
   providers: [ServicesService],

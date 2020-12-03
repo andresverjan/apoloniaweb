@@ -13,11 +13,12 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule } from "angularx-social-login";
 
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+//import { RolesComponent } from './modules/roles/roles.component';
 
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent],//, RolesComponent
   imports: [
     BrowserModule,
     routing,
