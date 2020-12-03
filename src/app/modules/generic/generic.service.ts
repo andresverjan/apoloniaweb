@@ -3,7 +3,6 @@ import * as Globals from "../core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Generic } from "./generic.component";
-import { Campo } from "../core/interfaces/campoTable.interace";
 import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
@@ -16,11 +15,22 @@ export class GenericService {
     this.serverUrl = Globals.SERVER;
   }
 
-  getAll(applicationId): Observable<any> {
+  getAll(obj): Observable<any> {
+    const { campos, applicationId } = obj;
+
     let body = {
       query: `query{ 
         genericList(filter:{
            id:${applicationId}
+           campos : [
+            ${campos.map((item) => {
+              return `{
+                id: ${item.id}
+                nombre: "${item.campo}"
+                valor: "${item.valor}"
+                }`;
+            })}
+          ]
         }) {
           application {
              id

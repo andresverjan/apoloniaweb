@@ -29,6 +29,7 @@
     "@fullcalendar/interaction": "^5.4.0",
     "@fullcalendar/list": "^5.4.0",
     "@fullcalendar/timegrid": "^5.4.0",
+    "@material/menu": "^8.0.0",
     "@ng-bootstrap/ng-bootstrap": "^8.0.0",
     "angular-calendar": "^0.28.22",
     "angular-calendar-scheduler": "^10.0.4",

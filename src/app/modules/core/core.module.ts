@@ -49,6 +49,7 @@ import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from './components/input/input.component';
 import { ToogleComponent } from './components/toogle/toogle.component';
+import{SchedulerComponent} from './components/scheduler/scheduler.component';
 
 import { AgendaComponent } from "../agenda/agenda.component";
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -60,6 +61,7 @@ import { MultilistComponent } from './components/multilist/multilist.component';
 import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { MatListModule } from '@angular/material/list';
 import { AvatarDragDirective } from './components/avatar/avatarDragDropDirective';
+
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -101,7 +103,8 @@ FullCalendarModule.registerPlugins([
     ToogleComponent,
     AvatarComponent,
     AvatarDragDirective,
-    RolesComponent
+    RolesComponent,
+    SchedulerComponent
   ],
 
   imports: [
@@ -124,9 +127,7 @@ FullCalendarModule.registerPlugins([
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    }),
-    //    ProductosComponent
-    //componentes de rutas
+    })
   ],
 
   exports: [
@@ -134,8 +135,7 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    MyNavComponent,
-    //    ProductosComponent
+    MyNavComponent
   ],
 
   providers: [ServicesService],
