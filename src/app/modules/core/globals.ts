@@ -10,13 +10,10 @@ export const DEFAULT_LANGUAGE = "1";
 /*
  *  Definicion de constantes de uRl de Servidores
  */
-//export const SERVER_DEV = "https://mrmango.herokuapp.com/graphql";
 export const SERVER_DEV = "http://localhost:3000/api";
 export const SERVER_PROD = "https://apoloniaoe.herokuapp.com/api";
 export const SERVER_PROD_IP = "http://localhost:3000/api";
 
-//export const SERVER_PROD = "https://mrmango.herokuapp.com/graphql";
-//export const SERVER_PROD_IP = "https://mrmango.herokuapp.com/graphql";
 export const SERVER = SERVER_PROD;
 
 /*
@@ -35,15 +32,15 @@ export const FACEBOOK_AUTENTICA = FACEBOOK_DEV;
 /**
  * Definición de validaciones de fechas permitidas para realizar reservas.
  */
-var minCurrentDate = new Date();
-var maxNewDate = new Date(
+const minCurrentDate = new Date();
+const maxNewDate = new Date(
   minCurrentDate.getFullYear() + 1,
   minCurrentDate.getMonth() + 1,
   minCurrentDate.getDate()
 );
 
-var minDate = minCurrentDate;
-var maxDate = maxNewDate;
+const minDate = minCurrentDate;
+const maxDate = maxNewDate;
 
 export const MIN_DATE_VALIDA_FORMULARIO = minDate;
 export const MAX_DATE_VALIDA_FORMULARIO = maxDate;
