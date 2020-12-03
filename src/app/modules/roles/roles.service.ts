@@ -16,18 +16,29 @@ export class RolService {
   }
 
   getAll(objeTosend: any): Observable<any> {
+    let filter = "";
+
+    //si trae filtro
+    if (objeTosend) {
+      filter = `(filter: {
+        nombre: "${objeTosend.nombre}",
+      })`;
+    }
+
     let body = {
-      query: `{roles {nombre} }`
+      query: `{ roles ${filter}{
+        id nombre } }`
     }
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(this.serverUrl, body, { headers: headers })
   }
 
-  permisosByRolId(rolId: number): Observable<any> {
+  permisosByRolId(rolName: number): Observable<any> {
     let body = {
-      query: `{rolById(rol_id: ${rolId})
+      query: `{rolById(id: ${rolName})
         { nombre
           permisos{
+            id
             nombre } } }`
     }
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -47,59 +58,36 @@ export class RolService {
   }
 
   getPermisos(objeTosend: any): Observable<any> {
+
     let body = {
-      query: `{permisos
-        { id nombre
-          permisos{
-            id
-            nombre } } }`
+      query: `{ permisos { id nombre } }`
     }
+
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(this.serverUrl, body, { headers: headers })
   }
 
-  /*create(objeTosend) {
-    const { name, img, description, value, productoId, comercioId } = objeTosend;
-    let body ={
-       query: `mutation {
-        createRol(rol:
-          {
-            name: "${name}"
-            img: "${img}"
-            activo: "true"
-            description: "${description}"
-            value: "${value}"
-            productoId: "${productoId}"
-            comercioId: "${comercioId}"
+  update(obj: any): Observable<any> {
+    const { id, permisos } = obj;
+
+    let body = {
+      query: `mutation {
+        updateRol(rol: {
+            id: ${id}
+            permisos : [
+              ${permisos.map((item) => {
+                return `{
+                  id: ${item.id}
+                  }`;
+              })}
+            ]
           }
         ) {
-          _id
-          name
-          img
-          activo
-          description
-          productoId
-          comercioId
-        }
-      }
-      `
+            id
+          }
+      }`,
     };
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
-
-  deleteRol(id) {
-    let body = {
-      query: `
-      mutation {
-        deleteSubproducto(subproducto: {_id: "${id}"}) {
-          description
-        }
-      }
-          `,
-    };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
-  }*/
-
 }

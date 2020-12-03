@@ -14,7 +14,7 @@ export class MultilistComponent implements OnInit {
   @Input() sel2: SelItem[]; // input/output
   @Output() sel2Change = new EventEmitter<SelItem[]>();
   sel1Filter = '';
-  sel2Filter = '';  
+  sel2Filter = '';
 
   constructor() { }
 
@@ -24,11 +24,11 @@ export class MultilistComponent implements OnInit {
   getSel1Options() {
     return this.sel1
     .filter(s1 => !this.sel2Contains(s1.id))
-    .filter(s1 => this.sel1Filter ? (s1.name.toUpperCase().includes(this.sel1Filter.toUpperCase())) : true );
+    .filter(s1 => this.sel1Filter ? (s1.nombre.toUpperCase().includes(this.sel1Filter.toUpperCase())) : true );
   }
 
   getSel2Options() {
-    return this.sel2.filter(s2 => this.sel2Filter ? (s2.name.toUpperCase().includes(this.sel2Filter.toUpperCase())) : true );
+    return this.sel2.filter(s2 => this.sel2Filter ? (s2.nombre.toUpperCase().includes(this.sel2Filter.toUpperCase())) : true );
   }
 
 
@@ -50,5 +50,5 @@ export class MultilistComponent implements OnInit {
 
 interface SelItem {
   id: string;
-  name: string;
+  nombre: string;
 }

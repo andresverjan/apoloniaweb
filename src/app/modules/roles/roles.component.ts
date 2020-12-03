@@ -26,7 +26,8 @@ export class RolesComponent implements OnInit {
   public showForm: boolean = false;
 
   public roles: any = [];
-  public permisos: any = [];
+  public permisos: Permiso[] = [];
+  public permisor: Permiso[] = [];
   public rol: any;
   public filter: any = {};
 
@@ -44,10 +45,6 @@ export class RolesComponent implements OnInit {
     this.rol = {
       nombre: "Seleccione Rol",
     };
-    /*this.icono = {
-      nombre: "Seleccione Icono",
-    };*/
-
   }
 
   listRoles = (obj?) => {
@@ -58,34 +55,39 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  async onRolSelected(selected) {
+  async onRolSelected(selected: any) {
+    this.rol = {
+      id: selected.id,
+      nombre: selected.nombre
+    };
+    await this.fetchPermisos(selected);
     await this.fetchPermisosByRol(selected);
+    console.log("QUE SI ->", selected.nombre);
      this.rolesForm.controls["name"].setValue(selected);
   }
 
-  fetchPermisosByRol(obj: string) {
+  async fetchPermisosByRol(obj: any) {
     this.IsWaiting = true;
-    this.rolService.permisosByRolName(obj).subscribe((res) => {
+    console.log("this.obj-->>obj", obj.id);
+    this.rolService.permisosByRolId(obj.id).subscribe((res) => {//permisosByRolName
       console.log(res.data);
 
-      this.permisos = res.data.rolByNombre.permisos.map( item => {
-        item.nombre = item.nombre;
-        return item;
-      });
+      this.permisor = res.data.rolById.permisos;
+      console.log("this.permisos asignados-->>", this.permisor);
 
       this.IsWaiting = false;
+      this.showBtnActualizar = true;
+
     });
   }
 
-  fetchPermisos(obj: string) {
+  async fetchPermisos(obj: any) {//
     this.IsWaiting = true;
     this.rolService.getPermisos(obj).subscribe((res) => {
-      console.log(res.data);
+//      console.log(res.data);
+      this.permisos = res.data.permisos;
 
-      this.permisos = res.data.permisos.map( item => {
-        item.nombre = item.nombre;
-        return item;
-      });
+      console.log("this.permisos-->>", this.permisos);
 
       this.IsWaiting = false;
     });
@@ -97,7 +99,7 @@ export class RolesComponent implements OnInit {
     this.showForm = true;
   }
 
-  actualizar(rol: any) {
+  /*actualizar(rol: any) {
     console.log(rol);
     this.showListado = false;
     this.showContent = false;
@@ -109,30 +111,33 @@ export class RolesComponent implements OnInit {
     this.rolesForm.controls["nombre"].setValue(rol.nombre);
 
 //    this.fetchPermisosValues(application.id);
-  }
+  }*/
 
   actionActualizar() {
     const obj = {
-      rol: {
-        id: this.rol.id,
-        nombre: this.rolesForm.controls["nombre"].value
-      },
-//      permisos: [...this.campos],
+//      rol: {
+      id: this.rol.id,
+//        nombre: this.rolesForm.controls["nombre"].value,
+//      },
+      permisos: this.permisor//,[...]
     };
 
-//    this.applicationService.updateApplication(obj).subscribe((res) => res);
+    this.rolService.update(obj).subscribe((res) => res);
 
-    this.showForm = false;
-
+//    this.showForm = false;
 //    this.aplicacionForm.reset();
-    Swal.fire("Operación exitosa", "Aplicación agregada correctamente!.", "success");
+    Swal.fire("Operación exitosa", "Rol actualizado correctamente!.", "success");
 
 //    this.fetchApplications();
 
-    this.showBtnActualizar = false;
-    this.showBtnEliminar = false;
+    /*this.showBtnEliminar = false;
     this.showListado = true;
-    this.showContent = true;
+    this.showContent = true;*/
   }
 
+}
+
+interface Permiso {
+  id: number;
+  nombre: string;
 }

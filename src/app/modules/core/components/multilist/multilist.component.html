@@ -4,49 +4,48 @@
   gutterSize="10px"
   style="margin-left: 15px; margin-right: 15px"
 >
-  <mat-grid-tile fxFlex=40>
-      <mat-form-field fxFlex>
-        <mat-label>Nombre Campo</mat-label>
+  <mat-grid-tile fxFlex=50>
+      <mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
+        <mat-label>Permisos no-asignados</mat-label>
         <mat-icon matPrefix>table_chart</mat-icon>
         <input matInput [(ngModel)]="sel1Filter" placeholder="name" />
       </mat-form-field>
   </mat-grid-tile>
-  <mat-grid-tile fxFlex=40>
-      <mat-form-field fxFlex>
-        <mat-label>Nombre Campo</mat-label>
+  <mat-grid-tile fxFlex=50>
+      <mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
+        <mat-label>Permisos Asignados</mat-label>
         <mat-icon matPrefix>table_chart</mat-icon>
         <input matInput [(ngModel)]="sel2Filter" placeholder="name" />
-      </mat-form-field>    
+      </mat-form-field>
   </mat-grid-tile>
 </mat-grid-list>
 
 <mat-grid-list
   cols="2"
-  rowHeight="280px"
+  rowHeight="350px"
   gutterSize="10px"
   style="margin-left: 15px; margin-right: 15px"
 >
-  <mat-grid-tile fxFlex=40>
-      <mat-selection-list [multiple]="false" fxFlex>
+  <mat-grid-tile fxFlex=48>
+      <mat-selection-list [multiple]="false" fxFlex fxFlexAlign="start">
         <mat-list-option
           *ngFor="let obj of getSel1Options()"
           (click)="passElement(obj)"
           [value]="obj"
         >
-          {{ obj.name }}
+          {{ obj.nombre }}
         </mat-list-option>
-      </mat-selection-list>  
+      </mat-selection-list>
   </mat-grid-tile>
-  <mat-grid-tile fxFlex=40>  
-      <mat-selection-list [multiple]="false" fxFlex>
+  <mat-grid-tile fxFlex=48>
+      <mat-selection-list [multiple]="false" fxFlex fxFlexAlign="start">
         <mat-list-option
           *ngFor="let obj of getSel2Options()"
           (click)="returnElement(obj)"
           [value]="obj"
         >
-          {{ obj.name }}
+          {{ obj.nombre }}
         </mat-list-option>
       </mat-selection-list>
   </mat-grid-tile>
 </mat-grid-list>
- 
