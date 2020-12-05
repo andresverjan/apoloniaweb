@@ -78,6 +78,15 @@
                           [formControlName]="item.nombre"
                         ></textarea>
                       </div>
+
+                      <div *ngSwitchCase="2" fxFlex="10">
+                        <app-datepicker></app-datepicker>
+                      </div>
+
+                      <div *ngSwitchCase="3" fxFlex="10">
+                        <app-datetime></app-datetime>
+                      </div>
+
                       <div *ngSwitchCase="4" fxFlex="100">
                         <app-toogle
                           [form]="genericForm"

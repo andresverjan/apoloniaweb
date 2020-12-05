@@ -61,6 +61,19 @@ import { MultilistComponent } from './components/multilist/multilist.component';
 import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { MatListModule } from '@angular/material/list';
 import { AvatarDragDirective } from './components/avatar/avatarDragDropDirective';
+import { DatepickerComponent } from './components/datepicker/datepicker.component';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+//import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { DatetimeComponent } from './components/datetime/datetime.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+/*import { NgxMatDatetimePickerModule,
+         NgxMatNativeDateModule,
+         NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { TimepickerComponent } from './components/timepicker/timepicker.component';
+import { IgxTimePickerModule, IgxInputGroupModule, IgxIconModule } from "igniteui-angular";*/
 
 
 FullCalendarModule.registerPlugins([
@@ -104,7 +117,10 @@ FullCalendarModule.registerPlugins([
     AvatarComponent,
     AvatarDragDirective,
     RolesComponent,
-    SchedulerComponent
+    SchedulerComponent,
+    DatepickerComponent,
+    DatetimeComponent,
+//    TimepickerComponent
   ],
 
   imports: [
@@ -127,7 +143,18 @@ FullCalendarModule.registerPlugins([
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    })
+    }),
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatInputModule,
+    NgxMaterialTimepickerModule/*
+    NgxMatMomentModule
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
+		IgxTimePickerModule,
+		IgxInputGroupModule,
+		IgxIconModule*/
   ],
 
   exports: [
