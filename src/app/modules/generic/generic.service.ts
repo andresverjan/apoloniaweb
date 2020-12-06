@@ -16,7 +16,12 @@ export class GenericService {
   }
 
   getAll(obj): Observable<any> {
-    const { campos, applicationId } = obj;
+    const { campos, applicationId, limit } = obj;
+
+    // limit:{
+    //   pagina: 1
+    //   limite: 10
+    // }
 
     let body = {
       query: `query{ 
@@ -31,6 +36,10 @@ export class GenericService {
                 }`;
             })}
           ]
+        }
+        limit:{
+          pagina: ${limit.pagina}
+          limite: ${limit.limite}
         }) {
           application {
              id
@@ -39,6 +48,7 @@ export class GenericService {
              nombreTabla
           }
           campos
+          totalRegistros
         }
       }`,
     };

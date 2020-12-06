@@ -6,6 +6,7 @@ import { Campo } from "../core/interfaces/campoTable.interace";
 import { ColumnaService } from "../core/services/columna.service";
 import { GenericService } from "./generic.service";
 import { find } from "rxjs/operators";
+import { PageEvent } from "@angular/material/paginator";
 
 @Component({
   selector: "app-generic",
@@ -38,7 +39,10 @@ export class GenericComponent implements OnInit {
     nombreTabla: "",
   };
   public filter = {};
-
+  public totalRegistros;
+  public pageSize: number = 5;
+  public pageNumber: number = 1;
+  public pageSizeOptions = [5, 10, 20, 30];
   cancelar() {
     this.showListado = true;
     this.showContent = true;
@@ -214,6 +218,14 @@ export class GenericComponent implements OnInit {
     return index;
   }
 
+  handlePageChange(e: PageEvent) {
+    console.log(e);
+    this.pageNumber = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+
+    this.fetchItems();
+  }
+
   guardar() {
     if (this.genericForm.valid) {
       //crear el objeto a enviar
@@ -250,6 +262,10 @@ export class GenericComponent implements OnInit {
     }
   }
 
+  filterItems(){
+    this.pageNumber = 1;
+    this.fetchItems();
+  }
   fetchItems() {
     this.isWaiting = true;
 
@@ -266,10 +282,14 @@ export class GenericComponent implements OnInit {
     const obj: Obj = {
       applicationId: this.application.id,
       campos,
+      limit: {
+        pagina: this.pageNumber,
+        limite: this.pageSize,
+      },
     };
 
     this.genericService.getAll(obj).subscribe(({ data }) => {
-      const { application, campos } = data.genericList[0];
+      const { application, campos, totalRegistros } = data.genericList[0];
       this.application = application;
       this.campos = campos.map((campo) => {
         return JSON.parse(campo);
@@ -277,13 +297,12 @@ export class GenericComponent implements OnInit {
       this.campos = this.campos.map((campo) => {
         campo.conf = this.appColumnas;
         if (campo.conf.tipoCampoId == 4) {
-          //TODO: NECESARIO????
-          console.log(campo);
         }
         return campo;
       });
       this.etiquetaListado = application.nombre;
 
+      this.totalRegistros = totalRegistros;
       this.isWaiting = false;
     });
   }
@@ -320,4 +339,10 @@ export interface Generic {
 interface Obj {
   applicationId: number;
   campos: Array<any>;
+  limit: Limit;
+}
+
+interface Limit {
+  pagina: number;
+  limite: number;
 }

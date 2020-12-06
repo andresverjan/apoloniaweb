@@ -1,3 +1,4 @@
+import { RolesComponent } from './../roles/roles.component';
 import { MultilistComponent } from './components/multilist/multilist.component';
 import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { UsersComponent } from "./../users/users.component";
@@ -69,6 +70,11 @@ export const routes: Routes = [
       {
         path: "generic-list",
         component: GenericComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: "permisos-list",
+        component: RolesComponent,
         canActivate: [AuthGuardService],
       },
       {
