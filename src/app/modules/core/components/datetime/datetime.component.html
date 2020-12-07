@@ -1,0 +1,25 @@
+<mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
+  <input matInput placeholder="Select Date"
+    [matDatepicker]="datepickerRef"
+    name="datepicker"
+    ngModel #dateCtrl="ngModel"
+    [value]="date"
+    [(ngModel)]="date"
+    required readonly
+  />
+
+  <mat-datepicker-toggle matSuffix [for]="datepickerRef"></mat-datepicker-toggle>
+  <mat-datepicker #datepickerRef></mat-datepicker>
+
+  <mat-error *ngIf="dateCtrl.errors?.required && dateCtrl.touched">Choose a Date</mat-error>
+</mat-form-field>
+
+<mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
+  <mat-label>Time</mat-label>
+  <input matInput placeholder="default time"
+      [ngxTimepicker]="defaultValue"
+      [value]="time"
+      [(ngModel)]="time"
+  />
+  <ngx-material-timepicker #defaultValue></ngx-material-timepicker>
+</mat-form-field>

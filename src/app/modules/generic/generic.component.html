@@ -79,12 +79,28 @@
                         ></textarea>
                       </div>
 
-                      <div *ngSwitchCase="2" fxFlex="10">
-                        <app-datepicker></app-datepicker>
+                      <div *ngSwitchCase="2" fxFlex="100">
+                        <app-datepicker
+                          [form]="genericForm"
+                          [campo]="item"
+                        ></app-datepicker>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
                       </div>
 
-                      <div *ngSwitchCase="3" fxFlex="10">
-                        <app-datetime></app-datetime>
+                      <div *ngSwitchCase="3" fxFlex="100">
+                        <app-datetime
+                          [form]="genericForm"
+                          [campo]="item"
+                        ></app-datetime>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
                       </div>
 
                       <div *ngSwitchCase="4" fxFlex="100">
