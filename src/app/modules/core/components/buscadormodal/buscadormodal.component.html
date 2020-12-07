@@ -1,4 +1,3 @@
-<!-- TODO: READONLY -->
 <div class="input-group mb-3">
   <input
     [(ngModel)]="itemBuscar"
@@ -12,7 +11,9 @@
     [readonly]="readonly"
   />
   <div class="input-group-append">
-    <button mat-raised-button color="primary"
+    <button
+      mat-raised-button
+      color="primary"
       type="button"
       (click)="openDialog()"
     >

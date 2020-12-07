@@ -9,3 +9,5 @@ src/app/modules/orders/dist
 src/app/modules/core/components/input/dist
 src/app/modules/core/modal/dist
 src/app/modules/core/services/dist
+
+yarn.lock
