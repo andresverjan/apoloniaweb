@@ -209,13 +209,19 @@
                     id="filterby{{ item.key }}"
                     placeholder="Buscar por {{ item.key }}"
                     [(ngModel)]="filter[item.key]"
-                    (keyup)="fetchItems()"
+                    (keyup)="filterItems()"
                   />
                 </mat-form-field>
               </mat-grid-tile>
             </div>
           </div>
         </mat-grid-list>
+        <mat-paginator [length]="totalRegistros"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="handlePageChange($event)"
+               >
+        </mat-paginator>
       </mat-card-content>
       <mat-grid-list cols="5" *ngIf="showListado" rowHeight="230px">
         <mat-grid-tile *ngFor="let campo of campos" style="overflow-x: hidden">
@@ -237,9 +243,12 @@
                   </div>
                 </div>
               </div>
+              
             </mat-card-content>
           </mat-card>
+          
         </mat-grid-tile>
+        
       </mat-grid-list>
     </div>
   </mat-card-content>
