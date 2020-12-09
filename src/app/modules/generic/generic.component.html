@@ -83,6 +83,7 @@
                         <app-datepicker
                           [form]="genericForm"
                           [campo]="item"
+                          (valor)="setDate($event, item)"
                         ></app-datepicker>
                         <textarea
                           matInput
@@ -91,10 +92,11 @@
                         ></textarea>
                       </div>
 
-                      <div *ngSwitchCase="3" fxFlex="100">
+                      <div *ngSwitchCase="3" fxFlex="50">
                         <app-datetime
                           [form]="genericForm"
                           [campo]="item"
+                          (timeChange)="setDate($event, item)"
                         ></app-datetime>
                         <textarea
                           matInput
@@ -243,12 +245,12 @@
                   </div>
                 </div>
               </div>
-              
+
             </mat-card-content>
           </mat-card>
-          
+
         </mat-grid-tile>
-        
+
       </mat-grid-list>
     </div>
   </mat-card-content>

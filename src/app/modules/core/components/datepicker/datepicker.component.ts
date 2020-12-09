@@ -1,5 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material/core';
+import { ChangeDetectionStrategy,
+        ChangeDetectorRef,
+        Component,
+        EventEmitter,
+        Input,
+        OnInit,
+        Output } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormControlName, NgControl } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import * as moment from 'moment';
 import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/modules/core/components/datepicker/format-datepicker';
 
 @Component({
@@ -7,27 +17,56 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/modules/core/component
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
   providers: [
-    {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
-  ]
+    { provide: DateAdapter, useClass: MomentDateAdapter },//AppDateAdapter
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS,
+      deps: [
+       MAT_DATE_LOCALE,
+       MAT_MOMENT_DATE_ADAPTER_OPTIONS
+      ]
+    }
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DatepickerComponent implements OnInit {
+export class DatepickerComponent implements ControlValueAccessor {
+
+  private onChange = (value: any) => { };
+//  private onTouched = (value: any) => { };
+
   @Input() campo: any;
   @Input() form: any;
-  @Output() valor: EventEmitter<any>;
+  @Input() dateValue: string = null;
 
-  public date: Date;
+  @Output() valor = new EventEmitter<string>();
 
-  constructor() {
-    this.date = new Date();
-    this.valor = new EventEmitter();
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  setDisabledState?(isDisabled: boolean): void {
+    throw new Error('Method not implemented.');
   }
 
-  emitValor(){
-    this.valor.emit(this.date);
+  ngOnInit(): void {}
+
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+    this.dateValue = moment(event.value).format();
+    this.onChange(event.value);
+    this.valor.emit(this.dateValue);
   }
 
-  ngOnInit(): void {
+  writeValue(value: any): void {
+    if(value !== undefined || value !== '') {
+      this.dateValue = moment(value).format();
+    }
   }
 
+  registerOnChange(fn) {
+    this.onChange = fn;
+  }
+
+  registerOnTouched() {}
+
+  insideYourValidations() {
+    setTimeout(() => {
+     this.cdr.detectChanges() //call to update/detect your changes
+    }, 1500);
+  }
 }
