@@ -92,12 +92,12 @@
                         ></textarea>
                       </div>
 
-                      <div *ngSwitchCase="3" fxFlex="50">
-                        <app-datetime
+                      <div *ngSwitchCase="3" fxFlex="100">
+                        <app-datepicker
                           [form]="genericForm"
                           [campo]="item"
-                          (timeChange)="setDate($event, item)"
-                        ></app-datetime>
+                          (valor)="setDate($event, item)"
+                        ></app-datepicker>
                         <textarea
                           matInput
                           hidden

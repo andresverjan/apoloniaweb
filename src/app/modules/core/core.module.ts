@@ -66,12 +66,13 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-//import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { DatetimeComponent } from './components/datetime/datetime.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';/*
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-/*import { NgxMatDatetimePickerModule,
+import { NgxMatDatetimePickerModule,
          NgxMatNativeDateModule,
          NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { TimepickerComponent } from './components/timepicker/timepicker.component';
 import { IgxTimePickerModule, IgxInputGroupModule, IgxIconModule } from "igniteui-angular";*/
 
@@ -147,11 +148,13 @@ FullCalendarModule.registerPlugins([
     MatNativeDateModule,
     MatDatepickerModule,
     MatInputModule,
-    NgxMaterialTimepickerModule/*
-    NgxMatMomentModule
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule/*,
+    NgxMaterialTimepickerModule,
     NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
     NgxMatTimepickerModule,
+    NgxMatMomentModule,
+    NgxMatNativeDateModule,
 		IgxTimePickerModule,
 		IgxInputGroupModule,
 		IgxIconModule*/

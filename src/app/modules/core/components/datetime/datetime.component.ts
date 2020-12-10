@@ -31,30 +31,36 @@ export class DatetimeComponent implements OnInit {
 
   private onChange = (value: any) => { };
 
+//  private onTouched = (value: any) => { };
+
   @Input() campo: any;
   @Input() form: any;
-//  @Input() dateValue: string = null;
+  @Input() dateValue: string = null;
   @Input() time: string = null;
 
   @Output() valor = new EventEmitter<string>();
-  @Output() timeChange = new EventEmitter<string>();
 
   constructor(private cdr: ChangeDetectorRef) {
-//    this.time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
+    this.time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {}
 
-  onDateTimeChange(event: MatDatepickerInputEvent<Date>) {
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+    this.dateValue = moment(event.value).format();
     this.time = moment(event.value).hours().toString() ;
+
     this.onChange(event.value);
-    this.timeChange.emit(this.time);
-    console.log("this.genericForm.controls[item.nombre]", this.time)
+    this.valor.emit(this.dateValue );
   }
 
   writeValue(value: any): void {
     if(value !== undefined || value !== '') {
-      this.time = moment(value).format();
+      this.dateValue = moment(value).format();
     }
   }
 
@@ -68,11 +74,6 @@ export class DatetimeComponent implements OnInit {
     setTimeout(() => {
      this.cdr.detectChanges() //call to update/detect your changes
     }, 1500);
-  }
-
-  setDate(value: any, item: any) {
-    this.form.controls[item.nombre].setValue(value);
-//    console.log("this.genericForm.controls[item.nombre]", this.genericForm.controls[item.nombre].value)
   }
 
 }
