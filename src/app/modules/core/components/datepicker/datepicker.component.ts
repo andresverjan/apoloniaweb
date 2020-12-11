@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy,
         Component,
         EventEmitter,
         Input,
-        OnInit,
         Output } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormControlName, NgControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -17,7 +16,7 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/modules/core/component
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter },//AppDateAdapter
+    { provide: DateAdapter, useClass: MomentDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS,
       deps: [
        MAT_DATE_LOCALE,
@@ -30,7 +29,6 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/modules/core/component
 export class DatepickerComponent implements ControlValueAccessor {
 
   private onChange = (value: any) => { };
-//  private onTouched = (value: any) => { };
 
   @Input() campo: any;
   @Input() form: any;

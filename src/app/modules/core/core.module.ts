@@ -67,15 +67,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { DatetimeComponent } from './components/datetime/datetime.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';/*
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-import { NgxMatDatetimePickerModule,
-         NgxMatNativeDateModule,
-         NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
-import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
-import { TimepickerComponent } from './components/timepicker/timepicker.component';
-import { IgxTimePickerModule, IgxInputGroupModule, IgxIconModule } from "igniteui-angular";*/
-
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -120,8 +112,7 @@ FullCalendarModule.registerPlugins([
     RolesComponent,
     SchedulerComponent,
     DatepickerComponent,
-    DatetimeComponent,
-//    TimepickerComponent
+    DatetimeComponent
   ],
 
   imports: [
@@ -149,15 +140,7 @@ FullCalendarModule.registerPlugins([
     MatDatepickerModule,
     MatInputModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule/*,
-    NgxMaterialTimepickerModule,
-    NgxMatDatetimePickerModule,
-    NgxMatTimepickerModule,
-    NgxMatMomentModule,
-    NgxMatNativeDateModule,
-		IgxTimePickerModule,
-		IgxInputGroupModule,
-		IgxIconModule*/
+    OwlNativeDateTimeModule
   ],
 
   exports: [
@@ -169,7 +152,7 @@ FullCalendarModule.registerPlugins([
   ],
 
   providers: [ServicesService],
-  bootstrap: [], //componente
+  bootstrap: [DatetimeComponent], //componente
   entryComponents: [ModalComponent, LoadingComponent, DialogOverviewExample],
 })
 export class CoreModule {}

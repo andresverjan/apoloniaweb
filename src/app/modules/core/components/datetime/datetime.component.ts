@@ -4,13 +4,16 @@ import { Component,
          EventEmitter,
          Input,
          OnInit,
-         Output } from '@angular/core';
+         Output,
+         ContentChild} from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import * as moment from 'moment';
-import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/modules/core/components/datepicker/format-datepicker';
+import { AppDateAdapter, APP_DATETIME_FORMATS } from 'src/app/modules/core/components/datepicker/format-datepicker';
 import * as _moment from 'moment';
+import { ControlValueAccessor } from '@angular/forms';
+
 
 @Component({
   selector: 'app-datetime',
@@ -18,7 +21,7 @@ import * as _moment from 'moment';
   styleUrls: ['./datetime.component.scss'],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS,
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATETIME_FORMATS,
       deps: [
        MAT_DATE_LOCALE,
        MAT_MOMENT_DATE_ADAPTER_OPTIONS
@@ -27,21 +30,18 @@ import * as _moment from 'moment';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DatetimeComponent implements OnInit {
+export class DatetimeComponent implements ControlValueAccessor {
 
-  private onChange = (value: any) => { };
-
-//  private onTouched = (value: any) => { };
+  private onChange = (value: any) => {};
 
   @Input() campo: any;
   @Input() form: any;
   @Input() dateValue: string = null;
-  @Input() time: string = null;
 
   @Output() valor = new EventEmitter<string>();
 
   constructor(private cdr: ChangeDetectorRef) {
-    this.time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
+//    this.time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
   }
 
   setDisabledState?(isDisabled: boolean): void {
@@ -52,8 +52,6 @@ export class DatetimeComponent implements OnInit {
 
   onDateChange(event: MatDatepickerInputEvent<Date>) {
     this.dateValue = moment(event.value).format();
-    this.time = moment(event.value).hours().toString() ;
-
     this.onChange(event.value);
     this.valor.emit(this.dateValue );
   }
