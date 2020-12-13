@@ -68,6 +68,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { DatetimeComponent } from './components/datetime/datetime.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { SliderComponent } from './components/slider/slider.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -112,7 +114,8 @@ FullCalendarModule.registerPlugins([
     RolesComponent,
     SchedulerComponent,
     DatepickerComponent,
-    DatetimeComponent
+    DatetimeComponent,
+    SliderComponent
   ],
 
   imports: [
@@ -140,7 +143,8 @@ FullCalendarModule.registerPlugins([
     MatDatepickerModule,
     MatInputModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    MatSliderModule
   ],
 
   exports: [

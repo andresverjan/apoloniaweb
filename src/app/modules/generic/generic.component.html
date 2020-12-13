@@ -116,6 +116,19 @@
                           [formControlName]="item.nombre"
                         ></textarea>
                       </div>
+
+                      <div *ngSwitchCase="5" fxFlex="100">
+                        <app-slider
+                          [form]="genericForm"
+                          [campo]="item"
+                          (valor)="setDate($event, item)"
+                        ></app-slider>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
+                      </div>
                     </div>
                   </div>
                 </mat-grid-tile>
