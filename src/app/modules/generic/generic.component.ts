@@ -218,6 +218,11 @@ export class GenericComponent implements OnInit {
     return index;
   }
 
+  setDate(value: any, item: any) {
+    this.genericForm.controls[item.nombre].setValue(value);
+//    console.log("this.genericForm.controls[item.nombre]", this.genericForm.controls[item.nombre].value)
+  }
+
   handlePageChange(e: PageEvent) {
     this.pageNumber = e.pageIndex + 1;
     this.pageSize = e.pageSize;

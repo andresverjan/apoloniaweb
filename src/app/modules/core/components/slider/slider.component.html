@@ -1,0 +1,22 @@
+<div [formGroup]="form" >
+  <mat-card class="result-card" *ngIf="campo.visible" fxFlex=100 appearance="outline">
+    <mat-card-content>
+      <mat-icon matPrefix>edit</mat-icon>
+      <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
+      <mat-slider #dpInput matInput #dateValue class="margin" *ngIf="campo.visible"
+        id="{{ campo.nombre }}"
+        [formControlName]="campo.nombre"
+        [disabled]="false"
+        [invert]="false"
+        [max]="campo.maxLength"
+        [min]="campo.minLength"
+        [step]="step"
+        [thumbLabel]="true"
+        [tickInterval]="tickInterval"
+        (change)="onMoveChange($event)"
+        [vertical]="false"
+        [value]="dateValue">
+      </mat-slider>
+    </mat-card-content>
+  </mat-card>
+</div>
