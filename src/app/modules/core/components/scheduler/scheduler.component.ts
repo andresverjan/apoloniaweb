@@ -114,7 +114,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
   }
   emitValor() {
     this.valor.emit(this.citas);
-    console.log(this.citas);
+    
   }
 }
 
