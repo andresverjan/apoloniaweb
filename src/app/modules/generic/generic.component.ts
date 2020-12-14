@@ -219,7 +219,6 @@ export class GenericComponent implements OnInit {
   }
 
   handlePageChange(e: PageEvent) {
-    console.log(e);
     this.pageNumber = e.pageIndex + 1;
     this.pageSize = e.pageSize;
 
@@ -262,7 +261,7 @@ export class GenericComponent implements OnInit {
     }
   }
 
-  filterItems(){
+  filterItems() {
     this.pageNumber = 1;
     this.fetchItems();
   }

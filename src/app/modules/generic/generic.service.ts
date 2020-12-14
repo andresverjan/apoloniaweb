@@ -18,11 +18,6 @@ export class GenericService {
   getAll(obj): Observable<any> {
     const { campos, applicationId, limit } = obj;
 
-    // limit:{
-    //   pagina: 1
-    //   limite: 10
-    // }
-
     let body = {
       query: `query{ 
         genericList(filter:{
