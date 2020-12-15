@@ -40,10 +40,10 @@ export class SchedulerComponent implements OnInit, OnChanges {
   @Input() citas: Array<Cita> = [];
   @Input() configuration: CalendarOptions;
   @Output() valor: EventEmitter<any>;
-  
-  constructor( private _citaService: CitaService) {
+
+  constructor(private _citaService: CitaService) {
     this.valor = new EventEmitter();
-   
+
     this.citas = [];
   }
 
@@ -58,6 +58,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
     weekends: true,
     editable: true,
     navLinks: true,
+    selectOverlap: false,
     selectable: true,
     nowIndicator: true,
     handleWindowResize: true,
@@ -82,12 +83,12 @@ export class SchedulerComponent implements OnInit, OnChanges {
       },
     },
 
-    
+
   };
 
   currentEvents: EventApi[] = [];
 
-  ngOnInit() {}
+  ngOnInit() { }
   ngOnChanges() {
     this.calendarOptions = Object.assign(
       this.calendarOptions,
@@ -99,14 +100,14 @@ export class SchedulerComponent implements OnInit, OnChanges {
     this.calendarVisible = !this.calendarVisible;
   }
 
-    // calendarApi.addEvent({
-    //   id: createEventId(),
-    //   title: valor,
-    //   start: selectInfo.startStr,
-    //   end: selectInfo.endStr,
-    //   allDay: selectInfo.allDay,
-    // });
-    // calendarApi.unselect(); // clear date selection
+  // calendarApi.addEvent({
+  //   id: createEventId(),
+  //   title: valor,
+  //   start: selectInfo.startStr,
+  //   end: selectInfo.endStr,
+  //   allDay: selectInfo.allDay,
+  // });
+  // calendarApi.unselect(); // clear date selection
   // }
 
   handleEvents(events: EventApi[]) {
@@ -114,7 +115,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
   }
   emitValor() {
     this.valor.emit(this.citas);
-    
+
   }
 }
 
@@ -125,7 +126,7 @@ export interface Cita {
   end: string;
 }
 
-export interface NuevaCita{
+export interface NuevaCita {
   title: string;
   start: string;
   end: string;

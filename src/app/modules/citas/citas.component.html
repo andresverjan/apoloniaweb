@@ -19,19 +19,22 @@
     <app-scheduler [configuration]="calendar" [citas]="citasAgendadas" *ngIf="IsWaiting"></app-scheduler>
 
     <div class="card-group card-container">
-      <div class="card" style="width: 18rem" *ngFor="let event of citasAgendadas">
+      <div class="card" style="width: 10rem" *ngFor="let event of citasAgendadas">
         <div class="card-body">
           <h5 class="card-title">{{ event.title }}</h5>
           <p class="card-text">{{ event.start }}</p>
-          <button class="btn btn-primary" (click)="optionCita(event)" >
-            Editar Cita
+          <button class="btn btn-primary buttonEditar" (click)="optionCita(event)">
+            Registrar Cita
+          </button>
+          <button class="btn btn-primary buttonSalida" (click)="cancelarCita(event)">
+            Cancelar Cita
           </button>
         </div>
       </div>
     </div>
   </mat-card-content>
- 
 
 
- 
+
+
 </div>
