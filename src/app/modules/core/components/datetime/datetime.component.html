@@ -1,0 +1,27 @@
+<div [formGroup]="form" >
+  <mat-form-field *ngIf="campo.visible" fxFlex=100 appearance="outline">
+    <div fxLayout="row">
+      <mat-icon matPrefix>edit</mat-icon>
+      <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
+
+      <span class="example-trigger" [owlDateTimeTrigger]="defaultValue">
+        <i class="fas fa-calendar-alt"></i>
+      </span>
+
+      <owl-date-time #defaultValue></owl-date-time>
+    </div>
+    <input #dpInput matInput [owlDateTime]="defaultValue"
+        *ngIf="campo.visible"
+        id="{{ campo.nombre }}"
+        [formControlName]="campo.nombre"
+        placeholder="Date Time:"
+        (dateTimeChange)="onDateChange($event)"
+        [(value)]="dateValue"
+        style="margin-left: 0px"
+    >
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.required">
+      error-required
+    </mat-hint>
+  </mat-form-field>
+</div>
+

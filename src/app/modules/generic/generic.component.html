@@ -78,11 +78,51 @@
                           [formControlName]="item.nombre"
                         ></textarea>
                       </div>
+
+                      <div *ngSwitchCase="2" fxFlex="100">
+                        <app-datepicker
+                          [form]="genericForm"
+                          [campo]="item"
+                          (valor)="setDate($event, item)"
+                        ></app-datepicker>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
+                      </div>
+
+                      <div *ngSwitchCase="3" fxFlex="100">
+                        <app-datetime
+                          [form]="genericForm"
+                          [campo]="item"
+                          (valor)="setDate($event, item)"
+                        ></app-datetime>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
+                      </div>
+
                       <div *ngSwitchCase="4" fxFlex="100">
                         <app-toogle
                           [form]="genericForm"
                           [campo]="item"
                         ></app-toogle>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
+                      </div>
+
+                      <div *ngSwitchCase="5" fxFlex="100">
+                        <app-slider
+                          [form]="genericForm"
+                          [campo]="item"
+                          (valor)="setDate($event, item)"
+                        ></app-slider>
                         <textarea
                           matInput
                           hidden
@@ -218,12 +258,12 @@
                   </div>
                 </div>
               </div>
-              
+
             </mat-card-content>
           </mat-card>
-          
+
         </mat-grid-tile>
-        
+
       </mat-grid-list>
     </div>
   </mat-card-content>

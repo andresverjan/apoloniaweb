@@ -63,7 +63,15 @@ import { MultilistComponent } from './components/multilist/multilist.component';
 import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
 import { MatListModule } from '@angular/material/list';
 import { AvatarDragDirective } from './components/avatar/avatarDragDropDirective';
+import { DatepickerComponent } from './components/datepicker/datepicker.component';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { DatetimeComponent } from './components/datetime/datetime.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { SliderComponent } from './components/slider/slider.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -107,7 +115,10 @@ FullCalendarModule.registerPlugins([
     AvatarComponent,
     AvatarDragDirective,
     RolesComponent,
-    SchedulerComponent
+    SchedulerComponent,
+    DatepickerComponent,
+    DatetimeComponent,
+    SliderComponent
   ],
 
   imports: [
@@ -130,7 +141,13 @@ FullCalendarModule.registerPlugins([
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    })
+    }),
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatInputModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    MatSliderModule
   ],
 
   exports: [
@@ -142,7 +159,7 @@ FullCalendarModule.registerPlugins([
   ],
 
   providers: [ServicesService],
-  bootstrap: [], //componente
+  bootstrap: [DatetimeComponent], //componente
   entryComponents: [ModalComponent, LoadingComponent, DialogOverviewExample],
 })
 export class CoreModule {}
