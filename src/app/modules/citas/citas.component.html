@@ -1,0 +1,40 @@
+<app-buscadormodal *ngIf="true" (selected)="onTableSelected($event)" [columnas]="{ Nombres: 'Nombre Odontologo' }"
+  [resultInputText]="['Nombres']" [service]="_odontologosService" tituloBusqueda="Odontologos"
+  [defaultObjValue]="odontologo" [readonly]="false" class="listar"></app-buscadormodal>
+<div class="button" *ngIf="IsWaiting">
+  <button mat-raised-button (click)="agendarCita()">
+    <mat-icon>calendar_today</mat-icon>
+    Agendar Cita
+  </button>
+</div>
+<div class="container" style="overflow: hidden">
+  <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
+    <mat-toolbar color="primary">
+      <mat-icon matPrefix>web</mat-icon>
+      <span>Citas</span>
+      <span class="example-spacer"></span>
+      <mat-icon>info</mat-icon>
+    </mat-toolbar>
+
+    <app-scheduler [configuration]="calendar" [citas]="citasAgendadas" *ngIf="IsWaiting"></app-scheduler>
+
+    <div class="card-group card-container">
+      <div class="card" style="width: 10rem" *ngFor="let event of citasAgendadas">
+        <div class="card-body">
+          <h5 class="card-title">{{ event.title }}</h5>
+          <p class="card-text">{{ event.start }}</p>
+          <button class="btn btn-primary buttonEditar" (click)="optionCita(event)">
+            Registrar Cita
+          </button>
+          <button class="btn btn-primary buttonSalida" (click)="cancelarCita(event)">
+            Cancelar Cita
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+
+
+
+
+</div>

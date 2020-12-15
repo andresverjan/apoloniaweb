@@ -47,6 +47,7 @@
     "igniteui-angular": "^11.0.6",
     "mat-timepicker": "^5.1.0",
     "moment": "^2.29.1",
+    "mdbootstrap": "^4.19.2",
     "ng-bootstrap": "^1.6.3",
     "ng-material-datetimepicker": "^1.19.6",
     "ng-pick-datetime": "^7.0.0",
