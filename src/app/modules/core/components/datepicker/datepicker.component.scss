@@ -1,0 +1,14 @@
+/* variables.scss */
+@import '../../../../../assets/scss/partials/base.scss';
+@import '../../../../../assets/scss/partials/variables.scss';
+
+label {
+  margin-bottom: .3rem;
+  color: $primary-color;
+  min-width: 30px;
+}
+
+.mat-form-field-infix {
+  padding: 0.4em 0;
+  border-top: 0.6em solid transparent;
+}

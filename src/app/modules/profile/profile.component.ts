@@ -1,3 +1,4 @@
+import { Campo } from './../core/interfaces/campoTable.interace';
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import Swal from 'sweetalert2';
@@ -10,15 +11,15 @@ import { ProfileService } from "./profile.service";
 })
 export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
-  public USUARIO ;
+  public USUARIO;
   public IsWait: Boolean = false;
+
   lShowPanelDatosViaje: boolean;
   lShowBtnActualizar: boolean;
   lShowImagen: boolean;
   userKey: string='USUARIO';
   show:boolean = false;
   shows:boolean = false;
-
 
   public picurl: string = '';
 
@@ -95,19 +96,19 @@ export class ProfileComponent implements OnInit {
       this.show= false;
       return response;
     });
-    
+
   }else{
     Swal.fire('Contraseña', 'No es la misma contraseña.', 'error');
     }
-    
-  
+
+
   }
   changeIdiomEn(){
     const usuarioIdiom={
      USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
      IDIOMA_ID: "1"
    }
-   
+
    this.profileService.updateIdiom(usuarioIdiom).subscribe((response) => {
     Swal.fire('Idiom', 'Updated successfully', 'success');
      this.shows= false;
@@ -119,7 +120,7 @@ export class ProfileComponent implements OnInit {
    USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
    IDIOMA_ID: "2"
  }
- 
+
  this.profileService.updateIdiom(usuarioIdiom).subscribe((response) => {
   Swal.fire('Idioma', 'Actualizado correctamente.', 'success');
    this.shows= false;
@@ -133,6 +134,6 @@ export class ProfileComponent implements OnInit {
     this.shows= true;
    }
 
- 
-  
+
+
 }
