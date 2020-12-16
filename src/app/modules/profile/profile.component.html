@@ -9,11 +9,13 @@
             <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
                 <!--img class="avatarOwn"  src="{{USUARIO.URL_FOTO_PERFIL}}"  alt="profile"  height="180"  width="180"
                     *ngIf="lShowImagen"-->
-                    <div class="col">
-                      <app-avatar width=150 [(url)]=picurl [editmode]=true marginInput="auto"></app-avatar>
-                    </div>
+                <div class="col">
+                  <app-avatar [form]="profileForm" width=150 [(url)]=picurl
+                    [editmode]=true marginInput="auto">
+                  </app-avatar>
+                </div>
                 <div class="upload-btn-wrapper">
-                    <button mat-raised-button style="cursor:pointer;">{{etiquetas.CargarImagen}}</button>
+                  <button mat-raised-button style="cursor:pointer;">{{etiquetas.CargarImagen}}</button>
                     <!--input type="file" (change)="selectFile($event)" id="imagen"
                         style="margin-top: 10px; size: 3px; margin-bottom: 40px;"-->
                 </div>
@@ -46,9 +48,9 @@
                     <mat-label>Confirmar Contraseña</mat-label>
                     <input matInput formControlName="USUARIO_CONFIRMACION" id="email">
                 </mat-form-field>
-                
+
                     <button mat-raised-button (click)="changePassword()" class="buttons" >Confirmar</button>
-               
+
                 </div>
                 <div *ngIf="shows">
                 <mat-action-list>
@@ -57,12 +59,12 @@
                   </mat-action-list>
                 </div>
                 <button mat-raised-button (click)="showChange()" class="buttons">Cambiar contraseña</button>
-                
+
                 <button mat-raised-button (click)="showChanges()" class="buttons">Cambiar idioma</button>
-                
+
 
             </mat-card-content>
-           
+
             <!--<mat-card-actions fxLayout="row" fxLayoutAlign="center center">
                 <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex=80
                     (click)="callUpdate()" [disabled]="!profileForm.valid" *ngIf="lShowBtnActualizar">

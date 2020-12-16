@@ -1,22 +1,28 @@
-<div [formGroup]="form" >
-  <mat-card class="result-card" *ngIf="campo.visible" fxFlex=100 appearance="outline">
+<div [formGroup]="form" fxFlex=100>
+  <mat-card class="result-card" *ngIf="campo.visible"  appearance="outline">
     <mat-card-content>
-      <mat-icon matPrefix>edit</mat-icon>
-      <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
-      <mat-slider #dpInput matInput #dateValue class="margin" *ngIf="campo.visible"
-        id="{{ campo.nombre }}"
-        [formControlName]="campo.nombre"
-        [disabled]="false"
-        [invert]="false"
-        [max]="campo.maxLength"
-        [min]="campo.minLength"
-        [step]="step"
-        [thumbLabel]="true"
-        [tickInterval]="tickInterval"
-        (change)="onMoveChange($event)"
-        [vertical]="false"
-        [value]="dateValue">
-      </mat-slider>
+      <div fxLayout="row">
+        <mat-icon matPrefix>edit</mat-icon>
+        <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
+        <mat-slider #dpInput matInput #dateValue class="margin" *ngIf="campo.visible"
+          id="{{ campo.nombre }}"
+          [formControlName]="campo.nombre"
+          [disabled]="false"
+          [invert]="false"
+          [max]="campo.maxLength"
+          [min]="campo.minLength"
+          [step]="step"
+          [thumbLabel]="true"
+          [tickInterval]="tickInterval"
+          (change)="onMoveChange($event)"
+          [vertical]="false"
+          [value]="dateValue">
+        </mat-slider>
+        <input #dpInput matInput type="number" readonly="true"
+          id="{{ campo.nombre }}"
+          [formControlName]="campo.nombre"
+          [value]="dateValue" >
+    </div>
     </mat-card-content>
   </mat-card>
 </div>
