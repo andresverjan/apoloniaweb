@@ -24,8 +24,6 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from "angular-calendar";
-import { Cita } from '../core/components/scheduler/scheduler.component';
-import { CalendarOptions } from '@fullcalendar/angular';
 import {SchedulerComponent} from '../core/components/scheduler/scheduler.component';
 
 @Component({
@@ -41,7 +39,7 @@ export class MascarasComponent implements OnInit {
   public mascaras = [];
   public etiquetaListado = "Listado de Mascaras";
   public etiquetaNombreModulo = "Campos";
-  public agendadas :Array<Cita>=[];
+  
 
   public colors: any = {
     red: {
@@ -61,20 +59,7 @@ export class MascarasComponent implements OnInit {
   public selectedMascara: any;
   public tablas: any;
   public mascara: any;
-
   public tipoCampo: any;
-
-  citas: Array<Cita>=[
-    {title:'Cita1',start:'2020-11-25',end:'2020-11-26'},
-    {title:"Cita2",start:"2020-11-27",end:"2020-11-27"}
-  ];
-
-   calendar: CalendarOptions = {
-    slotDuration: "00:30",
-    events:this.citas,
-    
-  };
-
 
 
   constructor(

@@ -13,12 +13,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule } from "angularx-social-login";
 
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-//import { RolesComponent } from './modules/roles/roles.component';
-
-
 
 @NgModule({
-  declarations: [AppComponent],//, RolesComponent
+  declarations: [AppComponent], //, RolesComponent
   imports: [
     BrowserModule,
     routing,
@@ -27,7 +24,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
     MaterialModule,
     LayoutModule,
     FlexLayoutModule,
-    SocialLoginModule
+    SocialLoginModule,
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
