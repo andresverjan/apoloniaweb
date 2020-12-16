@@ -8,6 +8,8 @@ import { CitaService } from "./citas.service";
 import { Cita } from "../core/components/scheduler/scheduler.component";
 import { CalendarOptions } from "@fullcalendar/angular";
 import { OdontologosService } from "../core/services/odontologos.service";
+import { PacienteService } from "../core/services/paciente.service";
+import { ServicioService } from "../core/services/servicio.service";
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 
@@ -18,13 +20,17 @@ import Swal from "sweetalert2";
 })
 export class CitasComponent implements OnInit {
   public odontologo: any;
+  public paciente: any;
+  public servicio: any;
   public IsWaiting: Boolean = false;
   public Waiting: Boolean = false;
   public citas = [];
   validatingForm: FormGroup;
   constructor(
     public _citaService: CitaService,
-    public _odontologosService: OdontologosService
+    public _odontologosService: OdontologosService,
+    public _pacienteService: PacienteService,
+    public _servicioService: ServicioService
   ) {
     this.validatingForm = new FormGroup({
       citaFormModalName: new FormControl(""),
@@ -41,6 +47,17 @@ export class CitasComponent implements OnInit {
     this.odontologo = {
       Nombres: "Seleccionar Odontologo",
     };
+
+    this.paciente = {
+      Nombres1: "Seleccionar Paciente",
+      Nombres2: "",
+      Apellidos1: "",
+      Apellidos2: ""
+    };
+
+    this.servicio = {
+      nombre: "Seleccionar Servicio",
+    };
   }
   reloadPage() {
     window.location.reload();
@@ -50,6 +67,10 @@ export class CitasComponent implements OnInit {
     this.odontologo = selected;
     this.fetchCitasByOdontologoId(this.odontologo);
   }
+
+  async onPatientSelected(selected) {}
+
+  async onServiceSelected(selected) {}
 
   fetchCitasByOdontologoId(odontologo) {
     const { id: odontologoId } = odontologo;
