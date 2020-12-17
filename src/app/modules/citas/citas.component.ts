@@ -97,6 +97,7 @@ export class CitasComponent implements OnInit {
           title: cita.title,
           start: cita.start,
           end: cita.end,
+          backgroundColor:"#512774",
         });
       });
       this.calendar = {
