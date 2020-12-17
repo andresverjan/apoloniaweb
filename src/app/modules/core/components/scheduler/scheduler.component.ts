@@ -17,8 +17,8 @@ import { EventInput } from "@fullcalendar/angular";
 import { CitaService } from "../../../citas/citas.service";
 import listPlugin from "@fullcalendar/list";
 import allLocales from "@fullcalendar/core/locales-all";
-import frLocale from "@fullcalendar/core/locales/fr";
 import esLocale from "@fullcalendar/core/locales/es";
+import timeGridPlugin from '@fullcalendar/timegrid';
 import Swal from "sweetalert2";
 import { parse } from "querystring";
 //import { INITIAL_EVENTS, createEventId } from './event-utils';
@@ -54,7 +54,8 @@ export class SchedulerComponent implements OnInit, OnChanges {
       center: "title",
       right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
     },
-    initialView: "dayGridWeek", // alternatively, use the `events` setting to fetch from a feed
+    plugins: [timeGridPlugin, listPlugin],
+    initialView: "timeGridWeek", // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
     navLinks: true,
@@ -70,7 +71,6 @@ export class SchedulerComponent implements OnInit, OnChanges {
     locale: esLocale,
     dayMaxEventRows: true,
     expandRows: true,
-    plugins: [listPlugin],
     eventTimeFormat: {
       hour: "2-digit",
       minute: "2-digit",
@@ -94,12 +94,29 @@ export class SchedulerComponent implements OnInit, OnChanges {
       this.calendarOptions,
       this.configuration
     );
+
   }
 
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
   }
 
+  handleDateSelect(selectInfo: DateSelectArg) {
+    const title = prompt("Please enter a new title for your event");
+    const calendarApi = selectInfo.view.calendar;
+
+    calendarApi.unselect(); // clear date selection
+
+    if (title) {
+      calendarApi.addEvent({
+        id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay,
+      });
+    }
+  }
   // calendarApi.addEvent({
   //   id: createEventId(),
   //   title: valor,
@@ -133,8 +150,9 @@ export interface NuevaCita {
   odontologoId: number;
   horaIngreso: string;
   horaSalida: string;
-  asistencia: boolean;
-  cancelado: boolean;
+  status: number;
+  pacienteId: number;
+  servicioId: number;
   observaciones: string;
 
 
