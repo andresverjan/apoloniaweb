@@ -76,7 +76,6 @@ export class SchedulerComponent implements OnInit, OnChanges {
       minute: "2-digit",
       meridiem: false,
     },
-    eventColor: "#512774",
     views: {
       timeGrid: {
         dayMaxEventRows: 2,
@@ -141,6 +140,7 @@ export interface Cita {
   title: string;
   start: string;
   end: string;
+  backgroundColor: string;
 }
 
 export interface NuevaCita {
