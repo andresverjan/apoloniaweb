@@ -1,6 +1,19 @@
-<app-buscadormodal *ngIf="true" (selected)="onTableSelected($event)" [columnas]="{ Nombres: 'Nombre Odontologo' }"
+<app-buscadormodal *ngIf="true" (selected)="onTableSelected($event)"
+  [columnas]="{ Nombres: 'Nombre Odontologo' }"
   [resultInputText]="['Nombres']" [service]="_odontologosService" tituloBusqueda="Odontologos"
   [defaultObjValue]="odontologo" [readonly]="false" class="listar"></app-buscadormodal>
+
+<app-buscadormodal  *ngIf="true" (selected)="onPatientSelected($event)"
+  [columnas]="{ Nombres1: 'Nombre Paciente', Nombres2: '', Apellidos1: 'Apellido', Apellidos2: '' }"
+  [resultInputText]="['Apellidos1', 'Apellidos2', 'Nombres1', 'Nombres2']"
+  [service]="_pacienteService" tituloBusqueda="Pacientes"
+  [defaultObjValue]="paciente"></app-buscadormodal>
+
+<app-buscadormodal *ngIf="true" (selected)="onServiceSelected($event)"
+  [columnas]="{ nombre: 'Nombre Servicio' }"
+  [resultInputText]="['nombre']" [service]="_servicioService" tituloBusqueda="Servicios"
+  [defaultObjValue]="servicio" [readonly]="false" class="listar"></app-buscadormodal>
+
 <div class="button" *ngIf="IsWaiting">
   <button mat-raised-button (click)="agendarCita()">
     <mat-icon>calendar_today</mat-icon>

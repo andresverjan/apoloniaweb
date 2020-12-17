@@ -10,10 +10,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 export class AvatarComponent implements OnInit {
   public message: string;
 
+  @Input() form: any;
+//  @Input() campo: any;
   @Input() editmode = false;
   @Input("width") public width: number;
   @Input() url: string | ArrayBuffer | SafeUrl = "";
-  @Input() marginInput: string = "";  
+  @Input() marginInput: string = "";
+
+
 
   @Output() urlChange = new EventEmitter();
 
@@ -22,7 +26,7 @@ export class AvatarComponent implements OnInit {
 
 
   ngOnInit() {}
-  
+
   constructor() {}
 
   filesDropped(files: FileHandle[]): void {

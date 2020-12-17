@@ -129,6 +129,19 @@
                           [formControlName]="item.nombre"
                         ></textarea>
                       </div>
+
+                      <!--div-- *ngSwitchCase="6" fxFlex="100">
+                        <app-avatar
+                          [form]="genericForm"
+                          [campo]="item"
+                          (urlChange)="setDate($event, item)"
+                        ></app-avatar>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
+                      </!--div-->
                     </div>
                   </div>
                 </mat-grid-tile>
