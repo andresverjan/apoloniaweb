@@ -19,17 +19,18 @@ export class CitaService {
       query: `
           mutation {
             createCita (cita: {
-                TITLE: "${objeTosend.title}",
-                START: "${objeTosend.start}",
-                END:"${objeTosend.end}",
+                title: "${objeTosend.title}",
+                start: "${objeTosend.start}",
+                end:"${objeTosend.end}",
                 odontologoId:${objeTosend.odontologoId},
                 horaIngreso:"${objeTosend.horaIngreso}",
                 horaSalida:"${objeTosend.horaSalida}",
-                asistencia:${objeTosend.asistencia},
-                cancelado: ${objeTosend.cancelado},
+                status:${objeTosend.status},
+                pacienteId: ${objeTosend.pacienteId},
+                servicioId: ${objeTosend.servicioId},
                 observaciones: "${objeTosend.observaciones}",
             }) {     
-                TITLE
+                title
             }  
           }
           `,
@@ -44,16 +45,18 @@ export class CitaService {
           mutation {
             updateCita (cita: {
                 id: ${objeTosend.id},
-                TITLE: "${objeTosend.title}",
-                START: "${objeTosend.start}",
-                END:"${objeTosend.end}",
+                title: "${objeTosend.title}",
+                start: "${objeTosend.start}",
+                end:"${objeTosend.end}",
+                odontologoId:${objeTosend.odontologoId},
                 horaIngreso:"${objeTosend.horaIngreso}",
                 horaSalida:"${objeTosend.horaSalida}",
-                asistencia:${objeTosend.asistencia},
-                cancelado: ${objeTosend.cancelado},
+                status:${objeTosend.status},
+                pacienteId: ${objeTosend.pacienteId},
+                servicioId: ${objeTosend.servicioId},
                 observaciones: "${objeTosend.observaciones}",
             }) {     
-                TITLE
+                title
             }  
           }
           `,
@@ -67,14 +70,15 @@ export class CitaService {
           query {
             getCitasByOdontologoId(odontologoId:${id}){
               id
-              TITLE
-              START
-              END
+              title
+              start
+              end
               odontologoId
               horaIngreso
               horaSalida
-              asistencia
-              cancelado
+              status
+              pacienteId
+              servicioId
               observaciones
             }
           }
