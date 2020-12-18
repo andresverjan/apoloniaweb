@@ -65,7 +65,6 @@ export class ApplicationsComponent implements OnInit {
     this.icono = {
       nombre: "Seleccione Icono",
     };
-
   }
   adicionar() {
     this.showContent = false;
@@ -74,7 +73,6 @@ export class ApplicationsComponent implements OnInit {
   }
 
   actualizar(application: any) {
-    console.log(application);
     this.showListado = false;
     this.showContent = false;
     this.showForm = true;
@@ -111,7 +109,11 @@ export class ApplicationsComponent implements OnInit {
     this.showForm = false;
 
     this.aplicacionForm.reset();
-    Swal.fire("Operación exitosa", "Aplicación agregada correctamente!.", "success");
+    Swal.fire(
+      "Operación exitosa",
+      "Aplicación agregada correctamente!.",
+      "success"
+    );
 
     this.fetchApplications();
 
@@ -133,7 +135,6 @@ export class ApplicationsComponent implements OnInit {
   }
 
   onIconoSelected(selected) {
-    console.log(selected);    
     this.icono = selected;
     this.aplicacionForm.controls["icono"].setValue(this.icono.nombre);
   }
@@ -223,24 +224,23 @@ export class ApplicationsComponent implements OnInit {
   fetchCamposByTabla(obj) {
     this.IsWaiting = true;
     this._columnaService.getAll(obj).subscribe((res) => {
-      console.log(res.data.listaCamposTable);
-      //this.campos = res.data.listaCamposTable;      
+      //this.campos = res.data.listaCamposTable;
 
-      this.campos = res.data.listaCamposTable.map( item =>  {        
+      this.campos = res.data.listaCamposTable.map((item) => {
         item.nombreUi = item.nombre;
         item.mascaraId = 1;
-        item.tipoCampoId=1;
-        item.orden= 1;
-        item.minLength= 1;
-        item.maxLength= 255;
+        item.tipoCampoId = 1;
+        item.orden = 1;
+        item.minLength = 1;
+        item.maxLength = 255;
 
         item.requerido = false;
-        item.visible= false;
-        item.buscador= false;
-        item.verList= false;
+        item.visible = false;
+        item.buscador = false;
+        item.verList = false;
         return item;
       });
-      
+
       this.IsWaiting = false;
     });
   }
@@ -278,7 +278,11 @@ export class ApplicationsComponent implements OnInit {
       };
       this.aplicacionForm.reset();
       this.campos = new Array<Campo>();
-      Swal.fire("Operación exitosa", "Aplicación guardada correctamente!.", "success");
+      Swal.fire(
+        "Operación exitosa",
+        "Aplicación guardada correctamente!.",
+        "success"
+      );
 
       this.fetchApplications();
 

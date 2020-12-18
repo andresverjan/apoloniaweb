@@ -11,19 +11,16 @@ export class AvatarComponent implements OnInit {
   public message: string;
 
   @Input() form: any;
-//  @Input() campo: any;
+  //  @Input() campo: any;
   @Input() editmode = false;
   @Input("width") public width: number;
   @Input() url: string | ArrayBuffer | SafeUrl = "";
   @Input() marginInput: string = "";
 
-
-
   @Output() urlChange = new EventEmitter();
 
   files: FileHandle[] = [];
   removeAvatar = 'url("/assets/avatar.png");';
-
 
   ngOnInit() {}
 
@@ -37,11 +34,9 @@ export class AvatarComponent implements OnInit {
 
   preview(files: File[]) {
     this.removeAvatar = "none";
-    console.log("files : ", files);
     if (files.length === 0) {
       return;
     }
-    console.log("file : ", files[0]);
     const mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
       this.message = "Only images are supported.";

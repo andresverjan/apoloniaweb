@@ -1,5 +1,8 @@
 <div class="container card-container" style="overflow: hidden">
-  <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
+  <mat-card-content
+    class="window-dashboard-card-content"
+    style="overflow-block: hidden"
+  >
     <mat-toolbar color="primary">
       <mat-icon matPrefix>web</mat-icon>
       <span>Citas</span>
@@ -7,25 +10,61 @@
       <mat-icon>info</mat-icon>
     </mat-toolbar>
     <div class="listar">
-    <app-buscadormodal *ngIf="true" (selected)="onTableSelected($event)" [columnas]="{ Nombres: 'Nombre Odontologo' }"
-  [resultInputText]="['Nombres']" [service]="_odontologosService" tituloBusqueda="Odontologos"
-  [defaultObjValue]="odontologo" [readonly]="false" class="listar"></app-buscadormodal>
+      <app-buscadormodal
+        *ngIf="true"
+        (selected)="onTableSelected($event)"
+        [columnas]="{ Nombres: 'Nombre Odontologo' }"
+        [resultInputText]="['Nombres']"
+        [service]="_odontologosService"
+        tituloBusqueda="Odontologos"
+        [defaultObjValue]="odontologo"
+        [readonly]="false"
+        class="listar"
+      ></app-buscadormodal>
 
-<app-buscadormodal *ngIf="IsWaiting" (selected)="onPatientSelected($event)"
-  [columnas]="{ Nombres1: 'Nombre Paciente',  Apellidos1: 'Apellido' }" [resultInputText]="['Apellidos1','Nombres1']"
-  [service]="_pacienteService" tituloBusqueda="Pacientes" [defaultObjValue]="paciente" ></app-buscadormodal>
+      <app-buscadormodal
+        *ngIf="IsWaiting"
+        (selected)="onPatientSelected($event)"
+        [columnas]="{ Nombres1: 'Nombre Paciente', Apellidos1: 'Apellido' }"
+        [resultInputText]="['Apellidos1', 'Nombres1']"
+        [service]="_pacienteService"
+        tituloBusqueda="Pacientes"
+        [defaultObjValue]="paciente"
+      ></app-buscadormodal>
 
-<app-buscadormodal *ngIf="Waiting" (selected)="onServiceSelected($event)" [columnas]="{ nombre: 'Nombre Servicio' }"
-  [resultInputText]="['nombre']" [service]="_servicioService" tituloBusqueda="Servicios" [defaultObjValue]="servicio"
-  [readonly]="false"></app-buscadormodal>
-</div>
-<div class="calendario">
-    <app-scheduler [configuration]="calendar" [citas]="citasAgendadas" ></app-scheduler>
-</div>
-
+      <app-buscadormodal
+        *ngIf="Waiting"
+        (selected)="onServiceSelected($event)"
+        [columnas]="{ nombre: 'Nombre Servicio' }"
+        [resultInputText]="['nombre']"
+        [service]="_servicioService"
+        tituloBusqueda="Servicios"
+        [defaultObjValue]="servicio"
+        [readonly]="false"
+      ></app-buscadormodal>
+    </div>
+    <div class="calendario">
+      <app-scheduler
+        [configuration]="calendar"
+        [citas]="citasAgendadas"
+      ></app-scheduler>
+    </div>
   </mat-card-content>
-
-
-
-
 </div>
+
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="menuTopLeftPosition.x"
+  [style.top]="menuTopLeftPosition.y"
+  [matMenuTriggerFor]="rightMenu"
+></div>
+
+<mat-menu #rightMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item>Confirmada</button>
+    <button mat-menu-item>Asistida</button>
+    <button mat-menu-item>Paciente Ingresó</button>
+    <button mat-menu-item>Paciente Salió</button>
+    <button mat-menu-item (click)="onClickCancelar()">Cancelada</button>
+  </ng-template>
+</mat-menu>
