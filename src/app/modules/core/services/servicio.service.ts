@@ -15,7 +15,6 @@ export class ServicioService {
 
   getAll(objeTosend: any): Observable<any> {
     let filter = "";
-    console.log("!!!!!!!! objeTosend.nombre", objeTosend)
     //si trae filtro
     if (objeTosend) {
       filter = `(filter: {

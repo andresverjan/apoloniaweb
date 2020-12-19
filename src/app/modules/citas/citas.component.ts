@@ -26,12 +26,15 @@ export class CitasComponent implements OnInit {
   public IsWaiting: Boolean = false;
   public Waiting: Boolean = false;
   public citas = [];
-  public menuTopLeftPosition = { x: "0", y: "0" };
   public citaSeleccionada: any;
+  public validatingForm: FormGroup;
+  public USUARIO: any;
+  public userKey: string = "USUARIO";
+  public statusCitas: Array<any> = [];
 
+  public menuTopLeftPosition = { x: "0", y: "0" };
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
 
-  public validatingForm: FormGroup;
   constructor(
     public _citaService: CitaService,
     public _odontologosService: OdontologosService,
@@ -62,20 +65,25 @@ export class CitasComponent implements OnInit {
     this.servicio = {
       nombre: "Seleccionar Servicio",
     };
+
+    this.getUserFromLocalStorage();
+    this.fetchStatusCitas();
   }
+
+  getUserFromLocalStorage() {
+    this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
+  }
+
   reloadPage() {
     window.location.reload();
   }
 
   handleEventClick(clickInfo: EventClickArg) {
     clickInfo.jsEvent.preventDefault();
-
     this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
     this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
-
     this.matMenuTrigger.menuData = { item: clickInfo.event };
     this.citaSeleccionada = clickInfo.event;
-
     this.matMenuTrigger.openMenu();
   }
 
@@ -123,7 +131,6 @@ export class CitasComponent implements OnInit {
   }
 
   async handleDateSelect(selectInfo: DateSelectArg) {
-    // calendarApi.unselect(); // clear date selection
     let { value: titulo } = await Swal.fire({
       title: "Agenda tu Cita",
       input: "text",
@@ -136,7 +143,6 @@ export class CitasComponent implements OnInit {
       },
     });
     if (titulo) {
-      const calendarApi = selectInfo.view.calendar;
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -156,7 +162,7 @@ export class CitasComponent implements OnInit {
     }
     const { id: odontologoId } = this.odontologo;
     const { id: pacienteId } = this.paciente;
-    const { id: servicioId } = this.paciente;
+    const { id: servicioId } = this.servicio;
 
     let nuevaCita: NuevaCita = {
       title: titulo,
@@ -169,13 +175,35 @@ export class CitasComponent implements OnInit {
       pacienteId: pacienteId,
       servicioId: servicioId,
       observaciones: "",
+      usuarioId: this.USUARIO.id,
     };
     this._citaService.createCita(nuevaCita).subscribe((reponse) => reponse);
     setTimeout(this.reloadPage, 4000);
   }
 
-  onClickCancelar() {
-    console.log("entró a cancelar");
+  fetchStatusCitas() {
+    this._citaService.getStatusSCitas().subscribe((res) => {
+      this.statusCitas = res.data.statusCitas;
+    });
+  }
+
+  onClickChangeStatusCita(status) {
+    console.log(status);
+
+    const { id } = this.citaSeleccionada;
+
+    this._citaService.getCita(id).subscribe(({ data }) => {
+      this.citaSeleccionada = data.getCita;
+
+      this.citaSeleccionada.status = status.id;
+
+      console.log(this.citaSeleccionada);
+      this._citaService
+        .updateCita(this.citaSeleccionada)
+        .subscribe((res) => res);
+
+      Swal.fire("Cita", "Cita actualizada correctamente", "success");
+    });
   }
 }
 

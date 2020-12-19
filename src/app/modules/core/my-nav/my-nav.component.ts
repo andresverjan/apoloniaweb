@@ -45,10 +45,6 @@ export class MyNavComponent {
       return item;
     });
   }
-  // goToProfile(){
-  //   this.mostrarRouter();
-  //   this.router.navigate(['/dashboard/perfil']);
-  // }
 
   logout(ruta) {
     localStorage.removeItem(this.userKey);

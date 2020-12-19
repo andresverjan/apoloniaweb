@@ -143,4 +143,5 @@ export interface NuevaCita {
   pacienteId: number;
   servicioId: number;
   observaciones: string;
+  usuarioId: number;
 }

@@ -61,14 +61,23 @@
       </mat-card>
     </mat-card>
   </mat-card-content>
-
-  <mat-menu #rightMenu="matMenu">
-    <ng-template matMenuContent let-item="item">
-      <button mat-menu-item>Confirmada</button>
-      <button mat-menu-item>Asistida</button>
-      <button mat-menu-item>Paciente Ingresó</button>
-      <button mat-menu-item>Paciente Salió</button>
-      <button mat-menu-item (click)="onClickCancelar()">Cancelada</button>
-    </ng-template>
-  </mat-menu>
 </div>
+
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="menuTopLeftPosition.x"
+  [style.top]="menuTopLeftPosition.y"
+  [matMenuTriggerFor]="rightMenu"
+></div>
+
+<mat-menu #rightMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button
+      *ngFor="let status of statusCitas"
+      mat-menu-item
+      (click)="onClickChangeStatusCita(status)"
+    >
+      {{ status.nombre }}
+    </button>
+  </ng-template>
+</mat-menu>
