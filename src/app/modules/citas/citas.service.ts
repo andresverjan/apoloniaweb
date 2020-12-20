@@ -2,8 +2,6 @@ import { Injectable } from "@angular/core";
 import * as Globals from "../core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Campo } from "../core/interfaces/campoTable.interace";
-import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +13,6 @@ export class CitaService {
   }
 
   createCita(objeTosend): Observable<any> {
-    console.log(objeTosend);
     let body = {
       query: `
           mutation {
@@ -42,8 +39,6 @@ export class CitaService {
   }
 
   updateCita(objeTosend): Observable<any> {
-    console.log(objeTosend);
-
     let body = {
       query: `
           mutation {
