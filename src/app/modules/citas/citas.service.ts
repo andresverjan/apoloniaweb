@@ -2,15 +2,13 @@ import { Injectable } from "@angular/core";
 import * as Globals from "../core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Campo } from "../core/interfaces/campoTable.interace";
-import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
 })
 export class CitaService {
   serverUrl: string;
-  constructor(private http: HttpClient, private httpService: HttpService) {
+  constructor(private http: HttpClient) {
     this.serverUrl = Globals.SERVER;
   }
 
@@ -29,9 +27,10 @@ export class CitaService {
                 pacienteId: ${objeTosend.pacienteId},
                 servicioId: ${objeTosend.servicioId},
                 observaciones: "${objeTosend.observaciones}",
+                usuarioId: ${objeTosend.usuarioId}
             }) {     
                 title
-            }  
+            }
           }
           `,
     };
@@ -55,6 +54,7 @@ export class CitaService {
                 pacienteId: ${objeTosend.pacienteId},
                 servicioId: ${objeTosend.servicioId},
                 observaciones: "${objeTosend.observaciones}",
+                usuarioId: ${objeTosend.usuarioId}
             }) {     
                 title
             }  
@@ -80,6 +80,31 @@ export class CitaService {
               pacienteId
               servicioId
               observaciones
+              usuarioId
+            }
+          }
+            `,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+  getCita(id): Observable<any> {
+    let body = {
+      query: `
+          query {
+            getCita(cita:{id:${id}}){
+              id
+              title
+              start
+              end
+              odontologoId
+              horaIngreso
+              horaSalida
+              status
+              pacienteId
+              servicioId
+              observaciones
+              usuarioId
             }
           }
             `,
@@ -94,6 +119,23 @@ export class CitaService {
             mutation {
                 deleteCita(cita: {id: ${id}}) 
             }
+            `,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+  getStatusSCitas(): Observable<any> {
+    let body = {
+      query: `
+          {
+            statusCitas{
+              id
+              nombre
+              color
+              textColor
+              borderColor
+            }
+          }
             `,
     };
     let headers = new HttpHeaders().set("Content-Type", "application/json");

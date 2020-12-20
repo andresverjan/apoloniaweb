@@ -21,6 +21,7 @@ export class LoginService {
       query {
         login( username: "${objeTosend.usuario}",
                password: "${objeTosend.password}"){
+          id
           USUARIO_NOMBRE
           USUARIO_CORREO
           USUARIO_LOGIN
@@ -45,7 +46,7 @@ export class LoginService {
             NOMBRE
             DESRIPCION
           }
-  } 
+        } 
       }
       `,
     };

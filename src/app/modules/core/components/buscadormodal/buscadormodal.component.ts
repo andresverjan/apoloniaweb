@@ -7,7 +7,11 @@ import {
   EventEmitter,
 } from "@angular/core";
 
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from "@angular/material/dialog";
 
 @Component({
   selector: "app-buscadormodal",
@@ -56,7 +60,6 @@ export class BuscadormodalComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
         let propiedades = this.resultInputText;
         let resultString = [];
-        console.log('propiedades: ' , propiedades);
         propiedades.forEach((propiedad) => {
           if (result.hasOwnProperty(propiedad)) {
             resultString.push(result[propiedad]);
@@ -111,15 +114,12 @@ export class DialogOverviewExample {
     this.loading = true;
     if (this.filter.nombre.length > 1) {
       this.service.getAll(this.filter).subscribe((res) => {
-        console.log("Resp model search", res);
         this.dataSource = res.data[Object.keys(res.data)[0]];
         this.loading = false;
       });
     } else {
       this.service.getAll().subscribe((res) => {
-        console.log("Resp model search 2", res);
         this.dataSource = res.data[Object.keys(res.data)[0]];
-        console.log("Resp model search 2_1", this.dataSource);
         this.loading = false;
       });
     }
