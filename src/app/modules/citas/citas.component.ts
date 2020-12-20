@@ -188,8 +188,6 @@ export class CitasComponent implements OnInit {
   }
 
   onClickChangeStatusCita(status) {
-    console.log(status);
-
     const { id } = this.citaSeleccionada;
 
     this._citaService.getCita(id).subscribe(({ data }) => {
@@ -197,12 +195,28 @@ export class CitasComponent implements OnInit {
 
       this.citaSeleccionada.status = status.id;
 
-      console.log(this.citaSeleccionada);
       this._citaService
         .updateCita(this.citaSeleccionada)
         .subscribe((res) => res);
 
-      Swal.fire("Cita", "Cita actualizada correctamente", "success");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "La cita fue actualizada",
+      });
+
+      setTimeout(this.reloadPage, 4000);
     });
   }
 }
