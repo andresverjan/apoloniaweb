@@ -159,7 +159,16 @@ export class CitasComponent implements OnInit {
     this._citaService.createCita(nuevaCita).subscribe((reponse) => reponse);
     setTimeout(this.reloadPage, 4000);
   }
+
+  canView() {
+    return  (this.paciente.Nombres1 != ""  && this.paciente.Nombres1 != "Seleccionar Paciente"
+    && this.odontologo.Nombres != "" && this.odontologo.Nombres != "Seleccionar Odontologo"
+    && this.servicio.nombre != "" && this.servicio.nombre != "Seleccionar Servicio"
+    )
+  }
 }
+
+
 
 
 
