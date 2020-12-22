@@ -52,6 +52,26 @@ export class CitasComponent implements OnInit {
   public citasAgendadas: Array<Cita> = [];
   public calendar: CalendarOptions;
 
+  async fire() {
+    const { value: formValues } = await Swal.fire({
+      title: "Multiple inputs",
+      html:
+        '<input id="swal-input1" class="swal2-input">' +
+        '<input id="swal-input2" class="swal2-input">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById("swal-input1").value,
+          document.getElementById("swal-input2").value,
+        ];
+      },
+    });
+
+    if (formValues) {
+      Swal.fire(JSON.stringify(formValues));
+    }
+  }
+
   ngOnInit(): void {
     this.odontologo = {
       Nombres: "Seleccionar Odontologo",
@@ -75,7 +95,7 @@ export class CitasComponent implements OnInit {
   }
 
   reloadPage() {
-    window.location.reload();
+    // window.location.reload();
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -125,24 +145,50 @@ export class CitasComponent implements OnInit {
       });
       this.calendar = {
         events: this.citasAgendadas,
-        slotDuration: "00:30",
       };
     });
   }
 
+  addHoursAndMinutes(date: Date, timeToAdd: string): Date {
+    const hr = Number(timeToAdd.split(":")[0]);
+    const min = Number(timeToAdd.split(":")[1]);
+    date.setHours(date.getHours() + hr);
+    date.setMinutes(date.getMinutes() + min);
+    return date;
+  }
+
   async handleDateSelect(selectInfo: DateSelectArg) {
-    let { value: titulo } = await Swal.fire({
-      title: "Agenda tu Cita",
-      input: "text",
-      inputLabel: "Nombre de la cita",
-      showCancelButton: true,
-      inputValidator: (value) => {
-        if (!value) {
-          return "You need to write something!";
-        }
+    const { value: citaInfo } = await Swal.fire({
+      title: "Especifique el título y la duración de la cita",
+      html:
+        '<input id="titulo" class="swal2-input">' +
+        `
+        <select name="duracion" id="duracion">
+          <option value="0:05">5 min</option>
+          <option value="0:10">10 min</option>
+          <option value="0:15">15 min</option>
+          <option value="0:20">20 min</option>
+          <option value="0:25">25 min</option>
+          <option value="0:30">30 min</option>
+          <option value="0:35">35 min</option>
+          <option value="0:40">40 min</option>
+          <option value="0:45">45 min</option>
+          <option value="1:00">1 hr</option>
+          <option value="1:15">1 hr 15 min</option>
+          <option value="1:30">1 hr 30 min</option>
+          <option value="1:45">1 hr 45 min</option>
+          <option value="2:00">2 hr</option>
+        </select>
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById("titulo").value,
+          document.getElementById("duracion").value,
+        ];
       },
     });
-    if (titulo) {
+    if (citaInfo) {
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -165,9 +211,9 @@ export class CitasComponent implements OnInit {
     const { id: servicioId } = this.servicio;
 
     let nuevaCita: NuevaCita = {
-      title: titulo,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
+      title: citaInfo[0],
+      start: selectInfo.start.toISOString(),
+      end: this.addHoursAndMinutes(selectInfo.start, citaInfo[1]).toISOString(),
       odontologoId: odontologoId,
       horaIngreso: "",
       horaSalida: "",
