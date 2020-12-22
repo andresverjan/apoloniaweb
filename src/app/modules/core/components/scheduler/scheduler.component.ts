@@ -90,22 +90,6 @@ export class SchedulerComponent implements OnInit, OnChanges {
     this.calendarVisible = !this.calendarVisible;
   }
 
-  handleDateSelect(selectInfo: DateSelectArg) {
-    const title = prompt("Please enter a new title for your event");
-    const calendarApi = selectInfo.view.calendar;
-
-    calendarApi.unselect(); // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      });
-    }
-  }
   // calendarApi.addEvent({
   //   id: createEventId(),
   //   title: valor,

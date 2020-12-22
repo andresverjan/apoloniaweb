@@ -75,7 +75,7 @@ export class CitasComponent implements OnInit {
   }
 
   reloadPage() {
-    window.location.reload();
+    // window.location.reload();
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -85,6 +85,8 @@ export class CitasComponent implements OnInit {
     this.matMenuTrigger.menuData = { item: clickInfo.event };
     this.citaSeleccionada = clickInfo.event;
     this.matMenuTrigger.openMenu();
+    const calendarApi = clickInfo.view.calendar;
+    calendarApi.refetchEvents();
   }
 
   onTableSelected(selected) {
@@ -138,6 +140,8 @@ export class CitasComponent implements OnInit {
   }
 
   async handleDateSelect(selectInfo: DateSelectArg) {
+    const calendarApi = selectInfo.view.calendar;
+
     const { value: citaInfo } = await Swal.fire({
       title: "Especifique el título y la duración de la cita",
       html:
@@ -146,6 +150,7 @@ export class CitasComponent implements OnInit {
         "<h4>Duración</h4>" +
         `
         <select name="duracion" id="duracion">
+          <option selected>Duración</option>
           <option value="0:05">5 min</option>
           <option value="0:10">10 min</option>
           <option value="0:15">15 min</option>
@@ -165,12 +170,36 @@ export class CitasComponent implements OnInit {
       focusConfirm: false,
       preConfirm: () => {
         return [
-          document.getElementById("titulo").value,
-          document.getElementById("duracion").value,
+          (<HTMLInputElement>document.getElementById("titulo")).value,
+          (<HTMLInputElement>document.getElementById("duracion")).value,
         ];
       },
     });
-    if (citaInfo) {
+
+    if (citaInfo && citaInfo[0].length > 0 && citaInfo[1] != "Duración") {
+      const { id: odontologoId } = this.odontologo;
+      const { id: pacienteId } = this.paciente;
+      const { id: servicioId } = this.servicio;
+
+      let nuevaCita: NuevaCita = {
+        title: citaInfo[0],
+        start: selectInfo.start.toISOString(),
+        end: this.addHoursAndMinutes(
+          selectInfo.start,
+          citaInfo[1]
+        ).toISOString(),
+        odontologoId: odontologoId,
+        horaIngreso: "",
+        horaSalida: "",
+        status: 1,
+        pacienteId: pacienteId,
+        servicioId: servicioId,
+        observaciones: "",
+        usuarioId: this.USUARIO.id,
+      };
+      this._citaService.createCita(nuevaCita).subscribe((res) => res);
+      calendarApi.refetchEvents();
+
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -188,25 +217,6 @@ export class CitasComponent implements OnInit {
         title: "La cita fue agendada",
       });
     }
-    const { id: odontologoId } = this.odontologo;
-    const { id: pacienteId } = this.paciente;
-    const { id: servicioId } = this.servicio;
-
-    let nuevaCita: NuevaCita = {
-      title: citaInfo[0],
-      start: selectInfo.start.toISOString(),
-      end: this.addHoursAndMinutes(selectInfo.start, citaInfo[1]).toISOString(),
-      odontologoId: odontologoId,
-      horaIngreso: "",
-      horaSalida: "",
-      status: 1,
-      pacienteId: pacienteId,
-      servicioId: servicioId,
-      observaciones: "",
-      usuarioId: this.USUARIO.id,
-    };
-    this._citaService.createCita(nuevaCita).subscribe((reponse) => reponse);
-    setTimeout(this.reloadPage, 4000);
   }
 
   fetchStatusCitas() {
