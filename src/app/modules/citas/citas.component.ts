@@ -141,7 +141,9 @@ export class CitasComponent implements OnInit {
     const { value: citaInfo } = await Swal.fire({
       title: "Especifique el título y la duración de la cita",
       html:
+        "<h4>Título</h4>" +
         '<input id="titulo" class="swal2-input">' +
+        "<h4>Duración</h4>" +
         `
         <select name="duracion" id="duracion">
           <option value="0:05">5 min</option>
