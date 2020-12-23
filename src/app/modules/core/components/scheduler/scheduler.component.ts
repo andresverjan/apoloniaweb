@@ -6,10 +6,17 @@ import {
   OnInit,
   OnChanges,
 } from "@angular/core";
-import { CalendarOptions, EventApi } from "@fullcalendar/angular";
+import {
+  CalendarOptions,
+  DateSelectArg,
+  EventApi,
+} from "@fullcalendar/angular";
+import { CitaService } from "../../../citas/citas.service";
 import listPlugin from "@fullcalendar/list";
 import esLocale from "@fullcalendar/core/locales/es";
 import timeGridPlugin from "@fullcalendar/timegrid";
+
+//import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 let eventGuid = 0;
 
@@ -97,6 +104,8 @@ export interface Cita {
   start: string;
   end: string;
   backgroundColor: string;
+  borderColor: string;
+  textColor: string;
 }
 
 export interface NuevaCita {

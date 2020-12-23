@@ -49,7 +49,7 @@
       </mat-card>
     </mat-card>
 
-    <mat-card class="cardcontent">
+    <mat-card class="cardcontent" *ngIf="canView()">
       <mat-card fxFill>
         <mat-card-content>
           <app-scheduler
