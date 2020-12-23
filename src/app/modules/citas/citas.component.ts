@@ -75,7 +75,7 @@ export class CitasComponent implements OnInit {
   }
 
   reloadPage() {
-    window.location.reload();
+    // window.location.reload();
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -85,6 +85,8 @@ export class CitasComponent implements OnInit {
     this.matMenuTrigger.menuData = { item: clickInfo.event };
     this.citaSeleccionada = clickInfo.event;
     this.matMenuTrigger.openMenu();
+    const calendarApi = clickInfo.view.calendar;
+    calendarApi.refetchEvents();
   }
 
   onTableSelected(selected) {
@@ -125,24 +127,79 @@ export class CitasComponent implements OnInit {
       });
       this.calendar = {
         events: this.citasAgendadas,
-        slotDuration: "00:30",
       };
     });
   }
 
+  addHoursAndMinutes(date: Date, timeToAdd: string): Date {
+    const hr = Number(timeToAdd.split(":")[0]);
+    const min = Number(timeToAdd.split(":")[1]);
+    date.setHours(date.getHours() + hr);
+    date.setMinutes(date.getMinutes() + min);
+    return date;
+  }
+
   async handleDateSelect(selectInfo: DateSelectArg) {
-    let { value: titulo } = await Swal.fire({
-      title: "Agenda tu Cita",
-      input: "text",
-      inputLabel: "Nombre de la cita",
-      showCancelButton: true,
-      inputValidator: (value) => {
-        if (!value) {
-          return "You need to write something!";
-        }
+    const calendarApi = selectInfo.view.calendar;
+
+    const { value: citaInfo } = await Swal.fire({
+      title: "Especifique el título y la duración de la cita",
+      html:
+        "<h4>Título</h4>" +
+        '<input id="titulo" class="swal2-input">' +
+        "<h4>Duración</h4>" +
+        `
+        <select name="duracion" id="duracion">
+          <option selected>Duración</option>
+          <option value="0:05">5 min</option>
+          <option value="0:10">10 min</option>
+          <option value="0:15">15 min</option>
+          <option value="0:20">20 min</option>
+          <option value="0:25">25 min</option>
+          <option value="0:30">30 min</option>
+          <option value="0:35">35 min</option>
+          <option value="0:40">40 min</option>
+          <option value="0:45">45 min</option>
+          <option value="1:00">1 hr</option>
+          <option value="1:15">1 hr 15 min</option>
+          <option value="1:30">1 hr 30 min</option>
+          <option value="1:45">1 hr 45 min</option>
+          <option value="2:00">2 hr</option>
+        </select>
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          (<HTMLInputElement>document.getElementById("titulo")).value,
+          (<HTMLInputElement>document.getElementById("duracion")).value,
+        ];
       },
     });
-    if (titulo) {
+
+    if (citaInfo && citaInfo[0].length > 0 && citaInfo[1] != "Duración") {
+      const { id: odontologoId } = this.odontologo;
+      const { id: pacienteId } = this.paciente;
+      const { id: servicioId } = this.servicio;
+
+      let nuevaCita: NuevaCita = {
+        title: citaInfo[0],
+        start: selectInfo.start.toISOString(),
+        end: this.addHoursAndMinutes(
+          selectInfo.start,
+          citaInfo[1]
+        ).toISOString(),
+        odontologoId: odontologoId,
+        horaIngreso: "",
+        horaSalida: "",
+        status: 1,
+        pacienteId: pacienteId,
+        servicioId: servicioId,
+        observaciones: "",
+        usuarioId: this.USUARIO.id,
+      };
+      this._citaService.createCita(nuevaCita).subscribe((res) => res);
+      calendarApi.refetchEvents();
+
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -160,25 +217,6 @@ export class CitasComponent implements OnInit {
         title: "La cita fue agendada",
       });
     }
-    const { id: odontologoId } = this.odontologo;
-    const { id: pacienteId } = this.paciente;
-    const { id: servicioId } = this.servicio;
-
-    let nuevaCita: NuevaCita = {
-      title: titulo,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      odontologoId: odontologoId,
-      horaIngreso: "",
-      horaSalida: "",
-      status: 1,
-      pacienteId: pacienteId,
-      servicioId: servicioId,
-      observaciones: "",
-      usuarioId: this.USUARIO.id,
-    };
-    this._citaService.createCita(nuevaCita).subscribe((reponse) => reponse);
-    setTimeout(this.reloadPage, 4000);
   }
 
   fetchStatusCitas() {
