@@ -78,7 +78,7 @@ export class CitasComponent implements OnInit {
     // window.location.reload();
   }
 
-  handleEventClick(clickInfo: EventClickArg) {
+  async handleEventClick(clickInfo: EventClickArg) {
     clickInfo.jsEvent.preventDefault();
     this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
     this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
@@ -86,10 +86,11 @@ export class CitasComponent implements OnInit {
     this.citaSeleccionada = clickInfo.event;
     this.matMenuTrigger.openMenu();
     const calendarApi = clickInfo.view.calendar;
-    calendarApi.refetchEvents();
+    this.fetchCitasByOdontologoId(this.odontologo);
+    await calendarApi.refetchEvents();
   }
 
-  onTableSelected(selected) {
+  onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.fetchCitasByOdontologoId(this.odontologo);
     this.IsWaiting = true;
@@ -197,8 +198,11 @@ export class CitasComponent implements OnInit {
         observaciones: "",
         usuarioId: this.USUARIO.id,
       };
-      this._citaService.createCita(nuevaCita).subscribe((res) => res);
-      calendarApi.refetchEvents();
+
+      this._citaService.createCita(nuevaCita).subscribe(async () => {
+        this.fetchCitasByOdontologoId(this.odontologo);
+        await calendarApi.refetchEvents();
+      });
 
       const Toast = Swal.mixin({
         toast: true,

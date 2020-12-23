@@ -6,17 +6,10 @@ import {
   OnInit,
   OnChanges,
 } from "@angular/core";
-import {
-  CalendarOptions,
-  DateSelectArg,
-  EventApi,
-} from "@fullcalendar/angular";
-import { CitaService } from "../../../citas/citas.service";
+import { CalendarOptions, EventApi } from "@fullcalendar/angular";
 import listPlugin from "@fullcalendar/list";
 import esLocale from "@fullcalendar/core/locales/es";
 import timeGridPlugin from "@fullcalendar/timegrid";
-
-//import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 let eventGuid = 0;
 
@@ -89,16 +82,6 @@ export class SchedulerComponent implements OnInit, OnChanges {
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
   }
-
-  // calendarApi.addEvent({
-  //   id: createEventId(),
-  //   title: valor,
-  //   start: selectInfo.startStr,
-  //   end: selectInfo.endStr,
-  //   allDay: selectInfo.allDay,
-  // });
-  // calendarApi.unselect(); // clear date selection
-  // }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
