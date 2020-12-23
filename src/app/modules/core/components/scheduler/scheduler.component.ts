@@ -90,16 +90,6 @@ export class SchedulerComponent implements OnInit, OnChanges {
     this.calendarVisible = !this.calendarVisible;
   }
 
-  // calendarApi.addEvent({
-  //   id: createEventId(),
-  //   title: valor,
-  //   start: selectInfo.startStr,
-  //   end: selectInfo.endStr,
-  //   allDay: selectInfo.allDay,
-  // });
-  // calendarApi.unselect(); // clear date selection
-  // }
-
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
   }
