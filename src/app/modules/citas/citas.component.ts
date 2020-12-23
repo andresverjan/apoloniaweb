@@ -79,17 +79,6 @@ export class CitasComponent implements OnInit {
     // window.location.reload();
   }
 
-  /*handleEventClick(clickInfo: EventClickArg) {
-    clickInfo.jsEvent.preventDefault();
-    this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
-    this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
-    this.matMenuTrigger.menuData = { item: clickInfo.event };
-    this.citaSeleccionada = clickInfo.event;
-    this.matMenuTrigger.openMenu();
-    const calendarApi = clickInfo.view.calendar;
-    calendarApi.refetchEvents();
-  }*/
-
   async handleEventClick(clickInfo: EventClickArg) {
     clickInfo.jsEvent.preventDefault();
     this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
