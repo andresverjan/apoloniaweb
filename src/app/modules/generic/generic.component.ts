@@ -135,15 +135,8 @@ export class GenericComponent implements OnInit {
       });
   }
 
-  selected(valor, item) {
-    //TODO: NECESARIO????
-    console.log(valor);
-    console.log(item);
-  }
-
   actualizar() {
     if (this.genericForm.valid) {
-      //crear el objeto a enviar
       const obj: any = {
         id: this.item.id,
         application: { ...this.application },
@@ -220,7 +213,7 @@ export class GenericComponent implements OnInit {
 
   setDate(value: any, item: any) {
     this.genericForm.controls[item.nombre].setValue(value);
-//    console.log("this.genericForm.controls[item.nombre]", this.genericForm.controls[item.nombre].value)
+    //    console.log("this.genericForm.controls[item.nombre]", this.genericForm.controls[item.nombre].value)
   }
 
   handlePageChange(e: PageEvent) {

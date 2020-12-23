@@ -5,26 +5,20 @@ import {
   EventEmitter,
   OnInit,
   OnChanges,
-  DoCheck,
 } from "@angular/core";
 import {
   CalendarOptions,
   DateSelectArg,
-  EventClickArg,
   EventApi,
 } from "@fullcalendar/angular";
-import { EventInput } from "@fullcalendar/angular";
 import { CitaService } from "../../../citas/citas.service";
 import listPlugin from "@fullcalendar/list";
-import allLocales from "@fullcalendar/core/locales-all";
 import esLocale from "@fullcalendar/core/locales/es";
-import timeGridPlugin from '@fullcalendar/timegrid';
-import Swal from "sweetalert2";
-import { parse } from "querystring";
+import timeGridPlugin from "@fullcalendar/timegrid";
+
 //import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 let eventGuid = 0;
-const TODAY_STR = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
 
 export function createEventId() {
   return String(eventGuid++);
@@ -41,9 +35,8 @@ export class SchedulerComponent implements OnInit, OnChanges {
   @Input() configuration: CalendarOptions;
   @Output() valor: EventEmitter<any>;
 
-  constructor(private _citaService: CitaService) {
+  constructor() {
     this.valor = new EventEmitter();
-
     this.citas = [];
   }
 
@@ -55,7 +48,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
       right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
     },
     plugins: [timeGridPlugin, listPlugin],
-    initialView: "timeGridWeek", // alternatively, use the `events` setting to fetch from a feed
+    initialView: "timeGridWeek",
     weekends: true,
     editable: true,
     navLinks: true,
@@ -81,41 +74,22 @@ export class SchedulerComponent implements OnInit, OnChanges {
         dayMaxEventRows: 2,
       },
     },
-
-
   };
 
   currentEvents: EventApi[] = [];
 
-  ngOnInit() { }
+  ngOnInit() {}
   ngOnChanges() {
     this.calendarOptions = Object.assign(
       this.calendarOptions,
       this.configuration
     );
-
   }
 
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
   }
 
-  handleDateSelect(selectInfo: DateSelectArg) {
-    const title = prompt("Please enter a new title for your event");
-    const calendarApi = selectInfo.view.calendar;
-
-    calendarApi.unselect(); // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      });
-    }
-  }
   // calendarApi.addEvent({
   //   id: createEventId(),
   //   title: valor,
@@ -131,7 +105,6 @@ export class SchedulerComponent implements OnInit, OnChanges {
   }
   emitValor() {
     this.valor.emit(this.citas);
-
   }
 }
 
@@ -141,6 +114,8 @@ export interface Cita {
   start: string;
   end: string;
   backgroundColor: string;
+  borderColor: string;
+  textColor: string;
 }
 
 export interface NuevaCita {
@@ -154,6 +129,5 @@ export interface NuevaCita {
   pacienteId: number;
   servicioId: number;
   observaciones: string;
-
-
+  usuarioId: number;
 }
