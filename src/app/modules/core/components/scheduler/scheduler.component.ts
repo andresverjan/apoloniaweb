@@ -42,6 +42,8 @@ export class SchedulerComponent implements OnInit, OnChanges {
 
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
+    slotMinTime: "06:00:00",
+    slotMaxTime: "22:00:00",
     headerToolbar: {
       left: "prev,next today",
       center: "title",
@@ -64,11 +66,17 @@ export class SchedulerComponent implements OnInit, OnChanges {
     locale: esLocale,
     dayMaxEventRows: true,
     expandRows: true,
+    businessHours: {
+      daysOfWeek: [1, 2, 3, 4, 5],
+      startTime: "06:00",
+      endTime: "21:00",
+    },
     eventTimeFormat: {
       hour: "2-digit",
       minute: "2-digit",
       meridiem: false,
     },
+
     views: {
       timeGrid: {
         dayMaxEventRows: 2,

@@ -119,15 +119,15 @@ export class CitasComponent implements OnInit {
     this._citaService.getCitasByOdontologoId(odontologoId).subscribe((res) => {
       this.citas = res.data.getCitasByOdontologoId;
       this.citas.forEach((cita) => {
-        this.statusCita = this.statusCitas.filter(x => x.id === cita.status);
+        this.statusCita = this.statusCitas.filter((x) => x.id === cita.status);
         this.citasAgendadas.push({
           id: cita.id.toString(),
           title: cita.title,
           start: cita.start,
           end: cita.end,
-          backgroundColor: this.statusCita[0].color,//"#512774"
+          backgroundColor: this.statusCita[0].color, //"#512774"
           borderColor: this.statusCita[0].borderColor,
-          textColor: this.statusCita[0].textColor
+          textColor: this.statusCita[0].textColor,
         });
       });
       this.calendar = {
@@ -203,7 +203,6 @@ export class CitasComponent implements OnInit {
         usuarioId: this.USUARIO.id,
       };
 
-
       this._citaService.createCita(nuevaCita).subscribe(async () => {
         this.fetchCitasByOdontologoId(this.odontologo);
         await calendarApi.refetchEvents();
@@ -229,10 +228,14 @@ export class CitasComponent implements OnInit {
   }
 
   canView() {
-    return  (this.paciente.Nombres1 != ""  && this.paciente.Nombres1 != "Seleccionar Paciente"
-    && this.odontologo.Nombres != "" && this.odontologo.Nombres != "Seleccionar Odontologo"
-    && this.servicio.nombre != "" && this.servicio.nombre != "Seleccionar Servicio"
-    )
+    return (
+      this.paciente.Nombres1 != "" &&
+      this.paciente.Nombres1 != "Seleccionar Paciente" &&
+      this.odontologo.Nombres != "" &&
+      this.odontologo.Nombres != "Seleccionar Odontologo" &&
+      this.servicio.nombre != "" &&
+      this.servicio.nombre != "Seleccionar Servicio"
+    );
   }
 
   fetchStatusCitas() {
