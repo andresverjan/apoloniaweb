@@ -1,4 +1,4 @@
-import { Campo } from "./../core/interfaces/campoTable.interace";
+import { Router } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
@@ -13,13 +13,19 @@ export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
   public USUARIO;
   public IsWait: Boolean = false;
-
   lShowPanelDatosViaje: boolean;
   lShowBtnActualizar: boolean;
   lShowImagen: boolean;
   userKey: string = "USUARIO";
-  show: boolean = false;
-  shows: boolean = false;
+  showProfileUser: boolean = true;
+  showIdiom: boolean = false;
+  showButton: boolean = true;
+  showUpdatePassword: boolean = false;
+  idiom = [];
+  idiomUser: number;
+  valorSeleccionado: string = "";
+  idiomSelect: number;
+  valuePassword: string = "";
 
   public picurl: string = "";
 
@@ -29,7 +35,7 @@ export class ProfileComponent implements OnInit {
 
   public etiquetas: any = {};
 
-  constructor(private profileService: ProfileService) {
+  constructor(private profileService: ProfileService, private router: Router) {
     this.profileForm = new FormGroup({
       USUARIO_NOMBRE: new FormControl(""),
       USUARIO_CORREO: new FormControl(""),
@@ -47,11 +53,11 @@ export class ProfileComponent implements OnInit {
     this.lShowBtnActualizar = true;
     this.lShowImagen = true;
     this.getUserFromLocalStorage();
+    this.changeIdiomEn();
   }
 
   getUserFromLocalStorage() {
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
-    console.log(this.USUARIO);
     this.profileForm.patchValue(this.USUARIO);
     this.USUARIO.URL_FOTO_PERFIL = "assets/Dentist6.png";
   }
@@ -69,7 +75,8 @@ export class ProfileComponent implements OnInit {
         Swal.fire("Contraseña", "Actualizada correctamente.", "success");
         this.profileForm.controls["USUARIO_PASSWORD"].reset();
         this.profileForm.controls["USUARIO_CONFIRMACION"].reset();
-        this.show = false;
+        localStorage.removeItem("USUARIO");
+        this.router.navigate(["/salida"]);
         return response;
       });
     } else {
@@ -77,33 +84,50 @@ export class ProfileComponent implements OnInit {
     }
   }
   changeIdiomEn() {
-    const usuarioIdiom = {
-      USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
-      IDIOMA_ID: "1",
-    };
-
-    this.profileService.updateIdiom(usuarioIdiom).subscribe((response) => {
-      Swal.fire("Idiom", "Updated successfully", "success");
-      this.shows = false;
-      return response;
+    this.profileService.idiom().subscribe((response) => {
+      this.idiom = response.data.idiomas;
     });
   }
-  changeIdiomEs() {
-    const usuarioIdiom = {
-      USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
-      IDIOMA_ID: "2",
+
+  changeIdiomEs(value) {
+    value
+      ? (this.idiomSelect = value)
+      : (this.idiomSelect = this.USUARIO.IDIOMA_ID);
+  }
+
+  showChangePassword() {
+    this.showProfileUser = false;
+    this.showUpdatePassword = true;
+    this.showIdiom = false;
+    this.showButton = false;
+  }
+  showChangeIdiom() {
+    this.showIdiom = true;
+    this.showProfileUser = false;
+    this.showUpdatePassword = false;
+  }
+
+  updateprofile() {
+    const updateUser = {
+      id: this.USUARIO.id,
+      IDIOMA_ID: this.idiomSelect,
+      USUARIO_NOMBRE: this.profileForm.value.USUARIO_NOMBRE,
+      USUARIO_APELLIDO: this.profileForm.value.USUARIO_APELLIDO,
+      USUARIO_CORREO: this.profileForm.value.USUARIO_CORREO,
+      USUARIO_TELEFONO: this.profileForm.value.USUARIO_TELEFONO,
     };
 
-    this.profileService.updateIdiom(usuarioIdiom).subscribe((response) => {
-      Swal.fire("Idioma", "Actualizado correctamente.", "success");
-      this.shows = false;
-      return response;
+    this.profileService.updateProfile(updateUser).subscribe((response) => {
+      Swal.fire("Usuarios", "Actualizado correctamente.", "success");
+      this.router.navigate(["/dashboard"]);
     });
   }
-  showChange() {
-    this.show = true;
-  }
-  showChanges() {
-    this.shows = true;
+  cancelar() {
+    this.showUpdatePassword = false;
+    this.showProfileUser = true;
+    this.showButton = true;
+    this.valuePassword = "";
+    this.profileForm.controls["USUARIO_CONFIRMACION"].reset();
+    this.profileForm.controls["USUARIO_PASSWORD"].reset();
   }
 }

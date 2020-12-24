@@ -31,6 +31,7 @@ export class CitasComponent implements OnInit {
   public USUARIO: any;
   public userKey: string = "USUARIO";
   public statusCitas: Array<any> = [];
+  public statusCita: any;
 
   public menuTopLeftPosition = { x: "0", y: "0" };
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
@@ -78,25 +79,19 @@ export class CitasComponent implements OnInit {
     // window.location.reload();
   }
 
-  handleEventClick(clickInfo: EventClickArg) {
+  async handleEventClick(clickInfo: EventClickArg) {
     clickInfo.jsEvent.preventDefault();
     this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
     this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
     this.matMenuTrigger.menuData = { item: clickInfo.event };
     this.citaSeleccionada = clickInfo.event;
     this.matMenuTrigger.openMenu();
-    const calendarApi = clickInfo.view.calendar;
-    calendarApi.refetchEvents();
   }
 
-  onTableSelected(selected) {
+  onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.fetchCitasByOdontologoId(this.odontologo);
     this.IsWaiting = true;
-    this.calendar = {
-      ...this.calendar,
-      eventClick: this.handleEventClick.bind(this),
-    };
   }
 
   onPatientSelected(selected) {
@@ -109,6 +104,7 @@ export class CitasComponent implements OnInit {
     this.calendar = {
       ...this.calendar,
       select: this.handleDateSelect.bind(this),
+      eventClick: this.handleEventClick.bind(this),
     };
   }
 
@@ -117,12 +113,15 @@ export class CitasComponent implements OnInit {
     this._citaService.getCitasByOdontologoId(odontologoId).subscribe((res) => {
       this.citas = res.data.getCitasByOdontologoId;
       this.citas.forEach((cita) => {
+        this.statusCita = this.statusCitas.filter((x) => x.id === cita.status);
         this.citasAgendadas.push({
           id: cita.id.toString(),
           title: cita.title,
           start: cita.start,
           end: cita.end,
-          backgroundColor: "#512774",
+          backgroundColor: this.statusCita[0].color,
+          borderColor: this.statusCita[0].borderColor,
+          textColor: this.statusCita[0].textColor,
         });
       });
       this.calendar = {
@@ -181,6 +180,8 @@ export class CitasComponent implements OnInit {
       const { id: pacienteId } = this.paciente;
       const { id: servicioId } = this.servicio;
 
+      console.log(this.USUARIO.id);
+
       let nuevaCita: NuevaCita = {
         title: citaInfo[0],
         start: selectInfo.start.toISOString(),
@@ -197,8 +198,11 @@ export class CitasComponent implements OnInit {
         observaciones: "",
         usuarioId: this.USUARIO.id,
       };
-      this._citaService.createCita(nuevaCita).subscribe((res) => res);
-      calendarApi.refetchEvents();
+
+      this._citaService.createCita(nuevaCita).subscribe(async () => {
+        this.fetchCitasByOdontologoId(this.odontologo);
+        await calendarApi.refetchEvents();
+      });
 
       const Toast = Swal.mixin({
         toast: true,
@@ -217,6 +221,17 @@ export class CitasComponent implements OnInit {
         title: "La cita fue agendada",
       });
     }
+  }
+
+  canView() {
+    return (
+      this.paciente.Nombres1 != "" &&
+      this.paciente.Nombres1 != "Seleccionar Paciente" &&
+      this.odontologo.Nombres != "" &&
+      this.odontologo.Nombres != "Seleccionar Odontologo" &&
+      this.servicio.nombre != "" &&
+      this.servicio.nombre != "Seleccionar Servicio"
+    );
   }
 
   fetchStatusCitas() {
@@ -253,8 +268,6 @@ export class CitasComponent implements OnInit {
         icon: "success",
         title: "La cita fue actualizada",
       });
-
-      setTimeout(this.reloadPage, 4000);
     });
   }
 }
@@ -416,6 +429,35 @@ export class CitasComponent implements OnInit {
 //     },
 //     showCancelButton: true,
 //   });
+
+//     }
+//   })
+// }
+
+// async cancelarCita(cita) {
+//   const { value: text } = await Swal.fire({
+//     input: "textarea",
+//     inputLabel: "¿Cual es el motivo por el cual quiere cancelar la cita?",
+//     inputPlaceholder: "Escribe aqui el motivo...",
+//     inputAttributes: {
+//       "aria-label": "Escribe aqui el motivo",
+//     },
+//     showCancelButton: true,
+//   });
+
+//   if (text) {
+//     const { id: odontologoId } = this.odontologo;
+//     const Toast = Swal.mixin({
+//       toast: true,
+//       position: "top-end",
+//       showConfirmButton: false,
+//       timer: 3000,
+//       timerProgressBar: true,
+//       didOpen: (toast) => {
+//         toast.addEventListener("mouseenter", Swal.stopTimer);
+//         toast.addEventListener("mouseleave", Swal.resumeTimer);
+//       },
+//     });
 
 //   if (text) {
 //     const { id: odontologoId } = this.odontologo;

@@ -30,6 +30,7 @@ export class LoginService {
           URL_FOTO_PERFIL
           STATUS_ONLINE
           EMPRESA_ID
+          IDIOMA_ID
           PERMISOS {
             nombre
             descripcion
