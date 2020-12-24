@@ -1,7 +1,7 @@
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { ProfileService } from "./profile.service";
 
 @Component({
@@ -11,28 +11,26 @@ import { ProfileService } from "./profile.service";
 })
 export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
-  public USUARIO ;
+  public USUARIO;
   public IsWait: Boolean = false;
   lShowPanelDatosViaje: boolean;
   lShowBtnActualizar: boolean;
   lShowImagen: boolean;
-  userKey: string='USUARIO';
-  showProfileUser:boolean = true;
-  showIdiom:boolean = false;
-  showButton:boolean = true;
-  showUpdatePassword:boolean = false;
+  userKey: string = "USUARIO";
+  showProfileUser: boolean = true;
+  showIdiom: boolean = false;
+  showButton: boolean = true;
+  showUpdatePassword: boolean = false;
   idiom = [];
   idiomUser: number;
-  valorSeleccionado:string='';
-  idiomSelect:number;
+  valorSeleccionado: string = "";
+  idiomSelect: number;
   valuePassword: string = "";
- 
 
-
-  public picurl: string = '';
+  public picurl: string = "";
 
   public clear() {
-    this.picurl = '';
+    this.picurl = "";
   }
 
   public etiquetas: any = {};
@@ -61,79 +59,75 @@ export class ProfileComponent implements OnInit {
   getUserFromLocalStorage() {
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
     this.profileForm.patchValue(this.USUARIO);
-    this.USUARIO.URL_FOTO_PERFIL='assets/Dentist6.png';
+    this.USUARIO.URL_FOTO_PERFIL = "assets/Dentist6.png";
   }
 
-  changePassword(){
-     const usuarioPass={
+  changePassword() {
+    const usuarioPass = {
       USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
-      USUARIO_PASSWORD: this.profileForm.controls['USUARIO_CONFIRMACION'].value
+      USUARIO_PASSWORD: this.profileForm.controls["USUARIO_CONFIRMACION"].value,
+    };
+    if (
+      this.profileForm.controls["USUARIO_PASSWORD"].value ==
+      this.profileForm.controls["USUARIO_CONFIRMACION"].value
+    ) {
+      this.profileService.updatePassword(usuarioPass).subscribe((response) => {
+        Swal.fire("Contraseña", "Actualizada correctamente.", "success");
+        this.profileForm.controls["USUARIO_PASSWORD"].reset();
+        this.profileForm.controls["USUARIO_CONFIRMACION"].reset();
+        localStorage.removeItem("USUARIO");
+        this.router.navigate(["/salida"]);
+        return response;
+      });
+    } else {
+      Swal.fire("Contraseña", "No es la misma contraseña.", "error");
     }
-    if(this.profileForm.controls['USUARIO_PASSWORD'].value== this.profileForm.controls['USUARIO_CONFIRMACION'].value){
-    this.profileService.updatePassword(usuarioPass).subscribe((response) => {
-      Swal.fire('Contraseña', 'Actualizada correctamente.', 'success');
-      this.profileForm.controls['USUARIO_PASSWORD'].reset();
-      this.profileForm.controls['USUARIO_CONFIRMACION'].reset();
-      localStorage.removeItem("USUARIO");
-      this.router.navigate(["/salida"]);
-      return response;
-    });
-    
-  }else{
-    Swal.fire('Contraseña', 'No es la misma contraseña.', 'error');
-    }
-    
-  
   }
-  changeIdiomEn(){
-   this.profileService.idiom().subscribe((response) => {     
-    this.idiom = response.data.idiomas;   
-   });
- }
+  changeIdiomEn() {
+    this.profileService.idiom().subscribe((response) => {
+      this.idiom = response.data.idiomas;
+    });
+  }
 
- changeIdiomEs(value){
-   value ? this.idiomSelect = value : this.idiomSelect = this.USUARIO.IDIOMA_ID;
-   }
+  changeIdiomEs(value) {
+    value
+      ? (this.idiomSelect = value)
+      : (this.idiomSelect = this.USUARIO.IDIOMA_ID);
+  }
 
-   showChangePassword(){
-    this.showProfileUser= false;
+  showChangePassword() {
+    this.showProfileUser = false;
     this.showUpdatePassword = true;
-    this.showIdiom= false;
-    this.showButton = false
-   }
-   showChangeIdiom(){
-    this.showIdiom= true;
+    this.showIdiom = false;
+    this.showButton = false;
+  }
+  showChangeIdiom() {
+    this.showIdiom = true;
     this.showProfileUser = false;
     this.showUpdatePassword = false;
-   }
+  }
 
-   updateprofile(){
-     const updateUser = {
-        ID:this.USUARIO.ID,
-        IDIOMA_ID:this.idiomSelect,
-        USUARIO_NOMBRE:this.profileForm.value.USUARIO_NOMBRE,
-        USUARIO_APELLIDO:this.profileForm.value.USUARIO_APELLIDO,
-        USUARIO_CORREO:this.profileForm.value.USUARIO_CORREO,
-        USUARIO_TELEFONO:this.profileForm.value.USUARIO_TELEFONO,
-     }
+  updateprofile() {
+    const updateUser = {
+      id: this.USUARIO.id,
+      IDIOMA_ID: this.idiomSelect,
+      USUARIO_NOMBRE: this.profileForm.value.USUARIO_NOMBRE,
+      USUARIO_APELLIDO: this.profileForm.value.USUARIO_APELLIDO,
+      USUARIO_CORREO: this.profileForm.value.USUARIO_CORREO,
+      USUARIO_TELEFONO: this.profileForm.value.USUARIO_TELEFONO,
+    };
 
-     this.profileService.updateProfile(updateUser).subscribe((response) => {
-        Swal.fire("Usuarios", "Actualizado correctamente.", "success");
-        this.router.navigate(["/dashboard"]);
-     });
-
-   }
+    this.profileService.updateProfile(updateUser).subscribe((response) => {
+      Swal.fire("Usuarios", "Actualizado correctamente.", "success");
+      this.router.navigate(["/dashboard"]);
+    });
+  }
   cancelar() {
-    
     this.showUpdatePassword = false;
     this.showProfileUser = true;
     this.showButton = true;
     this.valuePassword = "";
     this.profileForm.controls["USUARIO_CONFIRMACION"].reset();
     this.profileForm.controls["USUARIO_PASSWORD"].reset();
-
   }
-
- 
-  
 }

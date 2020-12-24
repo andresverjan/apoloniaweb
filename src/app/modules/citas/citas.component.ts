@@ -119,7 +119,7 @@ export class CitasComponent implements OnInit {
           title: cita.title,
           start: cita.start,
           end: cita.end,
-          backgroundColor: this.statusCita[0].color, //"#512774"
+          backgroundColor: this.statusCita[0].color,
           borderColor: this.statusCita[0].borderColor,
           textColor: this.statusCita[0].textColor,
         });
@@ -179,6 +179,8 @@ export class CitasComponent implements OnInit {
       const { id: odontologoId } = this.odontologo;
       const { id: pacienteId } = this.paciente;
       const { id: servicioId } = this.servicio;
+
+      console.log(this.USUARIO.id);
 
       let nuevaCita: NuevaCita = {
         title: citaInfo[0],
@@ -266,8 +268,6 @@ export class CitasComponent implements OnInit {
         icon: "success",
         title: "La cita fue actualizada",
       });
-
-      setTimeout(this.reloadPage, 4000);
     });
   }
 }

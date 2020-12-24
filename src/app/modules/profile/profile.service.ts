@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import * as Globals from '../../modules/core/globals';
-import { HttpClient, HttpParams,HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs';
-import { ToolsService } from '../core/services/tools.service'
+import { Injectable } from "@angular/core";
+import * as Globals from "../../modules/core/globals";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { ToolsService } from "../core/services/tools.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ProfileService {
   serverUrl: string;
   public USUARIO;
-  userKey: string='USUARIO';
+  userKey: string = "USUARIO";
   SERVER_RECURSO_GET_PROFILE = "WsUsers/getMyProfile";
   SERVER_RECURSO_ACTUALIZAR_PROFILE = "WsUsers/actualizar";
   SERVER_RECURSO_ACTUALIZAR_PROFILE_FOTO = "WsUsers/actualizarProfileFoto";
@@ -38,17 +38,19 @@ export class ProfileService {
     };
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
-
   }
 
   actualizarProfile(objeTosend): Observable<any> {
     const params = new HttpParams({
-      fromObject: objeTosend
+      fromObject: objeTosend,
     });
-    return this.http.get(this.serverUrl + this.SERVER_RECURSO_ACTUALIZAR_PROFILE, { params });
-  };
-  
-  updatePassword(objeTosend): Observable<any> { 
+    return this.http.get(
+      this.serverUrl + this.SERVER_RECURSO_ACTUALIZAR_PROFILE,
+      { params }
+    );
+  }
+
+  updatePassword(objeTosend): Observable<any> {
     let body = {
       query: `
       mutation {
@@ -77,20 +79,20 @@ export class ProfileService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
-  
+
   updateProfile(objeTosend): Observable<any> {
     let body = {
       query: `
         mutation{
             updateUser(User:{
-              ID:${objeTosend.ID}
+              id:${objeTosend.id}
               IDIOMA_ID:"${objeTosend.IDIOMA_ID}"
               USUARIO_NOMBRE:"${objeTosend.USUARIO_NOMBRE}"
               USUARIO_APELLIDO:"${objeTosend.USUARIO_APELLIDO}"
               USUARIO_CORREO:"${objeTosend.USUARIO_CORREO}"
               USUARIO_TELEFONO:"${objeTosend.USUARIO_TELEFONO}"
               }){
-                ID
+                id
                 USUARIO_NOMBRE
                 USUARIO_LOGIN
                 USUARIO_PASSWORD
@@ -101,5 +103,4 @@ export class ProfileService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
-  
 }
