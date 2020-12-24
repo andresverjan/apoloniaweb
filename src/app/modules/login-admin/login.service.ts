@@ -21,7 +21,7 @@ export class LoginService {
       query {
         login( username: "${objeTosend.usuario}",
                password: "${objeTosend.password}"){
-          id
+          ID
           USUARIO_NOMBRE
           USUARIO_CORREO
           USUARIO_LOGIN
@@ -30,6 +30,7 @@ export class LoginService {
           URL_FOTO_PERFIL
           STATUS_ONLINE
           EMPRESA_ID
+          IDIOMA_ID
           PERMISOS {
             nombre
             descripcion
