@@ -60,7 +60,6 @@ export class ProfileComponent implements OnInit {
 
   getUserFromLocalStorage() {
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
-    console.log(this.USUARIO, "este es la data de usuario");
     this.profileForm.patchValue(this.USUARIO);
     this.USUARIO.URL_FOTO_PERFIL='assets/Dentist6.png';
   }
@@ -88,8 +87,7 @@ export class ProfileComponent implements OnInit {
   }
   changeIdiomEn(){
    this.profileService.idiom().subscribe((response) => {     
-    this.idiom = response.data.idiomas;
-    console.log(this.idiom,"esta es la respuesta de idioma")     
+    this.idiom = response.data.idiomas;   
    });
  }
 
@@ -104,9 +102,7 @@ export class ProfileComponent implements OnInit {
     this.showButton = false
    }
    showChangeIdiom(){
-     
     this.showIdiom= true;
-    console.log(this.showIdiom, "este es el boton idiomas")
     this.showProfileUser = false;
     this.showUpdatePassword = false;
    }
