@@ -1,10 +1,9 @@
 <div [formGroup]="form" fxFlex=100>
-  <mat-card class="result-card" *ngIf="campo.visible"  appearance="outline">
-    <mat-card-content>
+      <mat-icon matPrefix>edit</mat-icon>
+      <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
       <div fxLayout="row">
-        <mat-icon matPrefix>edit</mat-icon>
-        <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
-        <mat-slider #dpInput matInput #dateValue class="margin" *ngIf="campo.visible"
+        <mat-slider #dpInput matInput #dateValue class="margin"
+          *ngIf="campo.visible"
           id="{{ campo.nombre }}"
           [formControlName]="campo.nombre"
           [disabled]="false"
@@ -18,11 +17,10 @@
           [vertical]="false"
           [value]="dateValue">
         </mat-slider>
-        <input #dpInput matInput type="number" readonly="true"
+
+        <input #dpInput matInput type="number" readonly="true" class="slider-label"
           id="{{ campo.nombre }}"
           [formControlName]="campo.nombre"
           [value]="dateValue" >
-    </div>
-    </mat-card-content>
-  </mat-card>
+      </div>
 </div>

@@ -15,7 +15,7 @@
         <mat-card-content fxLayout="column" fxLayoutAlign="center" fxFlex="60">
           <app-buscadormodal
             *ngIf="true"
-            (selected)="onTableSelected($event)"
+            (selected)="onOdontologoSelected($event)"
             [columnas]="{ Nombres: 'Nombre Odontologo' }"
             [resultInputText]="['Nombres']"
             [service]="_odontologosService"
@@ -49,7 +49,7 @@
       </mat-card>
     </mat-card>
 
-    <mat-card class="cardcontent">
+    <mat-card class="cardcontent" *ngIf="canView()">
       <mat-card fxFill>
         <mat-card-content>
           <app-scheduler
