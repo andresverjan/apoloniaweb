@@ -86,19 +86,12 @@ export class CitasComponent implements OnInit {
     this.matMenuTrigger.menuData = { item: clickInfo.event };
     this.citaSeleccionada = clickInfo.event;
     this.matMenuTrigger.openMenu();
-    const calendarApi = clickInfo.view.calendar;
-    this.fetchCitasByOdontologoId(this.odontologo);
-    await calendarApi.refetchEvents();
   }
 
   onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.fetchCitasByOdontologoId(this.odontologo);
     this.IsWaiting = true;
-    this.calendar = {
-      ...this.calendar,
-      eventClick: this.handleEventClick.bind(this),
-    };
   }
 
   onPatientSelected(selected) {
@@ -111,6 +104,7 @@ export class CitasComponent implements OnInit {
     this.calendar = {
       ...this.calendar,
       select: this.handleDateSelect.bind(this),
+      eventClick: this.handleEventClick.bind(this),
     };
   }
 

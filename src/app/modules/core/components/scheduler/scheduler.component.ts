@@ -43,7 +43,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
     slotMinTime: "06:00:00",
-    slotMaxTime: "22:00:00",
+    slotMaxTime: "21:00:00",
     headerToolbar: {
       left: "prev,next today",
       center: "title",
