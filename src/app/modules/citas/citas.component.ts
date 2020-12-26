@@ -1,23 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import {
-  NuevaCita,
-  SchedulerComponent,
-} from "../core/components/scheduler/scheduler.component";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { NuevaCita } from "../core/components/scheduler/scheduler.component";
 import { CitaService } from "./citas.service";
 import { Cita } from "../core/components/scheduler/scheduler.component";
 import {
   CalendarOptions,
   DateSelectArg,
   EventClickArg,
-  EventApi,
-  EventInput
 } from "@fullcalendar/angular";
 import { OdontologosService } from "../core/services/odontologos.service";
 import { PacienteService } from "../core/services/paciente.service";
 import { ServicioService } from "../core/services/servicio.service";
-import { FormControl, Validators, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
+import { MatMenuTrigger } from "@angular/material/menu";
 
 @Component({
   selector: "app-citas",
@@ -31,7 +26,16 @@ export class CitasComponent implements OnInit {
   public IsWaiting: Boolean = false;
   public Waiting: Boolean = false;
   public citas = [];
-  validatingForm: FormGroup;
+  public citaSeleccionada: any;
+  public validatingForm: FormGroup;
+  public USUARIO: any;
+  public userKey: string = "USUARIO";
+  public statusCitas: Array<any> = [];
+  public statusCita: any;
+
+  public menuTopLeftPosition = { x: "0", y: "0" };
+  @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
+
   constructor(
     public _citaService: CitaService,
     public _odontologosService: OdontologosService,
@@ -49,8 +53,6 @@ export class CitasComponent implements OnInit {
   public citasAgendadas: Array<Cita> = [];
   public calendar: CalendarOptions;
 
-
-
   ngOnInit(): void {
     this.odontologo = {
       Nombres: "Seleccionar Odontologo",
@@ -64,12 +66,29 @@ export class CitasComponent implements OnInit {
     this.servicio = {
       nombre: "Seleccionar Servicio",
     };
-  }
-  reloadPage() {
-    window.location.reload();
+
+    this.getUserFromLocalStorage();
+    this.fetchStatusCitas();
   }
 
-  onTableSelected(selected) {
+  getUserFromLocalStorage() {
+    this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
+  }
+
+  reloadPage() {
+    // window.location.reload();
+  }
+
+  async handleEventClick(clickInfo: EventClickArg) {
+    clickInfo.jsEvent.preventDefault();
+    this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
+    this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
+    this.matMenuTrigger.menuData = { item: clickInfo.event };
+    this.citaSeleccionada = clickInfo.event;
+    this.matMenuTrigger.openMenu();
+  }
+
+  onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.fetchCitasByOdontologoId(this.odontologo);
     this.IsWaiting = true;
@@ -83,8 +102,10 @@ export class CitasComponent implements OnInit {
   onServiceSelected(selected) {
     this.servicio = selected;
     this.calendar = {
+      ...this.calendar,
       select: this.handleDateSelect.bind(this),
-    }
+      eventClick: this.handleEventClick.bind(this),
+    };
   }
 
   fetchCitasByOdontologoId(odontologo) {
@@ -92,37 +113,97 @@ export class CitasComponent implements OnInit {
     this._citaService.getCitasByOdontologoId(odontologoId).subscribe((res) => {
       this.citas = res.data.getCitasByOdontologoId;
       this.citas.forEach((cita) => {
+        this.statusCita = this.statusCitas.filter((x) => x.id === cita.status);
         this.citasAgendadas.push({
           id: cita.id.toString(),
           title: cita.title,
           start: cita.start,
           end: cita.end,
-          backgroundColor:"#512774",
+          backgroundColor: this.statusCita[0].color,
+          borderColor: this.statusCita[0].borderColor,
+          textColor: this.statusCita[0].textColor,
         });
       });
       this.calendar = {
         events: this.citasAgendadas,
-        slotDuration: "00:30",
       };
-
     });
   }
 
+  addHoursAndMinutes(date: Date, timeToAdd: string): Date {
+    const hr = Number(timeToAdd.split(":")[0]);
+    const min = Number(timeToAdd.split(":")[1]);
+    date.setHours(date.getHours() + hr);
+    date.setMinutes(date.getMinutes() + min);
+    return date;
+  }
+
   async handleDateSelect(selectInfo: DateSelectArg) {
-    // calendarApi.unselect(); // clear date selection
-    let { value: titulo } = await Swal.fire({
-      title: "Agenda tu Cita",
-      input: "text",
-      inputLabel: "Nombre de la cita",
-      showCancelButton: true,
-      inputValidator: (value) => {
-        if (!value) {
-          return "You need to write something!";
-        }
+    const calendarApi = selectInfo.view.calendar;
+
+    const { value: citaInfo } = await Swal.fire({
+      title: "Especifique el título y la duración de la cita",
+      html:
+        "<h4>Título</h4>" +
+        '<input id="titulo" class="swal2-input">' +
+        "<h4>Duración</h4>" +
+        `
+        <select name="duracion" id="duracion">
+          <option selected>Duración</option>
+          <option value="0:05">5 min</option>
+          <option value="0:10">10 min</option>
+          <option value="0:15">15 min</option>
+          <option value="0:20">20 min</option>
+          <option value="0:25">25 min</option>
+          <option value="0:30">30 min</option>
+          <option value="0:35">35 min</option>
+          <option value="0:40">40 min</option>
+          <option value="0:45">45 min</option>
+          <option value="1:00">1 hr</option>
+          <option value="1:15">1 hr 15 min</option>
+          <option value="1:30">1 hr 30 min</option>
+          <option value="1:45">1 hr 45 min</option>
+          <option value="2:00">2 hr</option>
+        </select>
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          (<HTMLInputElement>document.getElementById("titulo")).value,
+          (<HTMLInputElement>document.getElementById("duracion")).value,
+        ];
       },
     });
-    if (titulo) {
-      const calendarApi = selectInfo.view.calendar;
+
+    if (citaInfo && citaInfo[0].length > 0 && citaInfo[1] != "Duración") {
+      const { id: odontologoId } = this.odontologo;
+      const { id: pacienteId } = this.paciente;
+      const { id: servicioId } = this.servicio;
+
+      console.log(this.USUARIO.id);
+
+      let nuevaCita: NuevaCita = {
+        title: citaInfo[0],
+        start: selectInfo.start.toISOString(),
+        end: this.addHoursAndMinutes(
+          selectInfo.start,
+          citaInfo[1]
+        ).toISOString(),
+        odontologoId: odontologoId,
+        horaIngreso: "",
+        horaSalida: "",
+        status: 1,
+        pacienteId: pacienteId,
+        servicioId: servicioId,
+        observaciones: "",
+        usuarioId: this.USUARIO.id,
+      };
+
+      this._citaService.createCita(nuevaCita).subscribe(async () => {
+        this.fetchCitasByOdontologoId(this.odontologo);
+        await calendarApi.refetchEvents();
+      });
+
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -140,229 +221,282 @@ export class CitasComponent implements OnInit {
         title: "La cita fue agendada",
       });
     }
-    const { id: odontologoId } = this.odontologo;
-    const { id: pacienteId } = this.paciente;
-    const { id: servicioId } = this.paciente;
+  }
 
-    let nuevaCita: NuevaCita = {
-      title: titulo,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      odontologoId: odontologoId,
-      horaIngreso: " ",
-      horaSalida: " ",
-      status: 1,
-      pacienteId: pacienteId,
-      servicioId: servicioId,
-      observaciones: " ",
-    };
-    this._citaService.createCita(nuevaCita).subscribe((reponse) => reponse);
-    setTimeout(this.reloadPage, 4000);
+  canView() {
+    return (
+      this.paciente.Nombres1 != "" &&
+      this.paciente.Nombres1 != "Seleccionar Paciente" &&
+      this.odontologo.Nombres != "" &&
+      this.odontologo.Nombres != "Seleccionar Odontologo" &&
+      this.servicio.nombre != "" &&
+      this.servicio.nombre != "Seleccionar Servicio"
+    );
+  }
+
+  fetchStatusCitas() {
+    this._citaService.getStatusSCitas().subscribe((res) => {
+      this.statusCitas = res.data.statusCitas;
+    });
+  }
+
+  onClickChangeStatusCita(status) {
+    const { id } = this.citaSeleccionada;
+
+    this._citaService.getCita(id).subscribe(({ data }) => {
+      this.citaSeleccionada = data.getCita;
+
+      this.citaSeleccionada.status = status.id;
+
+      this._citaService
+        .updateCita(this.citaSeleccionada)
+        .subscribe((res) => res);
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "La cita fue actualizada",
+      });
+    });
   }
 }
 
+// optionCita(cita) {
+//   Swal.fire({
+//     title: "¿Que quieres hacer con la cita?",
+//     showDenyButton: true,
+//     showCancelButton: true,
+//     confirmButtonText: `Entrada Paciente`,
+//     denyButtonText: `Salida Paciente`,
+//   }).then(async (result) => {
+//     if (result.isConfirmed) {
+//       const swalWithBootstrapButtons = Swal.mixin({
+//         customClass: {
+//           confirmButton: 'btn btn-success',
+//           cancelButton: 'btn btn-danger'
+//         },
+//         buttonsStyling: false
+//       })
+//       swalWithBootstrapButtons.fire({
+//         title: 'Asistencia',
+//         text: "¿El paciente llego a la cita?",
+//         icon: 'question',
+//         showCancelButton: true,
+//         confirmButtonText: 'Si',
+//         cancelButtonText: 'No',
+//         reverseButtons: true
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+//           swalWithBootstrapButtons.fire(
+//             'Paciente Registrado',
+//             'El paciente esta en consulta',
+//             'success'
+//           )
+//           const { id: odontologoId } = this.odontologo;
+//           let actual = new Date();
+//           cita = {
+//             id: cita.id,
+//             title: cita.title + " (En consulta)",
+//             start: cita.start,
+//             end: cita.end,
+//             odontologoId: odontologoId,
+//             horaIngreso: actual.getHours() +
+//               " : " +
+//               actual.getMinutes() +
+//               " : " +
+//               actual.getSeconds(),
+//             horaSalida: "",
+//             asistencia: true,
+//             cancelado: false,
+//             observaciones: "El paciente ingreso",
+//           };
+//           this._citaService.updateCita(cita).subscribe((reponse) => {
+//             setTimeout(this.reloadPage, 4000);
+//           });
 
+//         } else if (
+//           /* Read more about handling dismissals below */
+//           result.dismiss === Swal.DismissReason.cancel
+//         ) {
+//           swalWithBootstrapButtons.fire(
+//             'Paciente Registrado',
+//             'El paciente no llego a la consulta',
+//             'success'
+//           )
+//           const { id: odontologoId } = this.odontologo;
+//           let actual = new Date();
+//           cita = {
+//             id: cita.id,
+//             title: cita.title + " (No llego el paciente)",
+//             start: cita.start,
+//             end: cita.end,
+//             odontologoId: odontologoId,
+//             horaIngreso: "",
+//             horaSalida: actual.getHours() +
+//               " : " +
+//               actual.getMinutes() +
+//               " : " +
+//               actual.getSeconds(),
+//             asistencia: false,
+//             cancelado: true,
+//             observaciones: "El paciente no llego",
+//           };
+//           this._citaService.updateCita(cita).subscribe((reponse) => {
+//             setTimeout(this.reloadPage, 4000);
+//           });
+//         }
+//       })
+//     } else if (result.isDenied) {
+//       const swalWithBootstrapButtons = Swal.mixin({
+//         customClass: {
+//           confirmButton: 'btn btn-success',
+//           cancelButton: 'btn btn-danger'
+//         },
+//         buttonsStyling: false
+//       })
+//       swalWithBootstrapButtons.fire({
+//         title: 'Salida',
+//         text: "¿El paciente salio de la consulta?",
+//         icon: 'question',
+//         showCancelButton: true,
+//         confirmButtonText: 'Si',
+//         cancelButtonText: 'No',
+//         reverseButtons: true
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+//           swalWithBootstrapButtons.fire(
+//             'Paciente Registrado',
+//             'El paciente salio de consulta',
+//             'success'
+//           )
+//           const { id: odontologoId } = this.odontologo;
+//           let actual = new Date();
+//           cita = {
+//             id: cita.id,
+//             title: cita.title + " (Terminada)",
+//             start: cita.start,
+//             end: cita.end,
+//             odontologoId: odontologoId,
+//             horaIngreso: cita.horaIngreso,
+//             horaSalida: actual.getHours() +
+//               " : " +
+//               actual.getMinutes() +
+//               " : " +
+//               actual.getSeconds(),
+//             asistencia: true,
+//             cancelado: false,
+//             observaciones: "El paciente salio de consulta",
+//           };
+//           this._citaService.updateCita(cita).subscribe((reponse) => {
+//             setTimeout(this.reloadPage, 4000);
+//           });
 
+//         } else if (
+//           /* Read more about handling dismissals below */
+//           result.dismiss === Swal.DismissReason.cancel
+//         ) {
+//           swalWithBootstrapButtons.fire(
+//             'Paciente',
+//             'El Paciente sigue en consulta',
+//             'error'
+//           )
+//         }
 
+//       })
 
+//     }
+//   })
+// }
 
-  // optionCita(cita) {
-  //   Swal.fire({
-  //     title: "¿Que quieres hacer con la cita?",
-  //     showDenyButton: true,
-  //     showCancelButton: true,
-  //     confirmButtonText: `Entrada Paciente`,
-  //     denyButtonText: `Salida Paciente`,
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       const swalWithBootstrapButtons = Swal.mixin({
-  //         customClass: {
-  //           confirmButton: 'btn btn-success',
-  //           cancelButton: 'btn btn-danger'
-  //         },
-  //         buttonsStyling: false
-  //       })
-  //       swalWithBootstrapButtons.fire({
-  //         title: 'Asistencia',
-  //         text: "¿El paciente llego a la cita?",
-  //         icon: 'question',
-  //         showCancelButton: true,
-  //         confirmButtonText: 'Si',
-  //         cancelButtonText: 'No',
-  //         reverseButtons: true
-  //       }).then((result) => {
-  //         if (result.isConfirmed) {
-  //           swalWithBootstrapButtons.fire(
-  //             'Paciente Registrado',
-  //             'El paciente esta en consulta',
-  //             'success'
-  //           )
-  //           const { id: odontologoId } = this.odontologo;
-  //           let actual = new Date();
-  //           cita = {
-  //             id: cita.id,
-  //             title: cita.title + " (En consulta)",
-  //             start: cita.start,
-  //             end: cita.end,
-  //             odontologoId: odontologoId,
-  //             horaIngreso: actual.getHours() +
-  //               " : " +
-  //               actual.getMinutes() +
-  //               " : " +
-  //               actual.getSeconds(),
-  //             horaSalida: "",
-  //             asistencia: true,
-  //             cancelado: false,
-  //             observaciones: "El paciente ingreso",
-  //           };
-  //           this._citaService.updateCita(cita).subscribe((reponse) => {
-  //             setTimeout(this.reloadPage, 4000);
-  //           });
+// async cancelarCita(cita) {
+//   const { value: text } = await Swal.fire({
+//     input: "textarea",
+//     inputLabel: "¿Cual es el motivo por el cual quiere cancelar la cita?",
+//     inputPlaceholder: "Escribe aqui el motivo...",
+//     inputAttributes: {
+//       "aria-label": "Escribe aqui el motivo",
+//     },
+//     showCancelButton: true,
+//   });
 
-  //         } else if (
-  //           /* Read more about handling dismissals below */
-  //           result.dismiss === Swal.DismissReason.cancel
-  //         ) {
-  //           swalWithBootstrapButtons.fire(
-  //             'Paciente Registrado',
-  //             'El paciente no llego a la consulta',
-  //             'success'
-  //           )
-  //           const { id: odontologoId } = this.odontologo;
-  //           let actual = new Date();
-  //           cita = {
-  //             id: cita.id,
-  //             title: cita.title + " (No llego el paciente)",
-  //             start: cita.start,
-  //             end: cita.end,
-  //             odontologoId: odontologoId,
-  //             horaIngreso: "",
-  //             horaSalida: actual.getHours() +
-  //               " : " +
-  //               actual.getMinutes() +
-  //               " : " +
-  //               actual.getSeconds(),
-  //             asistencia: false,
-  //             cancelado: true,
-  //             observaciones: "El paciente no llego",
-  //           };
-  //           this._citaService.updateCita(cita).subscribe((reponse) => {
-  //             setTimeout(this.reloadPage, 4000);
-  //           });
-  //         }
-  //       })
-  //     } else if (result.isDenied) {
-  //       const swalWithBootstrapButtons = Swal.mixin({
-  //         customClass: {
-  //           confirmButton: 'btn btn-success',
-  //           cancelButton: 'btn btn-danger'
-  //         },
-  //         buttonsStyling: false
-  //       })
-  //       swalWithBootstrapButtons.fire({
-  //         title: 'Salida',
-  //         text: "¿El paciente salio de la consulta?",
-  //         icon: 'question',
-  //         showCancelButton: true,
-  //         confirmButtonText: 'Si',
-  //         cancelButtonText: 'No',
-  //         reverseButtons: true
-  //       }).then((result) => {
-  //         if (result.isConfirmed) {
-  //           swalWithBootstrapButtons.fire(
-  //             'Paciente Registrado',
-  //             'El paciente salio de consulta',
-  //             'success'
-  //           )
-  //           const { id: odontologoId } = this.odontologo;
-  //           let actual = new Date();
-  //           cita = {
-  //             id: cita.id,
-  //             title: cita.title + " (Terminada)",
-  //             start: cita.start,
-  //             end: cita.end,
-  //             odontologoId: odontologoId,
-  //             horaIngreso: cita.horaIngreso,
-  //             horaSalida: actual.getHours() +
-  //               " : " +
-  //               actual.getMinutes() +
-  //               " : " +
-  //               actual.getSeconds(),
-  //             asistencia: true,
-  //             cancelado: false,
-  //             observaciones: "El paciente salio de consulta",
-  //           };
-  //           this._citaService.updateCita(cita).subscribe((reponse) => {
-  //             setTimeout(this.reloadPage, 4000);
-  //           });
+//     }
+//   })
+// }
 
-  //         } else if (
-  //           /* Read more about handling dismissals below */
-  //           result.dismiss === Swal.DismissReason.cancel
-  //         ) {
-  //           swalWithBootstrapButtons.fire(
-  //             'Paciente',
-  //             'El Paciente sigue en consulta',
-  //             'error'
-  //           )
-  //         }
+// async cancelarCita(cita) {
+//   const { value: text } = await Swal.fire({
+//     input: "textarea",
+//     inputLabel: "¿Cual es el motivo por el cual quiere cancelar la cita?",
+//     inputPlaceholder: "Escribe aqui el motivo...",
+//     inputAttributes: {
+//       "aria-label": "Escribe aqui el motivo",
+//     },
+//     showCancelButton: true,
+//   });
 
-  //       })
+//   if (text) {
+//     const { id: odontologoId } = this.odontologo;
+//     const Toast = Swal.mixin({
+//       toast: true,
+//       position: "top-end",
+//       showConfirmButton: false,
+//       timer: 3000,
+//       timerProgressBar: true,
+//       didOpen: (toast) => {
+//         toast.addEventListener("mouseenter", Swal.stopTimer);
+//         toast.addEventListener("mouseleave", Swal.resumeTimer);
+//       },
+//     });
 
-  //     }
-  //   })
-  // }
+//   if (text) {
+//     const { id: odontologoId } = this.odontologo;
+//     const Toast = Swal.mixin({
+//       toast: true,
+//       position: "top-end",
+//       showConfirmButton: false,
+//       timer: 3000,
+//       timerProgressBar: true,
+//       didOpen: (toast) => {
+//         toast.addEventListener("mouseenter", Swal.stopTimer);
+//         toast.addEventListener("mouseleave", Swal.resumeTimer);
+//       },
+//     });
 
-  // async cancelarCita(cita) {
-  //   const { value: text } = await Swal.fire({
-  //     input: "textarea",
-  //     inputLabel: "¿Cual es el motivo por el cual quiere cancelar la cita?",
-  //     inputPlaceholder: "Escribe aqui el motivo...",
-  //     inputAttributes: {
-  //       "aria-label": "Escribe aqui el motivo",
-  //     },
-  //     showCancelButton: true,
-  //   });
-
-  //   if (text) {
-  //     const { id: odontologoId } = this.odontologo;
-  //     const Toast = Swal.mixin({
-  //       toast: true,
-  //       position: "top-end",
-  //       showConfirmButton: false,
-  //       timer: 3000,
-  //       timerProgressBar: true,
-  //       didOpen: (toast) => {
-  //         toast.addEventListener("mouseenter", Swal.stopTimer);
-  //         toast.addEventListener("mouseleave", Swal.resumeTimer);
-  //       },
-  //     });
-
-  //     Toast.fire({
-  //       icon: "success",
-  //       title: "La cita fue cancelada",
-  //     });
-  //     let actual = new Date();
-  //     cita = {
-  //       id: cita.id,
-  //       title: cita.title + " (Cancelada)",
-  //       start: cita.start,
-  //       end: cita.end,
-  //       odontologoId: odontologoId,
-  //       horaIngreso: " ",
-  //       horaSalida:
-  //         actual.getHours() +
-  //         " : " +
-  //         actual.getMinutes() +
-  //         " : " +
-  //         actual.getSeconds(),
-  //       asistencia: false,
-  //       cancelado: true,
-  //       observaciones: text,
-  //     };
-  //     this._citaService.updateCita(cita).subscribe((reponse) => {
-  //       setTimeout(this.reloadPage, 4000);
-  //     });
-  //   }
-  // }
-
+//     Toast.fire({
+//       icon: "success",
+//       title: "La cita fue cancelada",
+//     });
+//     let actual = new Date();
+//     cita = {
+//       id: cita.id,
+//       title: cita.title + " (Cancelada)",
+//       start: cita.start,
+//       end: cita.end,
+//       odontologoId: odontologoId,
+//       horaIngreso: " ",
+//       horaSalida:
+//         actual.getHours() +
+//         " : " +
+//         actual.getMinutes() +
+//         " : " +
+//         actual.getSeconds(),
+//       asistencia: false,
+//       cancelado: true,
+//       observaciones: text,
+//     };
+//     this._citaService.updateCita(cita).subscribe((reponse) => {
+//       setTimeout(this.reloadPage, 4000);
+//     });
+//   }
+// }

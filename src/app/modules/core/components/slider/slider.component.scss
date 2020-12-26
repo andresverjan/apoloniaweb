@@ -17,6 +17,10 @@ label {
   margin: 0 8px 16px;
 }
 
+.slider-label {
+  width: 40px;;
+}
+
 .section {
   display: flex;
   align-content: center;
@@ -24,17 +28,9 @@ label {
   height: 60px;
 }
 
-.margin {
-  margin: 8px;
-}
-
-mat-slider {
-  width: 300px;
-}
-
-
 .mat-slider-horizontal {
-  width: 300px;
+  width: 400px;
+  min-width: 400px;
 }
 
 .mat-slider-vertical {

@@ -65,7 +65,7 @@
                     fxFlex
                     fxLayoutAlign="space-between center"
                   >
-                    <!-- TODO: COMPONENTE (QUEMADO)-->
+
                     <div [ngSwitch]="item.tipoCampoId" fxFlex="100">
                       <div *ngSwitchCase="1" fxFlex="100">
                         <app-input
@@ -129,19 +129,6 @@
                           [formControlName]="item.nombre"
                         ></textarea>
                       </div>
-
-                      <!--div-- *ngSwitchCase="6" fxFlex="100">
-                        <app-avatar
-                          [form]="genericForm"
-                          [campo]="item"
-                          (urlChange)="setDate($event, item)"
-                        ></app-avatar>
-                        <textarea
-                          matInput
-                          hidden
-                          [formControlName]="item.nombre"
-                        ></textarea>
-                      </!--div-->
                     </div>
                   </div>
                 </mat-grid-tile>
@@ -244,11 +231,12 @@
             </div>
           </div>
         </mat-grid-list>
-        <mat-paginator [length]="totalRegistros"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="pageSizeOptions"
-               (page)="handlePageChange($event)"
-               >
+        <mat-paginator
+          [length]="totalRegistros"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="handlePageChange($event)"
+        >
         </mat-paginator>
       </mat-card-content>
       <mat-grid-list cols="5" *ngIf="showListado" rowHeight="230px">
@@ -271,12 +259,9 @@
                   </div>
                 </div>
               </div>
-
             </mat-card-content>
           </mat-card>
-
         </mat-grid-tile>
-
       </mat-grid-list>
     </div>
   </mat-card-content>

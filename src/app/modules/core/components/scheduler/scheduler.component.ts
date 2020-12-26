@@ -5,26 +5,20 @@ import {
   EventEmitter,
   OnInit,
   OnChanges,
-  DoCheck,
 } from "@angular/core";
 import {
   CalendarOptions,
   DateSelectArg,
-  EventClickArg,
   EventApi,
 } from "@fullcalendar/angular";
-import { EventInput } from "@fullcalendar/angular";
 import { CitaService } from "../../../citas/citas.service";
 import listPlugin from "@fullcalendar/list";
-import allLocales from "@fullcalendar/core/locales-all";
 import esLocale from "@fullcalendar/core/locales/es";
-import timeGridPlugin from '@fullcalendar/timegrid';
-import Swal from "sweetalert2";
-import { parse } from "querystring";
+import timeGridPlugin from "@fullcalendar/timegrid";
+
 //import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 let eventGuid = 0;
-const TODAY_STR = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
 
 export function createEventId() {
   return String(eventGuid++);
@@ -41,21 +35,22 @@ export class SchedulerComponent implements OnInit, OnChanges {
   @Input() configuration: CalendarOptions;
   @Output() valor: EventEmitter<any>;
 
-  constructor(private _citaService: CitaService) {
+  constructor() {
     this.valor = new EventEmitter();
-
     this.citas = [];
   }
 
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
+    slotMinTime: "06:00:00",
+    slotMaxTime: "21:00:00",
     headerToolbar: {
       left: "prev,next today",
       center: "title",
       right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
     },
     plugins: [timeGridPlugin, listPlugin],
-    initialView: "timeGridWeek", // alternatively, use the `events` setting to fetch from a feed
+    initialView: "timeGridWeek",
     weekends: true,
     editable: true,
     navLinks: true,
@@ -71,67 +66,43 @@ export class SchedulerComponent implements OnInit, OnChanges {
     locale: esLocale,
     dayMaxEventRows: true,
     expandRows: true,
+    businessHours: {
+      daysOfWeek: [1, 2, 3, 4, 5],
+      startTime: "06:00",
+      endTime: "21:00",
+    },
     eventTimeFormat: {
       hour: "2-digit",
       minute: "2-digit",
       meridiem: false,
     },
+
     views: {
       timeGrid: {
         dayMaxEventRows: 2,
       },
     },
-
-
   };
 
   currentEvents: EventApi[] = [];
 
-  ngOnInit() { }
+  ngOnInit() {}
   ngOnChanges() {
     this.calendarOptions = Object.assign(
       this.calendarOptions,
       this.configuration
     );
-
   }
 
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
   }
 
-  handleDateSelect(selectInfo: DateSelectArg) {
-    const title = prompt("Please enter a new title for your event");
-    const calendarApi = selectInfo.view.calendar;
-
-    calendarApi.unselect(); // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      });
-    }
-  }
-  // calendarApi.addEvent({
-  //   id: createEventId(),
-  //   title: valor,
-  //   start: selectInfo.startStr,
-  //   end: selectInfo.endStr,
-  //   allDay: selectInfo.allDay,
-  // });
-  // calendarApi.unselect(); // clear date selection
-  // }
-
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
   }
   emitValor() {
     this.valor.emit(this.citas);
-
   }
 }
 
@@ -141,6 +112,8 @@ export interface Cita {
   start: string;
   end: string;
   backgroundColor: string;
+  borderColor: string;
+  textColor: string;
 }
 
 export interface NuevaCita {
@@ -154,6 +127,5 @@ export interface NuevaCita {
   pacienteId: number;
   servicioId: number;
   observaciones: string;
-
-
+  usuarioId: number;
 }
