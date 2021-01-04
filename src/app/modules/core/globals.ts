@@ -12,7 +12,7 @@ export const DEFAULT_LANGUAGE = "1";
  */
 export const SERVER_DEV = "http://localhost:3000/api";
 export const SERVER_PROD = "https://apoloniaoe.herokuapp.com/api";
-export const SERVER_PROD_IP = "http://localhost:3000/api";
+export const SERVER_PROD_IP = "https://apoloniaoe.herokuapp.com/api";
 
 export const SERVER = SERVER_PROD;
 
