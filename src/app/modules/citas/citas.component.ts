@@ -180,8 +180,6 @@ export class CitasComponent implements OnInit {
       const { id: pacienteId } = this.paciente;
       const { id: servicioId } = this.servicio;
 
-      console.log(this.USUARIO.id);
-
       let nuevaCita: NuevaCita = {
         title: citaInfo[0],
         start: selectInfo.start.toISOString(),
@@ -243,15 +241,12 @@ export class CitasComponent implements OnInit {
   onClickChangeStatusCita(status) {
     const { id } = this.citaSeleccionada;
 
-    this._citaService.getCita(id).subscribe(({ data }) => {
+    this._citaService.getCita(id).subscribe(async ({ data }) => {
       this.citaSeleccionada = data.getCita;
 
       this.citaSeleccionada.status = status.id;
 
-      this._citaService
-        .updateCita(this.citaSeleccionada)
-        .subscribe((res) => res);
-
+      const time = new Date();
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -263,11 +258,115 @@ export class CitasComponent implements OnInit {
           toast.addEventListener("mouseleave", Swal.resumeTimer);
         },
       });
+      switch (status.nombre) {
+        case "Confirmada":
+          this._citaService
+            .updateCita(this.citaSeleccionada)
+            .subscribe((res) => res);
 
-      Toast.fire({
-        icon: "success",
-        title: "La cita fue actualizada",
-      });
+          Toast.fire({
+            icon: "success",
+            title: "La cita fue actualizada",
+          });
+
+          break;
+
+        case "Asistida":
+          this.citaSeleccionada.horaSalida = `${
+            time.getHours().toString().length > 1
+              ? time.getHours().toString()
+              : "0" + time.getHours().toString()
+          }:${time.getMinutes()} `;
+
+          this._citaService
+            .updateCita(this.citaSeleccionada)
+            .subscribe((res) => res);
+
+          Toast.fire({
+            icon: "success",
+            title: "La cita fue actualizada",
+          });
+
+          break;
+
+        case "Paciente Ingreso":
+          this.citaSeleccionada.horaIngreso = `${
+            time.getHours().toString().length > 1
+              ? time.getHours().toString()
+              : "0" + time.getHours().toString()
+          }:${time.getMinutes()} `;
+
+          this._citaService
+            .updateCita(this.citaSeleccionada)
+            .subscribe((res) => res);
+
+          Toast.fire({
+            icon: "success",
+            title: "La cita fue actualizada",
+          });
+
+          break;
+
+        case "Paciente Salio":
+          this.citaSeleccionada.horaSalida = `${
+            time.getHours().toString().length > 1
+              ? time.getHours().toString()
+              : "0" + time.getHours().toString()
+          }:${time.getMinutes()} `;
+
+          this._citaService
+            .updateCita(this.citaSeleccionada)
+            .subscribe((res) => res);
+
+          Toast.fire({
+            icon: "success",
+            title: "La cita fue actualizada",
+          });
+
+          break;
+
+        case "Cancelada":
+          const { value: observaciones } = await Swal.fire({
+            title: "Agregue las observaciones de la cancelación",
+            html:
+              "<h4>Observaciones</h4>" +
+              '<input id="observaciones" class="swal2-input">',
+            focusConfirm: false,
+            preConfirm: () => {
+              return (<HTMLInputElement>(
+                document.getElementById("observaciones")
+              )).value;
+            },
+          });
+
+          if (observaciones && observaciones.length > 0) {
+            this.citaSeleccionada.observaciones = observaciones;
+
+            this._citaService
+              .updateCita(this.citaSeleccionada)
+              .subscribe((res) => res);
+
+            Toast.fire({
+              icon: "success",
+              title: "La cita fue actualizada",
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Observaciones vacías",
+              text: "No se pueden cancelar citas sin observaciones",
+            });
+          }
+
+          break;
+
+        default:
+          this._citaService
+            .updateCita(this.citaSeleccionada)
+            .subscribe((res) => res);
+
+          break;
+      }
     });
   }
 }
