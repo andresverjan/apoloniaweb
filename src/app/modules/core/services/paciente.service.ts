@@ -18,7 +18,7 @@ export class PacienteService {
     //si trae filtro , Apellidos1: "${objeTosend.nombre}"
     if (objeTosend) {
       filter = `(filter: {
-        Nombres1: "${objeTosend.nombre}"
+        Cedula: "${objeTosend.nombre}"
       })`;
     }
 
