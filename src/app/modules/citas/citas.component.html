@@ -7,7 +7,6 @@
       <mat-icon matPrefix>web</mat-icon>
       <span>Citas</span>
       <span class="example-spacer"></span>
-      <mat-icon>info</mat-icon>
     </mat-toolbar>
 
     <mat-card class="cardcontent" fxLayout="row" fxLayoutAlign="center center">
@@ -28,7 +27,11 @@
           <app-buscadormodal
             *ngIf="IsWaiting"
             (selected)="onPatientSelected($event)"
-            [columnas]="{ Cedula: 'Cedula', Nombres1: 'Nombre', Apellidos1:'Apellido' }"
+            [columnas]="{
+              Cedula: 'Cedula',
+              Nombres1: 'Nombre',
+              Apellidos1: 'Apellido'
+            }"
             [resultInputText]="['Apellidos1', 'Cedula']"
             [service]="_pacienteService"
             tituloBusqueda=" Paciente"
@@ -58,6 +61,20 @@
           ></app-scheduler>
         </mat-card-content>
       </mat-card>
+      <div style="margin: 20px; justify-content: center; align-items: center">
+        <mat-chip-list>
+          <mat-chip
+            *ngFor="let status of legend"
+            selected
+            [ngStyle]="{
+              'background-color': status.color,
+              color: 'black'
+            }"
+          >
+            {{ status.nombre }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
     </mat-card>
   </mat-card-content>
 </div>

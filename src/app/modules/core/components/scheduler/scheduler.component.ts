@@ -42,6 +42,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
 
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
+    hiddenDays: [0],
     slotMinTime: "06:00:00",
     slotMaxTime: "21:00:00",
     headerToolbar: {
@@ -51,7 +52,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
     },
     plugins: [timeGridPlugin, listPlugin],
     initialView: "timeGridWeek",
-    weekends: true,
+
     editable: true,
     navLinks: true,
     selectOverlap: false,
@@ -67,7 +68,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
     dayMaxEventRows: true,
     expandRows: true,
     businessHours: {
-      daysOfWeek: [1, 2, 3, 4, 5],
+      daysOfWeek: [1, 2, 3, 4, 5, 6],
       startTime: "06:00",
       endTime: "21:00",
     },

@@ -31,6 +31,7 @@ export class CitasComponent implements OnInit {
   public USUARIO: any;
   public userKey: string = "USUARIO";
   public statusCitas: Array<any> = [];
+  public legend: Array<any> = [];
   public statusCita: any;
 
   public menuTopLeftPosition = { x: "0", y: "0" };
@@ -81,11 +82,36 @@ export class CitasComponent implements OnInit {
 
   async handleEventClick(clickInfo: EventClickArg) {
     clickInfo.jsEvent.preventDefault();
-    this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
-    this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
-    this.matMenuTrigger.menuData = { item: clickInfo.event };
-    this.citaSeleccionada = clickInfo.event;
-    this.matMenuTrigger.openMenu();
+
+    this._citaService.getCita(clickInfo.event.id).subscribe((res) => {
+      const clicked = res.data.getCita;
+
+      if (clicked.status != 5 && clicked.status != 6) {
+        console.log(clicked.status != 5);
+        this.statusCitas = this.statusCitas.filter((x) => x.id != 1);
+
+        if (clicked.status == 1) {
+          this.statusCitas = this.statusCitas.filter(
+            (x) => x.id == 2 || x.id == 6
+          );
+        } else if (clicked.status == 2) {
+          this.statusCitas = this.statusCitas.filter(
+            (x) => x.id == 4 || x.id == 3 || x.id == 6
+          );
+        } else if (clicked.status == 3) {
+          this.statusCitas = this.statusCitas.filter((x) => x.id == 4);
+        } else if (clicked.status == 4) {
+          this.statusCitas = this.statusCitas.filter((x) => x.id == 5);
+        }
+
+        this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
+        this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
+        this.matMenuTrigger.menuData = { item: clickInfo.event };
+        this.citaSeleccionada = clickInfo.event;
+
+        this.matMenuTrigger.openMenu();
+      }
+    });
   }
 
   onOdontologoSelected(selected) {
@@ -235,6 +261,7 @@ export class CitasComponent implements OnInit {
   fetchStatusCitas() {
     this._citaService.getStatusSCitas().subscribe((res) => {
       this.statusCitas = res.data.statusCitas;
+      this.legend = res.data.statusCitas;
     });
   }
 
