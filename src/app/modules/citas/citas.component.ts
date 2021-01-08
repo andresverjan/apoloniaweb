@@ -285,8 +285,9 @@ export class CitasComponent implements OnInit {
           toast.addEventListener("mouseleave", Swal.resumeTimer);
         },
       });
-      switch (status.nombre) {
-        case "Confirmada":
+
+      switch (status.id) {
+        case 2:
           this._citaService
             .updateCita(this.citaSeleccionada)
             .subscribe((res) => res);
@@ -298,13 +299,7 @@ export class CitasComponent implements OnInit {
 
           break;
 
-        case "Asistida":
-          this.citaSeleccionada.horaSalida = `${
-            time.getHours().toString().length > 1
-              ? time.getHours().toString()
-              : "0" + time.getHours().toString()
-          }:${time.getMinutes()} `;
-
+        case 3:
           this._citaService
             .updateCita(this.citaSeleccionada)
             .subscribe((res) => res);
@@ -316,7 +311,7 @@ export class CitasComponent implements OnInit {
 
           break;
 
-        case "Paciente Ingreso":
+        case 4:
           this.citaSeleccionada.horaIngreso = `${
             time.getHours().toString().length > 1
               ? time.getHours().toString()
@@ -334,7 +329,7 @@ export class CitasComponent implements OnInit {
 
           break;
 
-        case "Paciente Salio":
+        case 5:
           this.citaSeleccionada.horaSalida = `${
             time.getHours().toString().length > 1
               ? time.getHours().toString()
@@ -352,7 +347,7 @@ export class CitasComponent implements OnInit {
 
           break;
 
-        case "Cancelada":
+        case 6:
           const { value: observaciones } = await Swal.fire({
             title: "Agregue las observaciones de la cancelación",
             html:

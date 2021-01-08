@@ -53,6 +53,29 @@
     </mat-card>
 
     <mat-card class="cardcontent" *ngIf="canView()">
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 20px;
+        "
+      >
+        <!-- TODO: Centrado Arriba -->
+        <mat-chip-list>
+          <mat-chip
+            *ngFor="let status of legend"
+            selected
+            [ngStyle]="{
+              'background-color': status.color,
+              color: status.textColor ? status.textColor : 'black'
+            }"
+          >
+            {{ status.nombre }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+
       <mat-card fxFill>
         <mat-card-content>
           <app-scheduler
@@ -61,20 +84,6 @@
           ></app-scheduler>
         </mat-card-content>
       </mat-card>
-      <div style="margin: 20px; justify-content: center; align-items: center">
-        <mat-chip-list>
-          <mat-chip
-            *ngFor="let status of legend"
-            selected
-            [ngStyle]="{
-              'background-color': status.color,
-              color: 'black'
-            }"
-          >
-            {{ status.nombre }}
-          </mat-chip>
-        </mat-chip-list>
-      </div>
     </mat-card>
   </mat-card-content>
 </div>
