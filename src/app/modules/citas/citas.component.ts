@@ -55,6 +55,12 @@ export class CitasComponent implements OnInit {
   public calendar: CalendarOptions;
 
   ngOnInit(): void {
+    this.calendar = {
+      ...this.calendar,
+      select: this.handleDateSelect.bind(this),
+      eventClick: this.handleEventClick.bind(this),
+    };
+
     this.odontologo = {
       Nombres: "Seleccionar Odontologo",
     };
@@ -77,17 +83,16 @@ export class CitasComponent implements OnInit {
   }
 
   reloadPage() {
-    // window.location.reload();
   }
 
   async handleEventClick(clickInfo: EventClickArg) {
+    console.log("CLICK");
     clickInfo.jsEvent.preventDefault();
 
     this._citaService.getCita(clickInfo.event.id).subscribe((res) => {
       const clicked = res.data.getCita;
 
       if (clicked.status != 5 && clicked.status != 6) {
-        console.log(clicked.status != 5);
         this.statusCitas = this.statusCitas.filter((x) => x.id != 1);
 
         if (clicked.status == 1) {
@@ -103,12 +108,10 @@ export class CitasComponent implements OnInit {
         } else if (clicked.status == 4) {
           this.statusCitas = this.statusCitas.filter((x) => x.id == 5);
         }
-
         this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
         this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
         this.matMenuTrigger.menuData = { item: clickInfo.event };
         this.citaSeleccionada = clickInfo.event;
-
         this.matMenuTrigger.openMenu();
       }
     });
@@ -117,25 +120,21 @@ export class CitasComponent implements OnInit {
   onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.fetchCitasByOdontologoId(this.odontologo);
-    this.IsWaiting = true;
+    this.IsWaiting = true;    
   }
 
-  onPatientSelected(selected) {
+  onPatientSelected(selected) {    
     this.paciente = selected;
     this.Waiting = true;
   }
 
   onServiceSelected(selected) {
     this.servicio = selected;
-    this.calendar = {
-      ...this.calendar,
-      select: this.handleDateSelect.bind(this),
-      eventClick: this.handleEventClick.bind(this),
-    };
   }
 
   fetchCitasByOdontologoId(odontologo) {
     const { id: odontologoId } = odontologo;
+    this.citasAgendadas = [];
     this._citaService.getCitasByOdontologoId(odontologoId).subscribe((res) => {
       this.citas = res.data.getCitasByOdontologoId;
       this.citas.forEach((cita) => {
@@ -248,14 +247,7 @@ export class CitasComponent implements OnInit {
   }
 
   canView() {
-    return (
-      this.paciente.Nombres1 != "" &&
-      this.paciente.Nombres1 != "Seleccionar Paciente" &&
-      this.odontologo.Nombres != "" &&
-      this.odontologo.Nombres != "Seleccionar Odontologo" &&
-      this.servicio.nombre != "" &&
-      this.servicio.nombre != "Seleccionar Servicio"
-    );
+    return ( this.odontologo.id != undefined && this.odontologo.id != 0);
   }
 
   fetchStatusCitas() {
@@ -266,13 +258,12 @@ export class CitasComponent implements OnInit {
   }
 
   onClickChangeStatusCita(status) {
+    console.log(status);
     const { id } = this.citaSeleccionada;
 
     this._citaService.getCita(id).subscribe(async ({ data }) => {
       this.citaSeleccionada = data.getCita;
-
       this.citaSeleccionada.status = status.id;
-
       const time = new Date();
       const Toast = Swal.mixin({
         toast: true,
@@ -392,232 +383,3 @@ export class CitasComponent implements OnInit {
     });
   }
 }
-
-// optionCita(cita) {
-//   Swal.fire({
-//     title: "¿Que quieres hacer con la cita?",
-//     showDenyButton: true,
-//     showCancelButton: true,
-//     confirmButtonText: `Entrada Paciente`,
-//     denyButtonText: `Salida Paciente`,
-//   }).then(async (result) => {
-//     if (result.isConfirmed) {
-//       const swalWithBootstrapButtons = Swal.mixin({
-//         customClass: {
-//           confirmButton: 'btn btn-success',
-//           cancelButton: 'btn btn-danger'
-//         },
-//         buttonsStyling: false
-//       })
-//       swalWithBootstrapButtons.fire({
-//         title: 'Asistencia',
-//         text: "¿El paciente llego a la cita?",
-//         icon: 'question',
-//         showCancelButton: true,
-//         confirmButtonText: 'Si',
-//         cancelButtonText: 'No',
-//         reverseButtons: true
-//       }).then((result) => {
-//         if (result.isConfirmed) {
-//           swalWithBootstrapButtons.fire(
-//             'Paciente Registrado',
-//             'El paciente esta en consulta',
-//             'success'
-//           )
-//           const { id: odontologoId } = this.odontologo;
-//           let actual = new Date();
-//           cita = {
-//             id: cita.id,
-//             title: cita.title + " (En consulta)",
-//             start: cita.start,
-//             end: cita.end,
-//             odontologoId: odontologoId,
-//             horaIngreso: actual.getHours() +
-//               " : " +
-//               actual.getMinutes() +
-//               " : " +
-//               actual.getSeconds(),
-//             horaSalida: "",
-//             asistencia: true,
-//             cancelado: false,
-//             observaciones: "El paciente ingreso",
-//           };
-//           this._citaService.updateCita(cita).subscribe((reponse) => {
-//             setTimeout(this.reloadPage, 4000);
-//           });
-
-//         } else if (
-//           /* Read more about handling dismissals below */
-//           result.dismiss === Swal.DismissReason.cancel
-//         ) {
-//           swalWithBootstrapButtons.fire(
-//             'Paciente Registrado',
-//             'El paciente no llego a la consulta',
-//             'success'
-//           )
-//           const { id: odontologoId } = this.odontologo;
-//           let actual = new Date();
-//           cita = {
-//             id: cita.id,
-//             title: cita.title + " (No llego el paciente)",
-//             start: cita.start,
-//             end: cita.end,
-//             odontologoId: odontologoId,
-//             horaIngreso: "",
-//             horaSalida: actual.getHours() +
-//               " : " +
-//               actual.getMinutes() +
-//               " : " +
-//               actual.getSeconds(),
-//             asistencia: false,
-//             cancelado: true,
-//             observaciones: "El paciente no llego",
-//           };
-//           this._citaService.updateCita(cita).subscribe((reponse) => {
-//             setTimeout(this.reloadPage, 4000);
-//           });
-//         }
-//       })
-//     } else if (result.isDenied) {
-//       const swalWithBootstrapButtons = Swal.mixin({
-//         customClass: {
-//           confirmButton: 'btn btn-success',
-//           cancelButton: 'btn btn-danger'
-//         },
-//         buttonsStyling: false
-//       })
-//       swalWithBootstrapButtons.fire({
-//         title: 'Salida',
-//         text: "¿El paciente salio de la consulta?",
-//         icon: 'question',
-//         showCancelButton: true,
-//         confirmButtonText: 'Si',
-//         cancelButtonText: 'No',
-//         reverseButtons: true
-//       }).then((result) => {
-//         if (result.isConfirmed) {
-//           swalWithBootstrapButtons.fire(
-//             'Paciente Registrado',
-//             'El paciente salio de consulta',
-//             'success'
-//           )
-//           const { id: odontologoId } = this.odontologo;
-//           let actual = new Date();
-//           cita = {
-//             id: cita.id,
-//             title: cita.title + " (Terminada)",
-//             start: cita.start,
-//             end: cita.end,
-//             odontologoId: odontologoId,
-//             horaIngreso: cita.horaIngreso,
-//             horaSalida: actual.getHours() +
-//               " : " +
-//               actual.getMinutes() +
-//               " : " +
-//               actual.getSeconds(),
-//             asistencia: true,
-//             cancelado: false,
-//             observaciones: "El paciente salio de consulta",
-//           };
-//           this._citaService.updateCita(cita).subscribe((reponse) => {
-//             setTimeout(this.reloadPage, 4000);
-//           });
-
-//         } else if (
-//           /* Read more about handling dismissals below */
-//           result.dismiss === Swal.DismissReason.cancel
-//         ) {
-//           swalWithBootstrapButtons.fire(
-//             'Paciente',
-//             'El Paciente sigue en consulta',
-//             'error'
-//           )
-//         }
-
-//       })
-
-//     }
-//   })
-// }
-
-// async cancelarCita(cita) {
-//   const { value: text } = await Swal.fire({
-//     input: "textarea",
-//     inputLabel: "¿Cual es el motivo por el cual quiere cancelar la cita?",
-//     inputPlaceholder: "Escribe aqui el motivo...",
-//     inputAttributes: {
-//       "aria-label": "Escribe aqui el motivo",
-//     },
-//     showCancelButton: true,
-//   });
-
-//     }
-//   })
-// }
-
-// async cancelarCita(cita) {
-//   const { value: text } = await Swal.fire({
-//     input: "textarea",
-//     inputLabel: "¿Cual es el motivo por el cual quiere cancelar la cita?",
-//     inputPlaceholder: "Escribe aqui el motivo...",
-//     inputAttributes: {
-//       "aria-label": "Escribe aqui el motivo",
-//     },
-//     showCancelButton: true,
-//   });
-
-//   if (text) {
-//     const { id: odontologoId } = this.odontologo;
-//     const Toast = Swal.mixin({
-//       toast: true,
-//       position: "top-end",
-//       showConfirmButton: false,
-//       timer: 3000,
-//       timerProgressBar: true,
-//       didOpen: (toast) => {
-//         toast.addEventListener("mouseenter", Swal.stopTimer);
-//         toast.addEventListener("mouseleave", Swal.resumeTimer);
-//       },
-//     });
-
-//   if (text) {
-//     const { id: odontologoId } = this.odontologo;
-//     const Toast = Swal.mixin({
-//       toast: true,
-//       position: "top-end",
-//       showConfirmButton: false,
-//       timer: 3000,
-//       timerProgressBar: true,
-//       didOpen: (toast) => {
-//         toast.addEventListener("mouseenter", Swal.stopTimer);
-//         toast.addEventListener("mouseleave", Swal.resumeTimer);
-//       },
-//     });
-
-//     Toast.fire({
-//       icon: "success",
-//       title: "La cita fue cancelada",
-//     });
-//     let actual = new Date();
-//     cita = {
-//       id: cita.id,
-//       title: cita.title + " (Cancelada)",
-//       start: cita.start,
-//       end: cita.end,
-//       odontologoId: odontologoId,
-//       horaIngreso: " ",
-//       horaSalida:
-//         actual.getHours() +
-//         " : " +
-//         actual.getMinutes() +
-//         " : " +
-//         actual.getSeconds(),
-//       asistencia: false,
-//       cancelado: true,
-//       observaciones: text,
-//     };
-//     this._citaService.updateCita(cita).subscribe((reponse) => {
-//       setTimeout(this.reloadPage, 4000);
-//     });
-//   }
-// }
