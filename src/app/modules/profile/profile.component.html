@@ -1,5 +1,4 @@
 <mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
-
 </mat-card-actions>
 <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar>
 <div class="container" style="overflow: hidden">
@@ -53,14 +52,6 @@
                         </div>
 
                         <div *ngIf="showProfileUser" fxLayout="row" fxLayoutAlign="center center" fxFlex=100>
-                            <!--<mat-form-field colspan="5" fxFlex=60>
-                                <mat-label>Idioma</mat-label>
-                                <mat-select (selectionChange)="changeIdiomEs($event.value)">
-                                    <mat-option *ngFor="let idioma of listadoIdiomas" [value]="idioma.id">
-                                        {{idioma.NOMBRE_IDIOMA}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>-->
                             <app-select label="Idioma" [data]=listadoIdiomas icono="language" default="{{profileForm.controls['IDIOMA_ID'].value}}" fxFlex="50" ></app-select>
                         </div>
                     </mat-card-content>

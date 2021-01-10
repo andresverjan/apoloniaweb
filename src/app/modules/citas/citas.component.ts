@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
 import { NuevaCita } from "../core/components/scheduler/scheduler.component";
 import { CitaService } from "./citas.service";
 import { Cita } from "../core/components/scheduler/scheduler.component";
@@ -13,6 +13,7 @@ import { ServicioService } from "../core/services/servicio.service";
 import { FormControl, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import { MatMenuTrigger } from "@angular/material/menu";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: "app-citas",
@@ -23,6 +24,8 @@ export class CitasComponent implements OnInit {
   public odontologo: any;
   public paciente: any;
   public servicio: any;
+  public duracion: any;
+  public observaciones: any;
   public IsWaiting: Boolean = false;
   public Waiting: Boolean = false;
   public citas = [];
@@ -33,11 +36,33 @@ export class CitasComponent implements OnInit {
   public statusCitas: Array<any> = [];
   public legend: Array<any> = [];
   public statusCita: any;
+  public listadoDuracion = [
+    {
+      value: 5,
+      nombre: "5 Min"
+    },
+    {
+      value: 10,
+      nombre: "10 Min"
+    },
+    {
+      value: 15,
+      nombre: "15 Min"
+    },
+    {
+      value: 20,
+      nombre: "20 Min"
+    }
+  ];
 
   public menuTopLeftPosition = { x: "0", y: "0" };
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
+  @ViewChild('myDialog') myDialog: TemplateRef<any>;
+
+  public dialogRef: any;
 
   constructor(
+    public dialog: MatDialog,
     public _citaService: CitaService,
     public _odontologosService: OdontologosService,
     public _pacienteService: PacienteService,
@@ -54,6 +79,27 @@ export class CitasComponent implements OnInit {
 
   public citasAgendadas: Array<Cita> = [];
   public calendar: CalendarOptions;
+
+  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
+    this.dialogRef = this.dialog.open(templateRef, {
+      disableClose: true 
+    });    
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      console.log("dialogo Cerrado");
+      console.log(result);
+    });
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
+  updateprofile(): void {
+    console.log("TEST");
+  }
+  crearCita():void {
+    
+  }
 
   ngOnInit(): void {
     this.calendar = {
@@ -75,7 +121,7 @@ export class CitasComponent implements OnInit {
       nombre: "Seleccionar Servicio",
     };
 
-    this.getUserFromLocalStorage();
+    this.getUserFromLocalStorage();    
   }
 
   getUserFromLocalStorage() {
@@ -136,6 +182,10 @@ export class CitasComponent implements OnInit {
     this.IsWaiting = true;
   }
 
+  onDuracionSelected(selected){
+    this.duracion = selected;
+  }
+
   fetchCitasByOdontologoId(odontologo) {
     const { id: odontologoId } = odontologo;
     this.citasAgendadas = [];
@@ -169,85 +219,8 @@ export class CitasComponent implements OnInit {
 
   async handleDateSelect(selectInfo: DateSelectArg) {
     const calendarApi = selectInfo.view.calendar;
-
-    const { value: citaInfo } = await Swal.fire({
-      title: "Especifique el título y la duración de la cita",
-      html:
-        "<h4>Título</h4>" +
-        '<input id="titulo" class="swal2-input">' +
-        "<h4>Duración</h4>" +
-        `
-        <select name="duracion" id="duracion">
-          <option selected>Duración</option>
-          <option value="0:05">5 min</option>
-          <option value="0:10">10 min</option>
-          <option value="0:15">15 min</option>
-          <option value="0:20">20 min</option>
-          <option value="0:25">25 min</option>
-          <option value="0:30">30 min</option>
-          <option value="0:35">35 min</option>
-          <option value="0:40">40 min</option>
-          <option value="0:45">45 min</option>
-          <option value="1:00">1 hr</option>
-          <option value="1:15">1 hr 15 min</option>
-          <option value="1:30">1 hr 30 min</option>
-          <option value="1:45">1 hr 45 min</option>
-          <option value="2:00">2 hr</option>
-        </select>
-      `,
-      focusConfirm: false,
-      preConfirm: () => {
-        return [
-          (<HTMLInputElement>document.getElementById("titulo")).value,
-          (<HTMLInputElement>document.getElementById("duracion")).value,
-        ];
-      },
-    });
-
-    if (citaInfo && citaInfo[0].length > 0 && citaInfo[1] != "Duración") {
-      const { id: odontologoId } = this.odontologo;
-      const { id: pacienteId } = this.paciente;
-      const { id: servicioId } = this.servicio;
-
-      let nuevaCita: NuevaCita = {
-        title: citaInfo[0],
-        start: selectInfo.start.toISOString(),
-        end: this.addHoursAndMinutes(
-          selectInfo.start,
-          citaInfo[1]
-        ).toISOString(),
-        odontologoId: odontologoId,
-        horaIngreso: "",
-        horaSalida: "",
-        status: 1,
-        pacienteId: pacienteId,
-        servicioId: servicioId,
-        observaciones: "",
-        usuarioId: this.USUARIO.id,
-      };
-
-      this._citaService.createCita(nuevaCita).subscribe(async () => {
-        this.fetchCitasByOdontologoId(this.odontologo);
-        await calendarApi.refetchEvents();
-      });
-
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: "success",
-        title: "La cita fue agendada",
-      });
-    }
+    //TODO: Hacer el modal en este evento.. 
+    this.openDialogWithTemplateRef(this.myDialog);
   }
 
   canView() {
@@ -308,11 +281,10 @@ export class CitasComponent implements OnInit {
           break;
 
         case 4:
-          this.citaSeleccionada.horaIngreso = `${
-            time.getHours().toString().length > 1
-              ? time.getHours().toString()
-              : "0" + time.getHours().toString()
-          }:${time.getMinutes()} `;
+          this.citaSeleccionada.horaIngreso = `${time.getHours().toString().length > 1
+            ? time.getHours().toString()
+            : "0" + time.getHours().toString()
+            }:${time.getMinutes()} `;
 
           this._citaService
             .updateCita(this.citaSeleccionada)
@@ -326,11 +298,10 @@ export class CitasComponent implements OnInit {
           break;
 
         case 5:
-          this.citaSeleccionada.horaSalida = `${
-            time.getHours().toString().length > 1
-              ? time.getHours().toString()
-              : "0" + time.getHours().toString()
-          }:${time.getMinutes()} `;
+          this.citaSeleccionada.horaSalida = `${time.getHours().toString().length > 1
+            ? time.getHours().toString()
+            : "0" + time.getHours().toString()
+            }:${time.getMinutes()} `;
 
           this._citaService
             .updateCita(this.citaSeleccionada)
@@ -392,15 +363,14 @@ export class CitasComponent implements OnInit {
                 <div style="overflow-y: scroll; height:250px;">
                 
                   <div style="margin-bottom: 30px">
-                    <p><strong>Título:</strong></p> ${
-                      this.citaSeleccionada.title
-                    }
+                    <p><strong>Título:</strong></p> ${this.citaSeleccionada.title
+                  }
                   </div>
                   
                   <div style="margin-bottom: 30px">
                     <p><strong>Hora de inicio:</strong></p>${this.citaSeleccionada.start
-                      .split("T")[1]
-                      .substr(0, 5)}
+                    .split("T")[1]
+                    .substr(0, 5)}
                   </div>
 
                   
