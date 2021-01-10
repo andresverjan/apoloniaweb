@@ -37,26 +37,48 @@ export class CitasComponent implements OnInit {
   public statusCita: any;
   public listadoDuracion = [
     {
-      value: 5,
+      value: "0:05",
       nombre: "5 Min"
     },
     {
-      value: 10,
+      value: "0:10",
       nombre: "10 Min"
     },
     {
-      value: 15,
+      value: "0:15",
       nombre: "15 Min"
     },
     {
-      value: 20,
+      value: "0:20",
       nombre: "20 Min"
+    },
+    {
+      value: "0:25",
+      nombre: "25 Min"
+    },
+    {
+      value: "0:30",
+      nombre: "30 Min"
+    },
+    {
+      value: "0:45",
+      nombre: "45 Min"
+    },
+    {
+      value: "0:60",
+      nombre: "1 Hora"
+    },
+    {
+      value: "1:30",
+      nombre: "1 Hora y Media"
     }
+
   ];
 
   public menuTopLeftPosition = { x: "0", y: "0" };
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
   @ViewChild('myDialog') myDialog: TemplateRef<any>;
+  public selectInfo:DateSelectArg; 
 
   public dialogRef: any;
 
@@ -73,7 +95,8 @@ export class CitasComponent implements OnInit {
   public citasAgendadas: Array<Cita> = [];
   public calendar: CalendarOptions;
 
-  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
+  openDialogWithTemplateRef(templateRef: TemplateRef<any>, selectInfo: DateSelectArg ) {
+    this.selectInfo = selectInfo;
     this.dialogRef = this.dialog.open(templateRef, {
       disableClose: true 
     });    
@@ -91,6 +114,51 @@ export class CitasComponent implements OnInit {
     console.log("TEST");
   }
   crearCita():void {
+    if (this.odontologo.id != 0  && this.paciente.id!=0 && this.servicio.id !=0) {
+      const { id: odontologoId } = this.odontologo;
+      const { id: pacienteId } = this.paciente;
+      const { id: servicioId } = this.servicio;
+      console.log(this.selectInfo);
+      console.log(this.duracion);
+      let nuevaCita: NuevaCita = {
+        title: this.observaciones,
+        start:  this.selectInfo.start.toISOString(),
+        end: this.addHoursAndMinutes(
+          this.selectInfo.start,
+          this.duracion.value
+        ).toISOString(),
+        odontologoId: odontologoId,
+        horaIngreso: "",
+        horaSalida: "",
+        status: 1,
+        pacienteId: pacienteId,
+        servicioId: servicioId,
+        observaciones: "",
+        usuarioId: this.USUARIO.id,
+      };
+
+      this._citaService.createCita(nuevaCita).subscribe(async () => {
+        this.fetchCitasByOdontologoId(this.odontologo);
+        await this.selectInfo.view.calendar.refetchEvents();
+        this.closeDialog();
+      });
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1300,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+      Toast.fire({
+        icon: "success",
+        title: "La cita fue agendada",
+      });
+    }
     
   }
 
@@ -207,9 +275,9 @@ export class CitasComponent implements OnInit {
   }
 
   async handleDateSelect(selectInfo: DateSelectArg) {
-    const calendarApi = selectInfo.view.calendar;
+    //const calendarApi = selectInfo.view.calendar;
     //TODO: Hacer el modal en este evento.. 
-    this.openDialogWithTemplateRef(this.myDialog);
+    this.openDialogWithTemplateRef(this.myDialog, selectInfo);
   }
 
   canView() {
