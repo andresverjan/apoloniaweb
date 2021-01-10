@@ -88,10 +88,6 @@ export class CitasComponent implements OnInit {
       const clickedStatus = res.data.getCita;
 
       if (clickedStatus.status != 5 && clickedStatus.status != 6) {
-        this.statusCitas.push({
-          id: 9999,
-          nombre: "Detalles de la cita",
-        });
         this.statusCitas = this.statusCitas.filter((x) => x.id != 1);
 
         if (clickedStatus.status == 1) {
@@ -260,6 +256,11 @@ export class CitasComponent implements OnInit {
       this.legend = res.data.statusCitas.filter((x) => x.id != 9999);
 
       this.statusCitas = res.data.statusCitas;
+
+      this.statusCitas.push({
+        id: 9999,
+        nombre: "Detalles de la cita",
+      });
     });
   }
 
