@@ -232,3 +232,10 @@ mat-icon {
 .example-spacer {
   flex: 1 1 auto;
 }
+
+.cardcontent {
+  box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+  -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+  -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
+  padding-bottom: 30px;
+}
