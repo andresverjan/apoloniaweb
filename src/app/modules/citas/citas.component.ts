@@ -49,6 +49,7 @@ export class CitasComponent implements OnInit {
       citaFormModalSubject: new FormControl(""),
       citaFormModalMessage: new FormControl(""),
     });
+    this.fetchStatusCitas();
   }
 
   public citasAgendadas: Array<Cita> = [];
@@ -75,36 +76,40 @@ export class CitasComponent implements OnInit {
     };
 
     this.getUserFromLocalStorage();
-    this.fetchStatusCitas();
   }
 
   getUserFromLocalStorage() {
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
   }
 
-  reloadPage() {
-  }
-
   async handleEventClick(clickInfo: EventClickArg) {
     clickInfo.jsEvent.preventDefault();
     this._citaService.getCita(clickInfo.event.id).subscribe((res) => {
-      const clicked = res.data.getCita;
+      const clickedStatus = res.data.getCita;
 
-      if (clicked.status != 5 && clicked.status != 6) {
+      if (clickedStatus.status != 5 && clickedStatus.status != 6) {
+        this.statusCitas.push({
+          id: 9999,
+          nombre: "Detalles de la cita",
+        });
         this.statusCitas = this.statusCitas.filter((x) => x.id != 1);
 
-        if (clicked.status == 1) {
+        if (clickedStatus.status == 1) {
           this.statusCitas = this.statusCitas.filter(
-            (x) => x.id == 2 || x.id == 6
+            (x) => x.id == 2 || x.id == 6 || x.id == 9999
           );
-        } else if (clicked.status == 2) {
+        } else if (clickedStatus.status == 2) {
           this.statusCitas = this.statusCitas.filter(
-            (x) => x.id == 4 || x.id == 3 || x.id == 6
+            (x) => x.id == 4 || x.id == 3 || x.id == 6 || x.id == 9999
           );
-        } else if (clicked.status == 3) {
-          this.statusCitas = this.statusCitas.filter((x) => x.id == 4);
-        } else if (clicked.status == 4) {
-          this.statusCitas = this.statusCitas.filter((x) => x.id == 5);
+        } else if (clickedStatus.status == 3) {
+          this.statusCitas = this.statusCitas.filter(
+            (x) => x.id == 4 || x.id == 9999
+          );
+        } else if (clickedStatus.status == 4) {
+          this.statusCitas = this.statusCitas.filter(
+            (x) => x.id == 5 || x.id == 9999
+          );
         }
         this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
         this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
@@ -118,16 +123,17 @@ export class CitasComponent implements OnInit {
   onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.fetchCitasByOdontologoId(this.odontologo);
-    this.IsWaiting = true;    
+    this.IsWaiting = true;
   }
 
-  onPatientSelected(selected) {    
+  onPatientSelected(selected) {
     this.paciente = selected;
-    this.Waiting = true;
+    this.IsWaiting = true;
   }
 
   onServiceSelected(selected) {
     this.servicio = selected;
+    this.IsWaiting = true;
   }
 
   fetchCitasByOdontologoId(odontologo) {
@@ -245,18 +251,19 @@ export class CitasComponent implements OnInit {
   }
 
   canView() {
-    return ( this.odontologo.id != undefined && this.odontologo.id != 0);
+    return this.odontologo.id != undefined && this.odontologo.id != 0;
   }
 
   fetchStatusCitas() {
     this._citaService.getStatusSCitas().subscribe((res) => {
+      //TODO: se setea el array de leyenda con el valor de statusCias !!! SE CAMBIA EL OBJETO RESPONSE
+      this.legend = res.data.statusCitas.filter((x) => x.id != 9999);
+
       this.statusCitas = res.data.statusCitas;
-      this.legend = res.data.statusCitas;
     });
   }
 
   onClickChangeStatusCita(status) {
-    console.log(status);
     const { id } = this.citaSeleccionada;
 
     this._citaService.getCita(id).subscribe(async ({ data }) => {
@@ -371,6 +378,45 @@ export class CitasComponent implements OnInit {
 
           break;
 
+        case 9999:
+          let servicio;
+          this._servicioService
+            .getServicioById(this.citaSeleccionada.servicioId)
+            .subscribe((res) => {
+              servicio = res.data.servicioById;
+
+              Swal.fire({
+                title: "Información de la cita",
+                html: `
+                <hr/>
+                <div style="overflow-y: scroll; height:250px;">
+                
+                  <div style="margin-bottom: 30px">
+                    <p><strong>Título:</strong></p> ${
+                      this.citaSeleccionada.title
+                    }
+                  </div>
+                  
+                  <div style="margin-bottom: 30px">
+                    <p><strong>Hora de inicio:</strong></p>${this.citaSeleccionada.start
+                      .split("T")[1]
+                      .substr(0, 5)}
+                  </div>
+
+                  
+                  <div style="margin-bottom: 30px">
+                    <p><strong>Tipo de cita:</strong></p>${servicio.nombre}
+                  </div>
+                  
+                </div>
+
+                <hr/>
+
+                `,
+              });
+            });
+
+          break;
         default:
           this._citaService
             .updateCita(this.citaSeleccionada)
