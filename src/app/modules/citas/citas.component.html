@@ -39,7 +39,7 @@
           ></app-buscadormodal>
 
           <app-buscadormodal
-            *ngIf="Waiting"
+            *ngIf="IsWaiting"
             (selected)="onServiceSelected($event)"
             [columnas]="{ nombre: 'Nombre Servicio' }"
             [resultInputText]="['nombre']"

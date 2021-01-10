@@ -24,10 +24,9 @@ export class CitasComponent implements OnInit {
   public paciente: any;
   public servicio: any;
   public IsWaiting: Boolean = false;
-  public Waiting: Boolean = false;
   public citas = [];
   public citaSeleccionada: any;
-  public validatingForm: FormGroup;
+
   public USUARIO: any;
   public userKey: string = "USUARIO";
   public statusCitas: Array<any> = [];
@@ -43,12 +42,6 @@ export class CitasComponent implements OnInit {
     public _pacienteService: PacienteService,
     public _servicioService: ServicioService
   ) {
-    this.validatingForm = new FormGroup({
-      citaFormModalName: new FormControl(""),
-      citaFormModalEmail: new FormControl(""),
-      citaFormModalSubject: new FormControl(""),
-      citaFormModalMessage: new FormControl(""),
-    });
     this.fetchStatusCitas();
   }
 
@@ -254,7 +247,6 @@ export class CitasComponent implements OnInit {
     this._citaService.getStatusSCitas().subscribe((res) => {
       //TODO: se setea el array de leyenda con el valor de statusCias !!! SE CAMBIA EL OBJETO RESPONSE
       this.legend = res.data.statusCitas.filter((x) => x.id != 9999);
-
       this.statusCitas = res.data.statusCitas;
 
       this.statusCitas.push({
@@ -388,27 +380,27 @@ export class CitasComponent implements OnInit {
 
               Swal.fire({
                 title: "Información de la cita",
+
                 html: `
                 <hr/>
-                <div style="overflow-y: scroll; height:250px;">
-                
-                  <div style="margin-bottom: 30px">
-                    <p><strong>Título:</strong></p> ${
-                      this.citaSeleccionada.title
-                    }
-                  </div>
-                  
-                  <div style="margin-bottom: 30px">
-                    <p><strong>Hora de inicio:</strong></p>${this.citaSeleccionada.start
-                      .split("T")[1]
-                      .substr(0, 5)}
-                  </div>
+                <div style="display: flex;" >
+                  <div style="flex: 50%; padding: 10px;" >
+                    <div style="margin-bottom: 30px">
+                      <p><strong>Título:</strong></p> ${
+                        this.citaSeleccionada.title
+                      }
+                    </div>
+                    
+                    <div style="margin-bottom: 30px">
+                      <p><strong>Hora de inicio:</strong></p>${this.citaSeleccionada.start
+                        .split("T")[1]
+                        .substr(0, 5)}
+                    </div>
 
-                  
-                  <div style="margin-bottom: 30px">
-                    <p><strong>Tipo de cita:</strong></p>${servicio.nombre}
+                    <div style="margin-bottom: 30px">
+                      <p><strong>Tipo de cita:</strong></p>${servicio.nombre}
+                    </div>
                   </div>
-                  
                 </div>
 
                 <hr/>
