@@ -87,7 +87,6 @@ export class CitasComponent implements OnInit {
 
   async handleEventClick(clickInfo: EventClickArg) {
     clickInfo.jsEvent.preventDefault();
-
     this._citaService.getCita(clickInfo.event.id).subscribe((res) => {
       const clicked = res.data.getCita;
 
