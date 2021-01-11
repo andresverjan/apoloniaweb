@@ -239,13 +239,15 @@ export class CitasComponent implements OnInit {
             (x) => x.id == 5 || x.id == 9999
           );
         }
-
-        this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
-        this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
-        this.matMenuTrigger.menuData = { item: clickInfo.event };
-        this.citaSeleccionada = clickInfo.event;
-        this.matMenuTrigger.openMenu();
+      } else {
+        this.menuOptions = this.menuOptions.filter((x) => x.id == 9999);
       }
+
+      this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
+      this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
+      this.matMenuTrigger.menuData = { item: clickInfo.event };
+      this.citaSeleccionada = clickInfo.event;
+      this.matMenuTrigger.openMenu();
     });
   }
 
