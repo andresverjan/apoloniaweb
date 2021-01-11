@@ -12,7 +12,7 @@ import { ProfileService } from "./profile.service";
 export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
   public USUARIO;
-  public IsWait: Boolean = false;
+  public isWaiting: Boolean = false;
   lShowPanelDatosViaje: boolean;
   lShowBtnActualizar: boolean;
   lShowImagen: boolean;
@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   showIdiom: boolean = false;
   showButton: boolean = true;
   showUpdatePassword: boolean = false;
-  idiom = [];
+  listadoIdiomas = [];
   idiomUser: number;
   valorSeleccionado: string = "";
   idiomSelect: number;
@@ -45,6 +45,7 @@ export class ProfileComponent implements OnInit {
       URL_FOTO_PERFIL: new FormControl(""),
       USUARIO_PASSWORD: new FormControl(""),
       USUARIO_CONFIRMACION: new FormControl(""),
+      IDIOMA_ID: new FormControl(""),
     });
   }
 
@@ -53,11 +54,12 @@ export class ProfileComponent implements OnInit {
     this.lShowBtnActualizar = true;
     this.lShowImagen = true;
     this.getUserFromLocalStorage();
-    this.changeIdiomEn();
+    this.fetchIdiomas();
   }
 
   getUserFromLocalStorage() {
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
+    console.log("object in Lcal" , this.USUARIO.IDIOMA_ID);
     this.profileForm.patchValue(this.USUARIO);
     this.USUARIO.URL_FOTO_PERFIL = "assets/Dentist6.png";
   }
@@ -83,9 +85,11 @@ export class ProfileComponent implements OnInit {
       Swal.fire("Contraseña", "No es la misma contraseña.", "error");
     }
   }
-  changeIdiomEn() {
+  fetchIdiomas() {
     this.profileService.idiom().subscribe((response) => {
-      this.idiom = response.data.idiomas;
+      response.data.idiomas.forEach(item => {
+        this.listadoIdiomas.push({value: item.id, nombre: item.NOMBRE_IDIOMA});
+      });
     });
   }
 
@@ -110,7 +114,7 @@ export class ProfileComponent implements OnInit {
   updateprofile() {
     const updateUser = {
       id: this.USUARIO.id,
-      IDIOMA_ID: this.idiomSelect,
+      IDIOMA_ID: this.profileForm.value.IDIOMA_ID,
       USUARIO_NOMBRE: this.profileForm.value.USUARIO_NOMBRE,
       USUARIO_APELLIDO: this.profileForm.value.USUARIO_APELLIDO,
       USUARIO_CORREO: this.profileForm.value.USUARIO_CORREO,

@@ -58,7 +58,7 @@ export class ProfileService {
           USUARIO_CORREO: "${objeTosend.USUARIO_CORREO}",
            USUARIO_PASSWORD: "${objeTosend.USUARIO_PASSWORD}"
         }) {     
-           USUARIO_PASSWORD
+          USUARIO_CORREO
         }  
       }
       `,
@@ -95,7 +95,7 @@ export class ProfileService {
                 id
                 USUARIO_NOMBRE
                 USUARIO_LOGIN
-                USUARIO_PASSWORD
+                IDIOMA_ID
             }
             }
       `,

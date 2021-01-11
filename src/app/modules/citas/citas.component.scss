@@ -1,13 +1,11 @@
 .listar {
-  width:500px;
+  width: 500px;
   margin-top: 8px;
   margin-left: 10px;
-  
 }
-.calendario{
- margin-left: 10px;
- margin-right:10px;
-
+.calendario {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .card-container {
@@ -19,4 +17,14 @@
   -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
   -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
   padding-bottom: 30px;
+}
+
+.mat-dialog-container {
+  transform: none;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 12px;
+  padding-right: 15px;
+  overflow: hidden;
+  overflow-x: hidden;
 }
