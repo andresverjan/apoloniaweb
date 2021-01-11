@@ -12,11 +12,11 @@
     <mat-card class="cardcontent" fxLayout="row" fxLayoutAlign="center center">
       <mat-card fxFill fxLayout="row" fxLayoutAlign="center center" fxFlex="80">
         <mat-card-content fxLayout="row" fxLayoutAlign="center" fxFlex="80">
-          <mat-icon matPrefix>account_balance</mat-icon>
-          <label>Especialista: </label>          
+          <mat-icon matPrefix style="padding: 4px;">account_balance</mat-icon>
+          <label style="padding: 7px;">Especialista: </label>          
           <app-buscadormodal *ngIf="true" (selected)="onOdontologoSelected($event)"
-            [columnas]="{ Nombres: 'Nombre Odontologo' }" [resultInputText]="['Nombres']"
-            [service]="_odontologosService" tituloBusqueda="Odontologos" [defaultObjValue]="odontologo" fxFlex="60"
+            [columnas]="{ Nombres: 'Nombre Especialista' }" [resultInputText]="['Nombres']"
+            [service]="_odontologosService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo" fxFlex="60"
             [readonly]="false"></app-buscadormodal>
         </mat-card-content>
       </mat-card>

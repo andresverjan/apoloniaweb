@@ -106,7 +106,7 @@ export class CitasComponent implements OnInit {
     };
 
     this.odontologo = {
-      Nombres: "Seleccionar Odontologo",
+      Nombres: "Seleccionar Especialista",
     };
 
     this.paciente = {
