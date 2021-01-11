@@ -216,9 +216,16 @@ export class CitasComponent implements OnInit {
 
   async handleEventClick(clickInfo: EventClickArg) {
     clickInfo.jsEvent.preventDefault();
+    this.menuOptions = [
+      {
+        id: 9999,
+        nombre: "Detalles de la cita",
+      },
+      ...this.statusCitas,
+    ];
+
     this._citaService.getCita(clickInfo.event.id).subscribe((res) => {
       const clickedStatus = res.data.getCita;
-
       if (clickedStatus.status != 5 && clickedStatus.status != 6) {
         this.menuOptions = this.menuOptions.filter((x) => x.id != 1);
 
@@ -323,15 +330,8 @@ export class CitasComponent implements OnInit {
       //TODO: se setea el array de leyenda con el valor de statusCias !!! SE CAMBIA EL OBJETO RESPONSE
       this.legend = res.data.statusCitas.filter((x) => x.id != 9999);
       this.statusCitas = res.data.statusCitas;
-
-      this.menuOptions = res.data.statusCitas;
-      this.menuOptions.push({
-        id: 9999,
-        nombre: "Detalles de la cita",
-      });
     });
   }
-
   onClickChangeStatusCita(status) {
     const { id } = this.citaSeleccionada;
 
