@@ -8,7 +8,9 @@
 
     <mat-card class="cardcontent" fxLayout="row" fxLayoutAlign="center center">
       <mat-card fxFill fxLayout="row" fxLayoutAlign="center center" fxFlex="80">
-        <mat-card-content fxLayout="column" fxLayoutAlign="center" fxFlex="60">
+        <mat-card-content fxLayout="row" fxLayoutAlign="center" fxFlex="80">
+          <mat-icon matPrefix>account_balance</mat-icon>
+          <label>Especialista: </label>          
           <app-buscadormodal *ngIf="true" (selected)="onOdontologoSelected($event)"
             [columnas]="{ Nombres: 'Nombre Odontologo' }" [resultInputText]="['Nombres']"
             [service]="_odontologosService" tituloBusqueda="Odontologos" [defaultObjValue]="odontologo" fxFlex="60"
@@ -17,12 +19,12 @@
       </mat-card>
     </mat-card>
 
-    <mat-card class="cardcontent" *ngIf="canView()">
+    <mat-card class="cardcontent" *ngIf="canView()" style="padding: 4px;">
       <div style="
           display: flex;
           justify-content: center;
           align-items: center;
-          margin: 20px;
+          margin: 5px;
         ">
         <mat-chip-list>
           <mat-chip *ngFor="let status of legend" selected [ngStyle]="{
