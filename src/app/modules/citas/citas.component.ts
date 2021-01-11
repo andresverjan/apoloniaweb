@@ -76,11 +76,14 @@ export class CitasComponent implements OnInit {
   ];
 
   public menuTopLeftPosition = { x: "0", y: "0" };
+  public citasAgendadas: Array<Cita> = [];
+  public calendar: CalendarOptions;
+  public selectInfo: DateSelectArg;
+  public dialogRef: any;
+
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
   @ViewChild('myDialog') myDialog: TemplateRef<any>;
-  public selectInfo:DateSelectArg; 
 
-  public dialogRef: any;
 
   constructor(
     public dialog: MatDialog,
@@ -92,14 +95,35 @@ export class CitasComponent implements OnInit {
     this.fetchStatusCitas();
   }
 
-  public citasAgendadas: Array<Cita> = [];
-  public calendar: CalendarOptions;
+  ngOnInit(): void {
+    this.calendar = {
+      ...this.calendar,
+      select: this.handleDateSelect.bind(this),
+      eventClick: this.handleEventClick.bind(this),
+    };
 
-  openDialogWithTemplateRef(templateRef: TemplateRef<any>, selectInfo: DateSelectArg ) {
+    this.odontologo = {
+      Nombres: "Seleccionar Odontologo",
+    };
+
+    this.paciente = {
+      Nombres1: "Seleccionar Paciente",
+      Apellidos1: "",
+    };
+
+    this.servicio = {
+      nombre: "Seleccionar Servicio",
+    };
+
+    this.getUserFromLocalStorage();
+  }
+
+
+  openDialogWithTemplateRef(templateRef: TemplateRef<any>, selectInfo: DateSelectArg) {
     this.selectInfo = selectInfo;
     this.dialogRef = this.dialog.open(templateRef, {
-      disableClose: true 
-    });    
+      disableClose: true
+    });
 
     this.dialogRef.afterClosed().subscribe(result => {
       console.log("dialogo Cerrado");
@@ -111,11 +135,12 @@ export class CitasComponent implements OnInit {
     this.clearCitaInfo();
     this.dialogRef.close();
   }
+
   updateprofile(): void {
     console.log("TEST");
   }
 
-  clearCitaInfo(){
+  clearCitaInfo() {
     this.paciente = {
       Nombres1: "Seleccionar Paciente",
       Apellidos1: "",
@@ -123,16 +148,17 @@ export class CitasComponent implements OnInit {
 
     this.servicio = {
       nombre: "Seleccionar Servicio",
-    };    
+    };
     this.duracion = undefined;
     this.observaciones != undefined;
   }
-  crearCita():void {        
-    if (this.odontologo.id!= undefined &&  this.odontologo.id!= 0  
-    && this.paciente.id!= undefined && this.paciente.id!=0 
-    && this.servicio.id!= undefined && this.servicio.id !=0
-    && this.duracion != undefined
-    && this.observaciones != undefined
+
+  crearCita(): void {
+    if (this.odontologo.id != undefined && this.odontologo.id != 0
+      && this.paciente.id != undefined && this.paciente.id != 0
+      && this.servicio.id != undefined && this.servicio.id != 0
+      && this.duracion != undefined
+      && this.observaciones != undefined
     ) {
       const { id: odontologoId } = this.odontologo;
       const { id: pacienteId } = this.paciente;
@@ -141,7 +167,7 @@ export class CitasComponent implements OnInit {
       console.log(this.duracion);
       let nuevaCita: NuevaCita = {
         title: this.observaciones,
-        start:  this.selectInfo.start.toISOString(),
+        start: this.selectInfo.start.toISOString(),
         end: this.addHoursAndMinutes(
           this.selectInfo.start,
           this.duracion.value
@@ -178,30 +204,7 @@ export class CitasComponent implements OnInit {
         title: "La cita fue agendada",
       });
     }
-    
-  }
 
-  ngOnInit(): void {
-    this.calendar = {
-      ...this.calendar,
-      select: this.handleDateSelect.bind(this),
-      eventClick: this.handleEventClick.bind(this),
-    };
-
-    this.odontologo = {
-      Nombres: "Seleccionar Odontologo",
-    };
-
-    this.paciente = {
-      Nombres1: "Seleccionar Paciente",
-      Apellidos1: "",
-    };
-
-    this.servicio = {
-      nombre: "Seleccionar Servicio",
-    };
-
-    this.getUserFromLocalStorage();    
   }
 
   getUserFromLocalStorage() {
@@ -258,7 +261,7 @@ export class CitasComponent implements OnInit {
     this.IsWaiting = true;
   }
 
-  onDuracionSelected(selected){
+  onDuracionSelected(selected) {
     this.duracion = selected;
   }
 
@@ -282,6 +285,7 @@ export class CitasComponent implements OnInit {
       this.calendar = {
         events: this.citasAgendadas,
       };
+      this.selectInfo.view.calendar.refetchEvents();
     });
   }
 
@@ -295,7 +299,6 @@ export class CitasComponent implements OnInit {
 
   async handleDateSelect(selectInfo: DateSelectArg) {
     //const calendarApi = selectInfo.view.calendar;
-    //TODO: Hacer el modal en este evento.. 
     this.openDialogWithTemplateRef(this.myDialog, selectInfo);
   }
 
@@ -308,7 +311,6 @@ export class CitasComponent implements OnInit {
       //TODO: se setea el array de leyenda con el valor de statusCias !!! SE CAMBIA EL OBJETO RESPONSE
       this.legend = res.data.statusCitas.filter((x) => x.id != 9999);
       this.statusCitas = res.data.statusCitas;
-
       this.statusCitas.push({
         id: 9999,
         nombre: "Detalles de la cita",
@@ -339,7 +341,9 @@ export class CitasComponent implements OnInit {
         case 2:
           this._citaService
             .updateCita(this.citaSeleccionada)
-            .subscribe((res) => res);
+            .subscribe((res) =>  {
+              this.fetchCitasByOdontologoId(this.odontologo);
+            });
 
           Toast.fire({
             icon: "success",
@@ -351,7 +355,9 @@ export class CitasComponent implements OnInit {
         case 3:
           this._citaService
             .updateCita(this.citaSeleccionada)
-            .subscribe((res) => res);
+            .subscribe((res) =>  {
+              this.fetchCitasByOdontologoId(this.odontologo);
+            });
 
           Toast.fire({
             icon: "success",
@@ -368,7 +374,9 @@ export class CitasComponent implements OnInit {
 
           this._citaService
             .updateCita(this.citaSeleccionada)
-            .subscribe((res) => res);
+            .subscribe((res) =>  {
+              this.fetchCitasByOdontologoId(this.odontologo);
+            });
 
           Toast.fire({
             icon: "success",
@@ -385,7 +393,9 @@ export class CitasComponent implements OnInit {
 
           this._citaService
             .updateCita(this.citaSeleccionada)
-            .subscribe((res) => res);
+            .subscribe((res) =>  {
+              this.fetchCitasByOdontologoId(this.odontologo);
+            });
 
           Toast.fire({
             icon: "success",
@@ -413,7 +423,9 @@ export class CitasComponent implements OnInit {
 
             this._citaService
               .updateCita(this.citaSeleccionada)
-              .subscribe((res) => res);
+              .subscribe((res) =>  {
+                this.fetchCitasByOdontologoId(this.odontologo);
+              });
 
             Toast.fire({
               icon: "success",
@@ -444,15 +456,14 @@ export class CitasComponent implements OnInit {
                 <div style="display: flex;" >
                   <div style="flex: 50%; padding: 10px;" >
                     <div style="margin-bottom: 30px">
-                      <p><strong>Título:</strong></p> ${
-                        this.citaSeleccionada.title
-                      }
+                      <p><strong>Título:</strong></p> ${this.citaSeleccionada.title
+                  }
                     </div>
                     
                     <div style="margin-bottom: 30px">
                       <p><strong>Hora de inicio:</strong></p>${this.citaSeleccionada.start
-                        .split("T")[1]
-                        .substr(0, 5)}
+                    .split("T")[1]
+                    .substr(0, 5)}
                     </div>
 
                     <div style="margin-bottom: 30px">
@@ -471,8 +482,9 @@ export class CitasComponent implements OnInit {
         default:
           this._citaService
             .updateCita(this.citaSeleccionada)
-            .subscribe((res) => res);
-
+            .subscribe((res) =>  {
+              this.fetchCitasByOdontologoId(this.odontologo);
+            });
           break;
       }
     });
