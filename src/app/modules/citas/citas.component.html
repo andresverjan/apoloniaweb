@@ -1,5 +1,8 @@
 <div style="overflow: hidden; margin: auto; margin-top: 10px" fxFlex="90">
-  <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
+  <mat-card-content
+    class="window-dashboard-card-content"
+    style="overflow-block: hidden"
+  >
     <mat-toolbar color="primary">
       <mat-icon matPrefix>web</mat-icon>
       <span>Citas</span>
@@ -8,27 +11,33 @@
 
     <mat-card class="cardcontent" fxLayout="row" fxLayoutAlign="center center">
       <mat-card fxFill fxLayout="row" fxLayoutAlign="center center" fxFlex="80">
-        <mat-card-content fxLayout="column" fxLayoutAlign="center" fxFlex="60">
+        <mat-card-content fxLayout="row" fxLayoutAlign="center" fxFlex="80">
+          <mat-icon matPrefix style="padding: 4px;">account_balance</mat-icon>
+          <label style="padding: 7px;">Especialista: </label>          
           <app-buscadormodal *ngIf="true" (selected)="onOdontologoSelected($event)"
-            [columnas]="{ Nombres: 'Nombre Odontologo' }" [resultInputText]="['Nombres']"
-            [service]="_odontologosService" tituloBusqueda="Odontologos" [defaultObjValue]="odontologo" fxFlex="60"
+            [columnas]="{ Nombres: 'Nombre Especialista' }" [resultInputText]="['Nombres']"
+            [service]="_odontologosService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo" fxFlex="60"
             [readonly]="false"></app-buscadormodal>
         </mat-card-content>
       </mat-card>
     </mat-card>
 
-    <mat-card class="cardcontent" *ngIf="canView()">
+    <mat-card class="cardcontent" *ngIf="canView()" style="padding: 4px;">
       <div style="
           display: flex;
           justify-content: center;
           align-items: center;
-          margin: 20px;
+          margin: 5px;
         ">
         <mat-chip-list>
-          <mat-chip *ngFor="let status of legend" selected [ngStyle]="{
+          <mat-chip
+            *ngFor="let status of legend"
+            selected
+            [ngStyle]="{
               'background-color': status.color,
               color: status.textColor ? status.textColor : 'black'
-            }">
+            }"
+          >
             {{ status.nombre }}
           </mat-chip>
         </mat-chip-list>
@@ -36,35 +45,62 @@
 
       <mat-card fxFill>
         <mat-card-content>
-          <app-scheduler [configuration]="calendar" [citas]="citasAgendadas"></app-scheduler>
+          <app-scheduler
+            [configuration]="calendar"
+            [citas]="citasAgendadas"
+          ></app-scheduler>
         </mat-card-content>
       </mat-card>
     </mat-card>
   </mat-card-content>
 </div>
 
-<div style="visibility: hidden; position: fixed" [style.left]="menuTopLeftPosition.x"
-  [style.top]="menuTopLeftPosition.y" [matMenuTriggerFor]="rightMenu"></div>
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="menuTopLeftPosition.x"
+  [style.top]="menuTopLeftPosition.y"
+  [matMenuTriggerFor]="rightMenu"
+></div>
 
 <mat-menu #rightMenu="matMenu">
   <ng-template matMenuContent let-item="item">
-    <button *ngFor="let status of statusCitas" mat-menu-item (click)="onClickChangeStatusCita(status)">
+    <button
+      *ngFor="let status of menuOptions"
+      mat-menu-item
+      (click)="onClickChangeStatusCita(status)"
+    >
       {{ status.nombre }}
     </button>
   </ng-template>
 </mat-menu>
 
 <!--<button mat-button color="primary" (click)="openDialogWithTemplateRef(myDialog)">Open dialog</button>-->
-<ng-template #myDialog style="overflow: hidden;">
-  <mat-dialog-content style="margin-left: -63px;margin-right: -63px;margin-top: -24px;margin-bottom: -38px;width: 500px;overflow: hidden;">
+<ng-template #myDialog style="overflow: hidden">
+  <mat-dialog-content
+    style="
+      margin-left: -63px;
+      margin-right: -63px;
+      margin-top: -24px;
+      margin-bottom: -38px;
+      width: 500px;
+      overflow: hidden;
+    "
+  >
     <div class="container" style="overflow: hidden">
-      <mat-card-content class="window-dashboard-card-content contentprincipal" style="margin-bottom: 0px;">
+      <mat-card-content
+        class="window-dashboard-card-content contentprincipal"
+        style="margin-bottom: 0px"
+      >
         <mat-toolbar color="primary">
           <mat-icon matPrefix>account_balance</mat-icon>
           <label>Creación de citas</label>
           <span class="example-spacer"></span>
-          <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
-            (click)="closeDialog()">
+          <button
+            mat-icon-button
+            class="example-icon"
+            aria-label="Example icon-button with share icon"
+            (click)="closeDialog()"
+          >
             <mat-icon>close</mat-icon>
           </button>
         </mat-toolbar>
@@ -73,42 +109,101 @@
         </mat-card-header>
         <mat-card class="cardcontent">
           <mat-card-content fxLayout="column" fxLayoutAlign="center">
-            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
-              <app-buscadormodal (selected)="onPatientSelected($event)" [columnas]="{
-                              Cedula: 'Cedula',
-                              Nombres1: 'Nombre',
-                              Apellidos1: 'Apellido'
-                            }" [resultInputText]="['Apellidos1', 'Cedula']" [service]="_pacienteService"
-                tituloBusqueda=" Paciente" [defaultObjValue]="paciente" fxFill></app-buscadormodal>
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+              fxFlex="100"
+            >
+              <app-buscadormodal
+                (selected)="onPatientSelected($event)"
+                [columnas]="{
+                  Cedula: 'Cedula',
+                  Nombres1: 'Nombre',
+                  Apellidos1: 'Apellido'
+                }"
+                [resultInputText]="['Apellidos1', 'Cedula']"
+                [service]="_pacienteService"
+                tituloBusqueda=" Paciente"
+                [defaultObjValue]="paciente"
+                fxFill
+              ></app-buscadormodal>
             </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
-              <app-buscadormodal (selected)="onServiceSelected($event)" [columnas]="{ nombre: 'Nombre Servicio' }"
-                [resultInputText]="['nombre']" [service]="_servicioService" tituloBusqueda="Servicios"
-                [defaultObjValue]="servicio" [readonly]="false" fxFill></app-buscadormodal>
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+              fxFlex="100"
+            >
+              <app-buscadormodal
+                (selected)="onServiceSelected($event)"
+                [columnas]="{ nombre: 'Nombre Servicio' }"
+                [resultInputText]="['nombre']"
+                [service]="_servicioService"
+                tituloBusqueda="Servicios"
+                [defaultObjValue]="servicio"
+                [readonly]="false"
+                fxFill
+              ></app-buscadormodal>
             </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
-              <app-select label="Duración" [data]=listadoDuracion icono="alarm" fxFlex (valSelected)="onDuracionSelected($event)" ></app-select>
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+              fxFlex="100"
+            >
+              <app-select
+                label="Duración"
+                [data]="listadoDuracion"
+                icono="alarm"
+                fxFlex
+                (valSelected)="onDuracionSelected($event)"
+              ></app-select>
             </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+              fxFlex="100"
+            >
               <mat-form-field fxLayout="column" fxFlex>
                 <mat-label>Observaciones</mat-label>
-                <input matInput id="Observaciones" placeholder="Observaciones" required  [(ngModel)]="observaciones">
-            </mat-form-field>
+                <input
+                  matInput
+                  id="Observaciones"
+                  placeholder="Observaciones"
+                  required
+                  [(ngModel)]="observaciones"
+                />
+              </mat-form-field>
             </div>
-              <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100></div>
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+              fxFlex="100"
+            ></div>
           </mat-card-content>
           <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-            <button mat-raised-button (click)="crearCita()" color="primary" fxLayout="row" fxLayout.xs="column" 
-              fxLayoutAlign="center" fxFlex>
+            <button
+              mat-raised-button
+              (click)="crearCita()"
+              color="primary"
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayoutAlign="center"
+              fxFlex
+            >
               <mat-icon>add_task</mat-icon>
               Crear
             </button>
-            <button mat-raised-button color="warn" (click)="closeDialog()" fxLayout="row" fxLayout.xs="column"
-            fxLayoutAlign="center" fxFlex>
-            <mat-icon>cancel</mat-icon>
-            Cancelar
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="closeDialog()"
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayoutAlign="center"
+              fxFlex
+            >
+              <mat-icon>cancel</mat-icon>
+              Cancelar
             </button>
-
           </mat-card-actions>
         </mat-card>
       </mat-card-content>
