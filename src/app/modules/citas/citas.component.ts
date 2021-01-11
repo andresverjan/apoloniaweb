@@ -108,13 +108,32 @@ export class CitasComponent implements OnInit {
   }
 
   closeDialog() {
+    this.clearCitaInfo();
     this.dialogRef.close();
   }
   updateprofile(): void {
     console.log("TEST");
   }
-  crearCita():void {
-    if (this.odontologo.id != 0  && this.paciente.id!=0 && this.servicio.id !=0) {
+
+  clearCitaInfo(){
+    this.paciente = {
+      Nombres1: "Seleccionar Paciente",
+      Apellidos1: "",
+    };
+
+    this.servicio = {
+      nombre: "Seleccionar Servicio",
+    };    
+    this.duracion = undefined;
+    this.observaciones != undefined;
+  }
+  crearCita():void {        
+    if (this.odontologo.id!= undefined &&  this.odontologo.id!= 0  
+    && this.paciente.id!= undefined && this.paciente.id!=0 
+    && this.servicio.id!= undefined && this.servicio.id !=0
+    && this.duracion != undefined
+    && this.observaciones != undefined
+    ) {
       const { id: odontologoId } = this.odontologo;
       const { id: pacienteId } = this.paciente;
       const { id: servicioId } = this.servicio;
