@@ -15,7 +15,7 @@ export class ServicioService {
 
   getAll(objeTosend: any): Observable<any> {
     let filter = "";
-    //si trae filtro
+
     if (objeTosend) {
       filter = `(filter: {
         nombre: "${objeTosend.nombre}"
@@ -31,6 +31,30 @@ export class ServicioService {
                 EMPRESA_ID
             }
           }`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+  getServicioById(objeTosend: any): Observable<any> {
+    let filter = "";
+    if (objeTosend) {
+      filter = `(id:${objeTosend})`;
+    }
+
+    let body = {
+      query: `
+      {
+        servicioById ${filter} {
+          id
+          nombre
+          description
+          duracion
+          EMPRESA_ID
+          createdAt
+          updatedAt
+        }
+      }
+      `,
     };
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });

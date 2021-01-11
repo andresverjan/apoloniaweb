@@ -1,5 +1,5 @@
 <span style="color: red" *ngIf="message">{{ message }}</span>
-<div [formGroup]="form" class="avatar" [style.width.px]="width" [style.height.px]="width" [ngStyle]="{ margin: marginInput,   'background-image': removeAvatar }"  >
+<div class="avatar" [style.width.px]="width" [style.height.px]="width" [ngStyle]="{ margin: marginInput,   'background-image': removeAvatar }"  >
   <img class="avatarOwn" *ngIf="url" [style.width.px]="width" [style.height.px]="width" [src]="url" />
   <label *ngIf="editmode" for="uploader-input" [style.width.px]="width" [style.height.px]="width" appDrag
     (files)="filesDropped($event)">

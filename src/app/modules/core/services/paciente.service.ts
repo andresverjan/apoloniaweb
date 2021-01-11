@@ -18,7 +18,7 @@ export class PacienteService {
     //si trae filtro , Apellidos1: "${objeTosend.nombre}"
     if (objeTosend) {
       filter = `(filter: {
-        Nombres1: "${objeTosend.nombre}"
+        Cedula: "${objeTosend.nombre}"
       })`;
     }
 
@@ -50,6 +50,31 @@ export class PacienteService {
               EMPRESA_ID
             }
           }`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+  getPacienteById(objeTosend: any): Observable<any> {
+    let filter = "";
+    if (objeTosend) {
+      filter = `(id: ${objeTosend})`;
+    }
+
+    let body = {
+      query: `
+      {
+        pacienteById${filter}{
+          id
+          Cedula
+          Apellidos1
+          Nombres1
+          TelCasa
+          TelOficina
+          Contacto
+          Ciudad
+          Direccion
+        }
+      }`,
     };
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });

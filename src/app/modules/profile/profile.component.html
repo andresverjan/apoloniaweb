@@ -1,83 +1,111 @@
-<mat-progress-bar mode="indeterminate" *ngIf="IsWait"></mat-progress-bar>
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+</mat-card-actions>
+<mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar>
+<div class="container" style="overflow: hidden">
+    <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
+        <mat-card-content class="window-dashboard-card-content contentprincipal">
+            <mat-toolbar color="primary">
+                <mat-icon matPrefix>account_balance</mat-icon>
+                <label>Perfil</label>
+                <span class="example-spacer"></span>
+                <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+                    (click)="cancelar()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-toolbar>
+            <mat-card-header>
+                <mat-card-title> </mat-card-title>
+            </mat-card-header>
+            <form [formGroup]="profileForm" autocomplete="off" novalidate>
+                <mat-card class="cardcontent" *ngIf="showProfileUser">
+                    <mat-card-title fxLayoutAlign="center">
+                        <label>{{etiquetas.DatosBasicos}}</label>
+                    </mat-card-title>
+                    <mat-card-content fxLayout="column" fxLayoutAlign="center" *ngIf="showProfileUser">
+                        <app-avatar width=190 [(url)]=picurl [editmode]=true marginInput="auto" style="margin-top: 5px; margin-bottom: 10px;"></app-avatar>
 
-<mat-card-content class="dashboard-card-content contentprincipal" *ngIf="lShowPanelDatosViaje">
-    <form [formGroup]="profileForm" autocomplete="off" novalidate>
-        <mat-card class="cardcontent">
-            <mat-card-title fxLayoutAlign="center">
-                <label>{{etiquetas.DatosBasicos}}</label>
-            </mat-card-title>
-            <mat-card-content fxLayout="column" fxLayoutAlign="center stretch">
-                <div class="col">
-                    <app-avatar width=150 [(url)]=picurl [editmode]=true marginInput="auto"></app-avatar>
-                </div>
-                <div class="upload-btn-wrapper">
-                    <button mat-raised-button style="cursor:pointer;">{{etiquetas.CargarImagen}}</button>
-                </div>
-                <mat-card-actions *ngIf="showProfileUser" fxLayout="row" fxLayoutAlign="center center">
-                    <mat-form-field appearance="outline" fxLayout="col" *ngIf="showProfileUser">
-                        <mat-label>Nombre</mat-label>
-                        <input matInput formControlName="USUARIO_NOMBRE" id="name" placeholder="{{etiquetas.Nombre}}"
-                            required>
-                    </mat-form-field>
+                        <div *ngIf="showProfileUser" fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+                            <mat-form-field fxLayout="column" fxFlex>
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="USUARIO_NOMBRE" id="name"
+                                    placeholder="{{etiquetas.Nombre}}" required>
+                            </mat-form-field>
+                            <mat-form-field fxLayout="column" fxFlex>
+                                <mat-label>Apellido</mat-label>
+                                <input matInput formControlName="USUARIO_APELLIDO" id="Apellido"
+                                    placeholder="{{etiquetas.Email}}" required>
+                            </mat-form-field>
+                        </div>
 
-                    <mat-form-field appearance="outline" fxLayout="col" *ngIf="showProfileUser">
-                        <mat-label>Apellido</mat-label>
-                        <input matInput formControlName="USUARIO_APELLIDO" id="Apellido"
-                            placeholder="{{etiquetas.Email}}" required>
-                    </mat-form-field>
+                        <div *ngIf="showProfileUser" fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+                            <mat-form-field fxLayout="column" fxFlex>
+                                <mat-label>Email</mat-label>
+                                <input matInput formControlName="USUARIO_CORREO" id="email"
+                                    placeholder="{{etiquetas.Email}}" required>
+                            </mat-form-field>
 
-                </mat-card-actions>
-                <mat-card-actions *ngIf="showProfileUser" fxLayout="col" fxLayoutAlign="center center">
-                    <mat-form-field appearance="outline" fxLayout="row" *ngIf="showProfileUser">
-                        <mat-label>Email</mat-label>
-                        <input matInput formControlName="USUARIO_CORREO" id="email" placeholder="{{etiquetas.Email}}"
-                            required >
-                    </mat-form-field>
+                            <mat-form-field fxLayout="column" fxFlex>
+                                <mat-label>Telefono</mat-label>
+                                <input matInput formControlName="USUARIO_TELEFONO" id="email"
+                                    placeholder="{{etiquetas.Email}}" required>
+                            </mat-form-field>
+                        </div>
 
-                    <mat-form-field appearance="outline" fxLayout="row" *ngIf="showProfileUser">
-                        <mat-label>Telefono</mat-label>
-                        <input matInput formControlName="USUARIO_TELEFONO" id="email" placeholder="{{etiquetas.Email}}"
-                            required >
-                    </mat-form-field>
-                </mat-card-actions>
+                        <div *ngIf="showProfileUser" fxLayout="row" fxLayoutAlign="center center" fxFlex=100>
+                            <app-select label="Idioma" [data]=listadoIdiomas icono="language" default="{{profileForm.controls['IDIOMA_ID'].value}}" fxFlex="50" ></app-select>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                        <button mat-raised-button (click)="updateprofile()" color="primary" fxLayout="row"
+                            fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">                        
+                            <mat-icon>loop</mat-icon>
+                            Actualizar Perfil</button>
 
-                <div *ngIf="showUpdatePassword" fxLayoutAlign="center center" fxLayout="column">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Nueva Contraseña</mat-label>
-                        <input matInput formControlName="USUARIO_PASSWORD" id="email" type="password" placeholder="{{etiquetas.Email}}" value="" >
-                    </mat-form-field>
+                        <button mat-raised-button (click)="showChangePassword()" color="primary" fxLayout="row"
+                            fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
+                            <mat-icon>security</mat-icon>
+                            Cambiar contraseña
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
 
-                    <mat-form-field appearance="outline">
-                        <mat-label>Confirmar Contraseña</mat-label>
-                        <input matInput formControlName="USUARIO_CONFIRMACION" type="password" id="email" value="">
-                    </mat-form-field>
-                    <button mat-raised-button (click)="cancelar()" class="buttons2">Cancelar</button>
-                    <button mat-raised-button (click)="changePassword()" class="buttons">Confirmar</button>
-                </div>
+                <mat-card class="cardcontent" *ngIf="showUpdatePassword">
+                    <mat-card-title fxLayoutAlign="center">
+                        <label>Cambiar Contraseña</label>
+                    </mat-card-title>
+                    <mat-card-content fxLayout="column" fxLayoutAlign="center center" *ngIf="showUpdatePassword">
+                        <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
+                            <mat-form-field fxLayout="column" fxFill>
+                                <mat-label>Nueva Contraseña</mat-label>
+                                <input matInput formControlName="USUARIO_PASSWORD" id="email" type="password"
+                                    placeholder="{{etiquetas.Email}}" value="">
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
+                            <mat-form-field fxLayout="column" fxFill>
+                                <mat-label>Confirmar Contraseña</mat-label>
+                                <input matInput type="password" id="email" [(ngModel)]="Observaciones"
+                                    value="">
+                            </mat-form-field>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions fxLayout="col" fxLayoutAlign="center center">
+                    <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column"
+                            (click)="changePassword()" fxFlex>
+                            <mat-icon>check</mat-icon>
+                            Confirmar
+                        </button>
+                        <button mat-raised-button color="warn" (click)="cancelar()" fxLayout="row" fxLayout.xs="column"
+                            fxLayoutAlign="center" fxFlex>
+                            <mat-icon>cancel</mat-icon>
+                            Cancelar
+                        </button>
 
-                <mat-card-actions fxLayout="col" fxLayoutAlign="center center">
-                    <mat-form-field appearance="fill" *ngIf="showProfileUser" colspan="5">
-                        <mat-label>Idioma</mat-label>
-                        <mat-select (selectionChange)="changeIdiomEs($event.value)">
-                            <mat-option *ngFor="let idioma of idiom" [value]="idioma.id">
-                                {{idioma.NOMBRE_IDIOMA}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </mat-card-actions>
-                <mat-card-actions fxLayout="row" fxLayoutAlign="center center" *ngIf="showButton">
-                    <button mat-raised-button (click)="showChangePassword()" class="buttons" color="primary"
-                        fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">Cambiar
-                        contraseña</button>
+                    </mat-card-actions>
+                </mat-card>
 
-                    <button mat-raised-button (click)="updateprofile()" class="buttons" color="primary" fxLayout="row"
-                        fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">Actualizar Perfil</button>
+            </form>
+        </mat-card-content>
 
-                </mat-card-actions>
-
-
-            </mat-card-content>
-
-        </mat-card>
-    </form>
-</mat-card-content>
+    </mat-card-content>
+</div>
