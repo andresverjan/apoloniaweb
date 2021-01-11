@@ -37,6 +37,7 @@ export class CitasComponent implements OnInit {
   public USUARIO: any;
   public userKey: string = "USUARIO";
   public statusCitas: Array<any> = [];
+  public menuOptions: Array<any> = [];
   public legend: Array<any> = [];
   public statusCita: any;
   public listadoDuracion = [
@@ -219,25 +220,26 @@ export class CitasComponent implements OnInit {
       const clickedStatus = res.data.getCita;
 
       if (clickedStatus.status != 5 && clickedStatus.status != 6) {
-        this.statusCitas = this.statusCitas.filter((x) => x.id != 1);
+        this.menuOptions = this.menuOptions.filter((x) => x.id != 1);
 
         if (clickedStatus.status == 1) {
-          this.statusCitas = this.statusCitas.filter(
+          this.menuOptions = this.menuOptions.filter(
             (x) => x.id == 2 || x.id == 6 || x.id == 9999
           );
         } else if (clickedStatus.status == 2) {
-          this.statusCitas = this.statusCitas.filter(
+          this.menuOptions = this.menuOptions.filter(
             (x) => x.id == 4 || x.id == 3 || x.id == 6 || x.id == 9999
           );
         } else if (clickedStatus.status == 3) {
-          this.statusCitas = this.statusCitas.filter(
+          this.menuOptions = this.menuOptions.filter(
             (x) => x.id == 4 || x.id == 9999
           );
         } else if (clickedStatus.status == 4) {
-          this.statusCitas = this.statusCitas.filter(
+          this.menuOptions = this.menuOptions.filter(
             (x) => x.id == 5 || x.id == 9999
           );
         }
+
         this.menuTopLeftPosition.x = clickInfo.jsEvent.clientX + "px";
         this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
         this.matMenuTrigger.menuData = { item: clickInfo.event };
@@ -270,11 +272,10 @@ export class CitasComponent implements OnInit {
   fetchCitasByOdontologoId(odontologo) {
     const { id: odontologoId } = odontologo;
     this.citasAgendadas = [];
-    this._citaService.getCitasByOdontologoId(odontologoId).subscribe((res) => {
-      this.citas = res.data.getCitasByOdontologoId;
-
-      this._citaService.getStatusSCitas().subscribe(async (res) => {
-        this.statusCitas = res.data.statusCitas;
+    this._citaService
+      .getCitasByOdontologoId(odontologoId)
+      .subscribe(async (res) => {
+        this.citas = res.data.getCitasByOdontologoId;
 
         this.citas.forEach((cita) => {
           this.statusCita = this.statusCitas.filter(
@@ -295,10 +296,8 @@ export class CitasComponent implements OnInit {
         this.calendar = {
           events: this.citasAgendadas,
         };
-
         await this.selectInfo?.view.calendar.refetchEvents();
       });
-    });
   }
 
   addHoursAndMinutes(date: Date, timeToAdd: string): Date {
@@ -310,7 +309,6 @@ export class CitasComponent implements OnInit {
   }
 
   async handleDateSelect(selectInfo: DateSelectArg) {
-    //const calendarApi = selectInfo.view.calendar;
     this.openDialogWithTemplateRef(this.myDialog, selectInfo);
   }
 
@@ -323,7 +321,9 @@ export class CitasComponent implements OnInit {
       //TODO: se setea el array de leyenda con el valor de statusCias !!! SE CAMBIA EL OBJETO RESPONSE
       this.legend = res.data.statusCitas.filter((x) => x.id != 9999);
       this.statusCitas = res.data.statusCitas;
-      this.statusCitas.push({
+
+      this.menuOptions = res.data.statusCitas;
+      this.menuOptions.push({
         id: 9999,
         nombre: "Detalles de la cita",
       });
