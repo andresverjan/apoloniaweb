@@ -153,36 +153,36 @@ export class CitasComponent implements OnInit {
     this.observaciones != undefined;
   }
 
-  setTime(dt: any): String {
-    const date = new Date(Date.parse(dt));
+  setTime(isoDate: string): String {
+    const date = new Date(Date.parse(isoDate));
 
-    let current_date: any = date.getDate();
-    let current_month: any = date.getMonth() + 1;
-    let current_year: any = date.getFullYear();
-    let current_hrs: any = date.getHours();
-    let current_mins: any = date.getMinutes();
-    let current_secs: any = date.getSeconds();
-    let current_datetime: any;
+    let currentDate: any = date.getDate();
+    let currentMonth: any = date.getMonth() + 1;
+    let currentYear: any = date.getFullYear();
+    let currentHrs: any = date.getHours();
+    let currentMins: any = date.getMinutes();
+    let currentSecs: any = date.getSeconds();
+    let currentDateTime: any;
 
-    current_date = current_date < 10 ? "0" + current_date : current_date;
-    current_month = current_month < 10 ? "0" + current_month : current_month;
-    current_hrs = current_hrs < 10 ? "0" + current_hrs : current_hrs;
-    current_mins = current_mins < 10 ? "0" + current_mins : current_mins;
-    current_secs = current_secs < 10 ? "0" + current_secs : current_secs;
+    currentDate = currentDate < 10 ? "0" + currentDate : currentDate;
+    currentMonth = currentMonth < 10 ? "0" + currentMonth : currentMonth;
+    currentHrs = currentHrs < 10 ? "0" + currentHrs : currentHrs;
+    currentMins = currentMins < 10 ? "0" + currentMins : currentMins;
+    currentSecs = currentSecs < 10 ? "0" + currentSecs : currentSecs;
 
-    current_datetime =
-      current_year +
+    currentDateTime =
+      currentYear +
       "-" +
-      current_month +
+      currentMonth +
       "-" +
-      current_date +
+      currentDate +
       "T" +
-      current_hrs +
+      currentHrs +
       ":" +
-      current_mins +
+      currentMins +
       ":" +
-      current_secs;
-    return current_datetime;
+      currentSecs;
+    return currentDateTime;
   }
 
   crearCita(): void {
