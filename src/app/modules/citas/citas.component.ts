@@ -10,14 +10,10 @@ import {
 import { OdontologosService } from "../core/services/odontologos.service";
 import { PacienteService } from "../core/services/paciente.service";
 import { ServicioService } from "../core/services/servicio.service";
-import { FormControl, FormGroup } from "@angular/forms";
+import { ToolsService } from "../core/services/tools.service";
 import Swal from "sweetalert2";
 import { MatMenuTrigger } from "@angular/material/menu";
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-citas",
@@ -77,6 +73,10 @@ export class CitasComponent implements OnInit {
       value: "1:30",
       nombre: "1 Hora y Media",
     },
+    {
+      value: "2:00",
+      nombre: "2 Horas",
+    },
   ];
 
   public menuTopLeftPosition = { x: "0", y: "0" };
@@ -93,7 +93,8 @@ export class CitasComponent implements OnInit {
     public _citaService: CitaService,
     public _odontologosService: OdontologosService,
     public _pacienteService: PacienteService,
-    public _servicioService: ServicioService
+    public _servicioService: ServicioService,
+    public _toolService: ToolsService
   ) {
     this.fetchStatusCitas();
   }
@@ -138,8 +139,6 @@ export class CitasComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  updateprofile(): void {}
-
   clearCitaInfo() {
     this.paciente = {
       Nombres1: "Seleccionar Paciente",
@@ -149,40 +148,9 @@ export class CitasComponent implements OnInit {
     this.servicio = {
       nombre: "Seleccionar Servicio",
     };
+
     this.duracion = undefined;
     this.observaciones = undefined;
-  }
-
-  setTime(isoDate: string): String {
-    const date = new Date(Date.parse(isoDate));
-
-    let currentDate: any = date.getDate();
-    let currentMonth: any = date.getMonth() + 1;
-    let currentYear: any = date.getFullYear();
-    let currentHrs: any = date.getHours();
-    let currentMins: any = date.getMinutes();
-    let currentSecs: any = date.getSeconds();
-    let currentDateTime: any;
-
-    currentDate = currentDate < 10 ? "0" + currentDate : currentDate;
-    currentMonth = currentMonth < 10 ? "0" + currentMonth : currentMonth;
-    currentHrs = currentHrs < 10 ? "0" + currentHrs : currentHrs;
-    currentMins = currentMins < 10 ? "0" + currentMins : currentMins;
-    currentSecs = currentSecs < 10 ? "0" + currentSecs : currentSecs;
-
-    currentDateTime =
-      currentYear +
-      "-" +
-      currentMonth +
-      "-" +
-      currentDate +
-      "T" +
-      currentHrs +
-      ":" +
-      currentMins +
-      ":" +
-      currentSecs;
-    return currentDateTime;
   }
 
   crearCita(): void {
@@ -202,13 +170,17 @@ export class CitasComponent implements OnInit {
 
       let nuevaCita: NuevaCita = {
         title: this.observaciones,
-        start: this.setTime(this.selectInfo.start.toISOString()).toString(),
-        end: this.setTime(
-          this.addHoursAndMinutes(
-            this.selectInfo.start,
-            this.duracion.value
-          ).toISOString()
-        ).toString(),
+        start: this._toolService
+          .setTime(this.selectInfo.start.toISOString())
+          .toString(),
+        end: this._toolService
+          .setTime(
+            this.addHoursAndMinutes(
+              this.selectInfo.start,
+              this.duracion.value
+            ).toISOString()
+          )
+          .toString(),
         odontologoId: odontologoId,
         horaIngreso: "",
         horaSalida: "",
@@ -522,9 +494,7 @@ export class CitasComponent implements OnInit {
                     </div>
                   </div>
                 </div>
-
                 <hr/>
-
                 `,
               });
             });
