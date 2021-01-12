@@ -14,6 +14,7 @@ import { ToolsService } from "../core/services/tools.service";
 import Swal from "sweetalert2";
 import { MatMenuTrigger } from "@angular/material/menu";
 import { MatDialog } from "@angular/material/dialog";
+import * as moment from "moment";
 
 @Component({
   selector: "app-citas",
@@ -324,7 +325,17 @@ export class CitasComponent implements OnInit {
 
   async handleDateSelect(selectInfo: DateSelectArg) {
     this.selectInfo = selectInfo;
-    this.openDialogWithTemplateRef(this.myDialog, selectInfo);
+    const check = this.selectInfo.start
+    const today = new Date()
+    if (check.getTime() >= today.getTime()) {
+      this.openDialogWithTemplateRef(this.myDialog, selectInfo);
+      }else{
+        Swal.fire(
+          'No se puede agendar',
+          'Las citas no se pueden agendar en dias pasados',
+          'error'
+        )
+      }
   }
 
   canView() {
