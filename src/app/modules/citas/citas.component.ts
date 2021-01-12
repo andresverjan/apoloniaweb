@@ -150,7 +150,7 @@ export class CitasComponent implements OnInit {
       nombre: "Seleccionar Servicio",
     };
     this.duracion = undefined;
-    this.observaciones != undefined;
+    this.observaciones = undefined;
   }
 
   setTime(isoDate: string): String {
