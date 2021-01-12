@@ -130,9 +130,7 @@ export class CitasComponent implements OnInit {
       disableClose: true,
     });
 
-    this.dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-    });
+    this.dialogRef.afterClosed().subscribe((result) => result);
   }
 
   closeDialog() {
@@ -155,6 +153,38 @@ export class CitasComponent implements OnInit {
     this.observaciones != undefined;
   }
 
+  setTime(dt: any): String {
+    const date = new Date(Date.parse(dt));
+
+    let current_date: any = date.getDate();
+    let current_month: any = date.getMonth() + 1;
+    let current_year: any = date.getFullYear();
+    let current_hrs: any = date.getHours();
+    let current_mins: any = date.getMinutes();
+    let current_secs: any = date.getSeconds();
+    let current_datetime: any;
+
+    current_date = current_date < 10 ? "0" + current_date : current_date;
+    current_month = current_month < 10 ? "0" + current_month : current_month;
+    current_hrs = current_hrs < 10 ? "0" + current_hrs : current_hrs;
+    current_mins = current_mins < 10 ? "0" + current_mins : current_mins;
+    current_secs = current_secs < 10 ? "0" + current_secs : current_secs;
+
+    current_datetime =
+      current_year +
+      "-" +
+      current_month +
+      "-" +
+      current_date +
+      "T" +
+      current_hrs +
+      ":" +
+      current_mins +
+      ":" +
+      current_secs;
+    return current_datetime;
+  }
+
   crearCita(): void {
     if (
       this.odontologo.id != undefined &&
@@ -169,13 +199,16 @@ export class CitasComponent implements OnInit {
       const { id: odontologoId } = this.odontologo;
       const { id: pacienteId } = this.paciente;
       const { id: servicioId } = this.servicio;
+
       let nuevaCita: NuevaCita = {
         title: this.observaciones,
-        start: this.selectInfo.start.toISOString(),
-        end: this.addHoursAndMinutes(
-          this.selectInfo.start,
-          this.duracion.value
-        ).toISOString(),
+        start: this.setTime(this.selectInfo.start.toISOString()).toString(),
+        end: this.setTime(
+          this.addHoursAndMinutes(
+            this.selectInfo.start,
+            this.duracion.value
+          ).toISOString()
+        ).toString(),
         odontologoId: odontologoId,
         horaIngreso: "",
         horaSalida: "",
@@ -318,6 +351,7 @@ export class CitasComponent implements OnInit {
   }
 
   async handleDateSelect(selectInfo: DateSelectArg) {
+    this.selectInfo = selectInfo;
     this.openDialogWithTemplateRef(this.myDialog, selectInfo);
   }
 
