@@ -141,4 +141,31 @@ export class CitaService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
+  sendReminder(objeTosend): Observable<any> {
+    let body = {
+      query: `
+      mutation{
+        sendReminder(email:{
+          USUARIO_CORREO: "anfeldim7@gmail.com"
+          cita: {
+            title: "${objeTosend.title}",
+            start: "${objeTosend.start}",
+            end:"${objeTosend.end}",
+            odontologoId:${objeTosend.odontologoId},
+            horaIngreso:"${objeTosend.horaIngreso}",
+            horaSalida:"${objeTosend.horaSalida}",
+            status:${objeTosend.status},
+            pacienteId: ${objeTosend.pacienteId},
+            servicioId: ${objeTosend.servicioId},
+            observaciones: "${objeTosend.observaciones}",
+            usuarioId: ${objeTosend.usuarioId}
+          }
+        })
+      }
+            `,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    console.log(body.query)
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
 }
