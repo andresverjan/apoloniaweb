@@ -398,11 +398,9 @@ export class CitasComponent implements OnInit {
 
       switch (status.id) {
         case 2:
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
 
           Toast.fire({
             icon: "success",
@@ -412,11 +410,9 @@ export class CitasComponent implements OnInit {
           break;
 
         case 3:
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
 
           Toast.fire({
             icon: "success",
@@ -430,13 +426,13 @@ export class CitasComponent implements OnInit {
             time.getHours().toString().length > 1
               ? time.getHours().toString()
               : "0" + time.getHours().toString()
-          }:${time.getMinutes()} `;
+          }:${
+            time.getMinutes() > 10 ? time.getMinutes() : "0" + time.getMinutes()
+          } `;
 
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
 
           Toast.fire({
             icon: "success",
@@ -450,13 +446,13 @@ export class CitasComponent implements OnInit {
             time.getHours().toString().length > 1
               ? time.getHours().toString()
               : "0" + time.getHours().toString()
-          }:${time.getMinutes()} `;
+          }:${
+            time.getMinutes() > 10 ? time.getMinutes() : "0" + time.getMinutes()
+          } `;
 
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
 
           Toast.fire({
             icon: "success",
@@ -484,7 +480,7 @@ export class CitasComponent implements OnInit {
 
             this._citaService
               .updateCita(this.citaSeleccionada)
-              .subscribe((res) => {
+              .subscribe(() => {
                 this.fetchCitasByOdontologoId(this.odontologo);
               });
 
@@ -503,11 +499,9 @@ export class CitasComponent implements OnInit {
           break;
 
         default:
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
           break;
       }
     });
