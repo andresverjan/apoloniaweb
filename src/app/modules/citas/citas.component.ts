@@ -151,8 +151,6 @@ export class CitasComponent implements OnInit {
         .subscribe((res) => {
           this.detallePaciente = res.data.pacienteById;
 
-          console.log(this.detallePaciente);
-          console.log(this.citaSeleccionada);
           this.loadingModalInfo = false;
         });
     });
