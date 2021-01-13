@@ -14,7 +14,6 @@ import { ToolsService } from "../core/services/tools.service";
 import Swal from "sweetalert2";
 import { MatMenuTrigger } from "@angular/material/menu";
 import { MatDialog } from "@angular/material/dialog";
-import * as moment from "moment";
 
 @Component({
   selector: "app-citas",
@@ -376,8 +375,7 @@ export class CitasComponent implements OnInit {
 
   fetchStatusCitas() {
     this._citaService.getStatusSCitas().subscribe((res) => {
-      //TODO: se setea el array de leyenda con el valor de statusCias !!! SE CAMBIA EL OBJETO RESPONSE
-      this.legend = res.data.statusCitas.filter((x) => x.id != 9999);
+      this.legend = res.data.statusCitas;
       this.statusCitas = res.data.statusCitas;
     });
   }
