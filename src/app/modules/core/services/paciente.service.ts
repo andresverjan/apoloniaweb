@@ -73,6 +73,7 @@ export class PacienteService {
           Contacto
           Ciudad
           Direccion
+          Mail
         }
       }`,
     };

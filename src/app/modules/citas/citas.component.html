@@ -12,23 +12,32 @@
     <mat-card class="cardcontent" fxLayout="row" fxLayoutAlign="center center">
       <mat-card fxFill fxLayout="row" fxLayoutAlign="center center" fxFlex="80">
         <mat-card-content fxLayout="row" fxLayoutAlign="center" fxFlex="80">
-          <mat-icon matPrefix style="padding: 4px;">account_balance</mat-icon>
-          <label style="padding: 7px;">Especialista: </label>          
-          <app-buscadormodal *ngIf="true" (selected)="onOdontologoSelected($event)"
-            [columnas]="{ Nombres: 'Nombre Especialista' }" [resultInputText]="['Nombres']"
-            [service]="_odontologosService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo" fxFlex="60"
-            [readonly]="false"></app-buscadormodal>
+          <mat-icon matPrefix style="padding: 4px">account_balance</mat-icon>
+          <label style="padding: 7px">Especialista: </label>
+          <app-buscadormodal
+            *ngIf="true"
+            (selected)="onOdontologoSelected($event)"
+            [columnas]="{ Nombres: 'Nombre Especialista' }"
+            [resultInputText]="['Nombres']"
+            [service]="_odontologosService"
+            tituloBusqueda="Especialistas"
+            [defaultObjValue]="odontologo"
+            fxFlex="60"
+            [readonly]="false"
+          ></app-buscadormodal>
         </mat-card-content>
       </mat-card>
     </mat-card>
 
-    <mat-card class="cardcontent" *ngIf="canView()" style="padding: 4px;">
-      <div style="
+    <mat-card class="cardcontent" *ngIf="canView()" style="padding: 4px">
+      <div
+        style="
           display: flex;
           justify-content: center;
           align-items: center;
           margin: 5px;
-        ">
+        "
+      >
         <mat-chip-list>
           <mat-chip
             *ngFor="let status of legend"
@@ -64,17 +73,21 @@
 
 <mat-menu #rightMenu="matMenu">
   <ng-template matMenuContent let-item="item">
-    <button
-      *ngFor="let status of menuOptions"
-      mat-menu-item
-      (click)="onClickChangeStatusCita(status)"
-    >
-      {{ status.nombre }}
-    </button>
+    <div *ngFor="let status of menuOptions">
+      <div *ngIf="status.id != 9999">
+        <button mat-menu-item (click)="onClickChangeStatusCita(status)">
+          {{ status.nombre }}
+        </button>
+      </div>
+      <div *ngIf="status.id == 9999">
+        <button mat-menu-item (click)="openDetailsDialogRef(detallesDialog)">
+          {{ status.nombre }}
+        </button>
+      </div>
+    </div>
   </ng-template>
 </mat-menu>
 
-<!--<button mat-button color="primary" (click)="openDialogWithTemplateRef(myDialog)">Open dialog</button>-->
 <ng-template #myDialog style="overflow: hidden">
   <mat-dialog-content
     style="
@@ -205,6 +218,138 @@
               Cancelar
             </button>
           </mat-card-actions>
+        </mat-card>
+      </mat-card-content>
+    </div>
+  </mat-dialog-content>
+</ng-template>
+
+<ng-template #detallesDialog style="overflow: hidden">
+  <mat-dialog-content
+    style="
+      margin-left: -63px;
+      margin-right: -63px;
+      margin-top: -24px;
+      margin-bottom: -38px;
+      width: 500px;
+      overflow: hidden;
+    "
+  >
+    <div class="container" style="overflow: hidden">
+      <mat-card-content
+        class="window-dashboard-card-content contentprincipal"
+        style="margin-bottom: 0px"
+      >
+        <mat-toolbar color="primary">
+          <mat-icon matPrefix>folder_shared</mat-icon>
+          <label style="margin-left: 10px">Detalles cita</label>
+          <span class="example-spacer"></span>
+          <button
+            mat-icon-button
+            class="example-icon"
+            aria-label="Example icon-button with share icon"
+            (click)="closeDialog()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-toolbar>
+        <mat-card-header>
+          <mat-card-title> </mat-card-title>
+        </mat-card-header>
+        <mat-card class="cardcontent">
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+            <!--  INFO DE LA CITA -->
+
+            <mat-progress-bar mode="indeterminate" *ngIf="loadingModalInfo">
+            </mat-progress-bar>
+
+            <div
+              *ngIf="!loadingModalInfo"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+              class="row g-0"
+            >
+              <div style="padding: 5px" class="col-md-6">
+                <h5>Detalles cita</h5>
+
+                <span>{{ citaSeleccionada.title }}</span>
+              </div>
+              <div
+                style="padding: 5px; flex-direction: column"
+                class="col-md-6"
+              >
+                <h5>Detalles paciente</h5>
+                <hr />
+                <span>
+                  <strong>Nombre: </strong>{{ detallePaciente.Nombres1 }}
+                </span>
+                <br />
+                <span>
+                  <strong>Apellido: </strong>{{ detallePaciente.Apellidos1 }}
+                </span>
+                <br />
+                <span>
+                  <strong>Cédula: </strong>{{ detallePaciente.Cedula }}
+                </span>
+                <br />
+                <span>
+                  <strong>Ciudad: </strong>{{ detallePaciente.Ciudad }}
+                </span>
+                <br />
+                <span>
+                  <strong>Dirección: </strong>{{ detallePaciente.Direccion }}
+                </span>
+                <br />
+                <span>
+                  <strong>Correo: </strong
+                  >{{
+                    detallePaciente.Mail.length > 0 ||
+                    detallePaciente.Mail != 0 ||
+                    detallePaciente.Mail
+                      ? detallePaciente.Mail
+                      : "N/A"
+                  }}
+                </span>
+                <br />
+                <span>
+                  <strong>Contacto: </strong
+                  >{{
+                    detallePaciente.Contacto.length > 0 ||
+                    detallePaciente.Contacto != 0 ||
+                    detallePaciente.Contacto
+                      ? detallePaciente.Contacto
+                      : "N/A"
+                  }}
+                </span>
+                <br />
+                <span>
+                  <strong>Telf. Oficina: </strong
+                  >{{
+                    detallePaciente.TelOficina.length > 0 ||
+                    detallePaciente.TelOficina != 0 ||
+                    detallePaciente.TelOficina
+                      ? detallePaciente.TelOficina
+                      : "N/A"
+                  }}
+                </span>
+                <br />
+                <span>
+                  <strong>Telf. Casa: </strong
+                  >{{
+                    detallePaciente.TelCasa.length > 0 ||
+                    detallePaciente.TelCasa != 0 ||
+                    detallePaciente.TelCasa
+                      ? detallePaciente.TelCasa
+                      : "N/A"
+                  }}
+                </span>
+                <br />
+              </div>
+            </div>
+          </mat-card-content>
         </mat-card>
       </mat-card-content>
     </div>
