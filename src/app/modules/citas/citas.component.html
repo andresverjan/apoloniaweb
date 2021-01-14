@@ -265,17 +265,59 @@
 
             <div
               *ngIf="!loadingModalInfo"
-              style="
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
+              style="display: flex; justify-content: center"
               class="row g-0"
             >
-              <div style="padding: 5px" class="col-md-6">
+              <div
+                style="padding: 5px; flex-direction: column"
+                class="col-md-6"
+              >
                 <h5>Detalles cita</h5>
-
-                <span>{{ citaSeleccionada.title }}</span>
+                <hr />
+                <span>
+                  <strong>Título: </strong>{{ citaSeleccionada.title }}
+                </span>
+                <br />
+                <span>
+                  <strong>Estado: </strong
+                  >{{ legend[citaSeleccionada.status - 1]?.nombre }}
+                </span>
+                <br />
+                <span>
+                  <strong>Hora de Entrada: </strong>
+                  {{
+                    _toolService
+                      .setTime(citaSeleccionada.start)
+                      .split("T")[1]
+                      .substring(0, 5)
+                  }}
+                </span>
+                <br />
+                <span>
+                  <strong>Hora de Ingreso: </strong
+                  >{{
+                    citaSeleccionada.horaIngreso.length > 1 ||
+                    citaSeleccionada.horaIngreso != 0 ||
+                    citaSeleccionada.horaIngreso
+                      ? citaSeleccionada.horaIngreso
+                      : "N/A"
+                  }}
+                </span>
+                <br />
+                <span>
+                  <strong>Servicio: </strong>{{ servicioName.nombre }}
+                </span>
+                <br />
+                <span>
+                  <strong>Observaciones: </strong
+                  >{{
+                    citaSeleccionada.observaciones.length > 0 ||
+                    citaSeleccionada.observaciones
+                      ? citaSeleccionada.Mail
+                      : "N/A"
+                  }}
+                </span>
+                <br />
               </div>
               <div
                 style="padding: 5px; flex-direction: column"
