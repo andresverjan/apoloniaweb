@@ -74,6 +74,8 @@ export class PacienteService {
           Ciudad
           Direccion
           Mail
+          Apellidos
+          Nombres
         }
       }`,
     };
