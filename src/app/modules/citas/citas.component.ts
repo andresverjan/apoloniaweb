@@ -14,7 +14,6 @@ import { ToolsService } from "../core/services/tools.service";
 import Swal from "sweetalert2";
 import { MatMenuTrigger } from "@angular/material/menu";
 import { MatDialog } from "@angular/material/dialog";
-import * as moment from "moment";
 
 @Component({
   selector: "app-citas",
@@ -28,6 +27,7 @@ export class CitasComponent implements OnInit {
   public duracion: any;
   public observaciones: any;
   public IsWaiting: Boolean = false;
+  public loadingModalInfo: Boolean = true;
   public citas = [];
   public citaSeleccionada: any;
 
@@ -37,6 +37,7 @@ export class CitasComponent implements OnInit {
   public menuOptions: Array<any> = [];
   public legend: Array<any> = [];
   public statusCita: any;
+  public servicioName: any;
   public listadoDuracion = [
     {
       value: "0:05",
@@ -85,6 +86,7 @@ export class CitasComponent implements OnInit {
   public calendar: CalendarOptions;
   public selectInfo: DateSelectArg;
   public dialogRef: any;
+  public detallePaciente: any;
 
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
@@ -133,6 +135,35 @@ export class CitasComponent implements OnInit {
     });
 
     this.dialogRef.afterClosed().subscribe((result) => result);
+  }
+
+  openDetailsDialogRef(
+    templateRef: TemplateRef<any>,
+    selectInfo: DateSelectArg
+  ) {
+    this.selectInfo = selectInfo;
+
+    const { id } = this.citaSeleccionada;
+
+    this._citaService.getCita(id).subscribe(({ data }) => {
+      this.citaSeleccionada = data.getCita;
+      this._pacienteService
+        .getPacienteById(this.citaSeleccionada.pacienteId)
+        .subscribe((res) => {
+          this.detallePaciente = res.data.pacienteById;
+          this._servicioService
+            .getServicioById(this.citaSeleccionada.servicioId)
+            .subscribe((res) => {
+              this.servicioName = res.data.servicioById;
+              this.loadingModalInfo = false;
+            });
+        });
+    });
+
+    this.dialogRef = this.dialog.open(templateRef, {
+      disableClose: true,
+    });
+    this.dialogRef.afterClosed().subscribe(() => {});
   }
 
   closeDialog() {
@@ -260,6 +291,7 @@ export class CitasComponent implements OnInit {
       this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
       this.matMenuTrigger.menuData = { item: clickInfo.event };
       this.citaSeleccionada = clickInfo.event;
+
       this.matMenuTrigger.openMenu();
     });
   }
@@ -325,17 +357,17 @@ export class CitasComponent implements OnInit {
 
   async handleDateSelect(selectInfo: DateSelectArg) {
     this.selectInfo = selectInfo;
-    const check = this.selectInfo.start
-    const today = new Date()
+    const check = this.selectInfo.start;
+    const today = new Date();
     if (check.getTime() >= today.getTime()) {
       this.openDialogWithTemplateRef(this.myDialog, selectInfo);
-      }else{
-        Swal.fire(
-          'No se puede agendar',
-          'Las citas no se pueden agendar en dias pasados',
-          'error'
-        )
-      }
+    } else {
+      Swal.fire(
+        "No se puede agendar",
+        "Las citas no se pueden agendar en dias pasados",
+        "error"
+      );
+    }
   }
 
   canView() {
@@ -344,8 +376,7 @@ export class CitasComponent implements OnInit {
 
   fetchStatusCitas() {
     this._citaService.getStatusSCitas().subscribe((res) => {
-      //TODO: se setea el array de leyenda con el valor de statusCias !!! SE CAMBIA EL OBJETO RESPONSE
-      this.legend = res.data.statusCitas.filter((x) => x.id != 9999);
+      this.legend = res.data.statusCitas;
       this.statusCitas = res.data.statusCitas;
     });
   }
@@ -370,11 +401,9 @@ export class CitasComponent implements OnInit {
 
       switch (status.id) {
         case 2:
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
 
           Toast.fire({
             icon: "success",
@@ -384,11 +413,9 @@ export class CitasComponent implements OnInit {
           break;
 
         case 3:
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
 
           Toast.fire({
             icon: "success",
@@ -402,13 +429,13 @@ export class CitasComponent implements OnInit {
             time.getHours().toString().length > 1
               ? time.getHours().toString()
               : "0" + time.getHours().toString()
-          }:${time.getMinutes()} `;
+          }:${
+            time.getMinutes() > 10 ? time.getMinutes() : "0" + time.getMinutes()
+          } `;
 
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
 
           Toast.fire({
             icon: "success",
@@ -422,13 +449,13 @@ export class CitasComponent implements OnInit {
             time.getHours().toString().length > 1
               ? time.getHours().toString()
               : "0" + time.getHours().toString()
-          }:${time.getMinutes()} `;
+          }:${
+            time.getMinutes() > 10 ? time.getMinutes() : "0" + time.getMinutes()
+          } `;
 
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
 
           Toast.fire({
             icon: "success",
@@ -456,7 +483,7 @@ export class CitasComponent implements OnInit {
 
             this._citaService
               .updateCita(this.citaSeleccionada)
-              .subscribe((res) => {
+              .subscribe(() => {
                 this.fetchCitasByOdontologoId(this.odontologo);
               });
 
@@ -474,49 +501,10 @@ export class CitasComponent implements OnInit {
 
           break;
 
-        case 9999:
-          let servicio;
-          this._servicioService
-            .getServicioById(this.citaSeleccionada.servicioId)
-            .subscribe((res) => {
-              servicio = res.data.servicioById;
-
-              Swal.fire({
-                title: "Información de la cita",
-
-                html: `
-                <hr/>
-                <div style="display: flex;" >
-                  <div style="flex: 50%; padding: 10px;" >
-                    <div style="margin-bottom: 30px">
-                      <p><strong>Título:</strong></p> ${
-                        this.citaSeleccionada.title
-                      }
-                    </div>
-                    
-                    <div style="margin-bottom: 30px">
-                      <p><strong>Hora de inicio:</strong></p>${this.citaSeleccionada.start
-                        .split("T")[1]
-                        .substr(0, 5)}
-                    </div>
-
-                    <div style="margin-bottom: 30px">
-                      <p><strong>Tipo de cita:</strong></p>${servicio.nombre}
-                    </div>
-                  </div>
-                </div>
-                <hr/>
-                `,
-              });
-            });
-
-          break;
         default:
-          this._citaService
-            .updateCita(this.citaSeleccionada)
-            .subscribe((res) => {
-              this.fetchCitasByOdontologoId(this.odontologo);
-            });
+          this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
+            this.fetchCitasByOdontologoId(this.odontologo);
+          });
           break;
       }
     });

@@ -235,7 +235,6 @@ export class ToolsService {
     return params;
   }
 
-
   public setTime(isoDate: string): String {
     const date = new Date(Date.parse(isoDate));
 
@@ -253,7 +252,18 @@ export class ToolsService {
     currentMins = currentMins < 10 ? "0" + currentMins : currentMins;
     currentSecs = currentSecs < 10 ? "0" + currentSecs : currentSecs;
 
-    currentDateTime =currentYear +"-" +currentMonth +      "-" +currentDate +"T" +currentHrs +":" +currentMins +":" +currentSecs;
+    currentDateTime =
+      currentYear +
+      "-" +
+      currentMonth +
+      "-" +
+      currentDate +
+      "T" +
+      currentHrs +
+      ":" +
+      currentMins +
+      ":" +
+      currentSecs;
     return currentDateTime;
   }
 }
