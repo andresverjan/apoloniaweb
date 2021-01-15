@@ -11,10 +11,10 @@ import {
   DateSelectArg,
   EventApi,
 } from "@fullcalendar/angular";
-import { CitaService } from "../../../citas/citas.service";
 import listPlugin from "@fullcalendar/list";
 import esLocale from "@fullcalendar/core/locales/es";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import * as moment from "moment";
 
 //import { INITIAL_EVENTS, createEventId } from './event-utils';
 
@@ -53,7 +53,9 @@ export class SchedulerComponent implements OnInit, OnChanges {
     plugins: [timeGridPlugin, listPlugin],
     initialView: "timeGridWeek",
 
-    editable: true,
+    editable: false,
+    allDaySlot:false,
+    droppable: false,
     navLinks: true,
     selectOverlap: false,
     selectable: true,
@@ -83,6 +85,10 @@ export class SchedulerComponent implements OnInit, OnChanges {
         dayMaxEventRows: 2,
       },
     },
+    eventConstraint: {
+      start: moment().format('YYYY-MM-DD'),
+      end: '2100-01-01' // hard coded goodness unfortunately
+  },
   };
 
   currentEvents: EventApi[] = [];

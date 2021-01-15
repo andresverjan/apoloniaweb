@@ -234,4 +234,36 @@ export class ToolsService {
 
     return params;
   }
+
+  public setTime(isoDate: string): String {
+    const date = new Date(Date.parse(isoDate));
+
+    let currentDate: any = date.getDate();
+    let currentMonth: any = date.getMonth() + 1;
+    let currentYear: any = date.getFullYear();
+    let currentHrs: any = date.getHours();
+    let currentMins: any = date.getMinutes();
+    let currentSecs: any = date.getSeconds();
+    let currentDateTime: any;
+
+    currentDate = currentDate < 10 ? "0" + currentDate : currentDate;
+    currentMonth = currentMonth < 10 ? "0" + currentMonth : currentMonth;
+    currentHrs = currentHrs < 10 ? "0" + currentHrs : currentHrs;
+    currentMins = currentMins < 10 ? "0" + currentMins : currentMins;
+    currentSecs = currentSecs < 10 ? "0" + currentSecs : currentSecs;
+
+    currentDateTime =
+      currentYear +
+      "-" +
+      currentMonth +
+      "-" +
+      currentDate +
+      "T" +
+      currentHrs +
+      ":" +
+      currentMins +
+      ":" +
+      currentSecs;
+    return currentDateTime;
+  }
 }
