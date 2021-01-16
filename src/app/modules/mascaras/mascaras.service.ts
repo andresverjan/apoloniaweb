@@ -10,23 +10,35 @@ import { ToolsService } from "../core/services/tools.service";
 export class MascarasService {
   serverUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private toolService: ToolsService) {
     this.serverUrl = Globals.SERVER;
   }
 
   getAll(objeTosend?: any): Observable<any> {
-    let filter = "";
+    let filtro = "";
+    let params = "";
+    let ordenamiento = "";
 
-    //si trae filtro
-    if (objeTosend) {
-      filter = `(filter: {
-        nombre: "${objeTosend.nombre}",
-      })`;
+    if (objeTosend != null && objeTosend != undefined && objeTosend) {
+      filtro = `filter: {
+         ${Object.keys(objeTosend).map((prop) => {
+           if (
+             typeof objeTosend[prop] === "string" ||
+             objeTosend[prop] instanceof String
+           ) {
+             return `${prop} : "${objeTosend[prop]}"`;
+           } else {
+             return `${prop} : ${objeTosend[prop]}`;
+           }
+         })}
+        }`;
     }
 
+    params = this.toolService.getParams(filtro, ordenamiento);
+    console.log(params);
     let body = {
       query: `{
-        mascaras ${filter}{
+        mascaras ${params}{
           id
           nombre
           descripcion
