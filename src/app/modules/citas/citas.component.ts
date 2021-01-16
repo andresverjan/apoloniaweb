@@ -213,12 +213,12 @@ export class CitasComponent implements OnInit {
             ).toISOString()
           )
           .toString(),
-        odontologoId: odontologoId,
+        odontologoId,
         horaIngreso: "",
         horaSalida: "",
         status: 1,
-        pacienteId: pacienteId,
-        servicioId: servicioId,
+        pacienteId,
+        servicioId,
         observaciones: "",
         usuarioId: this.USUARIO.id,
       };
