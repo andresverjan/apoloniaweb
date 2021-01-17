@@ -16,7 +16,6 @@ export class OrdersService {
 
   acceptOrder(objeTosend): Observable<any> {
     const _id = objeTosend;
-    console.log("ID ACEPTAR", _id);
 
     let body = {
       query: `
@@ -31,7 +30,6 @@ export class OrdersService {
           }
       }`,
     };
-    console.log("BODY ACEPTAR", body);
 
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
@@ -39,7 +37,6 @@ export class OrdersService {
 
   preparedOrder(objeTosend): Observable<any> {
     const _id = objeTosend;
-    console.log("ID PREPARAR", _id);
 
     let body = {
       query: `
@@ -54,14 +51,12 @@ export class OrdersService {
           }
       }`,
     };
-    console.log("BODY Preparar", body);
 
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
   cancelOrder(objeTosend): Observable<any> {
     const _id = objeTosend;
-    console.log("ID CANCELAR", _id);
 
     let body = {
       query: `
@@ -76,7 +71,6 @@ export class OrdersService {
           }
       }`,
     };
-    console.log("BODY Cancelar", body);
 
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
@@ -84,7 +78,6 @@ export class OrdersService {
 
   deliveredOrder(objeTosend): Observable<any> {
     const _id = objeTosend;
-    console.log("ID Delivered", _id);
 
     let body = {
       query: `
@@ -99,7 +92,6 @@ export class OrdersService {
           }
       }`,
     };
-    console.log("BODY Delivered", body);
 
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
@@ -115,7 +107,7 @@ export class OrdersService {
     if (objeTosend != null) {
       if (filter != null && filter != undefined) {
         filtro = `filter: {
-          status: "${filter.status ? filter.status : '1'}"
+          status: "${filter.status ? filter.status : "1"}"
         }`;
       }
 
@@ -139,7 +131,6 @@ export class OrdersService {
       }`,
     };
 
-    console.log(body);
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
