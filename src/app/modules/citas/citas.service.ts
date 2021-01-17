@@ -165,7 +165,7 @@ export class CitaService {
             `,
     };
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    console.log(body.query)
+
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 }

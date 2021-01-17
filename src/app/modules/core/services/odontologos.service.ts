@@ -36,7 +36,6 @@ export class OdontologosService {
 
     params = this.toolService.getParams(filtro, ordenamiento);
 
-    console.log(params);
     let body = {
       query: `query{
             odontologos ${params}{

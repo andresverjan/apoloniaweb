@@ -30,7 +30,6 @@ export class MascarasComponent implements OnInit {
   odontologo: any;
 
   onOdontologoSelected(selected) {
-    console.log(selected);
     this.odontologo = selected;
   }
 
