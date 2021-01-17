@@ -299,7 +299,7 @@
                 <span>
                   <strong>Hora de Ingreso: </strong
                   >{{
-                    citaSeleccionada.horaIngreso.length > 1 ||
+                    citaSeleccionada.horaIngreso?.length > 1 ||
                     citaSeleccionada.horaIngreso != 0 ||
                     citaSeleccionada.horaIngreso
                       ? citaSeleccionada.horaIngreso
@@ -314,7 +314,7 @@
                 <span>
                   <strong>Observaciones: </strong
                   >{{
-                    citaSeleccionada.observaciones.length > 0 ||
+                    citaSeleccionada.observaciones?.length > 0 ||
                     citaSeleccionada.observaciones
                       ? citaSeleccionada.Mail
                       : "N/A"
@@ -351,7 +351,7 @@
                 <span>
                   <strong>Correo: </strong
                   >{{
-                    detallePaciente.Mail.length > 0 ||
+                    detallePaciente.Mail?.length > 0 ||
                     detallePaciente.Mail != 0 ||
                     detallePaciente.Mail
                       ? detallePaciente.Mail
@@ -362,7 +362,7 @@
                 <span>
                   <strong>Contacto: </strong
                   >{{
-                    detallePaciente.Contacto.length > 0 ||
+                    detallePaciente.Contacto?.length > 0 ||
                     detallePaciente.Contacto != 0 ||
                     detallePaciente.Contacto
                       ? detallePaciente.Contacto
@@ -373,7 +373,7 @@
                 <span>
                   <strong>Telf. Oficina: </strong
                   >{{
-                    detallePaciente.TelOficina.length > 0 ||
+                    detallePaciente.TelOficina?.length > 0 ||
                     detallePaciente.TelOficina != 0 ||
                     detallePaciente.TelOficina
                       ? detallePaciente.TelOficina
@@ -384,7 +384,7 @@
                 <span>
                   <strong>Telf. Casa: </strong
                   >{{
-                    detallePaciente.TelCasa.length > 0 ||
+                    detallePaciente.TelCasa?.length > 0 ||
                     detallePaciente.TelCasa != 0 ||
                     detallePaciente.TelCasa
                       ? detallePaciente.TelCasa
