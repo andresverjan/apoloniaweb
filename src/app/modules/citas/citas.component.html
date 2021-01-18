@@ -129,12 +129,12 @@
               fxFlex="100"
             >
               <app-buscadormodal
-                [filters]="['Cedula', 'Nombres1', 'Apellidos1']"
+                [filters]="['Cedula', 'Nombres', 'Apellidos']"
                 (selected)="onPatientSelected($event)"
                 [columnas]="{
                   Cedula: 'Cedula',
-                  Nombres1: 'Nombre',
-                  Apellidos1: 'Apellido'
+                  Nombres: 'Nombre',
+                  Apellidos: 'Apellido'
                 }"
                 [resultInputText]="['Apellidos1', 'Cedula']"
                 [service]="_pacienteService"

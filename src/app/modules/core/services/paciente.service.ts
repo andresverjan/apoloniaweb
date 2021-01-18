@@ -51,6 +51,8 @@ export class PacienteService {
               Apellidos2
               Nombres1
               Nombres2
+              Apellidos
+              Nombres
               FechaNacimiento
               TelCasa
               TelOficina
