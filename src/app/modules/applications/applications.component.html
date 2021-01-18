@@ -1,6 +1,16 @@
-<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
-  <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
-    fxFlex="22">
+<mat-card-actions
+  fxLayout="row"
+  fxLayoutAlign="end center"
+  style="margin-right: 10px"
+>
+  <button
+    mat-raised-button
+    (click)="adicionar()"
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="center"
+    fxFlex="22"
+  >
     <mat-icon>add_circle_outline</mat-icon>
     Adicion
   </button>
@@ -9,7 +19,10 @@
 <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
 
 <div class="container" style="overflow: hidden">
-  <mat-card-content class="window-dashboard-card-content contentprincipal" *ngIf="showForm">
+  <mat-card-content
+    class="window-dashboard-card-content contentprincipal"
+    *ngIf="showForm"
+  >
     <!-- componente de busqueda -->
     <div>
       <mat-card class="cardcontent">
@@ -21,15 +34,34 @@
             <mat-form-field class="example-full-width">
               <mat-label>Nombre Aplicación</mat-label>
               <mat-icon matPrefix>table_chart</mat-icon>
-              <input matInput id="nombre" formControlName="nombre" placeholder="nombre" />
+              <input
+                matInput
+                id="nombre"
+                formControlName="nombre"
+                placeholder="nombre"
+              />
             </mat-form-field>
-            <app-buscadormodal *ngIf="!IsWaiting" (selected)="onTableSelected($event)"
-              [columnas]="{ TABLE_NAME: 'Nombre Tabla' }" [resultInputText]="['TABLE_NAME']" [service]="_tableService"
-              tituloBusqueda="Tablas" [defaultObjValue]="tabla" [readonly]="showBtnActualizar"></app-buscadormodal>
+            <app-buscadormodal
+              [filters]="['TABLE_NAME']"
+              *ngIf="!IsWaiting"
+              (selected)="onTableSelected($event)"
+              [columnas]="{ TABLE_NAME: 'Nombre Tabla' }"
+              [resultInputText]="['TABLE_NAME']"
+              [service]="_tableService"
+              tituloBusqueda="Tablas"
+              [defaultObjValue]="tabla"
+              [readonly]="showBtnActualizar"
+            ></app-buscadormodal>
 
-              <app-buscadormodalicon *ngIf="!IsWaiting" (selected)="onIconoSelected($event)"
-              [columnas]="{ nombre: 'Nombre Icono'}" [resultInputText]="['nombre']" [service]="_iconoService"
-              tituloBusqueda="Icono" [defaultObjValue]="icono"></app-buscadormodalicon>
+            <app-buscadormodalicon
+              *ngIf="!IsWaiting"
+              (selected)="onIconoSelected($event)"
+              [columnas]="{ nombre: 'Nombre Icono' }"
+              [resultInputText]="['nombre']"
+              [service]="_iconoService"
+              tituloBusqueda="Icono"
+              [defaultObjValue]="icono"
+            ></app-buscadormodalicon>
           </mat-card-content>
         </mat-card>
       </mat-card>
@@ -53,78 +85,144 @@
         <mat-grid-tile colspan="2"><strong>Buscador</strong></mat-grid-tile>
         <mat-grid-tile colspan="2"><strong>Ver List</strong></mat-grid-tile>
       </mat-grid-list>
-      
 
-      <mat-grid-list *ngFor="let campo of campos" cols="35" class="styleForGrid" fxLayout rowHeight="55px">
+      <mat-grid-list
+        *ngFor="let campo of campos"
+        cols="35"
+        class="styleForGrid"
+        fxLayout
+        rowHeight="55px"
+      >
         <!-- Nombre -->
         <mat-grid-tile colspan="4">
-          <input matInput placeholder="Nombre" [(ngModel)]="campo.nombre" [ngModelOptions]="{ standalone: true }"
-            readonly />
+          <input
+            matInput
+            placeholder="Nombre"
+            [(ngModel)]="campo.nombre"
+            [ngModelOptions]="{ standalone: true }"
+            readonly
+          />
         </mat-grid-tile>
 
         <!-- Tipo Dato -->
         <mat-grid-tile colspan="2">
-          <input matInput placeholder="Tipo Dato" [(ngModel)]="campo.tipoDato" [ngModelOptions]="{ standalone: true }"
-            readonly />
+          <input
+            matInput
+            placeholder="Tipo Dato"
+            [(ngModel)]="campo.tipoDato"
+            [ngModelOptions]="{ standalone: true }"
+            readonly
+          />
         </mat-grid-tile>
 
         <!-- Nombre UI-->
         <mat-grid-tile colspan="5">
-          <input matInput placeholder="Nombre UI" [(ngModel)]="campo.nombreUi"
-            [ngModelOptions]="{ standalone: true }" />
+          <input
+            matInput
+            placeholder="Nombre UI"
+            [(ngModel)]="campo.nombreUi"
+            [ngModelOptions]="{ standalone: true }"
+          />
         </mat-grid-tile>
 
         <!-- Tipo campos -->
         <mat-grid-tile colspan="5">
-          <app-select label="TipoCampos" [data]="tipoCampos" (valSelected)="setTipoCampoId(campo, $event)"
-            default="{{ campo.tipoCampoId }}" fxFlex="50">
+          <app-select
+            label="TipoCampos"
+            [data]="tipoCampos"
+            (valSelected)="setTipoCampoId(campo, $event)"
+            default="{{ campo.tipoCampoId }}"
+            fxFlex="50"
+          >
           </app-select>
         </mat-grid-tile>
 
         <!-- Mascara ID  -->
         <mat-grid-tile colspan="5">
-          <app-select label="Mascara" [data]="mascaras" default="{{ campo.mascaraId }}"
-            (valSelected)="setMascaras(campo, $event)" fxFlex="50"></app-select>
+          <app-select
+            label="Mascara"
+            [data]="mascaras"
+            default="{{ campo.mascaraId }}"
+            (valSelected)="setMascaras(campo, $event)"
+            fxFlex="50"
+          ></app-select>
         </mat-grid-tile>
 
         <!-- Orden -->
         <mat-grid-tile colspan="2">
-          <input matInput type="number" placeholder="Orden" onkeypress="return event.charCode >= 48" min="1"
-            [ngModelOptions]="{ standalone: true }" [(ngModel)]="campo.orden" />
+          <input
+            matInput
+            type="number"
+            placeholder="Orden"
+            onkeypress="return event.charCode >= 48"
+            min="1"
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="campo.orden"
+          />
         </mat-grid-tile>
 
         <!-- Min Length -->
         <mat-grid-tile colspan="2">
-          <input matInput type="number" placeholder="Min Length" onkeypress="return event.charCode >= 48" min="1"
-            [(ngModel)]="campo.minLength" [ngModelOptions]="{ standalone: true }" />
+          <input
+            matInput
+            type="number"
+            placeholder="Min Length"
+            onkeypress="return event.charCode >= 48"
+            min="1"
+            [(ngModel)]="campo.minLength"
+            [ngModelOptions]="{ standalone: true }"
+          />
         </mat-grid-tile>
         <!-- Max Length -->
         <mat-grid-tile colspan="2">
-          <input matInput type="number" placeholder="Max Length" [(ngModel)]="campo.maxLength"
-            onkeypress="return event.charCode >= 48" min="1" [ngModelOptions]="{ standalone: true }" />
+          <input
+            matInput
+            type="number"
+            placeholder="Max Length"
+            [(ngModel)]="campo.maxLength"
+            onkeypress="return event.charCode >= 48"
+            min="1"
+            [ngModelOptions]="{ standalone: true }"
+          />
         </mat-grid-tile>
 
         <!-- Requerido -->
         <mat-grid-tile colspan="2">
-          <mat-slide-toggle color="primary" [(ngModel)]="campo.requerido" [ngModelOptions]="{ standalone: true }">
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="campo.requerido"
+            [ngModelOptions]="{ standalone: true }"
+          >
           </mat-slide-toggle>
         </mat-grid-tile>
 
         <!-- Visible -->
         <mat-grid-tile colspan="2">
-          <mat-slide-toggle color="primary" [(ngModel)]="campo.visible" [ngModelOptions]="{ standalone: true }">
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="campo.visible"
+            [ngModelOptions]="{ standalone: true }"
+          >
           </mat-slide-toggle>
         </mat-grid-tile>
 
         <!-- Buscador -->
         <mat-grid-tile colspan="2">
-          <mat-slide-toggle color="primary" [(ngModel)]="campo.buscador" [ngModelOptions]="{ standalone: true }">
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="campo.buscador"
+            [ngModelOptions]="{ standalone: true }"
+          >
           </mat-slide-toggle>
         </mat-grid-tile>
 
         <!-- Ver Lista -->
         <mat-grid-tile colspan="2">
-          <mat-slide-toggle color="primary" [(ngModel)]="campo.verList" [ngModelOptions]="{ standalone: true }">
+          <mat-slide-toggle
+            color="primary"
+            [(ngModel)]="campo.verList"
+            [ngModelOptions]="{ standalone: true }"
+          >
           </mat-slide-toggle>
         </mat-grid-tile>
       </mat-grid-list>
@@ -133,23 +231,54 @@
     <!--actions -->
     <mat-card class="cardcontent">
       <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-        <button mat-raised-button (click)="aceptar()" color="primary" fxLayout="row" fxLayout.xs="column"
-          *ngIf="!showBtnActualizar" fxLayoutAlign="center" fxFlex="80">
+        <button
+          mat-raised-button
+          (click)="aceptar()"
+          color="primary"
+          fxLayout="row"
+          fxLayout.xs="column"
+          *ngIf="!showBtnActualizar"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
           <mat-icon>person_add</mat-icon>
           Aceptar
         </button>
-        <button mat-raised-button (click)="actionActualizar()" color="primary" fxLayout="row" fxLayout.xs="column"
-          *ngIf="showBtnActualizar" fxLayoutAlign="center" fxFlex="80">
+        <button
+          mat-raised-button
+          (click)="actionActualizar()"
+          color="primary"
+          fxLayout="row"
+          fxLayout.xs="column"
+          *ngIf="showBtnActualizar"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
           <mat-icon>person_add</mat-icon>
           Actualizar
         </button>
-        <button mat-raised-button fxLayout="row" color="warn" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80"
-          (click)="eliminar()" *ngIf="showBtnEliminar">
+        <button
+          mat-raised-button
+          fxLayout="row"
+          color="warn"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="80"
+          (click)="eliminar()"
+          *ngIf="showBtnEliminar"
+        >
           <mat-icon>more_vert</mat-icon>
           Eliminar
         </button>
-        <button mat-raised-button color="warn" (click)="cancelar()" fxLayout="row" fxLayout.xs="column"
-          fxLayoutAlign="center" fxFlex="80">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="cancelar()"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
           <mat-icon>cancel</mat-icon>
           Cancelar
         </button>
@@ -157,7 +286,11 @@
     </mat-card>
   </mat-card-content>
 
-  <mat-card-content class="window-dashboard-card-content" *ngIf="showListado" style="overflow-block: hidden">
+  <mat-card-content
+    class="window-dashboard-card-content"
+    *ngIf="showListado"
+    style="overflow-block: hidden"
+  >
     <mat-toolbar color="primary">
       <mat-icon matPrefix>web</mat-icon>
       <span>{{ etiquetaListado }}</span>
@@ -174,25 +307,39 @@
         <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
           <mat-icon matPrefix>search</mat-icon>
           <mat-form-field fxFlex="100">
-            <input matInput id="filterbyNombre" placeholder="Nombre" [(ngModel)]="filter.nombre" (keyup)="findBy()" />
+            <input
+              matInput
+              id="filterbyNombre"
+              placeholder="Nombre"
+              [(ngModel)]="filter.nombre"
+              (keyup)="findBy()"
+            />
           </mat-form-field>
 
           <mat-icon matPrefix>search</mat-icon>
           <mat-form-field fxFlex="100">
-            <input matInput id="filterbyNombreTabla" placeholder="Nombre Tabla" [(ngModel)]="filter.nombreTabla"
-              (keyup)="findBy()" />
+            <input
+              matInput
+              id="filterbyNombreTabla"
+              placeholder="Nombre Tabla"
+              [(ngModel)]="filter.nombreTabla"
+              (keyup)="findBy()"
+            />
           </mat-form-field>
         </div>
       </mat-card-content>
     </mat-card>
 
     <mat-grid-list *ngIf="showContent" cols="5" rowHeight="230px">
-      <mat-grid-tile *ngFor="let app of applications" style="overflow-x: hidden">
+      <mat-grid-tile
+        *ngFor="let app of applications"
+        style="overflow-x: hidden"
+      >
         <mat-card (click)="actualizar(app)" class="dashboard-card">
           <mat-card-content class="dashboard-card-content">
             <mat-icon>web</mat-icon>
             <h5 class="cssRow">{{ app.nombre }}</h5>
-            <br/>
+            <br />
             <div>{{ app.nombreTabla }}</div>
             <div>{{ app.active }}</div>
           </mat-card-content>

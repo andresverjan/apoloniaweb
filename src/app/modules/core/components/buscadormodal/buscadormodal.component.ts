@@ -22,6 +22,7 @@ export class BuscadormodalComponent implements OnInit {
   @Input() service: any; //Servicio a Ejecutar.
   @Input() readonly: boolean; //Propiedad readonly (editable).
   @Input() tituloBusqueda: string; //Titulo
+  @Input() filters: string; //Array de string con nombres de filtros por los cuales se puede filtrar en el componente
   @Input() columnas: any; //Objeto que contiene columnas que quiere mostrar del listado, y el texto para cada columna. Ejemplo: { id: "Identificador" }
   @Input() resultInputText: []; //Array de String, con Indice o columnas que usara para armar el texto del resultado. normalmente es ['id', 'Nombre']  Quedaria : 1 - PRUEBA
   @Input() defaultObjValue: any; //Objeto Inicial, para setear valores iniciales al componente.
@@ -52,6 +53,7 @@ export class BuscadormodalComponent implements OnInit {
         data: {
           service: this.service,
           columnas: this.columnas,
+          filters: this.filters,
           tituloBusqueda: this.tituloBusqueda,
         },
         disableClose: true,
@@ -82,6 +84,7 @@ export class DialogOverviewExample {
   service: any;
   columnas: any;
   tituloBusqueda: any;
+  filters: any;
   properties: any;
   tituloColumnas: any;
 
@@ -91,9 +94,13 @@ export class DialogOverviewExample {
   ) {
     this.service = data.service;
     this.columnas = data.columnas;
+    this.filters = data.filters;
     this.tituloBusqueda = data.tituloBusqueda;
     this.properties = Object.keys(data.columnas);
     this.tituloColumnas = Object.values(data.columnas);
+
+    this.setFilters();
+
     this.findBy();
   }
   public dataSource: [any];
@@ -102,18 +109,26 @@ export class DialogOverviewExample {
     this.dialogRef.close();
   }
 
+  trackByFn(index, treatment) {
+    return index;
+  }
+
   getItem(element) {
     this.dialogRef.close(element);
   }
 
-  public filter = {
-    nombre: "",
-  };
+  setFilters() {
+    const aux = {};
+    this.filters.forEach((prop) => {
+      prop == "id" ? (aux[prop] = 0) : (aux[prop] = "");
+    });
+    this.filters = aux;
+  }
 
   findBy() {
     this.loading = true;
-    if (this.filter.nombre.length > 1) {
-      this.service.getAll(this.filter).subscribe((res) => {
+    if (this.filters) {
+      this.service.getAll(this.filters).subscribe((res) => {
         this.dataSource = res.data[Object.keys(res.data)[0]];
         this.loading = false;
       });

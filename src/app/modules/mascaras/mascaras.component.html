@@ -1,3 +1,12 @@
-<div class="calendario">
-<app-scheduler ></app-scheduler>
-</div>
+<app-buscadormodal
+  *ngIf="true"
+  [filters]="['descripcion', 'nombre']"
+  (selected)="onOdontologoSelected($event)"
+  [columnas]="{ nombre: 'Nombre Mascara' }"
+  [resultInputText]="['nombre']"
+  [service]="_mascarasService"
+  tituloBusqueda="Mascara"
+  [defaultObjValue]="odontologo"
+  fxFlex="60"
+  [readonly]="false"
+></app-buscadormodal>

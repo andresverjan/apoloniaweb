@@ -1,30 +1,43 @@
-
 <div class="container" style="overflow: hidden">
-  <mat-card-content class="window-dashboard-card-content contentprincipal" >
+  <mat-card-content class="window-dashboard-card-content contentprincipal">
     <!-- componente de busqueda -->
     <div>
       <mat-card class="cardcontent">
-        <mat-card-content fxLayout="column" fxLayoutAlign="center" appearance="outline"
-        style="margin-left: 15px; margin-right: 15px">
-          <app-buscadormodal  *ngIf="!IsWaiting"
+        <mat-card-content
+          fxLayout="column"
+          fxLayoutAlign="center"
+          appearance="outline"
+          style="margin-left: 15px; margin-right: 15px"
+        >
+          <app-buscadormodal
+            *ngIf="!IsWaiting"
             (selected)="onRolSelected($event)"
-            [columnas]="{nombre: 'Nombre' }" [resultInputText]="['nombre']"
-            [service]="rolService" tituloBusqueda="Roles" [defaultObjValue]="rol"
-            >
+            [filters]="['nombre']"
+            [columnas]="{ nombre: 'Nombre' }"
+            [resultInputText]="['nombre']"
+            [service]="rolService"
+            tituloBusqueda="Roles"
+            [defaultObjValue]="rol"
+          >
           </app-buscadormodal>
         </mat-card-content>
 
         <mat-card-content fxLayout="column" fxLayoutAlign="center">
-          <app-multilist [sel1]="permisos" [(sel2)]="permisor" ></app-multilist>
+          <app-multilist [sel1]="permisos" [(sel2)]="permisor"></app-multilist>
         </mat-card-content>
       </mat-card>
     </div>
-    <mat-card-actions fxLayout="row"  fxLayoutAlign="end center"
+    <mat-card-actions
+      fxLayout="row"
+      fxLayoutAlign="end center"
       style="margin-right: 10px"
     >
       <!--app-datetime></app-datetime-->
       <!--app-datepicker></app-datepicker-->
-      <button mat-raised-button (click)="actionActualizar()" *ngIf="showBtnActualizar"
+      <button
+        mat-raised-button
+        (click)="actionActualizar()"
+        *ngIf="showBtnActualizar"
         fxLayout="row"
         color="primary"
         fxLayout.xs="column"
@@ -33,7 +46,6 @@
       >
         Actualizar
       </button>
-
     </mat-card-actions>
   </mat-card-content>
 </div>

@@ -64,9 +64,7 @@ export class ToolsService {
 
     const msgDialogRef = this.dialog.open(ModalComponent, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
-    });
+    msgDialogRef.afterClosed().subscribe((result) => {});
   }
 
   showDialogLogin(component) {
@@ -77,9 +75,7 @@ export class ToolsService {
 
     const msgDialogRef = this.dialog.open(component, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
-    });
+    msgDialogRef.afterClosed().subscribe((result) => {});
   }
 
   showBuscadorModal(component: any, tipoFiltro: any) {
@@ -93,9 +89,7 @@ export class ToolsService {
 
     const msgDialogRef = this.dialog.open(component, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
-    });
+    msgDialogRef.afterClosed().subscribe((result) => {});
   }
 
   showLoading() {
@@ -145,7 +139,6 @@ export class ToolsService {
         }
         //this.llamarServicioEliminar(request);
       } else {
-        console.log("The dialog was closed");
       }
     });
   }

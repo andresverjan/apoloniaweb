@@ -3,28 +3,47 @@ import * as Globals from "../globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { HttpService } from "./HttpService";
+import { ToolbarInput } from "@fullcalendar/angular";
+import { ToolsService } from "./tools.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class PacienteService {
   serverUrl: string;
-  constructor(private http: HttpClient, private httpService: HttpService) {
+  constructor(
+    private http: HttpClient,
+    private httpService: HttpService,
+    private toolService: ToolsService
+  ) {
     this.serverUrl = Globals.SERVER;
   }
 
   getAll(objeTosend: any): Observable<any> {
-    let filter = "";
-    //si trae filtro , Apellidos1: "${objeTosend.nombre}"
-    if (objeTosend) {
-      filter = `(filter: {
-        Cedula: "${objeTosend.nombre}"
-      })`;
+    let filtro = "";
+    let params = "";
+    let ordenamiento = "";
+
+    if (objeTosend != null && objeTosend != undefined && objeTosend) {
+      filtro = `filter: {
+         ${Object.keys(objeTosend).map((prop) => {
+           if (
+             typeof objeTosend[prop] === "string" ||
+             objeTosend[prop] instanceof String
+           ) {
+             return `${prop} : "${objeTosend[prop]}"`;
+           } else {
+             return `${prop} : ${objeTosend[prop]}`;
+           }
+         })}
+        }`;
     }
+
+    params = this.toolService.getParams(filtro, ordenamiento);
 
     let body = {
       query: `query{
-            pacientes ${filter}{
+            pacientes ${params}{
               id
               Cedula
               TipoDoc
