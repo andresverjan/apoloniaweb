@@ -35,6 +35,7 @@ export class MascarasService {
     }
 
     params = this.toolService.getParams(filtro, ordenamiento);
+
     let body = {
       query: `{
         mascaras ${params}{
@@ -47,6 +48,7 @@ export class MascarasService {
       }
       `,
     };
+
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }

@@ -129,7 +129,7 @@
               fxFlex="100"
             >
               <app-buscadormodal
-                [filters]="['Cedula']"
+                [filters]="['Cedula', 'Nombres1', 'Apellidos1']"
                 (selected)="onPatientSelected($event)"
                 [columnas]="{
                   Cedula: 'Cedula',
