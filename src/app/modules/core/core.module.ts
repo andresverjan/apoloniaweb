@@ -46,6 +46,7 @@ import {
 } from "./components/buscadormodalicon/buscadormodalicon.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { CitasComponent } from '../citas/citas.component';
+import{HistoriaClinicaComponent} from '../historiaClinica/historiaClinica.component';
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from './components/input/input.component';
@@ -118,7 +119,8 @@ FullCalendarModule.registerPlugins([
     SchedulerComponent,
     DatepickerComponent,
     DatetimeComponent,
-    SliderComponent
+    SliderComponent,
+    HistoriaClinicaComponent
   ],
 
   imports: [
