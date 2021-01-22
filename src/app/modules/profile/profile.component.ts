@@ -59,7 +59,6 @@ export class ProfileComponent implements OnInit {
 
   getUserFromLocalStorage() {
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
-    console.log("object in Lcal" , this.USUARIO.IDIOMA_ID);
     this.profileForm.patchValue(this.USUARIO);
     this.USUARIO.URL_FOTO_PERFIL = "assets/Dentist6.png";
   }
@@ -87,8 +86,11 @@ export class ProfileComponent implements OnInit {
   }
   fetchIdiomas() {
     this.profileService.idiom().subscribe((response) => {
-      response.data.idiomas.forEach(item => {
-        this.listadoIdiomas.push({value: item.id, nombre: item.NOMBRE_IDIOMA});
+      response.data.idiomas.forEach((item) => {
+        this.listadoIdiomas.push({
+          value: item.id,
+          nombre: item.NOMBRE_IDIOMA,
+        });
       });
     });
   }

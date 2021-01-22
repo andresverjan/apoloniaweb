@@ -18,11 +18,11 @@ export class UsersService {
     let filter = "";
     if (objeTosend != null) {
       filter = `( filter: {`;
-      filter += objeTosend.name !=""?  `name: "${objeTosend.name}`: "";
-      filter += objeTosend.rol_id !=""?  `rol_id: "${objeTosend.rol_id}"`: "";
-      filter += objeTosend.lastName !=""?  `lastName: "${objeTosend.lastName}"`: "";
+      filter += objeTosend.name != "" ? `name: "${objeTosend.name}` : "";
+      filter += objeTosend.rol_id != "" ? `rol_id: "${objeTosend.rol_id}"` : "";
+      filter +=
+        objeTosend.lastName != "" ? `lastName: "${objeTosend.lastName}"` : "";
       filter += `} )`;
-      console.log(filter);
     }
 
     let body = {
