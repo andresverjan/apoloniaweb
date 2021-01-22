@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import * as Globals from "../globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { HttpService } from "./HttpService";
 import { ToolsService } from "./tools.service";
 
 @Injectable({
