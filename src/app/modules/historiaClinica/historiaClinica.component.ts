@@ -6,7 +6,7 @@ import { HistoriaClinicaService } from "./historiaClinica.service";
 import { OdontologosService } from "../core/services/odontologos.service";
 
 @Component({
-  selector: "app-mascaras",
+  selector: "app-historia",
   templateUrl: "./historiaClinica.component.html",
   styleUrls: ["./historiaClinica.component.scss"],
 })

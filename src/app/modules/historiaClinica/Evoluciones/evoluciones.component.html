@@ -6,7 +6,7 @@
         <mat-card-content class="window-dashboard-card-content contentprincipal">
             <mat-toolbar color="primary">
                 <mat-icon matPrefix>local_hospital</mat-icon>
-                <label>Historia Clinica</label>
+                <label>Evoluciones</label>
                 <span class="example-spacer"></span>
                 
             </mat-toolbar>
@@ -14,21 +14,17 @@
                 <mat-card-title> </mat-card-title>
             </mat-card-header>
                 <mat-card class="cardcontent" >
-                    <mat-card-title fxLayoutAlign="center">
-                        <label>Historia Clinica</label>
-                    </mat-card-title>
+                    <!-- <mat-card-title fxLayoutAlign="center">
+                        <label>Evoluciones</label>
+                    </mat-card-title> -->
                     <mat-card-content fxLayout="column" fxLayoutAlign="center" >
-                      <app-buscadormodal></app-buscadormodal>
                       <div>
                         <mat-tab-group>
-                          <mat-tab label="Datos Paciente"> <app-datosPaciente></app-datosPaciente> </mat-tab>
-                          <mat-tab label="Evoluciones"> <app-evoluciones></app-evoluciones> </mat-tab>
-                          <mat-tab label="Anamnesis"> Anamnesis </mat-tab>
-                          <mat-tab label="Examen Fisico"> Examen Fisico </mat-tab>
-                          <mat-tab label="Examen ExtraOral"> Examen ExtraOral </mat-tab>
-                          <mat-tab label="Examen IntraOral"> Examen IntraOral </mat-tab>
-                          <mat-tab label="Dx,Plan Tto y Pto"> Dx,Plan Tto y Pto </mat-tab>
-                          <mat-tab label="Pagos"> Pagos</mat-tab>
+                          <mat-tab label="Detalles Evolucion">Detalles Evolucion</mat-tab>
+                          <mat-tab label="Esterilizacion"> Esterilizacion </mat-tab>
+                          <mat-tab label="Recetario">Recetario</mat-tab>
+                          <mat-tab label="Remision"> Remision </mat-tab>
+                          <mat-tab label="Laboratorios"> Laboratorios </mat-tab>
                         </mat-tab-group>
                         </div>
                         
