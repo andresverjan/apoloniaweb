@@ -1,41 +1,91 @@
-<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+<mat-card-actions
+  fxLayout="row"
+  fxLayoutAlign="end center"
+  style="margin-right: 10px"
+  *ngIf="showListado"
+>
+  <button
+    mat-raised-button
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="center"
+    fxFlex="22"
+    (click)="actionAdicionar()"
+    color="primary"
+  >
+    <mat-icon>add_circle_outline</mat-icon>
+    Adicion
+  </button>
 </mat-card-actions>
+
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
-<div class="container" style="overflow: hidden">
-    <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
-        <mat-card-content class="window-dashboard-card-content contentprincipal">
-            <mat-toolbar color="primary">
-                <mat-icon matPrefix>local_hospital</mat-icon>
-                <label>Evoluciones</label>
-                <span class="example-spacer"></span>
-                
-            </mat-toolbar>
-            <mat-card-header>
-                <mat-card-title> </mat-card-title>
-            </mat-card-header>
-                <mat-card class="cardcontent" >
-                    <!-- <mat-card-title fxLayoutAlign="center">
-                        <label>Evoluciones</label>
-                    </mat-card-title> -->
-                    <mat-card-content fxLayout="column" fxLayoutAlign="center" >
-                      <div>
-                        <mat-tab-group>
-                          <mat-tab label="Detalles Evolucion">Detalles Evolucion</mat-tab>
-                          <mat-tab label="Esterilizacion"> Esterilizacion </mat-tab>
-                          <mat-tab label="Recetario">Recetario</mat-tab>
-                          <mat-tab label="Remision"> Remision </mat-tab>
-                          <mat-tab label="Laboratorios"> Laboratorios </mat-tab> 
-                          <mat-tab label="Eventos Adversos"> Eventos Adversos </mat-tab> 
-                        </mat-tab-group>
-                        </div>
-                        
-                    </mat-card-content>
-                    <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                       
-                    </mat-card-actions>
-                </mat-card>
-
-        </mat-card-content>
-
+<div class="container" *ngIf="showListado" style="overflow: hidden">
+  <mat-card-content
+    class="window-dashboard-card-content"
+    style="overflow-block: hidden"
+  >
+    <mat-card-content class="window-dashboard-card-content contentprincipal">
+      <mat-toolbar color="primary">
+        <mat-icon matPrefix>local_hospital</mat-icon>
+        <label>Evoluciones</label>
+        <span class="example-spacer"></span>
+      </mat-toolbar>
+      <mat-card-header>
+        <mat-card-title> </mat-card-title>
+      </mat-card-header>
     </mat-card-content>
+  </mat-card-content>
+</div>
+
+<div class="container" *ngIf="showForm" style="overflow: hidden">
+  <mat-toolbar color="primary">
+    <mat-icon matPrefix>local_hospital</mat-icon>
+    <label>Evoluciones</label>
+    <span class="example-spacer"></span>
+    <mat-icon>info</mat-icon>
+  </mat-toolbar>
+  <mat-card class="cardcontent">
+    <mat-card-content
+      class="window-dashboard-card-content"
+      style="overflow-block: hidden"
+    >
+      <div>
+        <mat-tab-group>
+          <mat-tab label="Detalles Evolucion">Detalles Evolucion</mat-tab>
+          <mat-tab label="Esterilizacion"> Esterilizacion </mat-tab>
+          <mat-tab label="Recetario">Recetario</mat-tab>
+          <mat-tab label="Remision"> Remision </mat-tab>
+          <mat-tab label="Laboratorios"> Laboratorios </mat-tab>
+          <mat-tab label="Eventos Adversos"> Eventos Adversos </mat-tab>
+        </mat-tab-group>
+      </div>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+      <button
+        mat-raised-button
+        (click)="guardar()"
+        color="primary"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        fxFlex="80"
+      >
+        <mat-icon>person_add</mat-icon>
+        Guardar
+      </button>
+
+      <button
+        mat-raised-button
+        (click)="cancelar()"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="center"
+        color="warn"
+        fxFlex="80"
+      >
+        <mat-icon>cancel</mat-icon>
+        Cancelar
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>
