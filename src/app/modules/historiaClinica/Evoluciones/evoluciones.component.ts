@@ -13,13 +13,26 @@ import { OdontologosService } from "../../core/services/odontologos.service";
 export class EvolucionesComponent implements OnInit {
   public IsWaiting: boolean;
   public showListado: boolean = true;
-  public showContent: boolean = true;
   public showForm: boolean = false;
   public mascaras = [];
   public etiquetaListado = "Listado de Mascaras";
   public etiquetaNombreModulo = "Campos";
 
   constructor() {}
+
+  actionAdicionar() {
+    this.showListado = false;
+    this.showForm = true;
+  }
+  guardar() {
+    this.showForm = false;
+    this.showListado = true;
+  }
+
+  cancelar() {
+    this.showForm = false;
+    this.showListado = true;
+  }
 
   ngOnInit() {}
 }
