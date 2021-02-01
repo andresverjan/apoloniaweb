@@ -15,6 +15,7 @@
           <mat-icon matPrefix style="padding: 4px">account_balance</mat-icon>
           <label style="padding: 7px">Especialista: </label>
           <app-buscadormodal
+            [filters]="['Nombres']"
             *ngIf="true"
             (selected)="onOdontologoSelected($event)"
             [columnas]="{ Nombres: 'Nombre Especialista' }"
@@ -95,7 +96,7 @@
       margin-right: -63px;
       margin-top: -24px;
       margin-bottom: -38px;
-      width: 500px;
+      width: 650px;
       overflow: hidden;
     "
   >
@@ -128,11 +129,12 @@
               fxFlex="100"
             >
               <app-buscadormodal
+                [filters]="['Cedula', 'Nombres', 'Apellidos']"
                 (selected)="onPatientSelected($event)"
                 [columnas]="{
                   Cedula: 'Cedula',
-                  Nombres1: 'Nombre',
-                  Apellidos1: 'Apellido'
+                  Nombres: 'Nombre',
+                  Apellidos: 'Apellido'
                 }"
                 [resultInputText]="['Apellidos1', 'Cedula']"
                 [service]="_pacienteService"
@@ -149,6 +151,7 @@
               <app-buscadormodal
                 (selected)="onServiceSelected($event)"
                 [columnas]="{ nombre: 'Nombre Servicio' }"
+                [filters]="['nombre']"
                 [resultInputText]="['nombre']"
                 [service]="_servicioService"
                 tituloBusqueda="Servicios"
@@ -231,7 +234,7 @@
       margin-right: -63px;
       margin-top: -24px;
       margin-bottom: -38px;
-      width: 500px;
+      width: 650px;
       overflow: hidden;
     "
   >
@@ -265,17 +268,59 @@
 
             <div
               *ngIf="!loadingModalInfo"
-              style="
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
+              style="display: flex; justify-content: center; padding: 15px"
               class="row g-0"
             >
-              <div style="padding: 5px" class="col-md-6">
+              <div
+                style="padding: 5px; flex-direction: column"
+                class="col-md-6"
+              >
                 <h5>Detalles cita</h5>
-
-                <span>{{ citaSeleccionada.title }}</span>
+                <hr />
+                <span>
+                  <strong>Título: </strong>{{ citaSeleccionada.title }}
+                </span>
+                <br />
+                <span>
+                  <strong>Estado: </strong
+                  >{{ legend[citaSeleccionada.status - 1]?.nombre }}
+                </span>
+                <br />
+                <span>
+                  <strong>Hora de Entrada: </strong>
+                  {{
+                    _toolService
+                      .setTime(citaSeleccionada.start)
+                      .split("T")[1]
+                      .substring(0, 5)
+                  }}
+                </span>
+                <br />
+                <span>
+                  <strong>Hora de Ingreso: </strong
+                  >{{
+                    citaSeleccionada.horaIngreso?.length > 1 ||
+                    citaSeleccionada.horaIngreso != 0 ||
+                    citaSeleccionada.horaIngreso
+                      ? citaSeleccionada.horaIngreso
+                      : "N/A"
+                  }}
+                </span>
+                <br />
+                <span>
+                  <strong>Servicio: </strong>{{ servicioName.nombre }}
+                </span>
+                <br />
+                <span>
+                  <strong>Observaciones: </strong
+                  >{{
+                    citaSeleccionada.observaciones?.length > 0 ||
+                    citaSeleccionada.observaciones
+                      ? citaSeleccionada.Mail
+                      : "N/A"
+                  }}
+                </span>
+                <br />
               </div>
               <div
                 style="padding: 5px; flex-direction: column"
@@ -284,11 +329,11 @@
                 <h5>Detalles paciente</h5>
                 <hr />
                 <span>
-                  <strong>Nombre: </strong>{{ detallePaciente.Nombres1 }}
+                  <strong>Nombre: </strong>{{ detallePaciente.Nombres }}
                 </span>
                 <br />
                 <span>
-                  <strong>Apellido: </strong>{{ detallePaciente.Apellidos1 }}
+                  <strong>Apellido: </strong>{{ detallePaciente.Apellidos }}
                 </span>
                 <br />
                 <span>
@@ -306,7 +351,7 @@
                 <span>
                   <strong>Correo: </strong
                   >{{
-                    detallePaciente.Mail.length > 0 ||
+                    detallePaciente.Mail?.length > 0 ||
                     detallePaciente.Mail != 0 ||
                     detallePaciente.Mail
                       ? detallePaciente.Mail
@@ -317,7 +362,7 @@
                 <span>
                   <strong>Contacto: </strong
                   >{{
-                    detallePaciente.Contacto.length > 0 ||
+                    detallePaciente.Contacto?.length > 0 ||
                     detallePaciente.Contacto != 0 ||
                     detallePaciente.Contacto
                       ? detallePaciente.Contacto
@@ -328,7 +373,7 @@
                 <span>
                   <strong>Telf. Oficina: </strong
                   >{{
-                    detallePaciente.TelOficina.length > 0 ||
+                    detallePaciente.TelOficina?.length > 0 ||
                     detallePaciente.TelOficina != 0 ||
                     detallePaciente.TelOficina
                       ? detallePaciente.TelOficina
@@ -339,7 +384,7 @@
                 <span>
                   <strong>Telf. Casa: </strong
                   >{{
-                    detallePaciente.TelCasa.length > 0 ||
+                    detallePaciente.TelCasa?.length > 0 ||
                     detallePaciente.TelCasa != 0 ||
                     detallePaciente.TelCasa
                       ? detallePaciente.TelCasa
@@ -352,6 +397,21 @@
           </mat-card-content>
         </mat-card>
       </mat-card-content>
+
+      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="closeDialog()"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="60"
+        >
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+      </mat-card-actions>
     </div>
   </mat-dialog-content>
 </ng-template>

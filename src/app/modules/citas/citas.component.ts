@@ -37,6 +37,7 @@ export class CitasComponent implements OnInit {
   public menuOptions: Array<any> = [];
   public legend: Array<any> = [];
   public statusCita: any;
+  public servicioName: any;
   public listadoDuracion = [
     {
       value: "0:05",
@@ -135,6 +136,7 @@ export class CitasComponent implements OnInit {
 
     this.dialogRef.afterClosed().subscribe((result) => result);
   }
+
   openDetailsDialogRef(
     templateRef: TemplateRef<any>,
     selectInfo: DateSelectArg
@@ -145,13 +147,16 @@ export class CitasComponent implements OnInit {
 
     this._citaService.getCita(id).subscribe(({ data }) => {
       this.citaSeleccionada = data.getCita;
-
       this._pacienteService
         .getPacienteById(this.citaSeleccionada.pacienteId)
         .subscribe((res) => {
           this.detallePaciente = res.data.pacienteById;
-
-          this.loadingModalInfo = false;
+          this._servicioService
+            .getServicioById(this.citaSeleccionada.servicioId)
+            .subscribe((res) => {
+              this.servicioName = res.data.servicioById;
+              this.loadingModalInfo = false;
+            });
         });
     });
 
@@ -208,12 +213,12 @@ export class CitasComponent implements OnInit {
             ).toISOString()
           )
           .toString(),
-        odontologoId: odontologoId,
+        odontologoId,
         horaIngreso: "",
         horaSalida: "",
         status: 1,
-        pacienteId: pacienteId,
-        servicioId: servicioId,
+        pacienteId,
+        servicioId,
         observaciones: "",
         usuarioId: this.USUARIO.id,
       };
@@ -286,8 +291,6 @@ export class CitasComponent implements OnInit {
       this.menuTopLeftPosition.y = clickInfo.jsEvent.clientY + "px";
       this.matMenuTrigger.menuData = { item: clickInfo.event };
       this.citaSeleccionada = clickInfo.event;
-
-      // this._pacienteService.getPacienteById()
 
       this.matMenuTrigger.openMenu();
     });
