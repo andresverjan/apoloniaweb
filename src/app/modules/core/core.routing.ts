@@ -19,6 +19,8 @@ import { MascarasComponent } from "../mascaras/mascaras.component";
 import { GenericComponent } from "../generic/generic.component";
 import { AgendaComponent } from "../agenda/agenda.component";
 import { CitasComponent } from '../citas/citas.component';
+import{HistoriaClinicaComponent} from '../historiaClinica/historiaClinica.component';
+
 
 export const routes: Routes = [
   {
@@ -96,6 +98,11 @@ export const routes: Routes = [
       {
         path: "citas",
         component: CitasComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: "historia-clinica",
+        component: HistoriaClinicaComponent,
         canActivate: [AuthGuardService],
       },
 

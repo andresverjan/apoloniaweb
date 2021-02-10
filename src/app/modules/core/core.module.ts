@@ -46,6 +46,10 @@ import {
 } from "./components/buscadormodalicon/buscadormodalicon.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { CitasComponent } from '../citas/citas.component';
+import{HistoriaClinicaComponent} from '../historiaClinica/historiaClinica.component';
+import{DatosPacienteComponent} from '../historiaClinica/DatosPaciente/datosPaciente.component';
+import{EvolucionesComponent} from '../historiaClinica/Evoluciones/evoluciones.component';
+import{EsterilizacionComponent} from '../historiaClinica/Evoluciones/Esterilizacion/esterilizacion.component';
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from './components/input/input.component';
@@ -118,7 +122,11 @@ FullCalendarModule.registerPlugins([
     SchedulerComponent,
     DatepickerComponent,
     DatetimeComponent,
-    SliderComponent
+    SliderComponent,
+    HistoriaClinicaComponent,
+    DatosPacienteComponent,
+    EvolucionesComponent,
+    EsterilizacionComponent
   ],
 
   imports: [
