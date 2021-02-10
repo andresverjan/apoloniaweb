@@ -18,8 +18,21 @@
                         <label>Historia Clinica</label>
                     </mat-card-title>
                     <mat-card-content fxLayout="column" fxLayoutAlign="center" >
-                      <app-buscadormodal></app-buscadormodal>
-                      <div>
+                        <app-buscadormodal
+                        [filters]="['Cedula', 'Nombres', 'Apellidos']"
+                        (selected)="onPatientSelected($event)"
+                        [columnas]="{
+                          Cedula: 'Cedula',
+                          Nombres: 'Nombre',
+                          Apellidos: 'Apellido'
+                        }"
+                        [resultInputText]="['Apellidos1', 'Cedula']"
+                        [service]="_pacienteService"
+                        tituloBusqueda=" Paciente"
+                        [defaultObjValue]="paciente"
+                        fxFill
+                      ></app-buscadormodal>
+                      <div *ngIf="IsWaitings">
                         <mat-tab-group>
                           <mat-tab label="Datos Paciente"> <app-datosPaciente></app-datosPaciente> </mat-tab>
                           <mat-tab label="Evoluciones"> <app-evoluciones></app-evoluciones> </mat-tab>
