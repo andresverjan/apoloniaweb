@@ -2,7 +2,7 @@
   fxLayout="row"
   fxLayoutAlign="end center"
   style="margin-right: 10px"
-  *ngIf="showListado"
+  
 >
   <button
     mat-raised-button
@@ -42,7 +42,7 @@
             >
               <mat-toolbar color="primary">
                 <mat-icon matPrefix>account_balance</mat-icon>
-                <label>Creación de Esterilizacion</label>
+                <label>Creación de Remision</label>
                 <span class="example-spacer"></span>
                 <button
                   mat-icon-button
@@ -54,23 +54,47 @@
                 </button>
               </mat-toolbar>
               <mat-card-header>
-                <mat-card-title>  </mat-card-title>
+                <mat-card-title> </mat-card-title>
               </mat-card-header>
               <mat-card class="cardcontent">
                 <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                  <div
+                    fxLayout="column"
+                    fxLayoutAlign="space-between "
+                    fxFlex="100"
+                  >
+                  <div className ="form-group formulario">
+                  <h3>De:</h3>
                   <app-buscadormodal
-            *ngIf="!IsWaiting"
-            (selected)="onRolSelected($event)"
-            [filters]="['nombre']"
-            [columnas]="{ nombre: 'Nombre' }"
-            [resultInputText]="['nombre']"
-            [service]="rolService"
-            tituloBusqueda="Esterilizacion"
-            [defaultObjValue]="rol">
-          </app-buscadormodal>
-
-                  <app-multilist [sel1]="esterilizacion" [(sel2)]="esterilizacions"></app-multilist>
-              
+                  [filters]="['Nombres']"
+                  *ngIf="true"
+                  (selected)="onOdontologoSelected($event)"
+                  [columnas]="{ Nombres: 'Nombre Especialista' }"
+                  [resultInputText]="['Nombres']"
+                  [service]="_odontologoService"
+                  tituloBusqueda="Especialistas"
+                  [defaultObjValue]="odontologo"
+                  fxFlex="60"
+                  [readonly]="false"
+                ></app-buscadormodal>
+              </div>
+              <div className ="formulario">
+                <h3>Para:</h3>
+                  <app-buscadormodal
+                  [filters]="['Nombres']"
+                  *ngIf="true"
+                  (selected)="onOdontologoSelected($event)"
+                  [columnas]="{ Nombres: 'Nombre Especialista' }"
+                  [resultInputText]="['Nombres']"
+                  [service]="_odontologoService"
+                  tituloBusqueda="Especialistas"
+                  [defaultObjValue]="odontologo"
+                  fxFlex="60"
+                  [readonly]="false"
+                ></app-buscadormodal>
+                </div>
+                <textarea name="comentarios" rows="10" cols="40">Escribe aquí tus comentarios</textarea>
+                </div>
                 </mat-card-content>
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
                   <button
