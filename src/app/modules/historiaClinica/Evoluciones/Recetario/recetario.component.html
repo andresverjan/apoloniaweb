@@ -40,7 +40,7 @@
         >
           <mat-toolbar color="primary">
             <mat-icon matPrefix>account_balance</mat-icon>
-            <label>Creación de Esterilizacion</label>
+            <label>Recetario - Medicamentos enviados para el paciente</label>
             <span class="example-spacer"></span>
             <button
               mat-icon-button
@@ -56,11 +56,25 @@
           </mat-card-header>
           <mat-card class="cardcontent">
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
-              <div
-                fxLayout="row"
-                fxLayoutAlign="space-between center"
-                fxFlex="100"
-              ></div>
+              <div style="display: flex; justify-content: center" fxFlex="100">
+                <mat-card
+                  class="window-dashboard-card-content contentprincipal"
+                >
+                  <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <app-buscadormodal
+                      [filters]="['Nombres']"
+                      (selected)="onOdontologoSelected($event)"
+                      [columnas]="{ Nombres: 'Nombre Especialista' }"
+                      [resultInputText]="['Nombres']"
+                      [service]="_odontologosService"
+                      tituloBusqueda="Especialistas"
+                      [defaultObjValue]="odontologo"
+                      fxFlex="60"
+                    ></app-buscadormodal>
+                    <app-multilist [sel1]="sel1" [sel2]="sel2"></app-multilist>
+                  </mat-card-content>
+                </mat-card>
+              </div>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
               <button
