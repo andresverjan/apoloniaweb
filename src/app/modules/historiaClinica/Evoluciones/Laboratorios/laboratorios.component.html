@@ -55,6 +55,7 @@
           <mat-card class="cardcontent">
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
               <app-buscadormodal
+                id="Especialestas"
                 [filters]="['Nombres']"
                 (selected)="onOdontologoSelected($event)"
                 [columnas]="{ Nombres: 'Nombre Especialista' }"
@@ -66,6 +67,7 @@
               ></app-buscadormodal>
 
               <app-buscadormodal
+                id="Pacientes"
                 [filters]="['Cedula', 'Nombres', 'Apellidos']"
                 (selected)="onPatientSelected($event)"
                 [columnas]="{
