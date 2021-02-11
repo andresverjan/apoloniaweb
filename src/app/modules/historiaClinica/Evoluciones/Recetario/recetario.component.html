@@ -21,23 +21,11 @@
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
 <div class="container" *ngIf="showListado" style="overflow: hidden"></div>
 
-<div class="container" style="overflow: hidden">
+<div>
   <ng-template #myDialog style="overflow: hidden">
-    <mat-dialog-content
-      style="
-        margin-left: -63px;
-        margin-right: -85px;
-        margin-top: -24px;
-        margin-bottom: -38px;
-        width: 650px;
-        overflow: scroll;
-      "
-    >
+    <div>
       <div class="container" style="overflow: hidden">
-        <mat-card-content
-          class="window-dashboard-card-content contentprincipal"
-          style="margin-bottom: 0px"
-        >
+        <mat-card-content style="margin-bottom: 0px">
           <mat-toolbar color="primary">
             <mat-icon matPrefix>account_balance</mat-icon>
             <label>Recetario - Medicamentos enviados para el paciente</label>
@@ -97,6 +85,6 @@
           </mat-card>
         </mat-card-content>
       </div>
-    </mat-dialog-content>
+    </div>
   </ng-template>
 </div>
