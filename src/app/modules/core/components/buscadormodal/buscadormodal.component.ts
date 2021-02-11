@@ -20,7 +20,7 @@ import {
 })
 export class BuscadormodalComponent implements OnInit {
   @Input() service: any; //Servicio a Ejecutar.
-  @Input() readonly: boolean; //Propiedad readonly (editable).
+  @Input() readonly: boolean = false; //Propiedad readonly (editable).
   @Input() tituloBusqueda: string; //Titulo
   @Input() filters: string; //Array de string con nombres de filtros por los cuales se puede filtrar en el componente
   @Input() columnas: any; //Objeto que contiene columnas que quiere mostrar del listado, y el texto para cada columna. Ejemplo: { id: "Identificador" }

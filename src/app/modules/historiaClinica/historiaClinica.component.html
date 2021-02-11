@@ -1,57 +1,63 @@
-<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+<mat-card-actions
+  fxLayout="row"
+  fxLayoutAlign="end center"
+  style="margin-right: 10px"
+>
 </mat-card-actions>
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
 <div class="container" style="overflow: hidden">
-    <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
-        <mat-card-content class="window-dashboard-card-content contentprincipal">
-            <mat-toolbar color="primary">
-                <mat-icon matPrefix>local_hospital</mat-icon>
-                <label>Historia Clinica</label>
-                <span class="example-spacer"></span>
-                
-            </mat-toolbar>
-            <mat-card-header>
-                <mat-card-title> </mat-card-title>
-            </mat-card-header>
-                <mat-card class="cardcontent" >
-                    <mat-card-title fxLayoutAlign="center">
-                        <label>Historia Clinica</label>
-                    </mat-card-title>
-                    <mat-card-content fxLayout="column" fxLayoutAlign="center" >
-                        <app-buscadormodal
-                        [filters]="['Cedula', 'Nombres', 'Apellidos']"
-                        (selected)="onPatientSelected($event)"
-                        [columnas]="{
-                          Cedula: 'Cedula',
-                          Nombres: 'Nombre',
-                          Apellidos: 'Apellido'
-                        }"
-                        [resultInputText]="['Apellidos1', 'Cedula']"
-                        [service]="_pacienteService"
-                        tituloBusqueda=" Paciente"
-                        [defaultObjValue]="paciente"
-                        fxFill
-                      ></app-buscadormodal>
-                      <div *ngIf="IsWaitings">
-                        <mat-tab-group>
-                          <mat-tab label="Datos Paciente"> <app-datosPaciente></app-datosPaciente> </mat-tab>
-                          <mat-tab label="Evoluciones"> <app-evoluciones></app-evoluciones> </mat-tab>
-                          <mat-tab label="Anamnesis"> Anamnesis </mat-tab>
-                          <mat-tab label="Examen Fisico"> Examen Fisico </mat-tab>
-                          <mat-tab label="Examen ExtraOral"> Examen ExtraOral </mat-tab>
-                          <mat-tab label="Examen IntraOral"> Examen IntraOral </mat-tab>
-                          <mat-tab label="Dx,Plan Tto y Pto"> Dx,Plan Tto y Pto </mat-tab>
-                          <mat-tab label="Pagos"> Pagos</mat-tab>
-                        </mat-tab-group>
-                        </div>
-                        
-                    </mat-card-content>
-                    <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                       
-                    </mat-card-actions>
-                </mat-card>
-
+  <mat-card-content
+    class="window-dashboard-card-content"
+    style="overflow-block: hidden"
+  >
+    <mat-card-content class="window-dashboard-card-content contentprincipal">
+      <mat-toolbar color="primary">
+        <mat-icon matPrefix>local_hospital</mat-icon>
+        <label>Historia Clinica</label>
+        <span class="example-spacer"></span>
+      </mat-toolbar>
+      <mat-card-header>
+        <mat-card-title> </mat-card-title>
+      </mat-card-header>
+      <mat-card class="cardcontent">
+        <mat-card-title fxLayoutAlign="center">
+          <label>Historia Clinica</label>
+        </mat-card-title>
+        <mat-card-content fxLayout="column" fxLayoutAlign="center">
+          <app-buscadormodal
+            [filters]="['Cedula', 'Nombres', 'Apellidos']"
+            (selected)="onPatientSelected($event)"
+            [columnas]="{
+              Cedula: 'Cedula',
+              Nombres: 'Nombre',
+              Apellidos: 'Apellido'
+            }"
+            [resultInputText]="['Apellidos1', 'Cedula']"
+            [service]="_pacienteService"
+            tituloBusqueda=" Paciente"
+            [defaultObjValue]="paciente"
+            fxFill
+          ></app-buscadormodal>
+          <div *ngIf="IsWaitings">
+            <mat-tab-group>
+              <mat-tab label="Datos Paciente">
+                <app-datosPaciente></app-datosPaciente>
+              </mat-tab>
+              <mat-tab label="Evoluciones">
+                <app-evoluciones></app-evoluciones>
+              </mat-tab>
+              <mat-tab label="Anamnesis"> Anamnesis </mat-tab>
+              <mat-tab label="Examen Fisico"> Examen Fisico </mat-tab>
+              <mat-tab label="Examen ExtraOral"> Examen ExtraOral </mat-tab>
+              <mat-tab label="Examen IntraOral"> Examen IntraOral </mat-tab>
+              <mat-tab label="Dx,Plan Tto y Pto"> Dx,Plan Tto y Pto </mat-tab>
+              <mat-tab label="Pagos"> Pagos</mat-tab>
+            </mat-tab-group>
+          </div>
         </mat-card-content>
-
+        <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        </mat-card-actions>
+      </mat-card>
     </mat-card-content>
+  </mat-card-content>
 </div>
