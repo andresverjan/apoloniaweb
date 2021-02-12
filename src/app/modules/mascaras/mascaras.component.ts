@@ -1,9 +1,5 @@
 import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
-import { TableService } from "../core/services/table.service";
-import { ColumnaService } from "../core/services/columna.service";
-import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
 import { MascarasService } from "./mascaras.service";
-import { OdontologosService } from "../core/services/odontologos.service";
 
 @Component({
   selector: "app-mascaras",
@@ -11,31 +7,29 @@ import { OdontologosService } from "../core/services/odontologos.service";
   styleUrls: ["./mascaras.component.scss"],
 })
 export class MascarasComponent implements OnInit {
-  public IsWaiting: boolean;
-  public showListado: boolean = true;
-  public showContent: boolean = true;
-  public showForm: boolean = false;
-  public mascaras = [];
-  public etiquetaListado = "Listado de Mascaras";
-  public etiquetaNombreModulo = "Campos";
+  constructor(public _mascarasService: MascarasService) {}
 
-  constructor(
-    public _mascarasService: MascarasService,
-    public _tipoCampoService: TipoCampoService,
-    public _tableService: TableService,
-    public _columnaService: ColumnaService,
-    public _odontologosService: OdontologosService
-  ) {}
+  SEL1 = [
+    { id: 6, nombre: "Salir" },
+    { id: 7, nombre: "Mascaras" },
+    { id: 8, nombre: "Permisos" },
+    { id: 9, nombre: "Usuarios" },
+    { id: 10, nombre: "Proveedores" },
+    { id: 11, nombre: "Empleados" },
+    { id: 12, nombre: "Rol Permiso" },
+    { id: 37, nombre: "Especialistas" },
+    { id: 38, nombre: "Configuración" },
+    { id: 39, nombre: "Pacientes" },
+    { id: 40, nombre: "Citas" },
+    { id: 41, nombre: "Historia Clinica" },
+  ];
+  SEL2 = [
+    { id: 1, nombre: "Aplicaciones" },
+    { id: 2, nombre: "Generic" },
+    { id: 3, nombre: "Perfil" },
+    { id: 4, nombre: "Rol" },
+    { id: 5, nombre: "Idiomas" },
+  ];
 
-  odontologo: any;
-
-  onOdontologoSelected(selected) {
-    this.odontologo = selected;
-  }
-
-  ngOnInit() {
-    this.odontologo = {
-      nombre: "Seleccionar Especialista",
-    };
-  }
+  ngOnInit() {}
 }

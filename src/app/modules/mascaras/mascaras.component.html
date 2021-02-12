@@ -1,12 +1,4 @@
-<app-buscadormodal
-  *ngIf="true"
-  [filters]="['descripcion', 'nombre']"
-  (selected)="onOdontologoSelected($event)"
-  [columnas]="{ nombre: 'Nombre Mascara' }"
-  [resultInputText]="['nombre']"
-  [service]="_mascarasService"
-  tituloBusqueda="Mascara"
-  [defaultObjValue]="odontologo"
-  fxFlex="60"
-  [readonly]="false"
-></app-buscadormodal>
+<app-multilist-observaciones
+  [sel1]="SEL1"
+  [sel2]="SEL2"
+></app-multilist-observaciones>
