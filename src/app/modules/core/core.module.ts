@@ -50,6 +50,7 @@ import{HistoriaClinicaComponent} from '../historiaClinica/historiaClinica.compon
 import{DatosPacienteComponent} from '../historiaClinica/DatosPaciente/datosPaciente.component';
 import{EvolucionesComponent} from '../historiaClinica/Evoluciones/evoluciones.component';
 import{EsterilizacionComponent} from '../historiaClinica/Evoluciones/Esterilizacion/esterilizacion.component';
+import{EventosAdversosComponent} from '../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component';
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from './components/input/input.component';
@@ -76,6 +77,7 @@ import { DatetimeComponent } from './components/datetime/datetime.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { SliderComponent } from './components/slider/slider.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { from } from 'rxjs';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -126,7 +128,8 @@ FullCalendarModule.registerPlugins([
     HistoriaClinicaComponent,
     DatosPacienteComponent,
     EvolucionesComponent,
-    EsterilizacionComponent
+    EsterilizacionComponent,
+    EventosAdversosComponent
   ],
 
   imports: [
