@@ -48,19 +48,65 @@
               aria-label="Example icon-button with share icon"
               (click)="closeDialog()"
             >
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-toolbar>
-          <mat-card-header>
-            <mat-card-title> </mat-card-title>
-          </mat-card-header>
-          <mat-card class="cardcontent">
-            <mat-card-content fxLayout="column" fxLayoutAlign="center">
-              <div
-                fxLayout="row"
-                fxLayoutAlign="space-between center"
-                fxFlex="100"
-              ></div>
+              <mat-toolbar color="primary">
+                <mat-icon matPrefix>account_balance</mat-icon>
+                <label>Creación de Esterilizacion</label>
+                <span class="example-spacer"></span>
+                <button
+                  mat-icon-button
+                  class="example-icon"
+                  aria-label="Example icon-button with share icon"
+                  (click)="closeDialog()"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-toolbar>
+              <mat-card-header>
+                <mat-card-title>  </mat-card-title>
+              </mat-card-header>
+              <mat-card class="cardcontent">
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                  <app-buscadormodal
+            *ngIf="!IsWaiting"
+            (selected)="onRolSelected($event)"
+            [filters]="['nombre']"
+            [columnas]="{ nombre: 'Nombre' }"
+            [resultInputText]="['nombre']"
+            [service]="rolService"
+            tituloBusqueda="Esterilizacion"
+            [defaultObjValue]="rol">
+          </app-buscadormodal>
+
+                  <app-multilist [sel1]="esterilizacion" [(sel2)]="esterilizacions"></app-multilist>
+              
+                </mat-card-content>
+                <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                  <button
+                    mat-raised-button
+                    (click)="crearCita()"
+                    color="primary"
+                    fxLayout="row"
+                    fxLayout.xs="column"
+                    fxLayoutAlign="center"
+                    fxFlex
+                  >
+                    <mat-icon>add_task</mat-icon>
+                    Crear
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    (click)="closeDialog()"
+                    fxLayout="row"
+                    fxLayout.xs="column"
+                    fxLayoutAlign="center"
+                    fxFlex
+                  >
+                    <mat-icon>cancel</mat-icon>
+                    Cancelar
+                  </button>
+                </mat-card-actions>
+              </mat-card>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
               <button
