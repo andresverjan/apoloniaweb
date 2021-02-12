@@ -76,6 +76,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { SliderComponent } from "./components/slider/slider.component";
 import { MatSliderModule } from "@angular/material/slider";
 import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/recetario.component";
+import { LaboratoriosComponent } from "../historiaClinica/Evoluciones/laboratorios/laboratorios.component";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -127,6 +128,7 @@ FullCalendarModule.registerPlugins([
     EvolucionesComponent,
     EsterilizacionComponent,
     RecetarioComponent,
+    LaboratoriosComponent,
   ],
 
   imports: [
