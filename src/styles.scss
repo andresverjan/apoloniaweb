@@ -202,7 +202,7 @@ mat-card.dashboard-card.mat-card:hover {
   display: block;
   margin: 0 -24px;
   padding: 0 24px;
-  max-height: 77vh;
+
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   min-height: 135px;
@@ -241,6 +241,6 @@ mat-icon {
 }
 
 /*class for Calendar*/
-.fc-header-toolbar{
+.fc-header-toolbar {
   margin-bottom: 0.7em !important;
 }

@@ -1,8 +1,8 @@
-import { RolesComponent } from './../roles/roles.component';
-import { AvatarComponent } from './components/avatar/avatar.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import interactionPlugin from '@fullcalendar/interaction';
+import { RolesComponent } from "./../roles/roles.component";
+import { AvatarComponent } from "./components/avatar/avatar.component";
+import { FullCalendarModule } from "@fullcalendar/angular";
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin
+import interactionPlugin from "@fullcalendar/interaction";
 
 import { UsersComponent } from "./../users/users.component";
 import { BrowserModule } from "@angular/platform-browser";
@@ -45,46 +45,47 @@ import {
   DialogOverviewExampleIcon,
 } from "./components/buscadormodalicon/buscadormodalicon.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
+
 import { CitasComponent } from '../citas/citas.component';
 import{ HistoriaClinicaComponent} from '../historiaClinica/historiaClinica.component';
 import{ DatosPacienteComponent} from '../historiaClinica/DatosPaciente/datosPaciente.component';
 import{ EvolucionesComponent} from '../historiaClinica/Evoluciones/evoluciones.component';
 import{ EsterilizacionComponent} from '../historiaClinica/Evoluciones/Esterilizacion/esterilizacion.component';
 import{ DetalleComponent} from '../historiaClinica/Evoluciones/detalle/detalle.component';
+
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
-import { InputComponent } from './components/input/input.component';
-import { ToogleComponent } from './components/toogle/toogle.component';
-import{SchedulerComponent} from './components/scheduler/scheduler.component';
-
+import { InputComponent } from "./components/input/input.component";
+import { ToogleComponent } from "./components/toogle/toogle.component";
+import { SchedulerComponent } from "./components/scheduler/scheduler.component";
 
 import { AgendaComponent } from "../agenda/agenda.component";
-import { FlatpickrModule } from 'angularx-flatpickr';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
-import { MultilistComponent } from './components/multilist/multilist.component';
-import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
-import { MatListModule } from '@angular/material/list';
-import { AvatarDragDirective } from './components/avatar/avatarDragDropDirective';
-import { DatepickerComponent } from './components/datepicker/datepicker.component';
+import { FlatpickrModule } from "angularx-flatpickr";
+import { CalendarModule, DateAdapter } from "angular-calendar";
+import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import listPlugin from "@fullcalendar/list";
+import { MultilistComponent } from "./components/multilist/multilist.component";
+import { MultilistTestComponent } from "./components/multilist copy/multilist.component-test";
+import { MatListModule } from "@angular/material/list";
+import { AvatarDragDirective } from "./components/avatar/avatarDragDropDirective";
+import { DatepickerComponent } from "./components/datepicker/datepicker.component";
 
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
-import { DatetimeComponent } from './components/datetime/datetime.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { SliderComponent } from './components/slider/slider.component';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatInputModule } from "@angular/material/input";
+import { DatetimeComponent } from "./components/datetime/datetime.component";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
+import { SliderComponent } from "./components/slider/slider.component";
+import { MatSliderModule } from "@angular/material/slider";
+import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/recetario.component";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
   listPlugin,
-  interactionPlugin
-])
-
+  interactionPlugin,
+]);
 
 @NgModule({
   declarations: [
@@ -128,7 +129,9 @@ FullCalendarModule.registerPlugins([
     DatosPacienteComponent,
     EvolucionesComponent,
     EsterilizacionComponent,
-    DetalleComponent
+
+    DetalleComponent,
+    RecetarioComponent
   ],
 
   imports: [
@@ -157,7 +160,7 @@ FullCalendarModule.registerPlugins([
     MatInputModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    MatSliderModule
+    MatSliderModule,
   ],
 
   exports: [
@@ -165,7 +168,7 @@ FullCalendarModule.registerPlugins([
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    MyNavComponent
+    MyNavComponent,
   ],
 
   providers: [ServicesService],
