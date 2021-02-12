@@ -2,7 +2,7 @@
   fxLayout="row"
   fxLayoutAlign="end center"
   style="margin-right: 10px"
-  *ngIf="showListado"
+  
 >
   <button
     mat-raised-button
@@ -19,38 +19,30 @@
 </mat-card-actions>
 
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
-<div class="container" *ngIf="showListado" style="overflow: hidden"></div>
+<div class="container" *ngIf="showListado" style="overflow: hidden">
+  
+</div>
 
-<div class="container" style="overflow: hidden">
-  <ng-template #myDialog style="overflow: hidden">
-    <mat-dialog-content
-      style="
-        margin-left: -63px;
-        margin-right: -63px;
-        margin-top: -24px;
-        margin-bottom: -38px;
-        width: 650px;
-        overflow: hidden;
-      "
-    >
-      <div class="container" style="overflow: hidden">
-        <mat-card-content
-          class="window-dashboard-card-content contentprincipal"
-          style="margin-bottom: 0px"
+<div class="container"  style="overflow: hidden">
+      <ng-template #myDialog style="overflow: hidden">
+        <mat-dialog-content
+          style="
+            margin-left: -63px;
+            margin-right: -63px;
+            margin-top: -24px;
+            margin-bottom: -38px;
+            width: 650px;
+            overflow: hidden;
+          "
         >
-          <mat-toolbar color="primary">
-            <mat-icon matPrefix>account_balance</mat-icon>
-            <label>Creación de Esterilizacion</label>
-            <span class="example-spacer"></span>
-            <button
-              mat-icon-button
-              class="example-icon"
-              aria-label="Example icon-button with share icon"
-              (click)="closeDialog()"
+          <div class="container" style="overflow: hidden">
+            <mat-card-content
+              class="window-dashboard-card-content contentprincipal"
+              style="margin-bottom: 0px"
             >
               <mat-toolbar color="primary">
                 <mat-icon matPrefix>account_balance</mat-icon>
-                <label>Creación de Esterilizacion</label>
+                <label>Creación de Remision</label>
                 <span class="example-spacer"></span>
                 <button
                   mat-icon-button
@@ -62,23 +54,18 @@
                 </button>
               </mat-toolbar>
               <mat-card-header>
-                <mat-card-title>  </mat-card-title>
+                <mat-card-title> </mat-card-title>
               </mat-card-header>
               <mat-card class="cardcontent">
                 <mat-card-content fxLayout="column" fxLayoutAlign="center">
-                  <app-buscadormodal
-            *ngIf="!IsWaiting"
-            (selected)="onRolSelected($event)"
-            [filters]="['nombre']"
-            [columnas]="{ nombre: 'Nombre' }"
-            [resultInputText]="['nombre']"
-            [service]="rolService"
-            tituloBusqueda="Esterilizacion"
-            [defaultObjValue]="rol">
-          </app-buscadormodal>
-
+                  <div
+                    fxLayout="column"
+                    fxLayoutAlign="space-between "
+                    fxFlex="100"
+                  >
+                  <app-buscadormodal></app-buscadormodal>
                   <app-multilist [sel1]="esterilizacion" [(sel2)]="esterilizacions"></app-multilist>
-              
+                </div>
                 </mat-card-content>
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
                   <button
@@ -108,34 +95,7 @@
                 </mat-card-actions>
               </mat-card>
             </mat-card-content>
-            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-              <button
-                mat-raised-button
-                color="primary"
-                fxLayout="row"
-                fxLayout.xs="column"
-                fxLayoutAlign="center"
-                fxFlex
-              >
-                <mat-icon>add_task</mat-icon>
-                Crear
-              </button>
-              <button
-                mat-raised-button
-                color="warn"
-                (click)="closeDialog()"
-                fxLayout="row"
-                fxLayout.xs="column"
-                fxLayoutAlign="center"
-                fxFlex
-              >
-                <mat-icon>cancel</mat-icon>
-                Cancelar
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        </mat-card-content>
-      </div>
-    </mat-dialog-content>
-  </ng-template>
+          </div>
+        </mat-dialog-content>
+      </ng-template>
 </div>
