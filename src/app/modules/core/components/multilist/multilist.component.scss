@@ -1,5 +1,9 @@
+.options-container {
+  overflow-y: scroll;
+  height: 445px;
+}
 
-mat-selection-list {
-  max-height: 300px;
-  overflow: auto;
+.multilist-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
