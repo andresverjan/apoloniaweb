@@ -6,17 +6,16 @@ import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
   styleUrls: ["./multilist-observaciones.component.scss"],
 })
 export class MultilistObservacionesComponent implements OnInit {
-  @Input() sel1: SelItem[]; // input
-  @Input() sel2: SelItem[]; // input/output
+  @Input() sel1: SelItem[];
+  @Input() nonSelectedItemsTitle: String = "Elementos para seleccionar";
+  @Input() selectedItemsTitle: String = "Elementos seleccionados";
+  @Input() materialIconName: String = "category";
+  @Input() sel2: SelItem[] = [];
   @Output() emitter = new EventEmitter<SelItem[]>();
   sel1Filter = "";
   sel2Filter = "";
 
-  constructor() {
-    if (!this.sel2 || this.sel2.length < 1) {
-      this.sel2 = [];
-    }
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 

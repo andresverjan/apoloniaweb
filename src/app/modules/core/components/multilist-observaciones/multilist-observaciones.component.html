@@ -1,60 +1,62 @@
-<mat-grid-list
-  cols="2"
-  rowHeight="60px"
-  gutterSize="10px"
-  style="margin-left: 15px; margin-right: 15px"
->
-  <mat-grid-tile fxFlex="50">
-    <mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
-      <mat-icon matPrefix>medication</mat-icon>
-      <mat-label>Medicamentos no asignados</mat-label>
-      <input matInput [(ngModel)]="sel1Filter" placeholder="name" />
-    </mat-form-field>
-  </mat-grid-tile>
-  <mat-grid-tile fxFlex="50">
-    <mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
-      <mat-icon matPrefix>medication</mat-icon>
-      <mat-label>Medicamentos asignados</mat-label>
-      <input matInput [(ngModel)]="sel2Filter" placeholder="name" />
-    </mat-form-field>
-  </mat-grid-tile>
-</mat-grid-list>
+<div class="multilist-container">
+  <mat-grid-list
+    cols="2"
+    rowHeight="60px"
+    gutterSize="10px"
+    style="margin-left: 15px; margin-right: 15px"
+  >
+    <mat-grid-tile fxFlex="50">
+      <mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
+        <mat-icon matPrefix>{{ materialIconName }}</mat-icon>
+        <mat-label>{{ nonSelectedItemsTitle }}</mat-label>
+        <input matInput [(ngModel)]="sel1Filter" placeholder="name" />
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile fxFlex="50">
+      <mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
+        <mat-icon matPrefix>{{ materialIconName }}</mat-icon>
+        <mat-label>{{ selectedItemsTitle }}</mat-label>
+        <input matInput [(ngModel)]="sel2Filter" placeholder="name" />
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
 
-<mat-grid-list
-  cols="2"
-  gutterSize="10px"
-  style="margin-left: 15px; margin-right: 15px"
->
-  <mat-grid-tile fxFlex="48">
-    <mat-selection-list
-      class="options-container"
-      [multiple]="false"
-      fxFlex
-      fxFlexAlign="start"
-    >
-      <mat-list-option
-        *ngFor="let obj of getSel1Options()"
-        (click)="actionAddOnClick(obj)"
-        [value]="obj"
+  <mat-grid-list
+    cols="2"
+    gutterSize="10px"
+    style="margin-left: 15px; margin-right: 15px"
+  >
+    <mat-grid-tile fxFlex="48">
+      <mat-selection-list
+        class="options-container"
+        [multiple]="false"
+        fxFlex
+        fxFlexAlign="start"
       >
-        {{ obj.nombre }}
-      </mat-list-option>
-    </mat-selection-list>
-  </mat-grid-tile>
-  <mat-grid-tile fxFlex="48">
-    <mat-selection-list
-      class="options-container"
-      [multiple]="false"
-      fxFlex
-      fxFlexAlign="start"
-    >
-      <mat-list-option
-        *ngFor="let obj of getSel2Options()"
-        (click)="actionRemoveOnClick(obj)"
-        [value]="obj"
+        <mat-list-option
+          *ngFor="let obj of getSel1Options()"
+          (click)="actionAddOnClick(obj)"
+          [value]="obj"
+        >
+          {{ obj.nombre }}
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-grid-tile>
+    <mat-grid-tile fxFlex="48">
+      <mat-selection-list
+        class="options-container"
+        [multiple]="false"
+        fxFlex
+        fxFlexAlign="start"
       >
-        {{ obj.nombre }}
-      </mat-list-option>
-    </mat-selection-list>
-  </mat-grid-tile>
-</mat-grid-list>
+        <mat-list-option
+          *ngFor="let obj of getSel2Options()"
+          (click)="actionRemoveOnClick(obj)"
+          [value]="obj"
+        >
+          {{ obj.nombre }}
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
