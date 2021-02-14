@@ -38,7 +38,7 @@
           (click)="actionAddOnClick(obj)"
           [value]="obj"
         >
-          {{ obj.nombre }}
+          {{ obj.name }}
         </mat-list-option>
       </mat-selection-list>
     </mat-grid-tile>
@@ -54,9 +54,91 @@
           (click)="actionRemoveOnClick(obj)"
           [value]="obj"
         >
-          {{ obj.nombre }}
+          {{ obj.name }}
         </mat-list-option>
       </mat-selection-list>
     </mat-grid-tile>
   </mat-grid-list>
 </div>
+
+<ng-template
+  #observacionesDialog
+  style="overflow: hidden; display: flex; justify-content: center"
+>
+  <div
+    style="
+      margin-left: -43px;
+      margin-right: -41px;
+      margin-top: -24px;
+      margin-bottom: -26px;
+    "
+  >
+    <div class="container" style="overflow: hidden">
+      <mat-card-content style="margin-bottom: 0px">
+        <mat-toolbar color="primary">
+          <mat-icon matPrefix>{{ materialIconName }}</mat-icon>
+          <label>Observaciones</label>
+          <span class="example-spacer"></span>
+          <button
+            mat-icon-button
+            class="example-icon"
+            aria-label="Example icon-button with share icon"
+            (click)="closeDialog()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-toolbar>
+        <mat-card-header>
+          <mat-card-title> </mat-card-title>
+        </mat-card-header>
+        <mat-card class="cardcontent">
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+            <input
+              class="form-control me-2"
+              style="text-align: center; font-size: 1.3rem; font-weight: bold"
+              type="text"
+              [(ngModel)]="selected.name"
+            />
+
+            <div class="input-group">
+              <textarea
+                class="form-control"
+                placeholder="Observaciones"
+                [(ngModel)]="selected.observaciones"
+                aria-label="Observaciones"
+                style="height: 100px; width: 90%; margin-top: 10px"
+              >
+              </textarea>
+            </div>
+          </mat-card-content>
+          <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+            <button
+              mat-raised-button
+              color="primary"
+              fxLayout="row"
+              (click)="save()"
+              fxLayout.xs="column"
+              fxLayoutAlign="center"
+              fxFlex
+            >
+              <mat-icon>add_task</mat-icon>
+              Crear
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="closeDialog()"
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayoutAlign="center"
+              fxFlex
+            >
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-card-content>
+    </div>
+  </div>
+</ng-template>
