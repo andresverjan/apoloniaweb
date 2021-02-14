@@ -43,8 +43,13 @@ export class MultilistObservacionesComponent implements OnInit {
     this.dialogRef.close();
   }
   save() {
-    console.log(this.selected);
     this.dialogRef.close();
+
+    this.sel1 = this.sel1.filter((opt) => this.selected.id != opt.id);
+
+    if (this.sel2.indexOf(this.selected) < 0) {
+      this.sel2.push(this.selected);
+    }
   }
 
   getSel1Options() {
@@ -70,7 +75,6 @@ export class MultilistObservacionesComponent implements OnInit {
   }
 
   actionAddOnClick(element: Item) {
-    console.log(element);
     element.observaciones &&
     element.observaciones.length > 0 &&
     element.observaciones !== ""
@@ -78,14 +82,7 @@ export class MultilistObservacionesComponent implements OnInit {
       : (element.observaciones = "");
 
     this.selected = element;
-
     this.openDialogWithTemplateRef(this.myDialog);
-
-    // this.sel1 = this.sel1.filter((opt) => element.id != opt.id);
-
-    // if (this.sel2.indexOf(element) < 0) {
-    //   this.sel2.push(element);
-    // }
   }
 
   actionRemoveOnClick(element: Item) {
