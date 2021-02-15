@@ -1,0 +1,69 @@
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px" *ngIf="showListado">
+    <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="22"
+        (click)="openModal()" color="primary">
+        <mat-icon>add_circle_outline</mat-icon>
+        Adicion
+    </button>
+</mat-card-actions>
+
+<!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
+<div class="container" *ngIf="showListado" style="overflow: hidden">
+
+</div>
+
+<div class="container" style="overflow: hidden">
+    <ng-template #myDialog style="overflow: hidden">
+        <mat-dialog-content style="
+            margin-left: -63px;
+            margin-right: -63px;
+            margin-top: -24px;
+            margin-bottom: -38px;
+            width: 650px;
+            overflow: hidden;
+          ">
+            <div class="container" style="overflow: hidden">
+                <mat-card-content class="window-dashboard-card-content contentprincipal" style="margin-bottom: 0px">
+                    <mat-toolbar color="primary">
+                        <mat-icon matPrefix>event_note</mat-icon>
+                        <label>Creación de Eventos Adversos</label>
+
+                        <span class="example-spacer"></span>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+                            (click)="closeDialog()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-toolbar>
+                    <mat-card-header>
+                        <mat-card-title></mat-card-title>
+                    </mat-card-header>
+                        <mat-card class="cardcontent">
+                            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                <mat-label for="tipe">Tipo:</mat-label>
+                                <input type="text" id="tipe" name="tipe" required minlength="4"><br><br>
+
+                                <mat-label for="name">Nombre:</mat-label>
+                                <input type="text" id="name" name="name" required minlength="4" size="10"><br><br>
+
+                                <mat-label for="observation">Observación: </mat-label>
+                                <input class="card-input" type="text" id="observation" name="observation" required
+                                    minlength="4" size="10"><br>
+                            </mat-card-content>
+
+                            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                                <button mat-raised-button (click)="guardar()" color="primary" fxLayout="row"
+                                    fxLayout.xs="column" fxLayoutAlign="center" fxFlex>
+                                    <mat-icon>check_box</mat-icon>
+                                    Guardar
+                                </button>
+                                <button mat-raised-button color="warn" (click)="closeDialog()" fxLayout="row"
+                                    fxLayout.xs="column" fxLayoutAlign="center" fxFlex>
+                                    <mat-icon>cancel</mat-icon>
+                                    Cancelar
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                </mat-card-content>
+            </div>
+        </mat-dialog-content>
+    </ng-template>
+</div>
