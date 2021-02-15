@@ -54,7 +54,14 @@
                 [defaultObjValue]="odontologo"
                 fxFlex="60"
               ></app-buscadormodal>
-              <app-multilist [sel1]="sel1" [sel2]="sel2"></app-multilist>
+              <app-multilist-observaciones
+                [nonSelectedItemsTitle]="'Medicamentos para seleccionar'"
+                [selectedItemsTitle]="'Medicamentos seleccionados'"
+                [materialIconName]="'medication'"
+                [sel1]="SEL1"
+                [sel2]="SEL2"
+              >
+              </app-multilist-observaciones>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
               <button
