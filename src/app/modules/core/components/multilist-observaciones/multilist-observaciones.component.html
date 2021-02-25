@@ -9,14 +9,14 @@
       <mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
         <mat-icon matPrefix>{{ materialIconName }}</mat-icon>
         <mat-label>{{ nonSelectedItemsTitle }}</mat-label>
-        <input matInput [(ngModel)]="sel1Filter" placeholder="name" />
+        <input matInput [(ngModel)]="selection1Filter" placeholder="name" />
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile fxFlex="50">
       <mat-form-field fxFlex appearance="outline" style="margin-top: 15px">
         <mat-icon matPrefix>{{ materialIconName }}</mat-icon>
         <mat-label>{{ selectedItemsTitle }}</mat-label>
-        <input matInput [(ngModel)]="sel2Filter" placeholder="name" />
+        <input matInput [(ngModel)]="selection2Filter" placeholder="name" />
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
@@ -98,6 +98,7 @@
               style="text-align: center; font-size: 1.3rem; font-weight: bold"
               type="text"
               [(ngModel)]="selected.name"
+              disabled
             />
 
             <div class="input-group">
