@@ -1,6 +1,5 @@
-import { RolesComponent } from './../roles/roles.component';
-import { MultilistComponent } from './components/multilist/multilist.component';
-import { MultilistTestComponent } from './components/multilist copy/multilist.component-test';
+import { RolesComponent } from "./../roles/roles.component";
+import { MultilistComponent } from "./components/multilist/multilist.component";
 import { UsersComponent } from "./../users/users.component";
 import { Routes, RouterModule, Route } from "@angular/router";
 import { ModuleWithProviders } from "@angular/core";
@@ -11,16 +10,13 @@ import { ProfileComponent } from "../profile/profile.component";
 import { HomeComponent } from "../home/home.component";
 import { LoginAdminComponent } from "../login-admin/login-admin.component";
 import { AdditionComponent } from "../addition/addition.component";
-
 import { OrdersComponent } from "../orders/orders.component";
 import { ApplicationsComponent } from "../applications/applications.component";
-
 import { MascarasComponent } from "../mascaras/mascaras.component";
 import { GenericComponent } from "../generic/generic.component";
 import { AgendaComponent } from "../agenda/agenda.component";
-import { CitasComponent } from '../citas/citas.component';
-import{HistoriaClinicaComponent} from '../historiaClinica/historiaClinica.component';
-
+import { CitasComponent } from "../citas/citas.component";
+import { HistoriaClinicaComponent } from "../historiaClinica/historiaClinica.component";
 
 export const routes: Routes = [
   {
@@ -88,11 +84,6 @@ export const routes: Routes = [
       {
         path: "multilist",
         component: MultilistComponent,
-        canActivate: [AuthGuardService],
-      },
-      {
-        path: "multilist-test",
-        component: MultilistTestComponent,
         canActivate: [AuthGuardService],
       },
       {

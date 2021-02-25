@@ -16,43 +16,26 @@ export class RecetarioComponent implements OnInit {
   public etiquetaNombreModulo = "Campos";
   public odontologo: any;
 
-  sel1 = [
-    { id: 1, nombre: "Aplicaciones" },
-    { id: 2, nombre: "Generic" },
-    { id: 3, nombre: "Perfil" },
-    { id: 4, nombre: "Rol" },
-    { id: 5, nombre: "Idiomas" },
-    { id: 6, nombre: "Salir" },
-    { id: 7, nombre: "Mascaras" },
-    { id: 8, nombre: "Permisos" },
-    { id: 9, nombre: "Usuarios" },
-    { id: 10, nombre: "Proveedores" },
-    { id: 11, nombre: "Empleados" },
-    { id: 12, nombre: "Rol Permiso" },
-    { id: 37, nombre: "Especialistas" },
-    { id: 38, nombre: "Configuración" },
-    { id: 39, nombre: "Pacientes" },
-    { id: 40, nombre: "Citas" },
-    { id: 41, nombre: "Historia Clinica" },
+  SEL1 = [
+    { id: 6, name: "Salir" },
+    { id: 7, name: "Mascaras" },
+    { id: 8, name: "Permisos" },
+    { id: 9, name: "Usuarios" },
+    { id: 10, name: "Proveedores" },
+    { id: 11, name: "Empleados" },
+    { id: 12, name: "Rol Permiso" },
+    { id: 37, name: "Especialistas" },
+    { id: 38, name: "Configuración" },
+    { id: 39, name: "Pacientes" },
+    { id: 40, name: "Citas" },
+    { id: 41, name: "Historia Clinica" },
   ];
-  sel2 = [
-    { id: 1, nombre: "Aplicaciones" },
-    { id: 2, nombre: "Generic" },
-    { id: 3, nombre: "Perfil" },
-    { id: 4, nombre: "Rol" },
-    { id: 5, nombre: "Idiomas" },
-    { id: 6, nombre: "Salir" },
-    { id: 7, nombre: "Mascaras" },
-    { id: 8, nombre: "Permisos" },
-    { id: 9, nombre: "Usuarios" },
-    { id: 10, nombre: "Proveedores" },
-    { id: 11, nombre: "Empleados" },
-    { id: 12, nombre: "Rol Permiso" },
-    { id: 37, nombre: "Especialistas" },
-    { id: 38, nombre: "Configuración" },
-    { id: 39, nombre: "Pacientes" },
-    { id: 40, nombre: "Citas" },
-    { id: 41, nombre: "Historia Clinica" },
+  SEL2 = [
+    { id: 1, name: "Aplicaciones" },
+    { id: 2, name: "Generic" },
+    { id: 3, name: "Perfil" },
+    { id: 4, name: "Rol" },
+    { id: 5, name: "Idiomas" },
   ];
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 

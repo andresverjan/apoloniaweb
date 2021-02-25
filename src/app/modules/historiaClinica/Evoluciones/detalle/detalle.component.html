@@ -26,12 +26,17 @@
                 </app-select>
               </mat-grid-tile>
             </mat-grid-list>
-            <mat-grid-list  cols="1"  rowHeight="60px"  gutterSize="10px"
+            <mat-grid-list  cols="1"  rowHeight="90px"  gutterSize="10px"
               style="margin-left: 15px; margin-right: 15px"
             >
-              <mat-grid-tile fxFlex=100>
-                <textarea matInput cols="50"></textarea>
-              </mat-grid-tile>
+              <div class="input-group">
+                <textarea
+                  class="form-control"
+                  placeholder="Observaciones"
+                  aria-label="With textarea"
+                  style="height: 80px; width: 90%"
+                ></textarea>
+              </div>
             </mat-grid-list>
           </mat-card-content>
         </mat-card>
