@@ -62,6 +62,7 @@ export class RecetarioComponent implements OnInit {
   guardar() {
     this.showForm = false;
     this.showListado = true;
+    //TODO: Crear el objeto con la info
     this.recetario.push(); //TODO: push new object to global array
   }
   actualizar(item) {}
@@ -73,6 +74,7 @@ export class RecetarioComponent implements OnInit {
     this.dialogRef.close();
   }
   onSelection(e) {
+    //TODO: llenar el array cada vez que se seleccione
     console.log(e);
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
