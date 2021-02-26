@@ -18,8 +18,35 @@
   </button>
 </mat-card-actions>
 
-<!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
-<div class="container" *ngIf="showListado" style="overflow: hidden"></div>
+<mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
+
+<mat-card-content
+  class="window-dashboard-card-content"
+  *ngIf="showListado"
+  style="overflow-block: hidden"
+>
+  <mat-toolbar color="primary">
+    <mat-icon matPrefix>web</mat-icon>
+    <span>{{ etiquetaListado }}</span>
+    <span class="example-spacer"></span>
+
+    <mat-icon>info</mat-icon>
+  </mat-toolbar>
+
+  <mat-grid-list cols="5" rowHeight="230px">
+    <mat-grid-tile *ngFor="let item of laboratorio" style="overflow-x: hidden">
+      <mat-card (click)="actualizar(item)" class="dashboard-card">
+        <mat-card-content class="dashboard-card-content">
+          <mat-icon>web</mat-icon>
+          <h5 class="cssRow">{{ item.nombre }}</h5>
+          <br />
+          <div>{{ item.descripcion }}</div>
+          <div>{{ item.active }}</div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</mat-card-content>
 
 <div>
   <ng-template
@@ -55,7 +82,7 @@
           <mat-card class="cardcontent">
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
               <app-buscadormodal
-                id="Especialestas"
+                id="Especialistas"
                 [filters]="['Nombres']"
                 (selected)="onOdontologoSelected($event)"
                 [columnas]="{ Nombres: 'Nombre Especialista' }"
@@ -70,9 +97,7 @@
                 id="Pacientes"
                 [filters]="['Cedula', 'Nombres', 'Apellidos']"
                 (selected)="onPatientSelected($event)"
-                [columnas]="{
-                  Nombres: 'Nombre'
-                }"
+                [columnas]="{ Nombres: 'Nombre' }"
                 [resultInputText]="['Apellidos1', 'Cedula']"
                 [service]="_pacienteService"
                 tituloBusqueda=" Paciente"
@@ -94,7 +119,7 @@
                 mat-raised-button
                 color="primary"
                 fxLayout="row"
-                (click)="closeDialog()"
+                (click)="guardar()"
                 fxLayout.xs="column"
                 fxLayoutAlign="center"
                 fxFlex

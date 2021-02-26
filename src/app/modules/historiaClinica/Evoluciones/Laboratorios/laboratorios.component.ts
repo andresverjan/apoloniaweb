@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { OdontologosService } from "src/app/modules/core/services/odontologos.service";
 import { PacienteService } from "src/app/modules/core/services/paciente.service";
+import { LaboratoriosService } from "./laboratorios.service";
 
 @Component({
   selector: "app-laboratorios",
@@ -17,13 +18,15 @@ export class LaboratoriosComponent implements OnInit {
   public etiquetaNombreModulo = "Campos";
   public odontologo: any;
   public paciente: any;
+  public laboratorio: Array<any>;
 
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
   constructor(
     public dialog: MatDialog,
     public _odontologosService: OdontologosService,
-    public _pacienteService: PacienteService
+    public _pacienteService: PacienteService,
+    public _laboratorioService: LaboratoriosService
   ) {
     this.odontologo = {
       Nombres: "Seleccionar Especialista",
@@ -33,7 +36,10 @@ export class LaboratoriosComponent implements OnInit {
       Apellidos1: "",
     };
   }
-
+  ngOnInit() {
+    this.fetch();
+  }
+  actualizar(item) {}
   actionAdicionar() {
     this.showListado = false;
     this.showForm = true;
@@ -41,8 +47,9 @@ export class LaboratoriosComponent implements OnInit {
   guardar() {
     this.showForm = false;
     this.showListado = true;
+    //TODO: crear objeto a guardar (FORM)
+    this.laboratorio.push(); //TODO: push object to global array
   }
-
   onPatientSelected(selected) {
     this.paciente = selected;
     this.IsWaiting = true;
@@ -61,14 +68,18 @@ export class LaboratoriosComponent implements OnInit {
     });
     this.dialogRef.afterClosed().subscribe(() => {});
   }
-
   openModal() {
     this.openDialogWithTemplateRef(this.myDialog);
   }
-  ngOnInit() {}
-
   onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.IsWaiting = true;
+  }
+  fetch() {
+    this.IsWaiting = true;
+    this._laboratorioService.getAll().subscribe(({ data }) => {
+      this.laboratorio = data.mascaras; //TODO: actualizar
+      this.IsWaiting = false;
+    });
   }
 }
