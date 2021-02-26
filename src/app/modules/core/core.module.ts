@@ -45,11 +45,14 @@ import {
   DialogOverviewExampleIcon,
 } from "./components/buscadormodalicon/buscadormodalicon.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
-import { CitasComponent } from "../citas/citas.component";
-import { HistoriaClinicaComponent } from "../historiaClinica/historiaClinica.component";
-import { DatosPacienteComponent } from "../historiaClinica/DatosPaciente/datosPaciente.component";
-import { EvolucionesComponent } from "../historiaClinica/Evoluciones/evoluciones.component";
-import { EsterilizacionComponent } from "../historiaClinica/Evoluciones/Esterilizacion/esterilizacion.component";
+
+import { CitasComponent } from '../citas/citas.component';
+import{HistoriaClinicaComponent} from '../historiaClinica/historiaClinica.component';
+import{DatosPacienteComponent} from '../historiaClinica/DatosPaciente/datosPaciente.component';
+import{EvolucionesComponent} from '../historiaClinica/Evoluciones/evoluciones.component';
+import{EsterilizacionComponent} from '../historiaClinica/Evoluciones/Esterilizacion/esterilizacion.component';
+import{EventosAdversosComponent} from '../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component';
+
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from "./components/input/input.component";
@@ -68,13 +71,14 @@ import { MatListModule } from "@angular/material/list";
 import { AvatarDragDirective } from "./components/avatar/avatarDragDropDirective";
 import { DatepickerComponent } from "./components/datepicker/datepicker.component";
 
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatNativeDateModule } from "@angular/material/core";
-import { MatInputModule } from "@angular/material/input";
-import { DatetimeComponent } from "./components/datetime/datetime.component";
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
-import { SliderComponent } from "./components/slider/slider.component";
-import { MatSliderModule } from "@angular/material/slider";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { DatetimeComponent } from './components/datetime/datetime.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { SliderComponent } from './components/slider/slider.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { from } from 'rxjs';
 import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/recetario.component";
 
 FullCalendarModule.registerPlugins([
@@ -126,6 +130,7 @@ FullCalendarModule.registerPlugins([
     DatosPacienteComponent,
     EvolucionesComponent,
     EsterilizacionComponent,
+    EventosAdversosComponent,
     RecetarioComponent,
     EventosAdversosComponent
   ],
