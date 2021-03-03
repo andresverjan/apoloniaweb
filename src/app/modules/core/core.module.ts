@@ -132,6 +132,7 @@ FullCalendarModule.registerPlugins([
     EsterilizacionComponent,
     EventosAdversosComponent,
     RecetarioComponent,
+    EventosAdversosComponent
   ],
 
   imports: [
