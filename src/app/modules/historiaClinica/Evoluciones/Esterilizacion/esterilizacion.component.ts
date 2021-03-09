@@ -16,6 +16,7 @@ export class EsterilizacionComponent implements OnInit {
   public showListado: boolean = true;
   public showForm: boolean = false;
   public dialogRef: any;
+  public esterilizacionArreglo: any = [];
   // public permisos: Permiso[] = [];
   // public permisor: Permiso[] = [];
 
@@ -34,7 +35,9 @@ export class EsterilizacionComponent implements OnInit {
   public etiquetaNombreModulo = "Campos";
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
-  constructor(public dialog: MatDialog,) {}
+  constructor(public dialog: MatDialog, public _esterilizacionService:EsterilizacionService) {
+    this.fetchEsterilizacion();
+  }
 
   actionAdicionar() {
     this.showListado = false;
@@ -65,7 +68,18 @@ export class EsterilizacionComponent implements OnInit {
   openModal(){
     this.openDialogWithTemplateRef(this.myDialog);
   }
-  ngOnInit() {}
+
+ 
+  fetchEsterilizacion = () => {
+    this._esterilizacionService.getAll().subscribe((res) => {
+      this.esterilizacionArreglo = res.data.esterilizaciones;
+     
+    });
+  };
+  
+  ngOnInit() {
+    
+  }
 }
 interface Permiso {
   id: number;
