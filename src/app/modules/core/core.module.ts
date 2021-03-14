@@ -3,7 +3,6 @@ import { AvatarComponent } from "./components/avatar/avatar.component";
 import { FullCalendarModule } from "@fullcalendar/angular";
 import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin
 import interactionPlugin from "@fullcalendar/interaction";
-
 import { UsersComponent } from "./../users/users.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -20,15 +19,12 @@ import { MyNavComponent } from "./my-nav/my-nav.component";
 import { ModalComponent } from "./modal/modal.component";
 import { LoadingComponent } from "./loading/loading.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatCardModule } from "@angular/material/card";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
-
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-
 import { SelectComponent } from "./components/select/select.component";
 import { HomeComponent } from "../home/home.component";
 import { FooterTursitaComponent } from "../core/components/footer-tursita/footer-tursita.component";
@@ -45,20 +41,18 @@ import {
   DialogOverviewExampleIcon,
 } from "./components/buscadormodalicon/buscadormodalicon.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
-
-import { CitasComponent } from '../citas/citas.component';
-import{HistoriaClinicaComponent} from '../historiaClinica/historiaClinica.component';
-import{DatosPacienteComponent} from '../historiaClinica/DatosPaciente/datosPaciente.component';
-import{EvolucionesComponent} from '../historiaClinica/Evoluciones/evoluciones.component';
-import{EsterilizacionComponent} from '../historiaClinica/Evoluciones/Esterilizacion/esterilizacion.component';
-import{EventosAdversosComponent} from '../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component';
-
+import { CitasComponent } from "../citas/citas.component";
+import { HistoriaClinicaComponent } from "../historiaClinica/historiaClinica.component";
+import { DatosPacienteComponent } from "../historiaClinica/DatosPaciente/datosPaciente.component";
+import { EvolucionesComponent } from "../historiaClinica/Evoluciones/evoluciones.component";
+import { EsterilizacionComponent } from "../historiaClinica/Evoluciones/Esterilizacion/esterilizacion.component";
+import { DetalleComponent } from "../historiaClinica/Evoluciones/detalle/detalle.component";
+import { RemisionComponent } from "../historiaClinica/Evoluciones/Remision/remision.component";
 import { TipoCampoComponent } from "../tipo-campo/tipo-campo.component";
 import { GenericComponent } from "../generic/generic.component";
 import { InputComponent } from "./components/input/input.component";
 import { ToogleComponent } from "./components/toogle/toogle.component";
 import { SchedulerComponent } from "./components/scheduler/scheduler.component";
-
 import { AgendaComponent } from "../agenda/agenda.component";
 import { FlatpickrModule } from "angularx-flatpickr";
 import { CalendarModule, DateAdapter } from "angular-calendar";
@@ -66,20 +60,19 @@ import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import { MultilistComponent } from "./components/multilist/multilist.component";
-import { MultilistTestComponent } from "./components/multilist copy/multilist.component-test";
 import { MatListModule } from "@angular/material/list";
 import { AvatarDragDirective } from "./components/avatar/avatarDragDropDirective";
 import { DatepickerComponent } from "./components/datepicker/datepicker.component";
-
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
-import { DatetimeComponent } from './components/datetime/datetime.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { SliderComponent } from './components/slider/slider.component';
-import { MatSliderModule } from '@angular/material/slider';
-import { from } from 'rxjs';
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatInputModule } from "@angular/material/input";
+import { DatetimeComponent } from "./components/datetime/datetime.component";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
+import { SliderComponent } from "./components/slider/slider.component";
+import { MatSliderModule } from "@angular/material/slider";
 import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/recetario.component";
+import { LaboratoriosComponent } from "../historiaClinica/Evoluciones/Laboratorios/laboratorios.component";
+import { MultilistObservacionesComponent } from "./components/multilist-observaciones/multilist-observaciones.component";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -117,7 +110,6 @@ FullCalendarModule.registerPlugins([
     InputComponent,
     AgendaComponent,
     MultilistComponent,
-    MultilistTestComponent,
     ToogleComponent,
     AvatarComponent,
     AvatarDragDirective,
@@ -131,8 +123,11 @@ FullCalendarModule.registerPlugins([
     EvolucionesComponent,
     EsterilizacionComponent,
     EventosAdversosComponent,
+    DetalleComponent,
     RecetarioComponent,
-    EventosAdversosComponent
+    RemisionComponent,
+    LaboratoriosComponent,
+    MultilistObservacionesComponent,
   ],
 
   imports: [

@@ -22,13 +22,23 @@
 <div class="container" *ngIf="showListado" style="overflow: hidden"></div>
 
 <div>
-  <ng-template #myDialog style="overflow: hidden">
-    <div>
+  <ng-template
+    #myDialog
+    style="overflow: hidden; display: flex; justify-content: center"
+  >
+    <div
+      style="
+        margin-left: -43px;
+        margin-right: -41px;
+        margin-top: -24px;
+        margin-bottom: -26px;
+      "
+    >
       <div class="container" style="overflow: hidden">
         <mat-card-content style="margin-bottom: 0px">
           <mat-toolbar color="primary">
             <mat-icon matPrefix>account_balance</mat-icon>
-            <label>Recetario - Medicamentos enviados para el paciente</label>
+            <label>Laboratorios</label>
             <span class="example-spacer"></span>
             <button
               mat-icon-button
@@ -45,6 +55,7 @@
           <mat-card class="cardcontent">
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
               <app-buscadormodal
+                id="Especialestas"
                 [filters]="['Nombres']"
                 (selected)="onOdontologoSelected($event)"
                 [columnas]="{ Nombres: 'Nombre Especialista' }"
@@ -54,14 +65,29 @@
                 [defaultObjValue]="odontologo"
                 fxFlex="60"
               ></app-buscadormodal>
-              <app-multilist-observaciones
-                [nonSelectedItemsTitle]="'Medicamentos para seleccionar'"
-                [selectedItemsTitle]="'Medicamentos seleccionados'"
-                [materialIconName]="'medication'"
-                [sel1]="SEL1"
-                [sel2]="SEL2"
-              >
-              </app-multilist-observaciones>
+
+              <app-buscadormodal
+                id="Pacientes"
+                [filters]="['Cedula', 'Nombres', 'Apellidos']"
+                (selected)="onPatientSelected($event)"
+                [columnas]="{
+                  Nombres: 'Nombre'
+                }"
+                [resultInputText]="['Apellidos1', 'Cedula']"
+                [service]="_pacienteService"
+                tituloBusqueda=" Paciente"
+                [defaultObjValue]="paciente"
+                fxFill
+              ></app-buscadormodal>
+
+              <div class="input-group">
+                <textarea
+                  class="form-control"
+                  placeholder="Observaciones"
+                  aria-label="With textarea"
+                  style="height: 200px; width: 90%"
+                ></textarea>
+              </div>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
               <button

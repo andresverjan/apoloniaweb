@@ -63,8 +63,37 @@
                     fxLayoutAlign="space-between "
                     fxFlex="100"
                   >
-                  <app-buscadormodal></app-buscadormodal>
-                  <app-multilist [sel1]="esterilizacion" [(sel2)]="esterilizacions"></app-multilist>
+                  <div className ="form-group formulario">
+                  <h5>De:</h5>
+                  <app-buscadormodal
+                  [filters]="['Nombres']"
+                  *ngIf="true"
+                  (selected)="onOdontologoSelected($event)"
+                  [columnas]="{ Nombres: 'Nombre Especialista' }"
+                  [resultInputText]="['Nombres']"
+                  [service]="_odontologoService"
+                  tituloBusqueda="Especialistas"
+                  [defaultObjValue]="odontologo"
+                  fxFlex="60"
+                  [readonly]="false"
+                ></app-buscadormodal>
+              </div>
+              <div className ="formulario">
+                <h5>Para:</h5>
+                  <app-buscadormodal
+                  [filters]="['Nombres']"
+                  *ngIf="true"
+                  (selected)="onOdontologoSelected($event)"
+                  [columnas]="{ Nombres: 'Nombre Especialista' }"
+                  [resultInputText]="['Nombres']"
+                  [service]="_odontologoService"
+                  tituloBusqueda="Especialistas"
+                  [defaultObjValue]="odontologo"
+                  fxFlex="60"
+                  [readonly]="false"
+                ></app-buscadormodal>
+                </div>
+                <textarea name="comentarios" rows="10" cols="40">Escribe aquí tus comentarios</textarea>
                 </div>
                 </mat-card-content>
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">

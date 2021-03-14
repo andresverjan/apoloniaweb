@@ -1,13 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { OdontologosService } from "src/app/modules/core/services/odontologos.service";
+import { PacienteService } from "src/app/modules/core/services/paciente.service";
 
 @Component({
-  selector: "app-recetario",
-  templateUrl: "./recetario.component.html",
-  styleUrls: ["./recetario.component.sass"],
+  selector: "app-laboratorios",
+  templateUrl: "./laboratorios.component.html",
+  styleUrls: ["./laboratorios.component.scss"],
 })
-export class RecetarioComponent implements OnInit {
+export class LaboratoriosComponent implements OnInit {
   public IsWaiting: boolean;
   public showListado: boolean = true;
   public showForm: boolean = false;
@@ -15,36 +16,21 @@ export class RecetarioComponent implements OnInit {
   public etiquetaListado = "Listado de Mascaras";
   public etiquetaNombreModulo = "Campos";
   public odontologo: any;
+  public paciente: any;
 
-  SEL1 = [
-    { id: 6, name: "Salir" },
-    { id: 7, name: "Mascaras" },
-    { id: 8, name: "Permisos" },
-    { id: 9, name: "Usuarios" },
-    { id: 10, name: "Proveedores" },
-    { id: 11, name: "Empleados" },
-    { id: 12, name: "Rol Permiso" },
-    { id: 37, name: "Especialistas" },
-    { id: 38, name: "Configuración" },
-    { id: 39, name: "Pacientes" },
-    { id: 40, name: "Citas" },
-    { id: 41, name: "Historia Clinica" },
-  ];
-  SEL2 = [
-    { id: 1, name: "Aplicaciones" },
-    { id: 2, name: "Generic" },
-    { id: 3, name: "Perfil" },
-    { id: 4, name: "Rol" },
-    { id: 5, name: "Idiomas" },
-  ];
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
   constructor(
     public dialog: MatDialog,
-    public _odontologosService: OdontologosService
+    public _odontologosService: OdontologosService,
+    public _pacienteService: PacienteService
   ) {
     this.odontologo = {
       Nombres: "Seleccionar Especialista",
+    };
+    this.paciente = {
+      Nombres1: "Seleccionar Paciente",
+      Apellidos1: "",
     };
   }
 
@@ -57,6 +43,10 @@ export class RecetarioComponent implements OnInit {
     this.showListado = true;
   }
 
+  onPatientSelected(selected) {
+    this.paciente = selected;
+    this.IsWaiting = true;
+  }
   cancelar() {
     this.showForm = false;
     this.showListado = true;
@@ -66,7 +56,6 @@ export class RecetarioComponent implements OnInit {
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialogRef = this.dialog.open(templateRef, {
-      height: "810px",
       width: "650px",
       disableClose: true,
     });
