@@ -73,6 +73,7 @@ import { MatSliderModule } from "@angular/material/slider";
 import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/recetario.component";
 import { LaboratoriosComponent } from "../historiaClinica/Evoluciones/Laboratorios/laboratorios.component";
 import { MultilistObservacionesComponent } from "./components/multilist-observaciones/multilist-observaciones.component";
+import { EventosAdversosComponent } from "../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
