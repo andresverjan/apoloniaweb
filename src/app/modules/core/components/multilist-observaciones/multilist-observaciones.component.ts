@@ -7,7 +7,7 @@ import {
   TemplateRef,
   ViewChild,
 } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatMenuTrigger } from "@angular/material/menu";
 
 @Component({
@@ -16,19 +16,19 @@ import { MatMenuTrigger } from "@angular/material/menu";
   styleUrls: ["./multilist-observaciones.component.scss"],
 })
 export class MultilistObservacionesComponent implements OnInit {
-  @Input() sel1: Item[] = [];
+  @Input() selection1: Item[] | Array<any> = [];
+  @Input() selection2: Item[] | Array<any> = [];
   @Input() nonSelectedItemsTitle: String = "Elementos para seleccionar";
   @Input() selectedItemsTitle: String = "Elementos seleccionados";
   @Input() materialIconName: String = "category";
-  @Input() sel2: Item[] = [];
-  @Output() emitter = new EventEmitter<Item[]>();
+  @Output() finalSelection = new EventEmitter<Item[] | Array<any>>();
 
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
   @ViewChild("observacionesDialog") myDialog: TemplateRef<any>;
-  public sel1Filter = "";
-  public sel2Filter = "";
-  public dialogRef: any;
-  public selected: Item;
+  public selection1Filter = "";
+  public selection2Filter = "";
+  public dialogRef: MatDialogRef<any, any>;
+  public selected: Item | any;
 
   constructor(public dialog: MatDialog) {}
 
@@ -37,7 +37,7 @@ export class MultilistObservacionesComponent implements OnInit {
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialogRef = this.dialog.open(templateRef, {});
 
-    this.dialogRef.afterClosed().subscribe((result) => result);
+    this.dialogRef.afterClosed().subscribe(() => {});
   }
   closeDialog() {
     this.dialogRef.close();
@@ -45,51 +45,56 @@ export class MultilistObservacionesComponent implements OnInit {
   save() {
     this.dialogRef.close();
 
-    this.sel1 = this.sel1.filter((opt) => this.selected.id != opt.id);
+    this.selection1 = this.selection1.filter(
+      (opt) => this.selected.id != opt.id
+    );
 
-    if (this.sel2.indexOf(this.selected) < 0) {
-      this.sel2.push(this.selected);
+    if (this.selection2.indexOf(this.selected) < 0) {
+      this.selection2.push(this.selected);
     }
+    this.finalSelection.emit(this.selection2);
   }
 
   getSel1Options() {
-    return this.sel1
-      .filter((s1) => !this.sel2Contains(s1.id))
-      .filter((s1) =>
-        this.sel1Filter
-          ? s1.name.toUpperCase().includes(this.sel1Filter.toUpperCase())
+    return this.selection1
+      .filter((item) => !this.sel2Contains(item.id))
+      .filter((item) =>
+        this.selection1Filter
+          ? item.name
+              .toUpperCase()
+              .includes(this.selection1Filter.toUpperCase())
           : true
       );
   }
 
   getSel2Options() {
-    return this.sel2.filter((s2) =>
-      this.sel2Filter
-        ? s2.name.toUpperCase().includes(this.sel2Filter.toUpperCase())
+    return this.selection2.filter((item) =>
+      this.selection2Filter
+        ? item.name.toUpperCase().includes(this.selection2Filter.toUpperCase())
         : true
     );
   }
 
   sel2Contains(id: string) {
-    return this.sel2.some((s2) => s2.id === id);
+    return this.selection2.some((item) => item.id === id);
   }
 
   actionAddOnClick(element: Item) {
     element.observaciones &&
     element.observaciones.length > 0 &&
-    element.observaciones !== ""
+    element.observaciones !== "" &&
+    element.observaciones.trim().length > 0
       ? element.observaciones
       : (element.observaciones = "");
-
     this.selected = element;
     this.openDialogWithTemplateRef(this.myDialog);
   }
 
   actionRemoveOnClick(element: Item) {
-    this.sel2 = this.sel2.filter((opt) => element.id != opt.id);
-
-    if (this.sel1.indexOf(element) < 0) {
-      this.sel1.push(element);
+    this.selection2 = this.selection2.filter((opt) => element.id != opt.id);
+    element.observaciones = "";
+    if (this.selection1.indexOf(element) < 0) {
+      this.selection1.push(element);
     }
   }
 }
@@ -98,5 +103,5 @@ export class MultilistObservacionesComponent implements OnInit {
 interface Item {
   id: string;
   name: string;
-  observaciones: string;
+  observaciones: string | undefined;
 }
