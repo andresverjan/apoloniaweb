@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import * as Globals from "../core/globals";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Generic } from "./generic.component";
 import { HttpService } from "../core/services/HttpService";

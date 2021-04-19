@@ -21,21 +21,24 @@ export class EsterilizacionComponent implements OnInit {
   // public permisor: Permiso[] = [];
 
   mockedItems: SelItem[] = [
-    {id : 'id1', name: 'KANVAS'},
-    {id : 'id2', name: 'BYRENA'},
-    {id : 'id3', name: 'Opion 3'},
-    {id : 'id4', name: 'TESALIA'},
-    {id : 'id5', name: 'Opion 5'},
-    {id : 'id6', name: 'ORION'},
-    {id : 'id7', name: 'PRAGA'}
+    { id: "id1", name: "KANVAS" },
+    { id: "id2", name: "BYRENA" },
+    { id: "id3", name: "Opion 3" },
+    { id: "id4", name: "TESALIA" },
+    { id: "id5", name: "Opion 5" },
+    { id: "id6", name: "ORION" },
+    { id: "id7", name: "PRAGA" },
   ];
 
   esterilizacion: SelItem[] = this.mockedItems; // input
-  esterilizacions: SelItem[] = [{id : 'id2', name: 'BYRENA'}]; // input/output
+  esterilizacions: SelItem[] = [{ id: "id2", name: "BYRENA" }]; // input/output
   public etiquetaNombreModulo = "Campos";
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
-  constructor(public dialog: MatDialog, public _esterilizacionService:EsterilizacionService) {
+  constructor(
+    public dialog: MatDialog,
+    public _esterilizacionService: EsterilizacionService
+  ) {
     this.fetchEsterilizacion();
   }
 
@@ -53,33 +56,26 @@ export class EsterilizacionComponent implements OnInit {
     this.showListado = true;
   }
   closeDialog() {
-    
     this.dialogRef.close();
   }
-  openDialogWithTemplateRef(
-    templateRef: TemplateRef<any>,
-  ) {
+  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialogRef = this.dialog.open(templateRef, {
       disableClose: true,
     });
     this.dialogRef.afterClosed().subscribe(() => {});
   }
 
-  openModal(){
+  openModal() {
     this.openDialogWithTemplateRef(this.myDialog);
   }
 
- 
   fetchEsterilizacion = () => {
     this._esterilizacionService.getAll().subscribe((res) => {
       this.esterilizacionArreglo = res.data.esterilizaciones;
-     
     });
   };
-  
-  ngOnInit() {
-    
-  }
+
+  ngOnInit() {}
 }
 interface Permiso {
   id: number;

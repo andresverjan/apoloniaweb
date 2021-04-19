@@ -1,8 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
-import { TableService } from "../core/services/table.service";
-import { ColumnaService } from "../core/services/columna.service";
-import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
-import { HistoriaClinicaService } from "./historiaClinica.service";
+import { Component, OnInit } from "@angular/core";
 import { PacienteService } from "../core/services/paciente.service";
 
 @Component({
@@ -11,8 +7,7 @@ import { PacienteService } from "../core/services/paciente.service";
   styleUrls: ["./historiaClinica.component.scss"],
 })
 export class HistoriaClinicaComponent implements OnInit {
-  public IsWaiting: boolean;
-  public IsWaitings: boolean=false;
+  public IsWaiting: boolean = false;
   public paciente: any;
   public etiquetaListado = "Listado de Mascaras";
   public etiquetaNombreModulo = "Campos";
@@ -23,6 +18,6 @@ export class HistoriaClinicaComponent implements OnInit {
 
   onPatientSelected(selected) {
     this.paciente = selected;
-    this.IsWaitings = true;
+    this.IsWaiting = true;
   }
 }
