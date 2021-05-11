@@ -1,6 +1,8 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { MatMenuTrigger } from "@angular/material/menu";
+import Swal from "sweetalert2";
+
 import { EgresosService } from "../egresos.service";
 
 @Component({
@@ -11,34 +13,69 @@ import { EgresosService } from "../egresos.service";
 export class ConfigEgresosComponent implements OnInit {
   public IsWaiting: boolean;
   public showListado: boolean = true;
-  public showForm: boolean = false;
+  public isUpdating: boolean;
   public dialogRef: any;
   public egresos: any = [];
+  public egresoForm: FormGroup;
 
   constructor(
     public dialog: MatDialog,
     public _egresosService: EgresosService
   ) {}
 
-  @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
-  @ViewChild("myDialog") myDialog: TemplateRef<any>;
-
   ngOnInit(): void {
+    this.egresoForm = new FormGroup({
+      _id: new FormControl(""),
+      proveedores: new FormControl(""),
+      numeroSoporte: new FormControl(0),
+      tipo: new FormControl(""),
+      soporte: new FormControl(""),
+      valor: new FormControl(0),
+      descuento: new FormControl(0),
+      iva: new FormControl(0),
+      fechaDocumento: new FormControl(""),
+      ica: new FormControl(""),
+      total: new FormControl(0),
+      fechaPago: new FormControl(""),
+      rf: new FormControl(""),
+      observaciones: new FormControl(""),
+    });
     this.fetchEgresosProgramados();
   }
 
-  actualizar: () => {};
-
-  closeDialog() {
-    this.dialogRef.close();
+  actualizar() {
+    // TODO: LLAMADA AL SERVICIO DE ACTUALIZAR
+    this.egresoForm.reset();
+    Swal.fire("Actualizado", "Egreso actualizado exitosamente", "success");
+    this.showListado = true;
   }
-  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
-    this.dialogRef = this.dialog.open(templateRef, {});
 
-    this.dialogRef.afterClosed().subscribe(() => {});
+  verDetalle(input) {
+    //TODO: LLENAR FORMS CON OBJETO ENVIADO
+    this.isUpdating = true;
+    // this.egresoForm.patchValue(input);
+    this.showListado = false;
   }
-  openModal() {
-    this.openDialogWithTemplateRef(this.myDialog);
+  eliminar() {
+    // TODO: LLAMADA AL SERVICIO DE ELIMINAR
+    this.showListado = true;
+    Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
+    this.egresoForm.reset();
+  }
+
+  cancelar() {
+    this.showListado = true;
+  }
+
+  guardar() {
+    // TODO: LLAMADA AL SERVICIO DE GUARDAR
+    this.egresoForm.reset();
+    Swal.fire("Guardado", "Egreso guardado exitosamente", "success");
+    this.showListado = true;
+  }
+  onClickAdicionar() {
+    this.egresoForm.reset();
+    this.showListado = false;
   }
 
   fetchEgresosProgramados = () => {

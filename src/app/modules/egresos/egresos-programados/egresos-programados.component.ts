@@ -1,7 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { MatMenuTrigger } from "@angular/material/menu";
-import { EgresosService } from "../egresos.service";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: "app-egresos-programados",
