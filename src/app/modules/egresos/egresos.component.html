@@ -27,10 +27,12 @@
           <!-- <div *ngIf="!IsWaiting"> -->
           <div>
             <mat-tab-group>
-              <mat-tab label="Egresos Programados">
+              <mat-tab label="Configuración de Egresos">
+                <app-config-egresos></app-config-egresos>
+              </mat-tab>
+              <mat-tab label="Egresos">
                 <app-egresos-programados></app-egresos-programados>
               </mat-tab>
-              <mat-tab label="??"> El otro módulo que Harold dijo </mat-tab>
             </mat-tab-group>
           </div>
         </mat-card-content>

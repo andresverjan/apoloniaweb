@@ -76,6 +76,7 @@ import { MultilistObservacionesComponent } from "./components/multilist-observac
 import { EventosAdversosComponent } from "../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component";
 import { EgresosComponent } from "../egresos/egresos.component";
 import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egresos-programados.component";
+import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -133,6 +134,7 @@ FullCalendarModule.registerPlugins([
     EventosAdversosComponent,
     EgresosComponent,
     EgresosProgramadosComponent,
+    ConfigEgresosComponent,
   ],
 
   imports: [
