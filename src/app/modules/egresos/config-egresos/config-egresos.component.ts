@@ -24,6 +24,7 @@ export class ConfigEgresosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // TODO: PARCHEAR EL VALOR DE LOS PARÁMETROS CON LOS QUE SE TRAEN DE BD (IVA, ICA, RF...)
     this.egresoForm = new FormGroup({
       _id: new FormControl(""),
       proveedores: new FormControl(""),

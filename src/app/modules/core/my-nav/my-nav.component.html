@@ -30,14 +30,6 @@
     </mat-toolbar>
     <mat-list style="margin-left: 20px; margin-right: 20px">
       <mat-list-item
-        routerLink="./egresos"
-        [routerLinkActive]="['is-active']"
-        (click)="mostrarRouter()"
-      >
-        <mat-icon class="menuIcon">attach_money</mat-icon>
-        Egresos
-      </mat-list-item>
-      <mat-list-item
         routerLink="{{ item.routerLink }}"
         [routerLinkActive]="['is-active']"
         style="margin-top: 9px"
