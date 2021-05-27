@@ -4,7 +4,7 @@ import { MatDialog } from "@angular/material/dialog";
 import Swal from "sweetalert2";
 
 import { EgresosService } from "../egresos.service";
-import {ConfigParametrosService} from "../../core/services/ConfigParametrosService.service";
+import { ConfigParametrosService } from "../../core/services/ConfigParametrosService.service";
 
 @Component({
   selector: "app-config-egresos",
@@ -25,10 +25,8 @@ export class ConfigEgresosComponent implements OnInit {
   public dialogRef: any;
   public egresos: any = [];
   public egresoForm: FormGroup;
-  listadoEgresos= [];
-  public Parametros = [];
 
-
+  public parametrosContaConfig = [];
 
   constructor(
     public dialog: MatDialog,
@@ -53,33 +51,25 @@ export class ConfigEgresosComponent implements OnInit {
       fechaPago: new FormControl(""),
       rf: new FormControl(""),
       observaciones: new FormControl(""),
-
     });
     this.fetchEgresosProgramados();
-    this.obtenerDatos();
+    this.fetchParamsByGroup("CONTA_CONFIG");
   }
 
   actualizar() {
     // TODO: LLAMADA AL SERVICIO DE ACTUALIZAR
-    this._egresosService.updateEgresos(this.egresoForm.value).subscribe((Response) => {
-      this.IsWait = false;
-      this.obtenerDatos();
-      this.egresoForm.reset();
-      Swal.fire("Actualizado", "Egreso actualizado exitosamente", "success");
-      this.showListado = true;
-    })
+    this._egresosService
+      .updateEgresos(this.egresoForm.value)
+      .subscribe((Response) => {
+        this.IsWait = false;
+
+        this.egresoForm.reset();
+        Swal.fire("Actualizado", "Egreso actualizado exitosamente", "success");
+        this.showListado = true;
+      });
   }
 
-  obtenerDatos(obj?){
-    this.IsWait= true;
-    this._egresosService.listEgresos(obj).subscribe((response) =>{
-      this.listadoEgresos = response.data.egresos;
-      console.log(this.listadoEgresos[0]);
-      this.IsWait = false;
-    });
-  }
-
-  verDetalle(input:any) {
+  verDetalle(input: any) {
     //TODO: LLENAR FORMS CON OBJETO ENVIADO
     this.isUpdating = true;
     this.showListado = false;
@@ -89,12 +79,10 @@ export class ConfigEgresosComponent implements OnInit {
     // TODO: LLAMADA AL SERVICIO DE ELIMINAR
     let egreso = this.egresoForm.value;
     let id = egreso.id;
-    this.IsWait =  true;
-    this._egresosService.deleteEgresos(id).subscribe((response) =>{
-
+    this.IsWait = true;
+    this._egresosService.deleteEgresos(id).subscribe((response) => {
       this.showListado = true;
       Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
-      this.obtenerDatos();
       this.egresoForm.reset();
     });
   }
@@ -106,18 +94,22 @@ export class ConfigEgresosComponent implements OnInit {
 
   guardar() {
     // TODO: LLAMADA AL SERVICIO DE GUARDAR
-    this._egresosService.createEgresos(this.egresoForm.value).subscribe((response) =>{
-      this.IsWait = false;
-      this.obtenerDatos();
-      this.egresoForm.reset();
-      Swal.fire("Guardado", "Egreso guardado exitosamente", "success");
-      this.showListado = true;
-    });
+    this._egresosService
+      .createEgresos(this.egresoForm.value)
+      .subscribe((response) => {
+        this.IsWait = false;
+        this.egresoForm.reset();
+        Swal.fire("Guardado", "Egreso guardado exitosamente", "success");
+        this.showListado = true;
+      });
   }
-  fetchParamsConta(obj){
-    this.configParametros.configByParamGroup(obj).subscribe((response) =>{
-      this.Parametros = response.data.configByParamGroup;
-    });
+  fetchParamsByGroup(nombreParametro) {
+    this.configParametros
+      .configByParamGroup(nombreParametro)
+      .subscribe((response) => {
+        this.parametrosContaConfig = response.data.configByParamGroup;
+        console.log(this.parametrosContaConfig);
+      });
   }
   onClickAdicionar() {
     this.egresoForm.reset();
@@ -126,7 +118,7 @@ export class ConfigEgresosComponent implements OnInit {
 
   fetchEgresosProgramados = () => {
     this._egresosService.getAll().subscribe((res) => {
-      this.egresos = res.data.mascaras;
+      this.egresos = res.data.egresos;
     });
   };
 }

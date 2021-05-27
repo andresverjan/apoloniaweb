@@ -13,18 +13,15 @@ export class ConfigParametrosService {
     this.serverUrl = Globals.SERVER;
   }
 
-  configByParamGroup(objeTosend: any): Observable<any> {
+  configByParamGroup(grupoParametro: any): Observable<any> {
     let filter = "";
 
-    if (objeTosend) {
-      filter = `(GrupoParametro:"CONTA_CONFIG" {
-        NombreParametro: "${objeTosend.NombreParametro}"
-      })`;
+    if (grupoParametro) {
+      filter = `(GrupoParametro:"${grupoParametro}")`;
     }
 
     let body = {
       query: `query{ configByParamGroup ${filter}{
-                id
                 NombreParametro
                 GrupoParametro
                 EmpresaID
@@ -36,5 +33,4 @@ export class ConfigParametrosService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
-  
 }

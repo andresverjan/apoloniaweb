@@ -21,15 +21,16 @@
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
 <div class="container" *ngIf="showListado" style="overflow: hidden">
   <mat-grid-list cols="5" rowHeight="230px">
-    <mat-grid-tile *ngFor="let est of egresos" style="overflow-x: hidden">
-      <mat-card (click)="verDetalle(est)" class="dashboard-card">
+    <mat-grid-tile *ngFor="let egreso of egresos" style="overflow-x: hidden">
+      <mat-card (click)="verDetalle(egreso)" class="dashboard-card">
         <mat-card-content class="dashboard-card-content">
           <mat-icon>attach_money</mat-icon>
-          <!-- TODO: imágen, proveedor, total -->
-          <h5 class="cssRow">{{ est.nombre }}</h5>
+
+          <h5 class="cssRow">{{ egreso.T17Factura }}</h5>
           <br />
-          <div>{{ est.descripcion }}</div>
-          <div>{{ est.active }}</div>
+          <div>{{ egreso.T17Proveedor }}</div>
+          <div>{{ egreso.T17Fecha }}</div>
+          <div>{{ egreso.T17Valor }}</div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
