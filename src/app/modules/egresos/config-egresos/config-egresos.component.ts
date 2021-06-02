@@ -25,6 +25,7 @@ export class ConfigEgresosComponent implements OnInit {
   public dialogRef: any;
   public egresos: any = [];
   public egresoForm: FormGroup;
+  public filter: any = {};
 
   public parametrosContaConfig = [];
 
@@ -36,21 +37,21 @@ export class ConfigEgresosComponent implements OnInit {
 
   ngOnInit() {
     // TODO: PARCHEAR EL VALOR DE LOS PARÁMETROS CON LOS QUE SE TRAEN DE BD (IVA, ICA, RF...)
+
     this.egresoForm = new FormGroup({
-      id: new FormControl(""),
-      proveedores: new FormControl(""),
-      numeroSoporte: new FormControl(0),
-      tipo: new FormControl(""),
-      soporte: new FormControl(""),
-      valor: new FormControl(0),
-      descuento: new FormControl(0),
-      iva: new FormControl(""),
-      fechaDocumento: new FormControl(""),
-      ica: new FormControl(""),
-      total: new FormControl(0),
-      fechaPago: new FormControl(""),
-      rf: new FormControl(""),
-      observaciones: new FormControl(""),
+      T17Factura: new FormControl(""),
+      T17Proveedor: new FormControl(""),
+      T17Soporte: new FormControl(""),
+      T17Banco: new FormControl(""),
+      T17Valor: new FormControl("0"),
+      T17Dctos: new FormControl(0),
+      T17IVA: new FormControl(0),
+      T17Fecha: new FormControl(""),
+      T17ICA: new FormControl(0),
+      T17Total: new FormControl(""),
+      T17FormaPago: new FormControl(""),
+      T17RF: new FormControl(0),
+      T17Observacion: new FormControl(""),
     });
     this.fetchEgresosProgramados();
     this.fetchParamsByGroup("CONTA_CONFIG");
@@ -60,7 +61,7 @@ export class ConfigEgresosComponent implements OnInit {
     // TODO: LLAMADA AL SERVICIO DE ACTUALIZAR
     this._egresosService
       .updateEgresos(this.egresoForm.value)
-      .subscribe((Response) => {
+      .subscribe((response) => {
         this.IsWait = false;
 
         this.egresoForm.reset();
@@ -73,7 +74,9 @@ export class ConfigEgresosComponent implements OnInit {
     //TODO: LLENAR FORMS CON OBJETO ENVIADO
     this.isUpdating = true;
     this.showListado = false;
+    this.egresoForm.reset();
     this.egresoForm.patchValue(input);
+    this.patchParametrosForm();
   }
   eliminar() {
     // TODO: LLAMADA AL SERVICIO DE ELIMINAR
@@ -92,6 +95,18 @@ export class ConfigEgresosComponent implements OnInit {
     this.egresoForm.reset();
   }
 
+  patchParametrosForm() {
+    this.egresoForm.controls["T17IVA"].setValue(
+      this.parametrosContaConfig[0].Valor
+    );
+    this.egresoForm.controls["T17RF"].setValue(
+      this.parametrosContaConfig[1].Valor
+    );
+    this.egresoForm.controls["T17ICA"].setValue(
+      this.parametrosContaConfig[2].Valor
+    );
+  }
+
   guardar() {
     // TODO: LLAMADA AL SERVICIO DE GUARDAR
     this._egresosService
@@ -108,16 +123,27 @@ export class ConfigEgresosComponent implements OnInit {
       .configByParamGroup(nombreParametro)
       .subscribe((response) => {
         this.parametrosContaConfig = response.data.configByParamGroup;
-        console.log(this.parametrosContaConfig);
       });
   }
   onClickAdicionar() {
-    this.egresoForm.reset();
     this.showListado = false;
+    this.patchParametrosForm();
   }
 
-  fetchEgresosProgramados = () => {
-    this._egresosService.getAll().subscribe((res) => {
+  findBy() {
+    if (
+      this.filter.T17Factura ||
+      this.filter.T17Observacion ||
+      this.filter.T17Fecha
+    ) {
+      this.fetchEgresosProgramados(this.filter);
+    } else {
+      this.fetchEgresosProgramados();
+    }
+    this.IsWait = true;
+  }
+  fetchEgresosProgramados = (obj?) => {
+    this._egresosService.getAll(obj && obj).subscribe((res) => {
       this.egresos = res.data.egresos;
     });
   };

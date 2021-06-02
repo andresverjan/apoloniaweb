@@ -3,7 +3,6 @@
   fxLayoutAlign="end center"
   style="margin-right: 10px"
 >
-
   <button
     mat-raised-button
     fxLayout="row"
@@ -17,46 +16,48 @@
     <mat-icon>add_circle_outline</mat-icon>
     Adicion
   </button>
-  
 </mat-card-actions>
-
-
 
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
 <div>
   <mat-card fxFill>
     <mat-card-title fxLayoutAlign="center">
-        <label>BUSCAR</label>
+      <label>BUSCAR</label>
     </mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutAlign="center">
-      
-        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-          <mat-icon matPrefix>search</mat-icon>
-          <mat-form-field fxFlex="25">
-              <input matInput 
-              id="filterbyFactura" 
-              placeholder="Buscar por factura" 
-              [(ngModel)]="filter.T17Factura" 
-              (keyup)="findBy()" />
-          </mat-form-field>
-            <mat-icon matPrefix>search</mat-icon>
-            <mat-form-field fxFlex="25">
-                <input matInput 
-                id="filterbyProveedor" 
-                placeholder="Buscar por Observaciones" 
-                [(ngModel)]="filter.T17Observacion"
-                (keyup)="findBy()" />
-            </mat-form-field>
-           
-            <mat-icon matPrefix>search</mat-icon>
-            <mat-form-field fxFlex="25">
-                <input matInput 
-                id="filterbyValor" 
-                placeholder="Buscar por fecha de Inicio" 
-                [(ngModel)]="filter.T17FechaIni" 
-                (keyup)="findBy()" />
-            </mat-form-field>
-        </div>
+      <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-form-field fxFlex="25">
+          <input
+            matInput
+            id="filterbyFactura"
+            placeholder="Buscar por factura"
+            [(ngModel)]="filter.T17Factura"
+            (keyup)="findBy()"
+          />
+        </mat-form-field>
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-form-field fxFlex="25">
+          <input
+            matInput
+            id="filterbyProveedor"
+            placeholder="Buscar por Observaciones"
+            [(ngModel)]="filter.T17Observacion"
+            (keyup)="findBy()"
+          />
+        </mat-form-field>
+
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-form-field fxFlex="25">
+          <input
+            matInput
+            id="filterbyValor"
+            placeholder="Buscar por fecha de Inicio"
+            [(ngModel)]="filter.T17FechaIni"
+            (keyup)="findBy()"
+          />
+        </mat-form-field>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
@@ -66,14 +67,12 @@
       <mat-card (click)="verDetalle(egreso)" class="dashboard-card">
         <mat-card-content class="dashboard-card-content">
           <mat-icon>attach_money</mat-icon>
-         
+
           <h5 class="cssRow">{{ egreso.T17Factura }}</h5>
           <div>{{ egreso.T17Proveedor }}</div>
           <div>{{ egreso.T17Fecha }}</div>
           <div>{{ egreso.T17Valor }}</div>
           <div>{{ egreso.T17Observacion }}</div>
-
-
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -108,13 +107,22 @@
                 <label>Datos de {{ etiquetaNombreModulo }}</label>
               </mat-card-title>
               <mat-card-content fxLayout="column" fxLayoutAlign="center">
-                <div *ngIf="false">
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field>
                     <input
                       matInput
                       formControlName="T17Factura"
                       id="T17Factura"
-                      placeholder="_"
+                      placeholder="Factura"
+                    />
+                  </mat-form-field>
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Observacion"
+                      id="T17Observacion"
+                      placeholder="Observaciones"
                     />
                   </mat-form-field>
                 </div>
@@ -144,15 +152,6 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
-                      formControlName="T17Nivel1"
-                      id="T17Nivel1"
-                      placeholder="Número de nivel"
-                    />
-                  </mat-form-field>
-                  <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <input
-                      matInput
                       formControlName="T17Fecha"
                       id="T17Fecha"
                       placeholder="Fecha del documento"
@@ -167,7 +166,7 @@
                       formControlName="T17Banco"
                       id="T17Banco"
                       placeholder="Banco"
-                    /> 
+                    />
                   </mat-form-field>
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
@@ -239,15 +238,6 @@
                     />
                   </mat-form-field>
                 </div>
-                <mat-form-field fxFlex>
-                  <mat-icon matPrefix>edit</mat-icon>
-                  <input
-                    matInput
-                    formControlName="T17Observacion"
-                    id="T17Observacion"
-                    placeholder="Observaciones"
-                  />
-                </mat-form-field>
               </mat-card-content>
             </mat-card>
           </form>
@@ -262,7 +252,7 @@
           fxLayoutAlign="center"
           (click)="guardar()"
           fxFlex
-          [disabled]="!egresoForm.valid" 
+          [disabled]="!egresoForm.valid"
           *ngIf="showBtnAdicionar"
         >
           <mat-icon>add_task</mat-icon>
@@ -276,7 +266,8 @@
           fxLayout.xs="column"
           fxLayoutAlign="center"
           fxFlex
-          [disabled]="!egresoForm.valid" *ngIf="showBtnActualizar"
+          [disabled]="!egresoForm.valid"
+          *ngIf="showBtnActualizar"
         >
           <mat-icon>loop</mat-icon>
           Actualizar
