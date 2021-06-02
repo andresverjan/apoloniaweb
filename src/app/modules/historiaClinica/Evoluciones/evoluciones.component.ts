@@ -3,7 +3,7 @@ import { TableService } from "../../core/services/table.service";
 import { ColumnaService } from "../../core/services/columna.service";
 import { TipoCampoService } from "../../tipo-campo/tipo-campo.service";
 import { EvolucionesService } from "./evoluciones.service";
-import { OdontologosService } from "../../core/services/odontologos.service";
+import { PacienteService } from "../../core/services/paciente.service";
 
 @Component({
   selector: "app-evoluciones",
@@ -15,10 +15,12 @@ export class EvolucionesComponent implements OnInit {
   public showListado: boolean = true;
   public showForm: boolean = false;
   public mascaras = [];
-  public etiquetaListado = "Listado de Mascaras";
-  public etiquetaNombreModulo = "Campos";
+  public evolucionesLista: any = [];
 
-  constructor() {}
+  constructor(public _pacienteService: PacienteService, public _evolucionesService: EvolucionesService) {
+    this.fetchEvoluciones();
+    console.log(this.evolucionesLista);
+  }
 
   actionAdicionar() {
     this.showListado = false;
@@ -34,5 +36,12 @@ export class EvolucionesComponent implements OnInit {
     this.showListado = true;
   }
 
-  ngOnInit() {}
+  fetchEvoluciones = () => {
+    this._evolucionesService.getAll().subscribe((res) => {
+      console.log(res.data.getCitasHC)
+      this.evolucionesLista = res.data.getCitasHC;
+    });
+  };
+
+  ngOnInit() { }
 }

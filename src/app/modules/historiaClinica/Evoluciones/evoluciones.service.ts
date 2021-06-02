@@ -15,35 +15,39 @@ export class EvolucionesService {
   }
 
   getAll(objeTosend?: any): Observable<any> {
-    let filtro = "";
     let params = "";
     let ordenamiento = "";
+    let filter = "";
+    //si trae filtro
+    // if (objeTosend) {
+    //   filter = `(filter: {
+    //     Cedula: "${objeTosend.Cedula}",
+    //   })`;
+    // }
 
-    if (objeTosend != null && objeTosend != undefined && objeTosend) {
-      filtro = `filter: {
-         ${Object.keys(objeTosend).map((prop) => {
-           if (
-             typeof objeTosend[prop] === "string" ||
-             objeTosend[prop] instanceof String
-           ) {
-             return `${prop} : "${objeTosend[prop]}"`;
-           } else {
-             return `${prop} : ${objeTosend[prop]}`;
-           }
-         })}
-        }`;
-    }
+    // if (objeTosend != null && objeTosend != undefined && objeTosend) {
+    //   filtro = `filter: {
+    //      ${Object.keys(objeTosend).map((prop) => {
+    //        if (
+    //          typeof objeTosend[prop] === "string" ||
+    //          objeTosend[prop] instanceof String
+    //        ) {
+    //          return `${prop} : "${objeTosend[prop]}"`;
+    //        } else {
+    //          return `${prop} : ${objeTosend[prop]}`;
+    //        }
+    //      })}
+    //     }`;
+    // }
 
-    params = this.toolService.getParams(filtro, ordenamiento);
+    params = this.toolService.getParams(filter, ordenamiento);
 
     let body = {
       query: `{
-        mascaras ${params}{
-          id
-          nombre
-          descripcion
-          active
-          createdBy
+        getCitasHC {
+          Paciente
+          IdOdontologo
+          Fecha
         }
       }
       `,
