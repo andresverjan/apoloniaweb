@@ -40,9 +40,9 @@
         <mat-form-field fxFlex="25">
           <input
             matInput
-            id="filterbyProveedor"
-            placeholder="Buscar por Observaciones"
-            [(ngModel)]="filter.T17Observacion"
+            id="filterbyFechaInicial"
+            placeholder="Buscar por Fecha inicial"
+            [(ngModel)]="filter.T17FechaIni"
             (keyup)="findBy()"
           />
         </mat-form-field>
@@ -51,9 +51,9 @@
         <mat-form-field fxFlex="25">
           <input
             matInput
-            id="filterbyValor"
-            placeholder="Buscar por fecha de Inicio"
-            [(ngModel)]="filter.T17FechaIni"
+            id="filterbyFechaFinal"
+            placeholder="Buscar por fecha final"
+            [(ngModel)]="filter.T17FechaFin"
             (keyup)="findBy()"
           />
         </mat-form-field>
@@ -107,25 +107,29 @@
                 <label>Datos de {{ etiquetaNombreModulo }}</label>
               </mat-card-title>
               <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                  <mat-form-field>
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>note</mat-icon>
                     <input
                       matInput
                       formControlName="T17Factura"
                       id="T17Factura"
-                      placeholder="Factura"
+                      placeholder="Numero de Factura"
                     />
                   </mat-form-field>
+                  
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
-                      formControlName="T17Observacion"
-                      id="T17Observacion"
-                      placeholder="Observaciones"
+                      formControlName="T17Soporte"
+                      id="T17Soporte"
+                      placeholder="Numero de Soporte"
                     />
                   </mat-form-field>
                 </div>
+
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
@@ -133,21 +137,9 @@
                       matInput
                       formControlName="T17Proveedor"
                       id="T17Proveedor"
-                      placeholder="Proveedores"
+                      placeholder="lista de Proveedores"
                     />
                   </mat-form-field>
-                  <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17Soporte"
-                      id="T17Soporte"
-                      placeholder="Soporte"
-                    />
-                  </mat-form-field>
-                </div>
-
-                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
@@ -163,11 +155,12 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
-                      formControlName="T17Banco"
-                      id="T17Banco"
-                      placeholder="Banco"
+                      formControlName="T17FormaPago"
+                      id="T17FormaPago"
+                      placeholder="Forma de Pago"
                     />
                   </mat-form-field>
+                  
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
@@ -212,29 +205,30 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
+                      formControlName="T17RF"
+                      id="T17RF"
+                      placeholder="RF"
+                    />
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                 
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
                       formControlName="T17Total"
                       id="T17Total"
                       placeholder="Total"
                     />
                   </mat-form-field>
-                </div>
-                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
-                      formControlName="T17FormaPago"
-                      id="T17FormaPago"
-                      placeholder="Forma de Pago"
-                    />
-                  </mat-form-field>
-                  <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17RF"
-                      id="T17RF"
-                      placeholder="RF"
+                      formControlName="T17Observacion"
+                      id="T17Observacion"
+                      placeholder="Observaciones"
                     />
                   </mat-form-field>
                 </div>

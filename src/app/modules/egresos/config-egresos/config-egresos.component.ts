@@ -43,7 +43,7 @@ export class ConfigEgresosComponent implements OnInit {
       T17Proveedor: new FormControl(""),
       T17Soporte: new FormControl(""),
       T17Banco: new FormControl(""),
-      T17Valor: new FormControl("0"),
+      T17Valor: new FormControl(0),
       T17Dctos: new FormControl(0),
       T17IVA: new FormControl(0),
       T17Fecha: new FormControl(""),
@@ -59,14 +59,22 @@ export class ConfigEgresosComponent implements OnInit {
 
   actualizar() {
     // TODO: LLAMADA AL SERVICIO DE ACTUALIZAR
+    this.IsWait = true;
     this._egresosService
-      .updateEgresos(this.egresoForm.value)
+      .updateEgreso(this.egresoForm.value)
       .subscribe((response) => {
         this.IsWait = false;
-
-        this.egresoForm.reset();
+        // this.patchParametrosForm();
+        this.egresoForm.controls["T17Valor"].setValue(
+          parseInt(this.egresoForm.controls['T17Valor'].value)
+          );
         Swal.fire("Actualizado", "Egreso actualizado exitosamente", "success");
+        this.egresoForm.reset();
         this.showListado = true;
+        this.showBtnAdicionar = false;
+        this.showBtnActualizar = true;
+        this.showBtnEliminar = true;
+        this.showPanelDatos= false;
       });
   }
 
@@ -74,6 +82,10 @@ export class ConfigEgresosComponent implements OnInit {
     //TODO: LLENAR FORMS CON OBJETO ENVIADO
     this.isUpdating = true;
     this.showListado = false;
+    this.showPanelDatos = true;
+    this.showBtnActualizar = true;
+    this.showBtnAdicionar = false;
+    this.showBtnEliminar = true;
     this.egresoForm.reset();
     this.egresoForm.patchValue(input);
     this.patchParametrosForm();
@@ -83,7 +95,8 @@ export class ConfigEgresosComponent implements OnInit {
     let egreso = this.egresoForm.value;
     let id = egreso.id;
     this.IsWait = true;
-    this._egresosService.deleteEgresos(id).subscribe((response) => {
+    this._egresosService.deleteEgreso(id).subscribe((response) => {
+    this.patchParametrosForm();
       this.showListado = true;
       Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
       this.egresoForm.reset();
@@ -96,6 +109,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   patchParametrosForm() {
+   
     this.egresoForm.controls["T17IVA"].setValue(
       this.parametrosContaConfig[0].Valor
     );
@@ -109,13 +123,16 @@ export class ConfigEgresosComponent implements OnInit {
 
   guardar() {
     // TODO: LLAMADA AL SERVICIO DE GUARDAR
+    this.IsWait = true;
     this._egresosService
-      .createEgresos(this.egresoForm.value)
+      .createEgreso(this.egresoForm.value)
       .subscribe((response) => {
         this.IsWait = false;
-        this.egresoForm.reset();
+        this.patchParametrosForm();
         Swal.fire("Guardado", "Egreso guardado exitosamente", "success");
+        this.egresoForm.reset();
         this.showListado = true;
+        this.showPanelDatos = false;
       });
   }
   fetchParamsByGroup(nombreParametro) {
@@ -126,15 +143,20 @@ export class ConfigEgresosComponent implements OnInit {
       });
   }
   onClickAdicionar() {
+    this.showPanelDatos = true;
     this.showListado = false;
+    this.showBtnActualizar = false;
+    this.showBtnAdicionar = true;
+    this.showBtnEliminar = false;
+
     this.patchParametrosForm();
   }
 
   findBy() {
     if (
       this.filter.T17Factura ||
-      this.filter.T17Observacion ||
-      this.filter.T17Fecha
+      this.filter.T17FechaIni ||
+      this.filter.T17FechaFin
     ) {
       this.fetchEgresosProgramados(this.filter);
     } else {
@@ -143,8 +165,16 @@ export class ConfigEgresosComponent implements OnInit {
     this.IsWait = true;
   }
   fetchEgresosProgramados = (obj?) => {
+    this.IsWait = true;
     this._egresosService.getAll(obj && obj).subscribe((res) => {
       this.egresos = res.data.egresos;
+      this.IsWait = false;
     });
   };
+
+  
+  setDate(value: any, egreso: any) {
+    this.egresoForm.controls[egreso.T17FechaIni].setValue(value);
+  }
+
 }

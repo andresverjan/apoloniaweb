@@ -43,6 +43,8 @@ export class EgresosService {
           T17Factura
           T17Proveedor
           T17Valor
+          T17Observacion
+
         }
       }`,
     };
@@ -51,17 +53,18 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  createEgresos(objeTosend): Observable<any> {
+  createEgreso(objeTosend): Observable<any> {
     let body = {
       query: `
       mutation {
-        createEgreso (egreso: {
+        createEgresos (egreso: {
+          T17Factura: "${objeTosend.T17Factura}",
           T17RF: "${objeTosend.T17RF}",
           T17Fecha: "${objeTosend.T17Fecha}",
           T17Valor: "${objeTosend.T17Valor}",       
-        }) {     
-           T17Fecha
-        }  
+          T17Observacion: "${objeTosend.T17Observacion}",
+
+        })
       }
       `,
     };
@@ -69,18 +72,18 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  updateEgresos(objeTosend): Observable<any> {
+  updateEgreso(objeTosend): Observable<any> {
     let body = {
       query: `
       mutation {
-        updateEgreso (egreso: {
+        updateEgresos (egreso: {
+          T17Factura: "${objeTosend.T17Factura}",
            T17RF: "${objeTosend.T17RF}",
            T17Fecha: "${objeTosend.T17Fecha}",
            T17Valor: "${objeTosend.T17Valor}",
-           
-        }) {     
-           T17Fecha
-        }  
+           T17Observacion: "${objeTosend.T17Observacion}", 
+           T17Nivel1: "${objeTosend.T17Nivel1}", 
+        }) 
       }
       `,
     };
@@ -88,12 +91,12 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  deleteEgresos(id): Observable<any> {
+  deleteEgreso(id): Observable<any> {
     let body = {
       query: `
         mutation {
-          deleteEgreso (egreso: {id: "${id}"}) {
-            id
+          deleteEgresos (egreso: {T17Factura: "${id}"}) {
+            T17Factura
           }
         }
         `,
