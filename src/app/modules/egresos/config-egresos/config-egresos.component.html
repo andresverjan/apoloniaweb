@@ -107,7 +107,6 @@
                 <label>Datos de {{ etiquetaNombreModulo }}</label>
               </mat-card-title>
               <mat-card-content fxLayout="column" fxLayoutAlign="center">
-                
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>note</mat-icon>
@@ -118,7 +117,7 @@
                       placeholder="Numero de Factura"
                     />
                   </mat-form-field>
-                  
+
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
@@ -160,7 +159,7 @@
                       placeholder="Forma de Pago"
                     />
                   </mat-form-field>
-                  
+
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
@@ -188,6 +187,7 @@
                       formControlName="T17ICA"
                       id="T17ICA"
                       placeholder="ICA"
+                      readonly
                     />
                   </mat-form-field>
                 </div>
@@ -199,6 +199,7 @@
                       formControlName="T17IVA"
                       id="T17IVA"
                       placeholder="IVA"
+                      readonly
                     />
                   </mat-form-field>
                   <mat-form-field fxFlex>
@@ -208,11 +209,11 @@
                       formControlName="T17RF"
                       id="T17RF"
                       placeholder="RF"
+                      readonly
                     />
                   </mat-form-field>
                 </div>
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                 
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input

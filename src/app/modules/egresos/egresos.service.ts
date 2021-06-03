@@ -14,21 +14,21 @@ export class EgresosService {
     this.serverUrl = Globals.SERVER;
   }
 
-  getAll(objeTosend?: any): Observable<any> {
+  getAll(egreso?: any): Observable<any> {
     let filtro = "";
     let params = "";
     let ordenamiento = "";
 
-    if (objeTosend != null && objeTosend != undefined && objeTosend) {
+    if (egreso != null && egreso != undefined && egreso) {
       filtro = `filter: {
-         ${Object.keys(objeTosend).map((prop) => {
+         ${Object.keys(egreso).map((prop) => {
            if (
-             typeof objeTosend[prop] === "string" ||
-             objeTosend[prop] instanceof String
+             typeof egreso[prop] === "string" ||
+             egreso[prop] instanceof String
            ) {
-             return `${prop} : "${objeTosend[prop]}"`;
+             return `${prop} : "${egreso[prop]}"`;
            } else {
-             return `${prop} : ${objeTosend[prop]}`;
+             return `${prop} : ${egreso[prop]}`;
            }
          })}
         }`;
@@ -39,12 +39,16 @@ export class EgresosService {
     let body = {
       query: `{
         egresos ${params}{
-          T17Fecha
           T17Factura
-          T17Proveedor
+          T17RF
+          T17Fecha
           T17Valor
+          T17Soporte
+          T17FormaPago
+          T17Total
+          T17Dctos
+          T17Proveedor
           T17Observacion
-
         }
       }`,
     };
@@ -53,17 +57,21 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  createEgreso(objeTosend): Observable<any> {
+  createEgreso(egreso): Observable<any> {
     let body = {
       query: `
       mutation {
         createEgresos (egreso: {
-          T17Factura: "${objeTosend.T17Factura}",
-          T17RF: "${objeTosend.T17RF}",
-          T17Fecha: "${objeTosend.T17Fecha}",
-          T17Valor: "${objeTosend.T17Valor}",       
-          T17Observacion: "${objeTosend.T17Observacion}",
-
+          T17Factura: "${egreso.T17Factura}",
+          T17RF: ${egreso.T17RF},
+          T17Fecha: "${egreso.T17Fecha}",
+          T17Valor: ${egreso.T17Valor},       
+          T17Soporte: "${egreso.T17Soporte}",
+          T17FormaPago: "${egreso.T17FormaPago}",
+          T17Total: ${egreso.T17Total},
+          T17Dctos: ${egreso.T17Dctos},
+          T17Proveedor: "${egreso.T17Proveedor}",
+          T17Observacion: "${egreso.T17Observacion}",
         })
       }
       `,
@@ -72,17 +80,21 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  updateEgreso(objeTosend): Observable<any> {
+  updateEgreso(egreso): Observable<any> {
     let body = {
       query: `
       mutation {
         updateEgresos (egreso: {
-          T17Factura: "${objeTosend.T17Factura}",
-           T17RF: "${objeTosend.T17RF}",
-           T17Fecha: "${objeTosend.T17Fecha}",
-           T17Valor: "${objeTosend.T17Valor}",
-           T17Observacion: "${objeTosend.T17Observacion}", 
-           T17Nivel1: "${objeTosend.T17Nivel1}", 
+          T17Factura: "${egreso.T17Factura}",
+          T17RF: ${egreso.T17RF},
+          T17Fecha: "${egreso.T17Fecha}",
+          T17Valor: ${egreso.T17Valor},       
+          T17Soporte: "${egreso.T17Soporte}",
+          T17FormaPago: "${egreso.T17FormaPago}",
+          T17Total: ${egreso.T17Total},
+          T17Dctos: ${egreso.T17Dctos},
+          T17Proveedor: "${egreso.T17Proveedor}",
+          T17Observacion: "${egreso.T17Observacion}",
         }) 
       }
       `,
@@ -91,13 +103,11 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  deleteEgreso(id): Observable<any> {
+  deleteEgreso(factura): Observable<any> {
     let body = {
       query: `
         mutation {
-          deleteEgresos (egreso: {T17Factura: "${id}"}) {
-            T17Factura
-          }
+          deleteEgresos (egreso: {T17Factura: "${factura}"}) 
         }
         `,
     };
