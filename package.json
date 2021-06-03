@@ -7,7 +7,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o",
-    "start:dev": "ng serve -c=dev --port=3000",
+    "start_dev": "ng serve -c=dev",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
