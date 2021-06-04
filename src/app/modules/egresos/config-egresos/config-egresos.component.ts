@@ -40,7 +40,6 @@ export class ConfigEgresosComponent implements OnInit {
       T17Factura: new FormControl(""),
       T17Proveedor: new FormControl(""),
       T17Soporte: new FormControl(""),
-      T17Banco: new FormControl(""),
       T17Valor: new FormControl(0),
       T17Dctos: new FormControl(0),
       T17IVA: new FormControl(0),
@@ -72,6 +71,24 @@ export class ConfigEgresosComponent implements OnInit {
       this.showPanelDatos = false;
       this.fetchEgresosProgramados();
     });
+  }
+
+  calculateTotal() {
+    let iva = parseFloat(this.egresoForm.controls["T17IVA"].value) / 100;
+    let ica = parseFloat(this.egresoForm.controls["T17ICA"].value) / 100;
+    let retefuente = parseFloat(this.egresoForm.controls["T17RF"].value) / 100;
+    const descuento =
+      parseFloat(this.egresoForm.controls["T17Dctos"].value) / 100;
+    const valorEgreso = parseFloat(this.egresoForm.controls["T17Valor"].value);
+
+    let total = valorEgreso - valorEgreso * descuento;
+    iva = total * iva;
+    ica = total * ica;
+    retefuente = total * retefuente;
+
+    total = total + (iva + ica + retefuente);
+
+    this.egresoForm.controls["T17Total"].setValue(total);
   }
 
   verDetalle(input: any) {
@@ -132,7 +149,6 @@ export class ConfigEgresosComponent implements OnInit {
       parseFloat(this.egresoForm.controls["T17Valor"].value)
     );
 
-    console.log(this.egresoForm.value);
     this._egresosService.createEgreso(this.egresoForm.value).subscribe(() => {
       this.IsWaiting = false;
       Swal.fire("Guardado", "Egreso guardado exitosamente", "success");

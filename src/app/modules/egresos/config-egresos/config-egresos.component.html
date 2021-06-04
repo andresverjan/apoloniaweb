@@ -159,6 +159,7 @@
                     <input
                       matInput
                       formControlName="T17Valor"
+                      (change)="calculateTotal()"
                       id="T17Valor"
                       placeholder="Valor "
                     />
@@ -171,6 +172,7 @@
                       matInput
                       formControlName="T17Dctos"
                       id="T17Dctos"
+                      (change)="calculateTotal()"
                       placeholder="% Descuento"
                     />
                   </mat-form-field>
@@ -215,6 +217,7 @@
                       formControlName="T17Total"
                       id="T17Total"
                       placeholder="Total"
+                      readonly
                     />
                   </mat-form-field>
                   <mat-form-field fxFlex>
