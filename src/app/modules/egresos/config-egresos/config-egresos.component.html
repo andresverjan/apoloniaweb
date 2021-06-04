@@ -19,6 +19,8 @@
 </mat-card-actions>
 
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
+ 
+
 <div>
   <mat-card fxFill>
     <mat-card-title fxLayoutAlign="center">
@@ -27,7 +29,7 @@
     <mat-card-content fxLayout="column" fxLayoutAlign="center">
       <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
         <mat-icon matPrefix>search</mat-icon>
-        <mat-form-field fxFlex="25">
+        <mat-form-field fxFlex="50">
           <input
             matInput
             id="filterbyFactura"
@@ -37,30 +39,22 @@
           />
         </mat-form-field>
         <mat-icon matPrefix>search</mat-icon>
-        <mat-form-field fxFlex="25">
-          <input
-            matInput
-            id="filterbyFechaInicial"
-            placeholder="Buscar por Fecha inicial"
-            [(ngModel)]="filter.T17FechaIni"
-            (keyup)="findBy()"
-          />
-        </mat-form-field>
-
-        <mat-icon matPrefix>search</mat-icon>
-        <mat-form-field fxFlex="25">
-          <input
-            matInput
-            id="filterbyFechaFinal"
-            placeholder="Buscar por fecha final"
-            [(ngModel)]="filter.T17FechaFin"
-            (keyup)="findBy()"
-          />
+        <mat-form-field aspect="fxFill" fxFlex="50">
+          <mat-date-range-input [rangePicker] = "picker">
+            
+            <input  matStartDate [(ngModel)]="filter.T17FechaIni" placeholder="Seleccione una fecha desde">
+            <input  matEndDate  [(ngModel)]="filter.T17FechaFin"  placeholder="Seleccione una fecha hasta">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </div>
     </mat-card-content>
   </mat-card>
 </div>
+<br>
+
+
 <div class="container" *ngIf="showListado" style="overflow: hidden">
   <mat-grid-list cols="5" rowHeight="230px">
     <mat-grid-tile *ngFor="let egreso of egresos" style="overflow-x: hidden">
