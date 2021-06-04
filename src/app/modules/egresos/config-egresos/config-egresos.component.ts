@@ -5,11 +5,39 @@ import Swal from "sweetalert2";
 
 import { EgresosService } from "../egresos.service";
 import { ConfigParametrosService } from "../../core/services/ConfigParametrosService.service";
+import { MatDatepickerInputEvent } from "@angular/material/datepicker";
+import * as moment from "moment";
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from "@angular/material/core";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
 
+const DATE_FORMATS = {
+  parse: {
+    dateInput: ["YYYY-MM-DD"],
+  },
+  display: {
+    dateInput: "YYYY-MM-DD",
+    monthYearLabel: "MMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY",
+  },
+};
 @Component({
   selector: "app-config-egresos",
   templateUrl: "./config-egresos.component.html",
   styleUrls: ["./config-egresos.component.scss"],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
+  ],
 })
 export class ConfigEgresosComponent implements OnInit {
   public IsWaiting: boolean;
@@ -26,7 +54,7 @@ export class ConfigEgresosComponent implements OnInit {
   public egresos: any = [];
   public egresoForm: FormGroup;
   public filter: any = {};
-  public egreso:any;
+  public egreso: any;
 
   public parametrosContaConfig = [];
 
@@ -135,7 +163,6 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   guardar() {
-    // TODO: LLAMADA AL SERVICIO DE GUARDAR
     this.IsWaiting = true;
     this.egresoForm.controls["T17ICA"].setValue(
       parseFloat(this.egresoForm.controls["T17ICA"].value)
@@ -150,7 +177,9 @@ export class ConfigEgresosComponent implements OnInit {
       parseFloat(this.egresoForm.controls["T17Valor"].value)
     );
 
-    this._egresosService.createEgreso(this.egresoForm.value).subscribe(() => {
+    const egreso = this.egresoForm.value;
+
+    this._egresosService.createEgreso(egreso).subscribe(() => {
       this.IsWaiting = false;
       Swal.fire("Guardado", "Egreso guardado exitosamente", "success");
       this.egresoForm.reset();
@@ -192,15 +221,15 @@ export class ConfigEgresosComponent implements OnInit {
   }
   fetchEgresosProgramados = (obj?) => {
     this.IsWaiting = true;
-    this._egresosService.getAll(obj && obj).subscribe((res) => {
+    this._egresosService.getAll(obj ? obj : null).subscribe((res) => {
       this.egresos = res.data.egresos;
       this.IsWaiting = false;
     });
   };
- 
-  setDate(value: any, item: any) {
-    this.egresoForm.controls[item.T17FechaIni].setValue(value);
-    this.egresoForm.controls[item.T17FechaFin].setValue(value);
 
+  onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
+    const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
+    this.filter["T17FechaIni"] = dateValue;
+    // this.findBy()
   }
 }
