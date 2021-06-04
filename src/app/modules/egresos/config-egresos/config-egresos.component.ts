@@ -26,6 +26,7 @@ export class ConfigEgresosComponent implements OnInit {
   public egresos: any = [];
   public egresoForm: FormGroup;
   public filter: any = {};
+  public egreso:any;
 
   public parametrosContaConfig = [];
 
@@ -196,8 +197,10 @@ export class ConfigEgresosComponent implements OnInit {
       this.IsWaiting = false;
     });
   };
+ 
+  setDate(value: any, item: any) {
+    this.egresoForm.controls[item.T17FechaIni].setValue(value);
+    this.egresoForm.controls[item.T17FechaFin].setValue(value);
 
-  setDate(value: any, egreso: any) {
-    this.egresoForm.controls[egreso.T17FechaIni].setValue(value);
   }
 }
