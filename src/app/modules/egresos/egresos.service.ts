@@ -19,7 +19,7 @@ export class EgresosService {
     let params = "";
     let ordenamiento = "";
 
-    if (egreso != null && egreso != undefined && egreso) {
+    if (egreso) {
       filtro = `filter: {
          ${Object.keys(egreso).map((prop) => {
            if (
@@ -36,6 +36,7 @@ export class EgresosService {
 
     params = this.toolService.getParams(filtro, ordenamiento);
 
+    console.log(egreso);
     let body = {
       query: `{
         egresos ${params}{
@@ -53,6 +54,7 @@ export class EgresosService {
       }`,
     };
 
+    console.log(body.query);
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }

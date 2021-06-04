@@ -37,21 +37,35 @@
             (keyup)="findBy()"
           />
         </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex="100">
+        <mat-form-field fxFlex="100">
           <mat-label>Buscar por fecha de inicio</mat-label>
-
           <input
             matInput
-            [matDatepicker]="picker"
+            [matDatepicker]="picker1"
             (dateChange)="onDateChangeInicial($event)"
             [value]="filter['T17FechaIni']"
+            readonly
           />
-
           <mat-datepicker-toggle
             matSuffix
-            [for]="picker"
+            [for]="picker1"
           ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex="100">
+          <mat-label>Buscar por fecha de inicio</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker2"
+            (dateChange)="onDateChangeFinal($event)"
+            [value]="filter['T17FechaFin']"
+            readonly
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
       </div>
     </mat-card-content>
