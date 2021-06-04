@@ -1,18 +1,15 @@
 import { Injectable } from "@angular/core";
-import * as Globals from "../core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "../core/services/tools.service";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class HistoriaClinicaService {
-  serverUrl: string;
 
-  constructor(private http: HttpClient, private toolService: ToolsService) {
-    this.serverUrl = Globals.SERVER;
-  }
+  constructor(private http: HttpClient, private toolService: ToolsService) {}
 
   getAll(objeTosend?: any): Observable<any> {
     let filtro = "";
@@ -50,6 +47,6 @@ export class HistoriaClinicaService {
     };
 
     let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 }

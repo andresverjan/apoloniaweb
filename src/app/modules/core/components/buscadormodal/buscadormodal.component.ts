@@ -62,13 +62,15 @@ export class BuscadormodalComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
         let propiedades = this.resultInputText;
         let resultString = [];
-        propiedades.forEach((propiedad) => {
-          if (result.hasOwnProperty(propiedad)) {
-            resultString.push(result[propiedad]);
-          }
-        });
-        this.itemBuscar = resultString.join(" - ");
-        this.selected.emit(result);
+        if (result != undefined) {
+          propiedades.forEach((propiedad) => {
+            if (result.hasOwnProperty(propiedad)) {
+              resultString.push(result[propiedad]);
+            }
+          });
+          this.itemBuscar = resultString.join(" - ");
+          this.selected.emit(result);
+        }
       });
     }
   }

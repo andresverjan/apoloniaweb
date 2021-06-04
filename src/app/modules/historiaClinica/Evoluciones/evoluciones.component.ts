@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { TableService } from "../../core/services/table.service";
 import { ColumnaService } from "../../core/services/columna.service";
 import { TipoCampoService } from "../../tipo-campo/tipo-campo.service";
@@ -10,16 +10,21 @@ import { PacienteService } from "../../core/services/paciente.service";
   templateUrl: "./evoluciones.component.html",
   styleUrls: ["./evoluciones.component.scss"],
 })
-export class EvolucionesComponent implements OnInit {
+export class EvolucionesComponent implements OnChanges {//OnInit,
   public IsWaiting: boolean;
   public showListado: boolean = true;
   public showForm: boolean = false;
   public mascaras = [];
   public evolucionesLista: any = [];
 
-  constructor(public _pacienteService: PacienteService, public _evolucionesService: EvolucionesService) {
-    this.fetchEvoluciones();
-    console.log(this.evolucionesLista);
+  @Input() Cedula: string;
+
+  constructor(public _pacienteService: PacienteService,
+              public _evolucionesService: EvolucionesService) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fetchEvoluciones(this.Cedula);
   }
 
   actionAdicionar() {
@@ -36,12 +41,15 @@ export class EvolucionesComponent implements OnInit {
     this.showListado = true;
   }
 
-  fetchEvoluciones = () => {
-    this._evolucionesService.getAll().subscribe((res) => {
+  fetchEvoluciones = (obj: any) => {
+    console.log("****NG***PACIENTE*******", obj)
+    this._evolucionesService.getAll(obj).subscribe((res) => {
       console.log(res.data.getCitasHC)
       this.evolucionesLista = res.data.getCitasHC;
     });
   };
 
-  ngOnInit() { }
+  /*ngOnInit() {
+    this.fetchEvoluciones(this.Cedula);
+  }*/
 }
