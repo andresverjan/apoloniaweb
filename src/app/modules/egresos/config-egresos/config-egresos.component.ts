@@ -121,7 +121,6 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   verDetalle(input: any) {
-    console.log(input);
     this.isUpdating = true;
     this.showListado = false;
     this.showPanelDatos = true;
@@ -208,14 +207,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   findBy() {
-    console.log(
-      (this.filter["T17Factura"] != undefined &&
-        this.filter["T17Factura"] != null) ||
-        (this.filter["T17FechaIni"] != undefined &&
-          this.filter["T17FechaIni"] != null &&
-          this.filter["T17FechaFin"] != undefined &&
-          this.filter["T17FechaFin"] != null)
-    );
+    // verifica que las propiedades existan para poder filtrar
     if (
       (this.filter["T17Factura"] != undefined &&
         this.filter["T17Factura"] != null) ||
@@ -224,10 +216,8 @@ export class ConfigEgresosComponent implements OnInit {
         this.filter["T17FechaFin"] != undefined &&
         this.filter["T17FechaFin"] != null)
     ) {
-      console.log("llamó con");
       this.fetchEgresosProgramados(this.filter);
     } else {
-      console.log("llamó sin");
       this.fetchEgresosProgramados();
     }
     this.IsWaiting = true;

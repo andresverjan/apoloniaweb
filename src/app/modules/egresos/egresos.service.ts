@@ -36,7 +36,6 @@ export class EgresosService {
 
     params = this.toolService.getParams(filtro, ordenamiento);
 
-    console.log(egreso);
     let body = {
       query: `{
         egresos ${params}{
@@ -54,7 +53,6 @@ export class EgresosService {
       }`,
     };
 
-    console.log(body.query);
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
