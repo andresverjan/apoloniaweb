@@ -101,7 +101,7 @@ actualizar(item){
   }
 
   oneSelection(e){
-    console.log(e);
+
 
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>,) {

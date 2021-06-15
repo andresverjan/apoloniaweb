@@ -74,6 +74,9 @@ import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/rec
 import { LaboratoriosComponent } from "../historiaClinica/Evoluciones/Laboratorios/laboratorios.component";
 import { MultilistObservacionesComponent } from "./components/multilist-observaciones/multilist-observaciones.component";
 import { EventosAdversosComponent } from "../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component";
+import { EgresosComponent } from "../egresos/egresos.component";
+import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egresos-programados.component";
+import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -128,7 +131,10 @@ FullCalendarModule.registerPlugins([
     RemisionComponent,
     LaboratoriosComponent,
     MultilistObservacionesComponent,
-    EventosAdversosComponent
+    EventosAdversosComponent,
+    EgresosComponent,
+    EgresosProgramadosComponent,
+    ConfigEgresosComponent,
   ],
 
   imports: [
