@@ -32,11 +32,11 @@
               Nombres: 'Nombre',
               Apellidos: 'Apellido'
             }"
-            [resultInputText]="['Apellidos1', 'Cedula']"
+            [resultInputText]="['Apellidos', 'Cedula']"
             [service]="_pacienteService"
-            tituloBusqueda=" Paciente"
+            tituloBusqueda="Paciente"
             [defaultObjValue]="paciente"
-            fxFill
+
           ></app-buscadormodal>
           <div *ngIf="IsWaiting">
             <mat-tab-group>
@@ -44,7 +44,7 @@
                 <app-datosPaciente></app-datosPaciente>
               </mat-tab>
               <mat-tab label="Evoluciones">
-                <app-evoluciones></app-evoluciones>
+                <app-evoluciones [Cedula]=Cedula></app-evoluciones>
               </mat-tab>
               <mat-tab label="Anamnesis"> Anamnesis </mat-tab>
               <mat-tab label="Examen Fisico"> Examen Fisico </mat-tab>
