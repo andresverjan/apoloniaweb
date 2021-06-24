@@ -13,3 +13,4 @@ src/app/modules/core/services/dist
 yarn.lock
 yarn-error.lock
 package-lock.json 
+.vscode
