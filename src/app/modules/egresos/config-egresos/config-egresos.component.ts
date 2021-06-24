@@ -13,6 +13,7 @@ import {
   MAT_DATE_LOCALE,
 } from "@angular/material/core";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { PageEvent } from "@angular/material/paginator";
 
 const DATE_FORMATS = {
   parse: {
@@ -55,6 +56,11 @@ export class ConfigEgresosComponent implements OnInit {
   public egresoForm: FormGroup;
   public filter: any = {};
   public egreso: any;
+  public totalRegistros = 0;
+  public pageSize = 10;
+  public pageSizeOptions = [5, 10, 20, 30];
+  public pageNumber: number = 1;
+  public queryOptions = {};
 
   public parametrosContaConfig = [];
 
@@ -64,6 +70,11 @@ export class ConfigEgresosComponent implements OnInit {
     public configParametros: ConfigParametrosService
   ) {}
 
+  handlePageChange(e: PageEvent) {
+    this.pageNumber = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+    this.findBy();
+  }
   ngOnInit() {
     this.egresoForm = new FormGroup({
       T17Factura: new FormControl(""),
@@ -79,7 +90,7 @@ export class ConfigEgresosComponent implements OnInit {
       T17RF: new FormControl(0),
       T17Observacion: new FormControl(""),
     });
-    this.fetchEgresosProgramados();
+    this.findBy();
     this.fetchParamsByGroup("CONTA_CONFIG");
   }
 
@@ -207,25 +218,19 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   findBy() {
-    // verifica que las propiedades existan para poder filtrar
-    if (
-      (this.filter["T17Factura"] != undefined &&
-        this.filter["T17Factura"] != null) ||
-      (this.filter["T17FechaIni"] != undefined &&
-        this.filter["T17FechaIni"] != null &&
-        this.filter["T17FechaFin"] != undefined &&
-        this.filter["T17FechaFin"] != null)
-    ) {
-      this.fetchEgresosProgramados(this.filter);
-    } else {
-      this.fetchEgresosProgramados();
-    }
+    this.queryOptions = {
+      filter: this.filter,
+      pagina: this.pageNumber,
+      limite: this.pageSize,
+    };
+    this.fetchEgresosProgramados(this.queryOptions);
     this.IsWaiting = true;
   }
   fetchEgresosProgramados = (obj?) => {
     this.IsWaiting = true;
     this._egresosService.getAll(obj ? obj : null).subscribe((res) => {
       this.egresos = res.data.egresos;
+      this.totalRegistros = this.egresos.length;
       this.IsWaiting = false;
     });
   };
