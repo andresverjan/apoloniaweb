@@ -15,23 +15,39 @@ export class EgresosService {
   }
 
   getAll(egreso?: any): Observable<any> {
-    let filtro = "";
     let params = "";
     let ordenamiento = "";
+    let pagination = `
+    pagination: {
+      pagina: ${egreso.pagina}
+      limite: ${egreso.limite}
+    }`;
+    let filtro = `${pagination}, \n`;
 
-    if (egreso) {
-      filtro = `filter: {
-         ${Object.keys(egreso).map((prop) => {
+    // verifica que las propiedades existan para poder filtrar
+    if (
+      (egreso.filter["T17Factura"] != undefined &&
+        egreso.filter["T17Factura"] != null) ||
+      (egreso.filter["T17FechaIni"] != undefined &&
+        egreso.filter["T17FechaIni"] != null &&
+        egreso.filter["T17FechaFin"] != undefined &&
+        egreso.filter["T17FechaFin"] != null)
+    ) {
+      filtro =
+        filtro +
+        `filter: {
+         ${Object.keys(egreso.filter).map((prop) => {
            if (
-             typeof egreso[prop] === "string" ||
-             egreso[prop] instanceof String
+             typeof egreso.filter[prop] === "string" ||
+             egreso.filter[prop] instanceof String
            ) {
-             return `${prop} : "${egreso[prop]}"`;
+             return `${prop} : "${egreso.filter[prop]}"`;
            } else {
-             return `${prop} : ${egreso[prop]}`;
+             return `${prop} : ${egreso.filter[prop]}`;
            }
          })}
-        }`;
+        },
+        `;
     }
 
     params = this.toolService.getParams(filtro, ordenamiento);
