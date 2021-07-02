@@ -55,16 +55,19 @@ export class EgresosService {
     let body = {
       query: `{
         egresos ${params}{
-          T17Factura
-          T17RF
-          T17Fecha
-          T17Valor
-          T17Soporte
-          T17FormaPago
-          T17Total
-          T17Dctos
-          T17Proveedor
-          T17Observacion
+          egresos {
+            T17Factura
+            T17RF
+            T17Fecha
+            T17Valor
+            T17Soporte
+            T17FormaPago
+            T17Total
+            T17Dctos
+            T17Proveedor
+            T17Observacion
+          }
+          totalRegistros
         }
       }`,
     };

@@ -229,8 +229,9 @@ export class ConfigEgresosComponent implements OnInit {
   fetchEgresosProgramados = (obj?) => {
     this.IsWaiting = true;
     this._egresosService.getAll(obj ? obj : null).subscribe((res) => {
-      this.egresos = res.data.egresos;
-      this.totalRegistros = this.egresos.length;
+      const { egresos, totalRegistros } = res.data.egresos;
+      this.egresos = egresos;
+      this.totalRegistros = totalRegistros;
       this.IsWaiting = false;
     });
   };

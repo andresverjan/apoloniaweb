@@ -18,8 +18,6 @@
   </button>
 </mat-card-actions>
 
-<mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
-
 <div>
   <mat-card fxFill>
     <mat-card-title fxLayoutAlign="center">
@@ -72,6 +70,8 @@
   </mat-card>
 </div>
 <br />
+
+<mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
 
 <mat-paginator
   [length]="totalRegistros"
