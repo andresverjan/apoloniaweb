@@ -81,10 +81,12 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
+                      matTooltip="Presione enter para guardar el valor"
+                      matTooltipPosition="right"
                       formControlName="T17Valor"
-                      onkeypress="calculateTotal()"
+                      (change)="calculateTotal()"
                       id="T17Valor"
-                      placeholder="Valor "
+                      placeholder="Valor"
                     />
                   </mat-form-field>
                 </div>
@@ -94,8 +96,10 @@
                     <input
                       matInput
                       formControlName="T17Dctos"
+                      matTooltip="Presione enter para guardar el valor"
+                      matTooltipPosition="right"
                       id="T17Dctos"
-                      onkeypress="calculateTotal()"
+                      (change)="calculateTotal()"
                       placeholder="% Descuento"
                     />
                   </mat-form-field>
@@ -165,34 +169,13 @@
           fxLayout="row"
           fxLayout.xs="column"
           fxLayoutAlign="center"
+          (click)="guardar()"
           fxFlex
           [disabled]="!egresosProgramadosForm.valid"
         >
           <mat-icon>add_task</mat-icon>
           Adicionar
         </button>
-        <!-- 
-        <button
-          mat-raised-button
-          fxLayout="row"
-          fxLayout.xs="column"
-          fxLayoutAlign="center"
-          fxFlex
-        >
-          <mat-icon>delete</mat-icon>
-          Eliminar
-        </button>
-        <button
-          mat-raised-button
-          color="warn"
-          fxLayout="row"
-          fxLayout.xs="column"
-          fxLayoutAlign="center"
-          fxFlex
-        >
-          <mat-icon>cancel</mat-icon>
-          Cancelar
-        </button> -->
       </mat-card-actions>
     </mat-card>
   </mat-card-content>
