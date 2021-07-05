@@ -17,8 +17,6 @@ export class EsterilizacionComponent implements OnInit {
   public showForm: boolean = false;
   public dialogRef: any;
   public esterilizacionArreglo: any = [];
-  // public permisos: Permiso[] = [];
-  // public permisor: Permiso[] = [];
 
   mockedItems: SelItem[] = [
     { id: "id1", name: "KANVAS" },
@@ -30,8 +28,8 @@ export class EsterilizacionComponent implements OnInit {
     { id: "id7", name: "PRAGA" },
   ];
 
-  esterilizacion: SelItem[] = this.mockedItems; // input
-  esterilizacions: SelItem[] = [{ id: "id2", name: "BYRENA" }]; // input/output
+  esterilizacion: SelItem[] = this.mockedItems;
+  esterilizacions: SelItem[] = [{ id: "id2", name: "BYRENA" }];
   public etiquetaNombreModulo = "Campos";
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 

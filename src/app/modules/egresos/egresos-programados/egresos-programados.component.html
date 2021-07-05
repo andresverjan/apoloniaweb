@@ -1,1 +1,199 @@
-<p>egresos programados works!</p>
+<mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
+
+<div class="container" style="overflow: hidden">
+  <mat-card-content class="window-dashboard-card-content contentprincipal">
+    <mat-toolbar color="primary">
+      <mat-icon matPrefix>account_balance</mat-icon>
+      <label>Configuración de Egresos - [Adicionar - Actualizar]</label>
+      <span class="example-spacer"></span>
+    </mat-toolbar>
+
+    <mat-card-header>
+      <mat-card-title> </mat-card-title>
+    </mat-card-header>
+    <mat-card class="cardcontent">
+      <mat-card-content fxLayout="column" fxLayoutAlign="center">
+        <div fxLayout="column" fxLayoutAlign="space-between " fxFlex="100">
+          <form
+            [formGroup]="egresosProgramadosForm"
+            autocomplete="off"
+            novalidate
+          >
+            <mat-card class="cardcontent">
+              <mat-card-title fxLayoutAlign="center">
+                <label>Datos de {{ etiquetaNombreModulo }}</label>
+              </mat-card-title>
+              <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>note</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Factura"
+                      id="T17Factura"
+                      placeholder="Numero de Factura"
+                    />
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Soporte"
+                      id="T17Soporte"
+                      placeholder="Numero de Soporte"
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Proveedor"
+                      id="T17Proveedor"
+                      placeholder="lista de Proveedores"
+                    />
+                  </mat-form-field>
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Fecha"
+                      id="T17Fecha"
+                      placeholder="Fecha del documento"
+                    />
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17FormaPago"
+                      id="T17FormaPago"
+                      placeholder="Forma de Pago"
+                    />
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Valor"
+                      onkeypress="calculateTotal()"
+                      id="T17Valor"
+                      placeholder="Valor "
+                    />
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Dctos"
+                      id="T17Dctos"
+                      onkeypress="calculateTotal()"
+                      placeholder="% Descuento"
+                    />
+                  </mat-form-field>
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17ICA"
+                      id="T17ICA"
+                      placeholder="ICA"
+                      readonly
+                    />
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17IVA"
+                      id="T17IVA"
+                      placeholder="IVA"
+                      readonly
+                    />
+                  </mat-form-field>
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17RF"
+                      id="T17RF"
+                      placeholder="RF"
+                      readonly
+                    />
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Total"
+                      id="T17Total"
+                      placeholder="Total"
+                      readonly
+                    />
+                  </mat-form-field>
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input
+                      matInput
+                      formControlName="T17Observacion"
+                      id="T17Observacion"
+                      placeholder="Observaciones"
+                    />
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </form>
+        </div>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-raised-button
+          color="primary"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex
+          [disabled]="!egresosProgramadosForm.valid"
+        >
+          <mat-icon>add_task</mat-icon>
+          Adicionar
+        </button>
+        <!-- 
+        <button
+          mat-raised-button
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex
+        >
+          <mat-icon>delete</mat-icon>
+          Eliminar
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex
+        >
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button> -->
+      </mat-card-actions>
+    </mat-card>
+  </mat-card-content>
+</div>

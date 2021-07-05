@@ -7,16 +7,6 @@ const routes: Routes = [
   { path: "login", loadChildren: "./modules/core/core.module#CoreModule" },
 ];
 
-//export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
 export const routing: ModuleWithProviders<Route> = RouterModule.forRoot(routes);
-
-/**
- * @NgModule({
-  imports: [RouterModule.forRoot(routes,
-    { enableTracing: true } // <-- debugging purposes only
-    )],
-  exports: [RouterModule]
-})
- */
 
 export class AppRoutingModule {}

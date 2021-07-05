@@ -10,6 +10,8 @@ export class EgresosProgramadosComponent implements OnInit {
   public IsWaiting: boolean;
   public showListado: boolean = true;
   public egresosProgramadosForm: FormGroup;
+  public etiquetaNombreModulo = "Egresos Programados";
+  public etiquetaListado = "Listado de Egresos";
 
   constructor() {}
 

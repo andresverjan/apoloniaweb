@@ -26,7 +26,6 @@ export function createEventId() {
 
 @Component({
   selector: "app-scheduler",
-  //  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ["./scheduler.component.scss"],
   templateUrl: "./scheduler.component.html",
 })
@@ -54,7 +53,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
     initialView: "timeGridWeek",
 
     editable: false,
-    allDaySlot:false,
+    allDaySlot: false,
     droppable: false,
     navLinks: true,
     selectOverlap: false,
@@ -63,9 +62,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
     handleWindowResize: true,
     selectMirror: true,
     dayMaxEvents: true,
-    // select: this.handleDateSelect.bind(this),
-    // eventClick: this.handleEventClick.bind(this),
-    // eventsSet: this.handleEvents.bind(this),
+
     locale: esLocale,
     dayMaxEventRows: true,
     expandRows: true,
@@ -86,9 +83,9 @@ export class SchedulerComponent implements OnInit, OnChanges {
       },
     },
     eventConstraint: {
-      start: moment().format('YYYY-MM-DD'),
-      end: '2100-01-01' // hard coded goodness unfortunately
-  },
+      start: moment().format("YYYY-MM-DD"),
+      end: "2100-01-01",
+    },
   };
 
   currentEvents: EventApi[] = [];
