@@ -14,36 +14,24 @@ export class EsterilizacionService {
     this.serverUrl = Globals.SERVER;
   }
 
-  getAll(): Observable<any> {
-    // let filtro = "";
-    // let params = "";
-    // let ordenamiento = "";
-
-    // if (objeTosend != null && objeTosend != undefined && objeTosend) {
-    //   filtro = `filter: {
-    //      ${Object.keys(objeTosend).map((prop) => {
-    //        if (
-    //          typeof objeTosend[prop] === "string" ||
-    //          objeTosend[prop] instanceof String
-    //        ) {
-    //          return `${prop} : "${objeTosend[prop]}"`;
-    //        } else {
-    //          return `${prop} : ${objeTosend[prop]}`;
-    //        }
-    //      })}
-    //     }`;
-    // }
-
-    // params = this.toolService.getParams(filtro, ordenamiento);
+  getAll(objeTosend?: any): Observable<any> {
+    let params = "";
+    let ordenamiento = "";
+    let filter = "";
+    //si trae filtro
+    if (objeTosend) {
+      filter = `(filter: {
+        CedulaPaciente: "${objeTosend}"
+      })`;
+    }
+    console.log("****CedulaPaciente*******", objeTosend + "***FILTER***" + filter);
+    params = this.toolService.getParams(filter, ordenamiento);
 
     let body = {
       query: `{
-        esterilizaciones {
-          T27Fecha
-          T27Campo9
-          T27Campo24
-          T27Auditoria
+        esterilizaciones ${filter}{
           T27Consecutivo
+          T27Campo9
         }
       }
       `,

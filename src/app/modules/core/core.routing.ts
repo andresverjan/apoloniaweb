@@ -17,6 +17,7 @@ import { GenericComponent } from "../generic/generic.component";
 import { AgendaComponent } from "../agenda/agenda.component";
 import { CitasComponent } from "../citas/citas.component";
 import { HistoriaClinicaComponent } from "../historiaClinica/historiaClinica.component";
+import { EsterilizacionesComponent } from "../esterilizaciones/esterilizaciones.component";
 
 export const routes: Routes = [
   {
@@ -92,11 +93,15 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
       },
       {
+        path: "esterilizacion",
+        component: EsterilizacionesComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
         path: "historia-clinica",
         component: HistoriaClinicaComponent,
         canActivate: [AuthGuardService],
       },
-
       { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
     ],
   },

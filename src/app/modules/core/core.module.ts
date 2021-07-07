@@ -74,6 +74,7 @@ import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/rec
 import { LaboratoriosComponent } from "../historiaClinica/Evoluciones/Laboratorios/laboratorios.component";
 import { MultilistObservacionesComponent } from "./components/multilist-observaciones/multilist-observaciones.component";
 import { EventosAdversosComponent } from "../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component";
+import { EsterilizacionesComponent } from '../esterilizaciones/esterilizaciones.component';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -128,7 +129,8 @@ FullCalendarModule.registerPlugins([
     RemisionComponent,
     LaboratoriosComponent,
     MultilistObservacionesComponent,
-    EventosAdversosComponent
+    EventosAdversosComponent,
+    EsterilizacionesComponent
   ],
 
   imports: [

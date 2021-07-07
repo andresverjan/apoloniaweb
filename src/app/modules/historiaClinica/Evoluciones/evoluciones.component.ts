@@ -19,7 +19,7 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
 
   @Input() Cedula: string;
 
-  constructor(public _pacienteService: PacienteService,
+  constructor(//public _pacienteService: PacienteService,
               public _evolucionesService: EvolucionesService) {
   }
 

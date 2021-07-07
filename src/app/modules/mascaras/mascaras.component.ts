@@ -17,11 +17,12 @@ export class MascarasComponent implements OnInit {
     { id: 10, name: "Proveedores" },
     { id: 11, name: "Empleados" },
     { id: 12, name: "Rol Permiso" },
+    { id: 44, name: "Esterilizacion" },
     { id: 37, name: "Especialistas" },
     { id: 38, name: "Configuración" },
     { id: 39, name: "Pacientes" },
     { id: 40, name: "Citas" },
-    { id: 41, name: "Historia Clinica" },
+    { id: 41, name: "Historia Clinica" }
   ];
   SEL2 = [
     { id: 1, name: "Aplicaciones" },

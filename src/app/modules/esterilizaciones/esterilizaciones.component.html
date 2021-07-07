@@ -1,0 +1,178 @@
+<mat-card-actions
+  fxLayout="row"
+  fxLayoutAlign="end center"
+  style="margin-right: 10px"
+>
+  <button
+    mat-raised-button
+    (click)="adicionar()"
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="center"
+    fxFlex="22"
+  >
+    <mat-icon>add_circle_outline</mat-icon>
+    Adicion
+  </button>
+</mat-card-actions>
+
+<mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
+
+<div class="container" style="overflow: hidden">
+  <mat-card-content
+    class="window-dashboard-card-content contentprincipal"
+    *ngIf="showForm"
+  >
+    <!-- componente de busqueda -->
+    <div>
+      <mat-card class="cardcontent">
+        <mat-card-title fxLayoutAlign="center">
+          <label>Datos de {{ etiquetaNombreModulo }}</label>
+        </mat-card-title>
+        <mat-card [formGroup]="esterilForm" fxFill>
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre Aplicación</mat-label>
+              <mat-icon matPrefix>table_chart</mat-icon>
+              <input
+                matInput
+                id="usuario"
+                formControlName="usuario"
+                placeholder="usuario"
+              />
+            </mat-form-field>
+            <!--app-buscadormodal
+              [filters]="['TABLE_NAME']"
+              *ngIf="!IsWaiting"
+              (selected)="onTableSelected($event)"
+              [columnas]="{ TABLE_NAME: 'Nombre Tabla' }"
+              [resultInputText]="['TABLE_NAME']"
+              [service]="_tableService"
+              tituloBusqueda="Tablas"
+              [defaultObjValue]="tabla"
+              [readonly]="showBtnActualizar"
+            ></app-buscadormodal>
+
+            <app-buscadormodalicon--
+              *ngIf="!IsWaiting"
+              (selected)="onIconoSelected($event)"
+              [columnas]="{ nombre: 'Nombre Icono' }"
+              [resultInputText]="['nombre']"
+              [service]="_iconoService"
+              tituloBusqueda="Icono"
+              [defaultObjValue]="icono"
+            ></app-buscadormodalicon-->
+          </mat-card-content>
+        </mat-card>
+      </mat-card>
+    </div>
+
+    <!--actions -->
+    <mat-card class="cardcontent">
+      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-raised-button
+          (click)="aceptar()"
+          color="primary"
+          fxLayout="row"
+          fxLayout.xs="column"
+          *ngIf="!showBtnActualizar"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
+          <mat-icon>person_add</mat-icon>
+          Aceptar
+        </button>
+        <button
+          mat-raised-button
+          (click)="actionActualizar()"
+          color="primary"
+          fxLayout="row"
+          fxLayout.xs="column"
+          *ngIf="showBtnActualizar"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
+          <mat-icon>person_add</mat-icon>
+          Actualizar
+        </button>
+        <button
+          mat-raised-button
+          fxLayout="row"
+          color="warn"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="80"
+          (click)="eliminar()"
+          *ngIf="showBtnEliminar"
+        >
+          <mat-icon>more_vert</mat-icon>
+          Eliminar
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="cancelar()"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="center"
+          fxFlex="80"
+        >
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-card-content>
+
+  <mat-card-content
+    class="window-dashboard-card-content"
+    *ngIf="showListado"
+    style="overflow-block: hidden"
+  >
+    <mat-toolbar color="primary">
+      <mat-icon matPrefix>web</mat-icon>
+      <span>{{ etiquetaListado }}</span>
+      <span class="example-spacer"></span>
+
+      <mat-icon>info</mat-icon>
+    </mat-toolbar>
+
+    <mat-card fxFill>
+      <mat-card-title fxLayoutAlign="center">
+        <label>Buscar por Esterilización</label>
+      </mat-card-title>
+      <mat-card-content fxLayout="column" fxLayoutAlign="center">
+        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+          <mat-icon matPrefix>search</mat-icon>
+          <mat-form-field fxFlex="100">
+            <input
+              matInput
+              id="filterbyNombre"
+              placeholder="Nombre"
+              [(ngModel)]="filter.T27Campo9"
+              (keyup)="findBy()"
+            />
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-grid-list *ngIf="showContent" cols="5" rowHeight="230px">
+      <mat-grid-tile
+        *ngFor="let app of sterilizations"
+        style="overflow-x: hidden"
+      >
+        <mat-card (click)="actualizar(app)" class="dashboard-card">
+          <mat-card-content class="dashboard-card-content">
+            <mat-icon>web</mat-icon>
+            <h5 class="cssRow">{{ app.T27Campo9 }}</h5>
+            <br />
+            <div>{{ app.T27Fecha }}</div>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</div>
+
