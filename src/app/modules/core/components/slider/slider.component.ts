@@ -1,15 +1,21 @@
-import { coerceNumberProperty } from '@angular/cdk/coercion';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
-import { MatSliderChange } from '@angular/material/slider';
+import { coerceNumberProperty } from "@angular/cdk/coercion";
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
+import { ControlValueAccessor } from "@angular/forms";
+import { MatSliderChange } from "@angular/material/slider";
 
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss']
+  selector: "app-slider",
+  templateUrl: "./slider.component.html",
+  styleUrls: ["./slider.component.scss"],
 })
 export class SliderComponent implements ControlValueAccessor {
-
   private onChange = (value: any) => {};
 
   @Input() campo: any;
@@ -29,8 +35,8 @@ export class SliderComponent implements ControlValueAccessor {
 
   ngOnInit(): void {}
 
-  get tickInterval(): number | 'auto' {
-    return this.showTicks ? (this.autoTicks ? 'auto' : this._tickInterval) : 0;
+  get tickInterval(): number | "auto" {
+    return this.showTicks ? (this.autoTicks ? "auto" : this._tickInterval) : 0;
   }
 
   set tickInterval(value) {
@@ -44,8 +50,7 @@ export class SliderComponent implements ControlValueAccessor {
   }
 
   writeValue(value: any): void {
-    if(value !== undefined || value !== '') {
-//      this.dateValue = moment(value).format();
+    if (value !== undefined || value !== "") {
     }
   }
 
@@ -57,7 +62,7 @@ export class SliderComponent implements ControlValueAccessor {
 
   insideYourValidations() {
     setTimeout(() => {
-     this.cdr.detectChanges() //call to update/detect your changes
+      this.cdr.detectChanges(); //call to update/detect your changes
     }, 1500);
   }
 }

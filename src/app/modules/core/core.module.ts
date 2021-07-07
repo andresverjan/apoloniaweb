@@ -1,7 +1,7 @@
 import { RolesComponent } from "./../roles/roles.component";
 import { AvatarComponent } from "./components/avatar/avatar.component";
 import { FullCalendarModule } from "@fullcalendar/angular";
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin
+import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { UsersComponent } from "./../users/users.component";
 import { BrowserModule } from "@angular/platform-browser";

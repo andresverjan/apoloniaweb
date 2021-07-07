@@ -103,12 +103,12 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
       },
 
-      { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
+      { path: "**", pathMatch: "full", redirectTo: "principal" },
     ],
   },
   { path: "login-admin", component: LoginAdminComponent },
 
-  { path: "**", pathMatch: "full", redirectTo: "login-admin" }, // default route of the module
+  { path: "**", pathMatch: "full", redirectTo: "login-admin" },
 ];
 
 //export const routing: ModuleWithProviders = RouterModule.forChild(routes);

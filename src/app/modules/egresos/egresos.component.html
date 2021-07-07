@@ -24,13 +24,12 @@
           <label>{{ etiquetaNombreModulo }}</label>
         </mat-card-title>
         <mat-card-content fxLayout="column" fxLayoutAlign="center">
-          <!-- <div *ngIf="!IsWaiting"> -->
           <div>
             <mat-tab-group>
               <mat-tab label="Configuración de Egresos">
                 <app-config-egresos></app-config-egresos>
               </mat-tab>
-              <mat-tab label="Egresos">
+              <mat-tab label="Egresos Programados">
                 <app-egresos-programados></app-egresos-programados>
               </mat-tab>
             </mat-tab-group>

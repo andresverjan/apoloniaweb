@@ -24,7 +24,6 @@ export class EgresosService {
     }`;
     let filtro = `${pagination}, \n`;
 
-    // verifica que las propiedades existan para poder filtrar
     if (
       (egreso.filter["T17Factura"] != undefined &&
         egreso.filter["T17Factura"] != null) ||
@@ -95,6 +94,30 @@ export class EgresosService {
       }
       `,
     };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+
+  createEgresoProgramado(egreso): Observable<any> {
+    let body = {
+      query: `
+      mutation {
+        createEgresosProgramados (egresoProgramado: {
+          T17Factura: "${egreso.T17Factura}",
+          T17RF: ${egreso.T17RF},
+          T17Fecha: "${egreso.T17Fecha}",
+          T17Valor: ${egreso.T17Valor},       
+          T17Soporte: "${egreso.T17Soporte}",
+          T17FormaPago: "${egreso.T17FormaPago}",
+          T17Total: ${egreso.T17Total},
+          T17Dctos: ${egreso.T17Dctos},
+          T17Proveedor: "${egreso.T17Proveedor}",
+          T17Observacion: "${egreso.T17Observacion}",
+        })
+      }
+      `,
+    };
+    console.log(body.query);
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }

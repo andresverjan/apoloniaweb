@@ -15,27 +15,6 @@ export class EsterilizacionService {
   }
 
   getAll(): Observable<any> {
-    // let filtro = "";
-    // let params = "";
-    // let ordenamiento = "";
-
-    // if (objeTosend != null && objeTosend != undefined && objeTosend) {
-    //   filtro = `filter: {
-    //      ${Object.keys(objeTosend).map((prop) => {
-    //        if (
-    //          typeof objeTosend[prop] === "string" ||
-    //          objeTosend[prop] instanceof String
-    //        ) {
-    //          return `${prop} : "${objeTosend[prop]}"`;
-    //        } else {
-    //          return `${prop} : ${objeTosend[prop]}`;
-    //        }
-    //      })}
-    //     }`;
-    // }
-
-    // params = this.toolService.getParams(filtro, ordenamiento);
-
     let body = {
       query: `{
         esterilizaciones {

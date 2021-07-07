@@ -185,7 +185,9 @@
                     <input
                       matInput
                       formControlName="T17Valor"
-                      onkeypress="calculateTotal()"
+                      matTooltip="Presione enter para guardar el valor"
+                      matTooltipPosition="right"
+                      (change)="calculateTotal()"
                       id="T17Valor"
                       placeholder="Valor "
                     />
@@ -197,8 +199,10 @@
                     <input
                       matInput
                       formControlName="T17Dctos"
+                      matTooltip="Presione enter para guardar el valor"
+                      matTooltipPosition="right"
                       id="T17Dctos"
-                      onkeypress="calculateTotal()"
+                      (change)="calculateTotal()"
                       placeholder="% Descuento"
                     />
                   </mat-form-field>

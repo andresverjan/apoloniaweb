@@ -11,7 +11,6 @@ export class AvatarComponent implements OnInit {
   public message: string;
 
   @Input() form: any;
-  //  @Input() campo: any;
   @Input() editmode = false;
   @Input("width") public width: number;
   @Input() url: string | ArrayBuffer | SafeUrl = "";
