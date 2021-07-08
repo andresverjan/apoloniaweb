@@ -11,7 +11,7 @@ import { RolService } from "../roles/roles.service";
 export class RolesComponent implements OnInit {
   public icono: any;
 
-  public rolesForm: FormGroup;
+//  public rolesForm: FormGroup;
   public etiquetaNombreModulo = "Permisos";
   public etiquetaListado = "Listado de Permisos";
   public IsWaiting: Boolean = false;
@@ -32,12 +32,12 @@ export class RolesComponent implements OnInit {
   public filter: any = {};
 
   constructor(public rolService: RolService) {
-    this.rolesForm = new FormGroup({
+    /*this.rolesForm = new FormGroup({
       name: new FormControl("", [
         Validators.maxLength(50),
         Validators.required,
       ]),
-    });
+    });*/
   }
 
   ngOnInit() {
@@ -60,9 +60,9 @@ export class RolesComponent implements OnInit {
       id: selected.id,
       nombre: selected.nombre,
     };
-    await this.fetchPermisos(selected);
+    await this.fetchPermisos(selected.id);
     await this.fetchPermisosByRol(selected);
-    this.rolesForm.controls["name"].setValue(selected);
+//    this.rolesForm.controls["name"].setValue(selected);
   }
 
   async fetchPermisosByRol(obj: any) {

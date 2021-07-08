@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { OdontologosService } from "src/app/modules/core/services/odontologos.service";
 import { PacienteService } from "src/app/modules/core/services/paciente.service";
@@ -8,7 +8,7 @@ import { PacienteService } from "src/app/modules/core/services/paciente.service"
   templateUrl: "./laboratorios.component.html",
   styleUrls: ["./laboratorios.component.scss"],
 })
-export class LaboratoriosComponent implements OnInit {
+export class LaboratoriosComponent implements OnChanges {//OnInit {
   public IsWaiting: boolean;
   public showListado: boolean = true;
   public showForm: boolean = false;
@@ -17,6 +17,8 @@ export class LaboratoriosComponent implements OnInit {
   public etiquetaNombreModulo = "Campos";
   public odontologo: any;
   public paciente: any;
+
+  @Input() Cedula: string;
 
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
@@ -32,6 +34,10 @@ export class LaboratoriosComponent implements OnInit {
       Nombres1: "Seleccionar Paciente",
       Apellidos1: "",
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+//    this.fetchEvoluciones(this.Cedula);
   }
 
   actionAdicionar() {
@@ -65,7 +71,7 @@ export class LaboratoriosComponent implements OnInit {
   openModal() {
     this.openDialogWithTemplateRef(this.myDialog);
   }
-  ngOnInit() {}
+//  ngOnInit() {}
 
   onOdontologoSelected(selected) {
     this.odontologo = selected;
