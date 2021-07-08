@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { Campo } from "../core/interfaces/campoTable.interace";
 import { ColumnaService } from "../core/services/columna.service";
 import { GenericService } from "./generic.service";
-import { find } from "rxjs/operators";
 import { PageEvent } from "@angular/material/paginator";
 
 @Component({

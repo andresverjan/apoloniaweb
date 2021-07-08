@@ -24,14 +24,14 @@ export class EsterilizacionService {
         CedulaPaciente: "${objeTosend}"
       })`;
     }
-    console.log("****CedulaPaciente*******", objeTosend + "***FILTER***" + filter);
+//    console.log("****CedulaPaciente*******", objeTosend + "***FILTER***" + filter);
     params = this.toolService.getParams(filter, ordenamiento);
 
     let body = {
       query: `{
         esterilizaciones ${filter}{
-          T27Consecutivo
-          T27Campo9
+          id: T27Consecutivo
+          nombre: T27Campo9
         }
       }
       `,

@@ -35,11 +35,8 @@ export class RolService {
 
   permisosByRolId(rolName: number): Observable<any> {
     let body = {
-      query: `{rolById(id: ${rolName})
-      { nombre
-        permisos{
-          id
-          nombre } } }`
+      query: `{rolById(id: ${rolName}){
+                id nombre } }`
     }
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(this.serverUrl, body, { headers: headers })

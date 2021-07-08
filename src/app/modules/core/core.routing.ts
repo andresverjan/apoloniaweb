@@ -18,6 +18,7 @@ import { AgendaComponent } from "../agenda/agenda.component";
 import { CitasComponent } from "../citas/citas.component";
 import { HistoriaClinicaComponent } from "../historiaClinica/historiaClinica.component";
 import { EsterilizacionesComponent } from "../esterilizaciones/esterilizaciones.component";
+import { EgresosComponent } from "../egresos/egresos.component";
 
 export const routes: Routes = [
   {
@@ -102,12 +103,18 @@ export const routes: Routes = [
         component: HistoriaClinicaComponent,
         canActivate: [AuthGuardService],
       },
-      { path: "**", pathMatch: "full", redirectTo: "principal" }, // default route of the module
+      {
+        path: "egresos",
+        component: EgresosComponent,
+        canActivate: [AuthGuardService],
+      },
+
+      { path: "**", pathMatch: "full", redirectTo: "principal" },
     ],
   },
   { path: "login-admin", component: LoginAdminComponent },
 
-  { path: "**", pathMatch: "full", redirectTo: "login-admin" }, // default route of the module
+  { path: "**", pathMatch: "full", redirectTo: "login-admin" },
 ];
 
 //export const routing: ModuleWithProviders = RouterModule.forChild(routes);

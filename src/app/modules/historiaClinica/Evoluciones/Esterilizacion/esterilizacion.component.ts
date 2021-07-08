@@ -45,30 +45,11 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
 
   constructor(public dialog: MatDialog,
               public _esterilizacionService:EsterilizacionService) {
-/*    this.fetchEsterilizacion();
-    this.esteriForm = new FormGroup({
-      usuario: new FormControl("", [Validators.maxLength(10),
-        Validators.required
-      ])
-    });*/
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    /*this.user = {
-      rol_id: "Seleccione Usuario"
-    };*/
-    //this.esterilizacion = this.mockedItems; // input
-    console.log("****ngOnChanges****ngOnChanges***");
     this.fetchEsterilizacion(this.Cedula);//
   }
-
-  /*listUsers = (obj?) => {
-    this.IsWaiting = true;
-    this._userService.getAll(obj).subscribe((res) => {
-      this.users = res.data.users;
-      this.IsWaiting = false;
-    });
-  };*/
 
   actionAdicionar() {
     this.showListado = false;
@@ -84,19 +65,16 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     this.showListado = true;
   }
   closeDialog() {
-
     this.dialogRef.close();
   }
-  openDialogWithTemplateRef(
-    templateRef: TemplateRef<any>,
-  ) {
+  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialogRef = this.dialog.open(templateRef, {
       disableClose: true,
     });
     this.dialogRef.afterClosed().subscribe(() => {});
   }
 
-  openModal(){
+  openModal() {
     this.openDialogWithTemplateRef(this.myDialog);
     this.fetchEsterilDisp();
   }
@@ -106,7 +84,6 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     this._esterilizacionService.getAll(obj).subscribe((res) => {
       this.esterilizacionArreglo = res.data.esterilizaciones;
       this.IsWaiting = false;
-      console.log("****esterilizacionArreglo*******", this.esterilizacionArreglo);
     });
   };
 
@@ -115,28 +92,12 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     this._esterilizacionService.getAll(obj).subscribe((res) => {
       this.esterilizacions = res.data.esterilizaciones;
       this.IsWaiting = false;
-      console.log("****esterilizaciones*******", this.esterilizacions);
+//      console.log("****esterilizaciones*******", this.esterilizacions);
     });
   };
-
-  /*async onUserSelected(selected: any) {
-    this.user = {
-      _id: selected._id,
-      rol_id: selected.rol_id,
-    };
-    await this.fetchPermisos(selected);
-    await this.fetchPermisosByRol(selected);
-    this.esteriForm.controls["usuario"].setValue(selected);
-  }
-
-  ngOnInit() {}*/
 }
-/*interface Permiso {
-  id: number;
-  nombre: string;
-}*/
 
 interface SelItem {
-  T27Consecutivo: number;
-  T27Campo9: string;
+  id: number;
+  nombre: string;
 }

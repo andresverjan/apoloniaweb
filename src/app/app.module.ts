@@ -15,7 +15,7 @@ import { SocialLoginModule } from "angularx-social-login";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @NgModule({
-  declarations: [AppComponent], //, RolesComponent
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     routing,

@@ -7,7 +7,11 @@ import {
   EventEmitter,
 } from "@angular/core";
 
-import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from "@angular/material/dialog";
 
 @Component({
   selector: "app-buscadormodalicon",
@@ -68,7 +72,6 @@ export class BuscadormodaliconComponent implements OnInit {
   }
 }
 
-// COMPONENTE MODAL
 @Component({
   selector: "dbuscadormodal-dialog",
   templateUrl: "buscadormodalicon-dialog.component.html",

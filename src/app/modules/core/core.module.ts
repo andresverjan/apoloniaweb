@@ -1,7 +1,7 @@
 import { RolesComponent } from "./../roles/roles.component";
 import { AvatarComponent } from "./components/avatar/avatar.component";
 import { FullCalendarModule } from "@fullcalendar/angular";
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin
+import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { UsersComponent } from "./../users/users.component";
 import { BrowserModule } from "@angular/platform-browser";
@@ -75,6 +75,9 @@ import { LaboratoriosComponent } from "../historiaClinica/Evoluciones/Laboratori
 import { MultilistObservacionesComponent } from "./components/multilist-observaciones/multilist-observaciones.component";
 import { EventosAdversosComponent } from "../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component";
 import { EsterilizacionesComponent } from '../esterilizaciones/esterilizaciones.component';
+import { EgresosComponent } from "../egresos/egresos.component";
+import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egresos-programados.component";
+import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -130,7 +133,10 @@ FullCalendarModule.registerPlugins([
     LaboratoriosComponent,
     MultilistObservacionesComponent,
     EventosAdversosComponent,
-    EsterilizacionesComponent
+    EsterilizacionesComponent,
+    EgresosComponent,
+    EgresosProgramadosComponent,
+    ConfigEgresosComponent,
   ],
 
   imports: [

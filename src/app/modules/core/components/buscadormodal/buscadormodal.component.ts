@@ -76,7 +76,6 @@ export class BuscadormodalComponent implements OnInit {
   }
 }
 
-// COMPONENTE MODAL
 @Component({
   selector: "dbuscadormodal-dialog",
   templateUrl: "buscadormodal-dialog.component.html",

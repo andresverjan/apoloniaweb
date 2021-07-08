@@ -27,7 +27,8 @@ export class EsterilizacionesService {
     params = this.toolService.getParams(filter, ordenamiento);
     let body = {
       query: `{
-        sterilizations ${filter}{
+        esterilizaciones ${filter}{
+          T27Consecutivo
           T27Campo9
           T27Fecha
         }

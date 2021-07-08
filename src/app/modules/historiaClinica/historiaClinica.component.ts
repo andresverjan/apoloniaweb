@@ -1,8 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
-import { TableService } from "../core/services/table.service";
-import { ColumnaService } from "../core/services/columna.service";
-import { TipoCampoService } from "../tipo-campo/tipo-campo.service";
-import { HistoriaClinicaService } from "./historiaClinica.service";
+import { Component, OnInit } from "@angular/core";
 import { PacienteService } from "../core/services/paciente.service";
 import { EvolucionesService } from "./Evoluciones/evoluciones.service";
 import { FormControl, FormGroup } from "@angular/forms";
