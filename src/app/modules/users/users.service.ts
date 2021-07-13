@@ -15,6 +15,25 @@ export class UsersService {
   }
 
   listUsers(objeTosend?): Observable<any> {
+    /*let filter = "";
+    if (objeTosend != null) {
+      filter = `( filter: {`;
+      filter += objeTosend.name != "" ? `name: "${objeTosend.name}` : "";
+      filter += objeTosend.rol_id != "" ? `rol_id: "${objeTosend.rol_id}"` : "";
+      filter +=
+        objeTosend.lastName != "" ? `lastName: "${objeTosend.lastName}"` : "";
+      filter += `} )`;
+    }
+
+    let body = {
+      query: `{users ${filter} {_id,name,lastName,urlPhoto,email,phoneNumber,rol_id}}`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });*/
+    return this.getAll(objeTosend);
+  }
+
+  getAll(objeTosend: any): Observable<any> {
     let filter = "";
     if (objeTosend != null) {
       filter = `( filter: {`;
@@ -42,10 +61,10 @@ export class UsersService {
             email: "${objeTosend.email}",
             phoneNumber: "${objeTosend.phoneNumber}",
             rol_id: "${objeTosend.rol_id}",
-            urlPhoto: "${objeTosend.urlPhoto}",        
-        }) {     
+            urlPhoto: "${objeTosend.urlPhoto}",
+        }) {
            name
-        }  
+        }
       }
       `,
     };
@@ -64,10 +83,10 @@ export class UsersService {
             email: "${objeTosend.email}",
             phoneNumber: "${objeTosend.phoneNumber}",
             rol_id: "${objeTosend.rol_id}",
-            urlPhoto: "${objeTosend.urlPhoto}", 
-        }) {     
+            urlPhoto: "${objeTosend.urlPhoto}",
+        }) {
            name
-        }  
+        }
       }
       `,
     };

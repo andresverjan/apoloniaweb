@@ -14,15 +14,24 @@ export class EsterilizacionService {
     this.serverUrl = Globals.SERVER;
   }
 
-  getAll(): Observable<any> {
+  getAll(objeTosend?: any): Observable<any> {
+    let params = "";
+    let ordenamiento = "";
+    let filter = "";
+    //si trae filtro
+    if (objeTosend) {
+      filter = `(filter: {
+        CedulaPaciente: "${objeTosend}"
+      })`;
+    }
+//    console.log("****CedulaPaciente*******", objeTosend + "***FILTER***" + filter);
+    params = this.toolService.getParams(filter, ordenamiento);
+
     let body = {
       query: `{
-        esterilizaciones {
-          T27Fecha
-          T27Campo9
-          T27Campo24
-          T27Auditoria
-          T27Consecutivo
+        esterilizaciones ${filter}{
+          id: T27Consecutivo
+          nombre: T27Campo9
         }
       }
       `,

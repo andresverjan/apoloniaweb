@@ -7,7 +7,7 @@
         </button>
     </mat-card-actions>
 
-    <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
 
     <mat-card-content class="window-dashboard-card-content" *ngIf="showListado" style="overflow-block:hidden">
         <mat-toolbar color="primary">
@@ -19,8 +19,8 @@
     <mat-card-content>
 
         <mat-grid-list cols="5" rowHeight="230px">
-            <mat-grid-title *ngFor=" let item of eventos" style="overflow-x: hidden">
-                <mat-card click()="actualizar(item)" class="dashboard-card">
+            <mat-grid-tile *ngFor=" let item of eventos" style="overflow-x: hidden">
+                <mat-card (click)="actualizar(item)" class="dashboard-card">
                     <mat-card-content class="dashboard-card-content">
                         <mat-icon> web </mat-icon>
                         <h5 class="cssRow">{{item.nombre}}</h5>
@@ -29,7 +29,7 @@
                         <div>{{item.active}}</div>
                     </mat-card-content>
                 </mat-card>
-            </mat-grid-title>
+            </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>
 

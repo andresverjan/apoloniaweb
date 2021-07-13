@@ -5,17 +5,17 @@
   </button>
 </mat-card-actions>
 
-<!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
+<!--mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></!--mat-progress-bar-->
 <div class="container" style="overflow: hidden">
     <mat-grid-list cols="5" rowHeight="230px">
         <mat-grid-tile *ngFor="let est of esterilizacionArreglo" style="overflow-x: hidden">
             <mat-card (click)="actualizar(app)" class="dashboard-card">
                 <mat-card-content class="dashboard-card-content">
                     <mat-icon>web</mat-icon>
-                    <h5 class="cssRow">{{ est.T27Campo24 }}</h5>
+                    <!--h5-- class="cssRow">{{ est.T27Campo24 }}</!--h5-->
                     <br />
-                    <div>{{ est.T27Fecha }}</div>
-                    <div>{{ est.T27Campo9 }}</div>
+                    <div>{{ est.id }}</div>
+                    <div>{{ est.nombre }}</div>
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>
@@ -38,29 +38,44 @@
                         <mat-icon matPrefix>account_balance</mat-icon>
                         <label>Creación de Remision</label>
                         <span class="example-spacer"></span>
-                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="closeDialog()">
-                  <mat-icon>close</mat-icon>
-                </button>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+                          (click)="closeDialog()"
+                        >
+                          <mat-icon>close</mat-icon>
+                        </button>
                     </mat-toolbar>
-                    <mat-card-header>
+                    <!--mat-card-header>
                         <mat-card-title> </mat-card-title>
-                    </mat-card-header>
+                    </mat-card-header-->
                     <mat-card class="cardcontent">
                         <mat-card-content fxLayout="column" fxLayoutAlign="center">
-                            <div fxLayout="column" fxLayoutAlign="space-between " fxFlex="100">
-                                <app-buscadormodal></app-buscadormodal>
-                                <app-multilist [sel1]="esterilizacion" [(sel2)]="esterilizacions"></app-multilist>
-                            </div>
+                            <!--div fxLayout="column" fxLayoutAlign="space-between " fxFlex="100"-->
+                                <!--app-buscadormodal--
+                                  *ngIf="!IsWaiting"
+                                  (selected)="onUserSelected($event)"
+                                  [filters]="['nombre']"
+                                  [columnas]="{ nombre: 'Nombre' }"
+                                  [resultInputText]="['rol_id']"
+                                  [service]="_userService"
+                                  tituloBusqueda="Usuario"
+                                  [defaultObjValue]="user"
+                                >
+                                </!--app-buscadormodal-->
+
+                            <!--/div-->
+                            <app-multilist [sel1]="esterilizacions"
+                              [(sel2)]="esterilizacion"
+                            ></app-multilist>
                         </mat-card-content>
                         <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
                             <button mat-raised-button (click)="crearCita()" color="primary" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex>
-                    <mat-icon>add_task</mat-icon>
-                    Crear
-                  </button>
+                              <mat-icon>add_task</mat-icon>
+                              Crear
+                            </button>
                             <button mat-raised-button color="warn" (click)="closeDialog()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex>
-                    <mat-icon>cancel</mat-icon>
-                    Cancelar
-                  </button>
+                              <mat-icon>cancel</mat-icon>
+                              Cancelar
+                            </button>
                         </mat-card-actions>
                     </mat-card>
 

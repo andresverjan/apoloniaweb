@@ -74,6 +74,7 @@ import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/rec
 import { LaboratoriosComponent } from "../historiaClinica/Evoluciones/Laboratorios/laboratorios.component";
 import { MultilistObservacionesComponent } from "./components/multilist-observaciones/multilist-observaciones.component";
 import { EventosAdversosComponent } from "../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component";
+import { EsterilizacionesComponent } from '../esterilizaciones/esterilizaciones.component';
 import { EgresosComponent } from "../egresos/egresos.component";
 import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egresos-programados.component";
 import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
@@ -132,6 +133,7 @@ FullCalendarModule.registerPlugins([
     LaboratoriosComponent,
     MultilistObservacionesComponent,
     EventosAdversosComponent,
+    EsterilizacionesComponent,
     EgresosComponent,
     EgresosProgramadosComponent,
     ConfigEgresosComponent,
