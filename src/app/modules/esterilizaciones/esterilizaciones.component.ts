@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EsterilizacionesService } from './esterilizaciones.service';
+import { Campo } from "../core/interfaces/campoTable.interace";
 
 @Component({
   selector: 'app-esterilizaciones',
@@ -31,20 +32,40 @@ export class EsterilizacionesComponent implements OnInit {
   public sterilizations: any = [];
   public sterilization: any;
 
-  constructor(
-    private esterilizacionesService: EsterilizacionesService
-  ) {
-    this.esterilForm = new FormGroup({
-      fecha: new FormControl("", [Validators.maxLength(10),
-        Validators.required
-      ]),
+  mockedItems: SelItem[] = [
+    {'value' : 'id1', 'nombre': 'KANVAS'},
+    {'value' : 'id2', 'nombre': 'BYRENA'},
+    {'value' : 'id3', 'nombre': 'Opion 3'},
+    {'value' : 'id4', 'nombre': 'TESALIA'},
+    {'value' : 'id5', 'nombre': 'Opion 5'},
+    {'value' : 'id6', 'nombre': 'ORION'},
+    {'value' : 'id7', 'nombre': 'PRAGA'}
+  ];
 
-      usuario: new FormControl("", [
-        Validators.maxLength(50),
-        Validators.required,
-      ])
-    });
-  }
+  public acts: SelItem[] = this.mockedItems;
+  public dateField: Campo[] = [{'nombre': 'createdAt', 'nombreUi': 'Hora Inicial',
+    'tipoDato': 'datetime', 'tipoCampoId': 2, 'requerido': true, 'visible': true,
+    'orden': 3, 'mascaraId': 1, 'minLength': 1, 'maxLength': 255, 'buscador': true,
+    'verList': true}];
+
+  constructor(
+    private esterilizacionesService: EsterilizacionesService) {
+      this.esterilForm = new FormGroup({
+        createdAt: new FormControl("", [Validators.maxLength(10),
+          Validators.required
+        ]),
+
+        act_id: new FormControl("", [
+          Validators.required,
+          Validators.maxLength(50),
+        ])/*,
+
+        usuario: new FormControl("", [
+          Validators.maxLength(50),
+          Validators.required,
+        ])*/
+      });
+    }
 
   adicionar() {
     this.showContent = false;
@@ -55,9 +76,9 @@ export class EsterilizacionesComponent implements OnInit {
   aceptar() {
     if (this.esterilForm.valid) {
       const obj = {
-        application: {
-          nombre: this.esterilForm.controls["nombre"].value,
-          nombreTabla: this.esterilForm.controls["nombreTabla"].value,
+        steril: {
+          createdAt: this.esterilForm.controls["createdAt"].value,
+          act_id: this.esterilForm.controls["act_id"].value,
         }/*,
         campos: [...this.campos],*/
       };
@@ -91,8 +112,8 @@ export class EsterilizacionesComponent implements OnInit {
     this.showBtnEliminar = true;
     this.sterilization = esterilizacion;
 
-    this.esterilForm.controls["usuario"].setValue(esterilizacion.usuario);
-    this.esterilForm.controls["fecha"].setValue(esterilizacion.fecha);
+    this.esterilForm.controls["act_id"].setValue(esterilizacion.act_id);
+    this.esterilForm.controls["createdAt"].setValue(esterilizacion.createdAt);
 //    this.fetchCamposValues(application.id);
   }
 
@@ -101,7 +122,7 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   findBy() {
-    if (this.filter.T27Campo9) {
+    if (this.filter.nombre || this.filter.CedulaPaciente) {
       this.fetchSterilizations(this.filter);
     } else {
       this.fetchSterilizations();
@@ -117,4 +138,16 @@ export class EsterilizacionesComponent implements OnInit {
     });
   };
 
+  procesarRolAdd(rolSelected: any ){
+    this.esterilForm.controls['act_id'].setValue(rolSelected.value);
+  }
+
+  setDate(value: any, item: any) {
+    this.esterilForm.controls['createdAt'].setValue(value);
+  }
+}
+
+interface SelItem {
+  value: string;
+  nombre: string;
 }

@@ -18,18 +18,30 @@ export class EsterilizacionesService {
     let params = "";
     let ordenamiento = "";
     let filter = "";
-    //si trae filtro
+    /*si trae filtro
     if (objeTosend) {
       filter = `(filter: {
         CedulaPaciente: "${objeTosend}"
       })`;
+    }*/
+    if (objeTosend) {
+      filter = `(filter: {`;
+      if(objeTosend.nombre) {
+        filter +=   `nombre: "${objeTosend.nombre}"`;
+      }
+      if(objeTosend.CedulaPaciente) {
+        filter +=   `${objeTosend.nombre? "," : ""} CedulaPaciente: "${objeTosend.CedulaPaciente}"`;
+      }
+      filter += '})';
     }
+
     params = this.toolService.getParams(filter, ordenamiento);
     let body = {
       query: `{
         esterilizaciones ${filter}{
-          T27Consecutivo
-          T27Campo9
+          id: T27Consecutivo
+          CedulaPaciente
+          nombre: T27Campo9
           T27Fecha
         }
       }

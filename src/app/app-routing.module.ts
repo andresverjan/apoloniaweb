@@ -7,6 +7,6 @@ const routes: Routes = [
   { path: "login", loadChildren: "./modules/core/core.module#CoreModule" },
 ];
 
-export const routing: ModuleWithProviders<Route> = RouterModule.forRoot(routes);
+export const routing: ModuleWithProviders<Route> = RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' });
 
 export class AppRoutingModule {}
