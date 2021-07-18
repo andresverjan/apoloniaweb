@@ -15,6 +15,7 @@ import {
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { PageEvent } from "@angular/material/paginator";
 import { FormasPagosService } from "../../core/services/formaspagos.service";
+import { ProveedoresService } from "../../core/services/proveedores.service";
 
 const DATE_FORMATS = {
   parse: {
@@ -70,8 +71,24 @@ export class ConfigEgresosComponent implements OnInit {
     public dialog: MatDialog,
     public _egresosService: EgresosService,
     public configParametros: ConfigParametrosService,
-    public formasPagosService: FormasPagosService
-  ) {}
+    public formasPagosService: FormasPagosService,
+    public proveedoresService: ProveedoresService
+  ) {
+    this.egresoForm = new FormGroup({
+      T17Factura: new FormControl(""),
+      T17Proveedor: new FormControl(""),
+      T17Soporte: new FormControl(""),
+      T17Valor: new FormControl(0),
+      T17Dctos: new FormControl(0),
+      T17IVA: new FormControl(0),
+      T17Fecha: new FormControl(""),
+      T17ICA: new FormControl(0),
+      T17Total: new FormControl(""),
+      T17FormaPago: new FormControl(""),
+      T17RF: new FormControl(0),
+      T17Observacion: new FormControl(""),
+    });
+  }
 
   handlePageChange(e: PageEvent) {
     this.pageNumber = e.pageIndex + 1;
@@ -87,20 +104,6 @@ export class ConfigEgresosComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.egresoForm = new FormGroup({
-      T17Factura: new FormControl(""),
-      T17Proveedor: new FormControl(""),
-      T17Soporte: new FormControl(""),
-      T17Valor: new FormControl(0),
-      T17Dctos: new FormControl(0),
-      T17IVA: new FormControl(0),
-      T17Fecha: new FormControl(""),
-      T17ICA: new FormControl(0),
-      T17Total: new FormControl(""),
-      T17FormaPago: new FormControl(""),
-      T17RF: new FormControl(0),
-      T17Observacion: new FormControl(""),
-    });
     this.findBy();
     this.fetchParamsByGroup("CONTA_CONFIG");
     this.fetchFormasPagos();
@@ -130,7 +133,7 @@ export class ConfigEgresosComponent implements OnInit {
       this.showBtnActualizar = true;
       this.showBtnEliminar = true;
       this.showPanelDatos = false;
-      this.fetchEgresosProgramados();
+      this.findBy();
     });
   }
 
@@ -173,7 +176,7 @@ export class ConfigEgresosComponent implements OnInit {
       this.showListado = true;
       Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
     });
-    this.fetchEgresosProgramados();
+    this.findBy();
   }
 
   cancelar() {
@@ -217,7 +220,7 @@ export class ConfigEgresosComponent implements OnInit {
       this.patchParametrosForm();
       this.showListado = true;
       this.showPanelDatos = false;
-      this.fetchEgresosProgramados();
+      this.findBy();
     });
   }
   fetchParamsByGroup(nombreParametro) {
@@ -249,7 +252,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
   fetchEgresosProgramados = (obj?) => {
     this.IsWaiting = true;
-    this._egresosService.getAll(obj ? obj : null).subscribe((res) => {
+    this._egresosService.getAll(obj).subscribe((res) => {
       const { egresos, totalRegistros } = res.data.egresos;
       this.egresos = egresos;
       this.totalRegistros = totalRegistros;
