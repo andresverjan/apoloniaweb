@@ -14,6 +14,7 @@ import {
 } from "@angular/material/core";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { PageEvent } from "@angular/material/paginator";
+import { FormasPagosService } from "../../core/services/formaspagos.service";
 
 const DATE_FORMATS = {
   parse: {
@@ -61,19 +62,29 @@ export class ConfigEgresosComponent implements OnInit {
   public pageSizeOptions = [5, 10, 20, 30];
   public pageNumber: number = 1;
   public queryOptions = {};
+  public formasPagos = [];
 
   public parametrosContaConfig = [];
 
   constructor(
     public dialog: MatDialog,
     public _egresosService: EgresosService,
-    public configParametros: ConfigParametrosService
+    public configParametros: ConfigParametrosService,
+    public formasPagosService: FormasPagosService
   ) {}
 
   handlePageChange(e: PageEvent) {
     this.pageNumber = e.pageIndex + 1;
     this.pageSize = e.pageSize;
     this.findBy();
+  }
+  fetchFormasPagos() {
+    this.formasPagosService.getAll().subscribe((res) => {
+      this.formasPagos = res.data.tipospagos.map((tp) => {
+        const obj = { value: tp.nombre, nombre: tp.nombre };
+        return obj;
+      });
+    });
   }
   ngOnInit() {
     this.egresoForm = new FormGroup({
@@ -92,6 +103,16 @@ export class ConfigEgresosComponent implements OnInit {
     });
     this.findBy();
     this.fetchParamsByGroup("CONTA_CONFIG");
+    this.fetchFormasPagos();
+  }
+  onPorveedorSelected(selected) {
+    this.IsWaiting = true;
+    this.egresoForm.controls["T17Proveedor"].setValue(selected.Nit);
+    this.IsWaiting = false;
+  }
+
+  onFormaPagoSelected(selected) {
+    this.egresoForm.controls["T17FormaPago"].setValue(selected.nombre);
   }
 
   actualizar() {
