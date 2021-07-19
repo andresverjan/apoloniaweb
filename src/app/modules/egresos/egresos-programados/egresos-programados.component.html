@@ -47,15 +47,24 @@
                 </div>
 
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                  <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17Proveedor"
-                      id="T17Proveedor"
-                      placeholder="lista de Proveedores"
-                    />
-                  </mat-form-field>
+                  <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
+                    <app-buscadormodal
+                      [filters]="['Nombre', 'Nit']"
+                      (selected)="onPorveedorSelected($event)"
+                      [columnas]="{
+                        Nombre: 'Nombre Proveedor',
+                        Nit: 'Nit Proveedor'
+                      }"
+                      [resultInputText]="['Nombre']"
+                      [service]="proveedoresService"
+                      tituloBusqueda="Proveedores"
+                      [defaultObjValue]="
+                        egresosProgramadosForm.controls['T17Proveedor'].value
+                      "
+                      fxFlex="60"
+                      [readonly]="false"
+                    ></app-buscadormodal>
+                  </div>
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
@@ -67,15 +76,15 @@
                   </mat-form-field>
                 </div>
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                  <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17FormaPago"
-                      id="T17FormaPago"
-                      placeholder="Forma de Pago"
-                    />
-                  </mat-form-field>
+                  <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
+                    <app-select
+                      label="Forma de Pago"
+                      [data]="formasPagos"
+                      icono="attach_money"
+                      fxFlex
+                      (valSelected)="onFormaPagoSelected($event)"
+                    ></app-select>
+                  </div>
 
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>

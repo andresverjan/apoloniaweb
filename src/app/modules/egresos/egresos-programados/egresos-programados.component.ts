@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import { ConfigParametrosService } from "../../core/services/ConfigParametrosService.service";
+import { FormasPagosService } from "../../core/services/formaspagos.service";
+import { ProveedoresService } from "../../core/services/proveedores.service";
 import { EgresosService } from "../egresos.service";
 
 @Component({
@@ -16,10 +18,13 @@ export class EgresosProgramadosComponent implements OnInit {
   public etiquetaNombreModulo = "Egresos Programados";
   public etiquetaListado = "Listado de Egresos";
   public parametrosContaConfig = [];
+  public formasPagos = [];
 
   constructor(
     public _egresosService: EgresosService,
-    public configParametros: ConfigParametrosService
+    public configParametros: ConfigParametrosService,
+    public formasPagosService: FormasPagosService,
+    public proveedoresService: ProveedoresService
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +43,22 @@ export class EgresosProgramadosComponent implements OnInit {
       T17Observacion: new FormControl(""),
     });
     this.fetchParamsByGroup("CONTA_CONFIG");
+    this.fetchFormasPagos();
+  }
+
+  fetchFormasPagos() {
+    this.formasPagosService.getAll().subscribe((res) => {
+      this.formasPagos = res.data.tipospagos.map((tp) => {
+        const obj = { value: tp.nombre, nombre: tp.nombre };
+        return obj;
+      });
+    });
+  }
+
+  onFormaPagoSelected(selected) {
+    this.egresosProgramadosForm.controls["T17FormaPago"].setValue(
+      selected.nombre
+    );
   }
 
   fetchParamsByGroup(nombreParametro) {
@@ -49,8 +70,13 @@ export class EgresosProgramadosComponent implements OnInit {
       });
   }
 
+  onPorveedorSelected(selected) {
+    this.IsWaiting = true;
+    this.egresosProgramadosForm.controls["T17Proveedor"].setValue(selected.Nit);
+    this.IsWaiting = false;
+  }
+
   calculateTotal() {
-    console.log("entra");
     let iva =
       parseFloat(this.egresosProgramadosForm.controls["T17IVA"].value) / 100;
     let ica =
