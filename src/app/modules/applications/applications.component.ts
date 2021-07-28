@@ -259,6 +259,10 @@ export class ApplicationsComponent implements OnInit {
     campo.tipoCampoId = Number.parseInt(value.value);
   }
 
+  setAttribute(attrib: string, campo: Campo, value: any) {
+    campo[attrib] = Number.parseInt(value.value);
+  }
+
   aceptar() {
     if (this.aplicacionForm.valid) {
       const obj = {

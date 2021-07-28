@@ -35,12 +35,8 @@ export class DetalleComponent implements OnInit {
     this.showForm = true;
   }
 
-  procesarRolAdd(rolSelected: any ){
-    this.detaForm.controls['act_id'].setValue(rolSelected.value);
-  }
-
-  procesarFirma(rolSelected: any ){
-    this.detaForm.controls['firma'].setValue(rolSelected.value);
+  procesarRolAdd(rolSelected: any, campo: any ){
+    this.detaForm.controls[campo].setValue(rolSelected.value);
   }
 
   guardar() {

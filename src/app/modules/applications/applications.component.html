@@ -125,25 +125,25 @@
           />
         </mat-grid-tile>
 
-        <!-- Tipo campos -->
+        <!-- Tipo campos  "setTipoCampoId(campo, $event)" -->
         <mat-grid-tile colspan="5">
           <app-select
             label="TipoCampos"
             [data]="tipoCampos"
-            (valSelected)="setTipoCampoId(campo, $event)"
+            (valSelected)="setAttribute('tipoCampoId', campo, $event)"
             default="{{ campo.tipoCampoId }}"
             fxFlex="50"
           >
           </app-select>
         </mat-grid-tile>
 
-        <!-- Mascara ID  -->
+        <!-- Mascara ID  "setMascaras(campo, $event)"-->
         <mat-grid-tile colspan="5">
           <app-select
             label="Mascara"
             [data]="mascaras"
             default="{{ campo.mascaraId }}"
-            (valSelected)="setMascaras(campo, $event)"
+            (valSelected)="setAttribute('mascaraId', campo, $event)"
             fxFlex="50"
           ></app-select>
         </mat-grid-tile>
