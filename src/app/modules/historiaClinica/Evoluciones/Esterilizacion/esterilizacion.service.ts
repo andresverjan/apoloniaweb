@@ -18,13 +18,11 @@ export class EsterilizacionService {
     let params = "";
     let ordenamiento = "";
     let filter = "";
-    //si trae filtro
     if (objeTosend) {
       filter = `(filter: {
         CedulaPaciente: "${objeTosend}"
       })`;
     }
-//    console.log("****CedulaPaciente*******", objeTosend + "***FILTER***" + filter);
     params = this.toolService.getParams(filter, ordenamiento);
 
     let body = {
