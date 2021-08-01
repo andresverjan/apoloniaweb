@@ -1,11 +1,9 @@
-import { Component, Directive, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EsterilizacionesService } from './esterilizaciones.service';
-import { Campo } from "../core/interfaces/campoTable.interace";
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import * as moment from 'moment';
-import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-esterilizaciones',
@@ -13,14 +11,11 @@ import { Data } from '@angular/router';
   styleUrls: ['./esterilizaciones.component.scss']
 })
 export class EsterilizacionesComponent implements OnInit {
-  private onChange = (value: any) => {};
-//  @Input() campo: any;
   @Input() dateValue: string = null;
   @Output() valor = new EventEmitter<string>();
 
   public esterilForm: FormGroup;
   public mascaras = [];
-//  public campos: Campo[] = [];
 
   public showContent: boolean = true;
   public showListado: boolean = true;
@@ -61,10 +56,6 @@ export class EsterilizacionesComponent implements OnInit {
   ];
 
   public acts: SelItem[] = this.mockedItems;
-/*  public dateField: Campo[] = [{'nombre': 'createdAt', 'nombreUi': 'Hora Inicial',
-    'tipoDato': 'datetime', 'tipoCampoId': 2, 'requerido': true, 'visible': true,
-    'orden': 3, 'mascaraId': 1, 'minLength': 1, 'maxLength': 255, 'buscador': true,
-    'verList': true}];*/
 
   constructor(
     private esterilizacionesService: EsterilizacionesService) {
@@ -106,12 +97,7 @@ export class EsterilizacionesComponent implements OnInit {
         time_min: new FormControl("", [
           Validators.maxLength(5),
           Validators.required,
-        ])/*,
-
-        dateTime_fin: new FormControl("", [
-          Validators.maxLength(20),
-          Validators.required
-        ])*/
+        ])
       });
     }
 
@@ -137,16 +123,12 @@ export class EsterilizacionesComponent implements OnInit {
           espora: this.esterilForm.controls["espora"].value,
           dispMed: this.esterilForm.controls["dispMed"].value,
           tipEmp: this.esterilForm.controls["tipEmp"].value,
-          timeMin: this.esterilForm.controls["timeMin"].value/*,
-          dateTime_fin: this.esterilForm.controls["dateTime_fin"].value*/
-        }/*,
-        campos: [...this.campos],*/
+          timeMin: this.esterilForm.controls["timeMin"].value
+        }
       };
 
       this.esterilizacionesService.saveSterilizations(obj).subscribe((res) => res);
-
       this.showForm = false;
-
       this.esterilForm.reset();
 
       Swal.fire(
@@ -156,7 +138,6 @@ export class EsterilizacionesComponent implements OnInit {
       );
 
       this.fetchSterilizations();
-
       this.showListado = true;
       this.showContent = true;
     } else {
@@ -180,8 +161,6 @@ export class EsterilizacionesComponent implements OnInit {
     this.esterilForm.controls["dispMed"].setValue(esterilizacion.dispMed);
     this.esterilForm.controls["tipEmp"].setValue(esterilizacion.tipEmp);
     this.esterilForm.controls["timeMin"].setValue(esterilizacion.timeMin);
-//    this.esterilForm.controls["dateTime_fin"].setValue(esterilizacion.dateTime_fin);
-//    this.fetchCamposValues(application.id);
   }
 
   ngOnInit(): void {
@@ -197,7 +176,7 @@ export class EsterilizacionesComponent implements OnInit {
     this.IsWaiting = true;
   }
 
-  fetchSterilizations = (obj?) => {
+  fetchSterilizations = (obj?: any) => {
     this.IsWaiting = true;
     this.esterilizacionesService.getAll(obj).subscribe((res) => {
       this.sterilizations = res.data.sterilizations;
@@ -207,18 +186,15 @@ export class EsterilizacionesComponent implements OnInit {
 
   selectField(rolSelected: any, campo: any){
     this.esterilForm.controls[campo].setValue(rolSelected.value);
-    console.log("Triggered FIELD", this.esterilForm.controls[campo].value);
   }
 
   onDateChange(event: MatDatepickerInputEvent<Date>) {
     if ( new Date() >= new Date(moment(event.value).format())) {
       this.dateValue = moment(new Date(moment(event.value).format())
         .setDate( new Date(moment(event.value).format()).getDate() + 1 )).format();
-        //console.log("SI VALIDA -- Triggered", this.dateValue);
     }else {
       this.dateValue = moment(event.value).format();
     }
-    this.onChange(event.value);
     this.valor.emit(this.dateValue);
     //console.log("Triggered", this.esterilForm.controls['createdAt'].value);
   }

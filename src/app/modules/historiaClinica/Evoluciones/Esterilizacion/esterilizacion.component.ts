@@ -22,21 +22,6 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
   public esterilizacionArreglo: any = [];
   public esterilizacion: SelItem[] = [];
   public esterilizacions: SelItem[] = [];
-  /*public user: any;
-  public users: any = [];
-
-  public esteriForm: FormGroup;
-  esterilizacions: SelItem[] = [{id : 'id2', name: 'BYRENA'}]; // input/output
-
-  mockedItems: SelItem[] = [
-    {T27Consecutivo : 993, T27Campo9: 'KANVAS'},
-    {T27Consecutivo : 994, T27Campo9: 'BYRENA'},
-    {T27Consecutivo : 995, T27Campo9: 'Opion 3'},
-    {T27Consecutivo : 996, T27Campo9: 'TESALIA'},
-    {T27Consecutivo : 997, T27Campo9: 'Opion 5'},
-    {T27Consecutivo : 998, T27Campo9: 'ORION'},
-    {T27Consecutivo : 999, T27Campo9: 'PRAGA'}
-  ];*/
 
   @Input() Cedula: string;
 
@@ -92,7 +77,6 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     this._esterilizacionService.getAll(obj).subscribe((res) => {
       this.esterilizacions = res.data.esterilizaciones;
       this.IsWaiting = false;
-//      console.log("****esterilizaciones*******", this.esterilizacions);
     });
   };
 }
