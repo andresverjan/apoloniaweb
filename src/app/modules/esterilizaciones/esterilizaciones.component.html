@@ -2,6 +2,7 @@
   fxLayout="row"
   fxLayoutAlign="end center"
   style="margin-right: 10px"
+  *ngIf="showListado"
 >
   <button
     mat-raised-button
@@ -31,37 +32,137 @@
         </mat-card-title>
         <mat-card [formGroup]="esterilForm" fxFill>
           <mat-card-content fxLayout="column" fxLayoutAlign="center">
-            <mat-form-field class="example-full-width">
-              <mat-label>Nombre Aplicación</mat-label>
-              <mat-icon matPrefix>table_chart</mat-icon>
-              <input
-                matInput
-                id="usuario"
-                formControlName="usuario"
-                placeholder="usuario"
-              />
-            </mat-form-field>
-            <!--app-buscadormodal
-              [filters]="['TABLE_NAME']"
-              *ngIf="!IsWaiting"
-              (selected)="onTableSelected($event)"
-              [columnas]="{ TABLE_NAME: 'Nombre Tabla' }"
-              [resultInputText]="['TABLE_NAME']"
-              [service]="_tableService"
-              tituloBusqueda="Tablas"
-              [defaultObjValue]="tabla"
-              [readonly]="showBtnActualizar"
-            ></app-buscadormodal>
+            <mat-grid-list cols="3" rowHeight="70px" gutterSize="10px"
+              style="margin-left: 15px; margin-right: 15px"
+            >
+              <mat-grid-tile fxFlex=50>
+                <app-select label="Sede" [data]=sedes icono="local_police"
+                  (valSelected)="selectField($event, 'sede')"
+                  default="{{esterilForm.controls['sede'].value}}"
+                  fxFlex="50"
+                >
+                </app-select>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex=50>
+                <app-select label="Motivo" [data]=acts icono="local_police"
+                  (valSelected)="selectField($event, 'motivo')"
+                  default="{{esterilForm.controls['motivo'].value}}"
+                  fxFlex="50"
+                >
+                </app-select>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex=50>
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
+                  <mat-icon matPrefix>alarm</mat-icon>
+                  <input #dpInput matInput placeholder="Date Time:"
+                    id="{{ 'createdAt' }}"
+                    [formControlName]="'createdAt'"
+                    [(ngModel)]="createdAt"
+                    [owlDateTimeTrigger]="dt1"
+                    [owlDateTime]="dt1"
+                    (dateTimeChange)="onDateChange($event)"
+                    [(value)]="dateValue"
+                    style="margin-left: 0px"
+                  >
+                  <owl-date-time [pickerType]="'timer'" [hour12Timer]=true #dt1></owl-date-time>
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
 
-            <app-buscadormodalicon--
-              *ngIf="!IsWaiting"
-              (selected)="onIconoSelected($event)"
-              [columnas]="{ nombre: 'Nombre Icono' }"
-              [resultInputText]="['nombre']"
-              [service]="_iconoService"
-              tituloBusqueda="Icono"
-              [defaultObjValue]="icono"
-            ></app-buscadormodalicon-->
+            <mat-grid-list cols="3" rowHeight="70px" gutterSize="10px"
+              style="margin-left: 15px; margin-right: 15px"
+            >
+              <mat-grid-tile fxFlex=50>
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=50>
+                  <input #dpInput matInput  type="number" min="0"
+                    id="timeMin"
+                    placeholder="Tiempo (Min)"
+                    required
+                  >
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex=50>
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
+                  <mat-icon matPrefix><i class="fas fa-temperature"></i></mat-icon>
+                  <input #dpInput matInput  type="number" id="temp"
+                    placeholder="Temperatura"  required
+                  >
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex=50>
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
+                  <mat-icon matPrefix><i class="fas fa-temperature"></i></mat-icon>
+                  <input #dpInput matInput  type="number" id="presion"
+                    placeholder="Presión"  required
+                  >
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
+
+            <mat-grid-list cols="3" rowHeight="70px" gutterSize="10px"
+              style="margin-left: 15px; margin-right: 15px"
+            >
+              <mat-grid-tile fxFlex=50>
+                <app-select label="Tipo" [data]=sedes icono="local_police"
+                  (valSelected)="selectField($event, 'tipo')"
+                  default="{{esterilForm.controls['tipo'].value}}"
+                  fxFlex="50"
+                >
+                </app-select>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex=50>
+                <app-select label="Esporas" [data]=acts icono="local_police"
+                  (valSelected)="selectField($event, 'espora')"
+                  default="{{esterilForm.controls['espora'].value}}"
+                  fxFlex="50"
+                >
+                </app-select>
+              </mat-grid-tile>
+            </mat-grid-list>
+            <mat-grid-list  cols="1"  rowHeight="90px"  gutterSize="10px"
+              style="margin-left: 15px; margin-right: 15px"
+            >
+              <mat-grid-tile fxFlex=90>
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="90">
+                <!--div class="input-group"-->
+                  <textarea class="form-control"
+                    placeholder="Observaciones"
+                    aria-label="With textarea"
+                    style="height: 80px; width: 90%"
+                  ></textarea>
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
+
+            <mat-grid-list cols="3" rowHeight="70px" gutterSize="10px"
+              style="margin-left: 15px; margin-right: 15px"
+            >
+              <mat-grid-tile fxFlex=50>
+                <app-select label="Disp. Médico" [data]=sedes icono="local_police"
+                  (valSelected)="selectField($event, 'dispMed')"
+                  default="{{esterilForm.controls['dispMed'].value}}"
+                  fxFlex="50"
+                >
+                </app-select>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex=50>
+                <app-select label="Tipo Empaque" [data]=acts icono="local_police"
+                  (valSelected)="selectField($event, 'tipEmp')"
+                  default="{{esterilForm.controls['tipEmp'].value}}"
+                  fxFlex="50"
+                >
+                </app-select>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex=50>
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=50>
+                  <input #dpInput matInput  type="number" min="0"
+                    id="timeMin"
+                    placeholder="Cantidad"
+                    required
+                  >
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
           </mat-card-content>
         </mat-card>
       </mat-card>
@@ -72,7 +173,7 @@
       <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
         <button
           mat-raised-button
-          (click)="aceptar()"
+          (click)="guardar()"
           color="primary"
           fxLayout="row"
           fxLayout.xs="column"
@@ -81,7 +182,7 @@
           fxFlex="80"
         >
           <mat-icon>person_add</mat-icon>
-          Aceptar
+          Guardar
         </button>
         <button
           mat-raised-button
@@ -150,7 +251,18 @@
               matInput
               id="filterbyNombre"
               placeholder="Nombre"
-              [(ngModel)]="filter.T27Campo9"
+              [(ngModel)]="filter.nombre"
+              (keyup)="findBy()"
+            />
+          </mat-form-field>
+
+          <mat-icon matPrefix>search</mat-icon>
+          <mat-form-field fxFlex="100">
+            <input
+              matInput
+              id="filterbyCedulaPaciente"
+              placeholder="Cédula"
+              [(ngModel)]="filter.CedulaPaciente"
               (keyup)="findBy()"
             />
           </mat-form-field>
@@ -159,14 +271,13 @@
     </mat-card>
 
     <mat-grid-list *ngIf="showContent" cols="5" rowHeight="230px">
-      <mat-grid-tile
-        *ngFor="let app of sterilizations"
+      <mat-grid-tile  *ngFor="let app of sterilizations"
         style="overflow-x: hidden"
       >
         <mat-card (click)="actualizar(app)" class="dashboard-card">
           <mat-card-content class="dashboard-card-content">
             <mat-icon>web</mat-icon>
-            <h5 class="cssRow">{{ app.T27Campo9 }}</h5>
+            <h5 class="cssRow">{{ app.nombre }}</h5>
             <br />
             <div>{{ app.T27Fecha }}</div>
           </mat-card-content>

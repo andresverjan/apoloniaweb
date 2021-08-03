@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EsterilizacionesService } from './esterilizaciones.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-esterilizaciones',
@@ -9,9 +11,11 @@ import { EsterilizacionesService } from './esterilizaciones.service';
   styleUrls: ['./esterilizaciones.component.scss']
 })
 export class EsterilizacionesComponent implements OnInit {
+  @Input() dateValue: string = null;
+  @Output() valor = new EventEmitter<string>();
+
   public esterilForm: FormGroup;
   public mascaras = [];
-//  public campos: Campo[] = [];
 
   public showContent: boolean = true;
   public showListado: boolean = true;
@@ -31,20 +35,71 @@ export class EsterilizacionesComponent implements OnInit {
   public sterilizations: any = [];
   public sterilization: any;
 
-  constructor(
-    private esterilizacionesService: EsterilizacionesService
-  ) {
-    this.esterilForm = new FormGroup({
-      fecha: new FormControl("", [Validators.maxLength(10),
-        Validators.required
-      ]),
+  mockedItems: SelItem[] = [
+    {'value' : 'id1', 'nombre': 'KANVAS'},
+    {'value' : 'id2', 'nombre': 'BYRENA'},
+    {'value' : 'id3', 'nombre': 'Opion 3'},
+    {'value' : 'id4', 'nombre': 'TESALIA'},
+    {'value' : 'id5', 'nombre': 'Opion 5'},
+    {'value' : 'id6', 'nombre': 'ORION'},
+    {'value' : 'id7', 'nombre': 'PRAGA'}
+  ];
 
-      usuario: new FormControl("", [
-        Validators.maxLength(50),
-        Validators.required,
-      ])
-    });
-  }
+  sedes: SelItem[] = [
+    {'value' : 'id1', 'nombre': 'PUNE'},
+    {'value' : 'id2', 'nombre': 'IBIZA'},
+    {'value' : 'id3', 'nombre': 'BARANQUILLA'},
+    {'value' : 'id4', 'nombre': 'DENVER'},
+    {'value' : 'id5', 'nombre': 'BERNA'},
+    {'value' : 'id6', 'nombre': 'OKINAWA'},
+    {'value' : 'id7', 'nombre': 'BRUJAS'}
+  ];
+
+  public acts: SelItem[] = this.mockedItems;
+
+  constructor(
+    private esterilizacionesService: EsterilizacionesService) {
+      this.esterilForm = new FormGroup({
+        createdAt: new FormControl("", [Validators.maxLength(20),
+          Validators.required
+        ]),
+
+        sede: new FormControl("", [
+          Validators.required,
+          Validators.maxLength(50),
+        ]),
+
+        motivo: new FormControl("", [
+          Validators.maxLength(50),
+          Validators.required,
+        ]),
+
+        tipo: new FormControl("", [
+          Validators.required,
+          Validators.maxLength(50),
+        ]),
+
+        espora: new FormControl("", [
+          Validators.maxLength(50),
+          Validators.required,
+        ]),
+
+        dispMed: new FormControl("", [
+          Validators.required,
+          Validators.maxLength(50),
+        ]),
+
+        tipEmp: new FormControl("", [
+          Validators.maxLength(50),
+          Validators.required,
+        ]),
+
+        time_min: new FormControl("", [
+          Validators.maxLength(5),
+          Validators.required,
+        ])
+      });
+    }
 
   adicionar() {
     this.showContent = false;
@@ -52,20 +107,28 @@ export class EsterilizacionesComponent implements OnInit {
     this.showForm = true;
   }
 
-  aceptar() {
+  cancelar() {
+    this.showForm = false;
+    this.showListado = true;
+  }
+
+  guardar() {
     if (this.esterilForm.valid) {
       const obj = {
-        application: {
-          nombre: this.esterilForm.controls["nombre"].value,
-          nombreTabla: this.esterilForm.controls["nombreTabla"].value,
-        }/*,
-        campos: [...this.campos],*/
+        steril: {
+          createdAt: this.esterilForm.controls["createdAt"].value,
+          sede: this.esterilForm.controls["sede"].value,
+          motivo: this.esterilForm.controls["motivo"].value,
+          tipo: this.esterilForm.controls["tipo"].value,
+          espora: this.esterilForm.controls["espora"].value,
+          dispMed: this.esterilForm.controls["dispMed"].value,
+          tipEmp: this.esterilForm.controls["tipEmp"].value,
+          timeMin: this.esterilForm.controls["timeMin"].value
+        }
       };
 
       this.esterilizacionesService.saveSterilizations(obj).subscribe((res) => res);
-
       this.showForm = false;
-
       this.esterilForm.reset();
 
       Swal.fire(
@@ -75,7 +138,6 @@ export class EsterilizacionesComponent implements OnInit {
       );
 
       this.fetchSterilizations();
-
       this.showListado = true;
       this.showContent = true;
     } else {
@@ -91,9 +153,14 @@ export class EsterilizacionesComponent implements OnInit {
     this.showBtnEliminar = true;
     this.sterilization = esterilizacion;
 
-    this.esterilForm.controls["usuario"].setValue(esterilizacion.usuario);
-    this.esterilForm.controls["fecha"].setValue(esterilizacion.fecha);
-//    this.fetchCamposValues(application.id);
+    this.esterilForm.controls["createdAt"].setValue(esterilizacion.createdAt);
+    this.esterilForm.controls["sede"].setValue(esterilizacion.sede);
+    this.esterilForm.controls["motivo"].setValue(esterilizacion.motivo);
+    this.esterilForm.controls["tipo"].setValue(esterilizacion.tipo);
+    this.esterilForm.controls["espora"].setValue(esterilizacion.espora);
+    this.esterilForm.controls["dispMed"].setValue(esterilizacion.dispMed);
+    this.esterilForm.controls["tipEmp"].setValue(esterilizacion.tipEmp);
+    this.esterilForm.controls["timeMin"].setValue(esterilizacion.timeMin);
   }
 
   ngOnInit(): void {
@@ -101,7 +168,7 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   findBy() {
-    if (this.filter.T27Campo9) {
+    if (this.filter.nombre || this.filter.CedulaPaciente) {
       this.fetchSterilizations(this.filter);
     } else {
       this.fetchSterilizations();
@@ -109,7 +176,7 @@ export class EsterilizacionesComponent implements OnInit {
     this.IsWaiting = true;
   }
 
-  fetchSterilizations = (obj?) => {
+  fetchSterilizations = (obj?: any) => {
     this.IsWaiting = true;
     this.esterilizacionesService.getAll(obj).subscribe((res) => {
       this.sterilizations = res.data.sterilizations;
@@ -117,4 +184,23 @@ export class EsterilizacionesComponent implements OnInit {
     });
   };
 
+  selectField(rolSelected: any, campo: any){
+    this.esterilForm.controls[campo].setValue(rolSelected.value);
+  }
+
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+    if ( new Date() >= new Date(moment(event.value).format())) {
+      this.dateValue = moment(new Date(moment(event.value).format())
+        .setDate( new Date(moment(event.value).format()).getDate() + 1 )).format();
+    }else {
+      this.dateValue = moment(event.value).format();
+    }
+    this.valor.emit(this.dateValue);
+    //console.log("Triggered", this.esterilForm.controls['createdAt'].value);
+  }
+}
+
+interface SelItem {
+  value: string;
+  nombre: string;
 }

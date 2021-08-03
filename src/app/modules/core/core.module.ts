@@ -5,7 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { UsersComponent } from "./../users/users.component";
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { FooterComponent } from "./footer/footer.component";
 import { HttpClientModule } from "@angular/common/http";
 import { ServicesService } from "./services/services.service";
@@ -78,6 +78,8 @@ import { EsterilizacionesComponent } from '../esterilizaciones/esterilizaciones.
 import { EgresosComponent } from "../egresos/egresos.component";
 import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egresos-programados.component";
 import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+//import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -176,8 +178,11 @@ FullCalendarModule.registerPlugins([
     MyNavComponent,
   ],
 
-  providers: [ServicesService],
+  providers: [ServicesService,
+              {provide: OWL_DATE_TIME_LOCALE, useValue: 'co'}/*,
+  { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } },*/],
   bootstrap: [DatetimeComponent], //componente
   entryComponents: [ModalComponent, LoadingComponent, DialogOverviewExample],
+  schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class CoreModule {}

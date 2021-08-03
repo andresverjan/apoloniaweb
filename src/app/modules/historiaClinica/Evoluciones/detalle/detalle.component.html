@@ -11,7 +11,7 @@
             >
               <mat-grid-tile fxFlex=50>
                 <app-select label="Actividad" [data]=acts icono="local_police"
-                  (valSelected)="procesarRolAdd($event)"
+                  (valSelected)="procesarRolAdd($event, 'act_id')"
                   default="{{detaForm.controls['act_id'].value}}"
                   fxFlex="50"
                 >
@@ -19,7 +19,7 @@
               </mat-grid-tile>
               <mat-grid-tile fxFlex=50>
                 <app-select label="Firma" [data]=firms icono="local_police"
-                  (valSelected)="procesarFirma($event)"
+                  (valSelected)="procesarRolAdd($event, 'firma')"
                   default="{{detaForm.controls['firma'].value}}"
                   fxFlex="50"
                 >
