@@ -1,41 +1,25 @@
 <mat-toolbar class="matToolbarCss">
   <mat-toolbar-row>
-    <button
-      type="button"
-      aria-label="Toggle sidenav"
-      mat-icon-button
-      (click)="drawer.toggle(); afterClick()"
-      style="color: white"
-      [ngStyle]="navSizeCss"
-    >
+    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle(); afterClick()"
+      style="color: white" [ngStyle]="navSizeCss">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
     <span style="padding: 3px; color: white">{{
       etiquetas.MenuMarlynkWeb
-    }}</span>
+      }}</span>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport="true"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)"
-  >
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
     <mat-toolbar style="margin-top: 25px">
       <img class="cssLogo" src="{{ urlLogo }}" alt="logo" style="float: left" />
     </mat-toolbar>
     <mat-list style="margin-left: 20px; margin-right: 20px">
-      <mat-list-item
-        routerLink="{{ item.routerLink }}"
-        [routerLinkActive]="['is-active']"
-        style="margin-top: 9px"
-        (click)="mostrarRouter(item)"
-        *ngFor="let item of array"
-      >
+      <mat-list-item routerLink="{{ item.routerLink }}" [routerLinkActive]="['is-active']" style="margin-top: 9px"
+        (click)="mostrarRouter(item)" *ngFor="let item of array">
         <mat-icon class="menuIcon">{{ item.icon }}</mat-icon>
         {{ item.nombre }}
       </mat-list-item>

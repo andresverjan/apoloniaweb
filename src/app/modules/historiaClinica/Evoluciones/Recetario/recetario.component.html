@@ -5,7 +5,22 @@
     Adicion
   </button>
 </mat-card-actions>
-<div class="container" *ngIf="showListado" style="overflow: hidden"></div>
+
+<div class="container" style="overflow: hidden">
+  <mat-grid-list cols="5" rowHeight="230px">
+    <mat-grid-tile *ngFor="let est of esterilizacionArreglo" style="overflow-x: hidden">
+      <mat-card (click)="actualizar(app)" class="dashboard-card">
+        <mat-card-content class="dashboard-card-content">
+          <mat-icon>web</mat-icon>
+          <!--h5-- class="cssRow">{{ est.T27Campo24 }}</!--h5-->
+          <br />
+          <div>{{ est.id }}</div>
+          <div>{{ est.nombre }}</div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
 
 <div class="container" style="overflow: hidden">
   <ng-template #myDialog style="overflow: hidden">

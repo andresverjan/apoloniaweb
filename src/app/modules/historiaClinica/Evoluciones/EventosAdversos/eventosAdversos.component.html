@@ -9,11 +9,6 @@
 
     <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
     <mat-card-content class="window-dashboard-card-content" *ngIf="showListado" style="overflow-block:hidden">
-        <mat-toolbar color="primary">
-            <mat-icon matPrefix> web </mat-icon>
-            <span>Eventos Adversos</span>
-            <mat-icon>info</mat-icon>
-        </mat-toolbar>
     </mat-card-content>
     <mat-card-content>
         <mat-grid-list cols="5" rowHeight="230px">
@@ -51,9 +46,6 @@
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-toolbar>
-                        <mat-card-header>
-                            <mat-card-title></mat-card-title>
-                        </mat-card-header>
                         <mat-card class="cardcontent">
                             <mat-card-content fxLayout="column" fxLayoutAlign="center">
                                 <div class="input-group">
