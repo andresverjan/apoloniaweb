@@ -62,7 +62,8 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialogRef = this.dialog.open(templateRef, {
-      width: "650px",
+      height:"483px",
+      width:"572px",
       disableClose: true,
     });
     this.dialogRef.afterClosed().subscribe(() => {});
