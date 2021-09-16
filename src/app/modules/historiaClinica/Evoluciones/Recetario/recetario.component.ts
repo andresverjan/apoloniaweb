@@ -66,8 +66,8 @@ export class RecetarioComponent implements OnInit {
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialogRef = this.dialog.open(templateRef, {
-      height: "810px",
-      width: "650px",
+      height: "602px",
+      width: "572px",
       disableClose: true,
     });
     this.dialogRef.afterClosed().subscribe(() => {});

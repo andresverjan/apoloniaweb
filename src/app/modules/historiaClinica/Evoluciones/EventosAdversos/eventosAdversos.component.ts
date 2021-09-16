@@ -106,8 +106,8 @@ actualizar(item){
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>,) {
     this.dialogRef = this.dialog.open(templateRef, {
-      height:"810px",
-      width:"650px",
+      height:"483px",
+      width:"572px",
       disableClose: true,
     });
     this.dialogRef.afterClosed().subscribe((a) => { });

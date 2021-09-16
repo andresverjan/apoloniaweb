@@ -42,9 +42,13 @@ export class RemisionComponent implements OnInit {
   openDialogWithTemplateRef(
     templateRef: TemplateRef<any>,
   ) {
+    
     this.dialogRef = this.dialog.open(templateRef, {
+      height: "495px",
+      width: "572px",
       disableClose: true,
     });
+
     this.dialogRef.afterClosed().subscribe(() => {});
   }
 

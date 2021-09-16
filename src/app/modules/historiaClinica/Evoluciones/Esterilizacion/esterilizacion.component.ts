@@ -53,10 +53,13 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     this.dialogRef.close();
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
+    
     this.dialogRef = this.dialog.open(templateRef, {
+      height:"536px",
+      width:"572px",
       disableClose: true,
     });
-    this.dialogRef.afterClosed().subscribe(() => {});
+    this.dialogRef.afterClosed().subscribe((a) => { });
   }
 
   openModal() {

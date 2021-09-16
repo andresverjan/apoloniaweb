@@ -8,7 +8,6 @@
     </mat-card-actions>
 
     <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
-
     <mat-card-content class="window-dashboard-card-content" *ngIf="showListado" style="overflow-block:hidden">
         <mat-toolbar color="primary">
             <mat-icon matPrefix> web </mat-icon>
@@ -17,7 +16,6 @@
         </mat-toolbar>
     </mat-card-content>
     <mat-card-content>
-
         <mat-grid-list cols="5" rowHeight="230px">
             <mat-grid-tile *ngFor=" let item of eventos" style="overflow-x: hidden">
                 <mat-card (click)="actualizar(item)" class="dashboard-card">
@@ -32,11 +30,16 @@
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>
-
-
     <div>
         <ng-template #myDialog style="overflow: hidden">
-            <div>
+            <mat-dialog-content style="
+            margin-left: -63px;
+            margin-right: -63px;
+            margin-top: -24px;
+            margin-bottom: -38px;
+            width: 650px;
+            overflow: hidden;
+          ">
                 <div class="container" style="overflow: hidden">
                     <mat-card-content style="margin-bottom: 0px">
                         <mat-toolbar color="primary">
@@ -77,7 +80,7 @@
                         </mat-card>
                     </mat-card-content>
                 </div>
-            </div>
+            </mat-dialog-content>
         </ng-template>
     </div>
 
