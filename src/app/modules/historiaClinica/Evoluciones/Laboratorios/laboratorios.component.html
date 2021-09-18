@@ -50,13 +50,13 @@
                 [columnas]="{ Nombres: 'Nombre Especialista' }" [resultInputText]="['Nombres']"
                 [service]="_odontologosService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo"
                 fxFlex="60"></app-buscadormodal>
-
-              <app-buscadormodal id="Pacientes" [filters]="['Cedula', 'Nombres', 'Apellidos']"
+              <!--TODO: Pasar el Paciente ID como parametro.
+                <app-buscadormodal id="Pacientes" [filters]="['Cedula', 'Nombres', 'Apellidos']"
                 (selected)="onPatientSelected($event)" [columnas]="{
                           Nombres: 'Nombre'
                         }" [resultInputText]="['Apellidos1', 'Cedula']" [service]="_pacienteService"
                 tituloBusqueda=" Paciente" [defaultObjValue]="paciente" fxFill></app-buscadormodal>
-
+              -->
               <div class="input-group">
                 <textarea class="form-control" placeholder="Observaciones" aria-label="With textarea"
                   style="height: 200px; width: 90%"></textarea>
