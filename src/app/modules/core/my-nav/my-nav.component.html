@@ -4,9 +4,7 @@
       style="color: white" [ngStyle]="navSizeCss">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
-    <span style="padding: 3px; color: white">{{
-      etiquetas.MenuMarlynkWeb
-      }}</span>
+    <span style="padding: 3px; color: white">Apolonia Especialistas</span>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -19,7 +17,7 @@
     </mat-toolbar>
     <mat-list style="margin-left: 20px; margin-right: 20px">
       <mat-list-item routerLink="{{ item.routerLink }}" [routerLinkActive]="['is-active']" style="margin-top: 9px"
-        (click)="mostrarRouter(item)" *ngFor="let item of array">
+        (click)="mostrarRouter($event, item)" *ngFor="let item of array">
         <mat-icon class="menuIcon">{{ item.icon }}</mat-icon>
         {{ item.nombre }}
       </mat-list-item>
