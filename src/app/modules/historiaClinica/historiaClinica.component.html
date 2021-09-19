@@ -12,10 +12,7 @@
       <mat-card-header>
         <mat-card-title> </mat-card-title>
       </mat-card-header>
-      <mat-card class="cardcontent">
-        <mat-card-title fxLayoutAlign="center">
-          <label>Historia Clinica</label>
-        </mat-card-title>
+      <mat-card class="cardcontent">        
         <mat-card-content fxLayout="column" fxLayoutAlign="center">
           <app-buscadormodal [filters]="['Cedula', 'Nombres', 'Apellidos']" (selected)="onPatientSelected($event)"
             [columnas]="{
