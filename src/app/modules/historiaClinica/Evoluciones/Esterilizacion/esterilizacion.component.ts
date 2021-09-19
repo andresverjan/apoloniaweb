@@ -21,7 +21,8 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
   public dialogRef: any;
   public esterilizacionArreglo: any = [];
   public esterilizacion: SelItem[] = [];
-  public esterilizacions: SelItem[] = [];
+  public esterilizaciones: Array<any> = [];
+
 
   @Input() Cedula: string;
 
@@ -30,6 +31,10 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
 
   constructor(public dialog: MatDialog,
               public _esterilizacionService:EsterilizacionService) {
+  }
+
+  ngOnInit() {
+    this.fetch();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -64,7 +69,6 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
 
   openModal() {
     this.openDialogWithTemplateRef(this.myDialog);
-    this.fetchEsterilDisp();
   }
 
   fetchEsterilizacion = (obj?: any) => {
@@ -75,13 +79,17 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     });
   };
 
-  fetchEsterilDisp = (obj?: any) => {
+  fetch() {
     this.IsWaiting = true;
-    this._esterilizacionService.getAll(obj).subscribe((res) => {
-      this.esterilizacions = res.data.esterilizaciones;
+    this._esterilizacionService.getAll().subscribe(({ data }) => {
+      this.esterilizaciones = data.evolucionesEsterilizacion;
+      console.log("llego.. esteril");
+      console.log(data);
       this.IsWaiting = false;
     });
-  };
+  }
+
+
 }
 
 interface SelItem {

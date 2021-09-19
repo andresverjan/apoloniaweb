@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewCh
 import { MatDialog } from "@angular/material/dialog";
 import { OdontologosService } from "src/app/modules/core/services/odontologos.service";
 import { PacienteService } from "src/app/modules/core/services/paciente.service";
+import { LaboratoriosService } from "./laboratorios.service";
 
 @Component({
   selector: "app-laboratorios",
@@ -17,15 +18,15 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
   public etiquetaNombreModulo = "Campos";
   public odontologo: any;
   public paciente: any;
-
+  public laboratorios: Array<any> = [];
   @Input() Cedula: string;
-
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
   constructor(
     public dialog: MatDialog,
     public _odontologosService: OdontologosService,
-    public _pacienteService: PacienteService
+    public _pacienteService: PacienteService,
+    public laboratorioService: LaboratoriosService
   ) {
     this.odontologo = {
       Nombres: "Seleccionar Especialista",
@@ -36,6 +37,10 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
     };
   }
 
+  ngOnInit() {
+    console.log("FECHHHH");
+    this.fetch();
+  }
   ngOnChanges(changes: SimpleChanges): void {
 //    this.fetchEvoluciones(this.Cedula);
   }
@@ -77,5 +82,13 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
   onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.IsWaiting = true;
+  }
+
+  fetch() {
+    this.IsWaiting = true;
+    this.laboratorioService.getAll().subscribe(({ data }) => {
+      this.laboratorios = data.evolucionesLaboratorios;
+      this.IsWaiting = false;
+    });
   }
 }

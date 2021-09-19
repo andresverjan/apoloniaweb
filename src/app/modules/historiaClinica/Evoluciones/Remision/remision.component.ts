@@ -18,9 +18,10 @@ export class RemisionComponent implements OnInit {
   public dialogRef: any;
   public odontologo: any;
   public etiquetaNombreModulo = "Campos";
+  public remision: Array<any> = [];
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
-  constructor(public dialog: MatDialog,public _odontologoService: OdontologosService) {}
+  constructor(public dialog: MatDialog,public _odontologoService: OdontologosService, public remisionService: RemisionService) {}
 
   actionAdicionar() {
     this.showListado = false;
@@ -58,5 +59,19 @@ export class RemisionComponent implements OnInit {
   onOdontologoSelected(selected) {
     this.odontologo = selected;
   }
-  ngOnInit() {}
+
+  ngOnInit() {
+    this.fetch();
+  }
+
+  fetch() {
+    this.IsWaiting = true;
+    this.remisionService.getAll().subscribe(({ data }) => {
+      this.remision = data.evolucionesRemision;
+      this.IsWaiting = false;
+    });
+  }
+
+  
+
 }

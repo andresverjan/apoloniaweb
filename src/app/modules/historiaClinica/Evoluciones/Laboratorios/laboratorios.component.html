@@ -9,14 +9,14 @@
 <!--mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></!--mat-progress-bar-->
 <div class="container" style="overflow: hidden">
   <mat-grid-list cols="5" rowHeight="230px">
-    <mat-grid-tile *ngFor="let est of esterilizacionArreglo" style="overflow-x: hidden">
+    <mat-grid-tile *ngFor="let laboratorio of laboratorios" style="overflow-x: hidden">
       <mat-card (click)="actualizar(app)" class="dashboard-card">
         <mat-card-content class="dashboard-card-content">
           <mat-icon>web</mat-icon>
-          <!--h5-- class="cssRow">{{ est.T27Campo24 }}</!--h5-->
           <br />
-          <div>{{ est.id }}</div>
-          <div>{{ est.nombre }}</div>
+          <div>{{ laboratorio.id }}</div>
+          <div>{{ laboratorio.nombre }}</div>
+          <div>{{ laboratorio.createdAt }}</div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
