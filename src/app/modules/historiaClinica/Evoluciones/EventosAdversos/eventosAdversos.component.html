@@ -15,7 +15,7 @@
             <mat-grid-tile *ngFor=" let item of eventos" style="overflow-x: hidden">
                 <mat-card (click)="actualizar(item)" class="dashboard-card">
                     <mat-card-content class="dashboard-card-content">
-                        <mat-icon> web </mat-icon>
+                        <mat-icon>event</mat-icon>
                         <h5 class="cssRow">{{item.nombre}}</h5>
                         <br>
                         <div>{{item.observaciones}}</div>
