@@ -20,6 +20,7 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
   public paciente: any;
   public laboratorios: Array<any> = [];
   @Input() Cedula: string;
+  @Input() listadoAdd: Array<any> = [];
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
   constructor(
@@ -77,7 +78,6 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
   openModal() {
     this.openDialogWithTemplateRef(this.myDialog);
   }
-//  ngOnInit() {}
 
   onOdontologoSelected(selected) {
     this.odontologo = selected;

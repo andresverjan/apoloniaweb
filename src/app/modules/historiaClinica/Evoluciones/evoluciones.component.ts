@@ -4,6 +4,7 @@ import { ColumnaService } from "../../core/services/columna.service";
 import { TipoCampoService } from "../../tipo-campo/tipo-campo.service";
 import { EvolucionesService } from "./evoluciones.service";
 import { PacienteService } from "../../core/services/paciente.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-evoluciones",
@@ -17,8 +18,15 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
   public mascaras = [];
   public evolucionesLista: any = [];
 
-  @Input() Cedula: string;
 
+  public remisionAdd: any = [];
+  public eventosAdversosAdd: any = [];
+  public laboratoriosAdd: any = [];
+  public esterilizacionAdd: any = [1,2,3,4];
+  public recetarioAdd: any = [];
+
+
+  @Input() Cedula: string;
   constructor(//public _pacienteService: PacienteService,
               public _evolucionesService: EvolucionesService) {
   }
@@ -27,13 +35,21 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
     this.fetchEvoluciones(this.Cedula);
   }
 
-  actionAdicionar() {
+  actionAdicionar() {    
     this.showListado = false;
     this.showForm = true;
   }
+
   guardar() {
+    console.log("presiono guardar.....");
+    console.log(this.esterilizacionAdd);
+    console.log("IMPRIMO eventosAdversosAdd");
+    console.log(this.eventosAdversosAdd);
     this.showForm = false;
     this.showListado = true;
+
+    
+
   }
 
   cancelar() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef, Input } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { TableService } from "../../../core/services/table.service";
 import { ColumnaService } from "../../../core/services/columna.service";
@@ -19,6 +19,7 @@ export class RemisionComponent implements OnInit {
   public odontologo: any;
   public etiquetaNombreModulo = "Campos";
   public remision: Array<any> = [];
+  @Input() listadoAdd: Array<any> = [];
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
   constructor(public dialog: MatDialog,public _odontologoService: OdontologosService, public remisionService: RemisionService) {}

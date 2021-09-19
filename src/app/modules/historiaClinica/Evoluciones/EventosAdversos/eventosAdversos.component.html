@@ -34,7 +34,7 @@
             width: 650px;
             overflow: hidden;
           ">
-                <div class="container" style="overflow: hidden">
+                <div class="container"  [formGroup]="eventosAdversosForm" style="overflow: hidden">
                     <mat-card-content class="window-dashboard-card-content contentprincipal" style="margin-bottom: 0px">
                         <mat-toolbar color="primary">
                             <mat-icon matPrefix>event_note</mat-icon>
@@ -48,11 +48,11 @@
                         <mat-card class="cardcontent">
                             <mat-card-content fxLayout="column" fxLayoutAlign="center">
                                 <div class="input-group">
-                                    <input class="form-control" placeholder="Nombre" aria-label="With textarea"
+                                    <input class="form-control"  matInput formControlName="nombre" placeholder="Nombre" aria-label="With textarea"
                                         style="height: 60px; width: 90%; margin-top: 20px; margin-bottom: 20px;" />
                                 </div>
                                 <div class="input-group">
-                                    <textarea class="form-control" placeholder="Observaciones"
+                                    <textarea class="form-control"  matInput formControlName="observaciones" placeholder="Observaciones"
                                         aria-label="With textarea" style="height: 200px; width: 90%"></textarea>
                                 </div>
                             </mat-card-content>

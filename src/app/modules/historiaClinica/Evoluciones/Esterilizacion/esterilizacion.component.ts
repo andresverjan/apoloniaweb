@@ -25,6 +25,7 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
 
 
   @Input() Cedula: string;
+  @Input() listadoAdd: Array<any> = [];
 
   public etiquetaNombreModulo = "Campos";
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
@@ -34,14 +35,17 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
   }
 
   ngOnInit() {
+    console.log("llego esto del parent...");    
+    console.log(this.listadoAdd);
+    this.listadoAdd.push(999),
     this.fetch();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.fetchEsterilizacion(this.Cedula);//
+    this.fetchEsterilizacion(this.Cedula);//    
   }
 
-  actionAdicionar() {
+  actionAdicionar() {    
     this.showListado = false;
     this.showForm = true;
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { OdontologosService } from "src/app/modules/core/services/odontologos.service";
 import { RecetarioService } from "./recetario.service";
@@ -17,6 +17,7 @@ export class RecetarioComponent implements OnInit {
   public etiquetaNombreModulo = "Campos";
   public odontologo: any;
   public recetario: Array<any> = [];
+  @Input() listadoAdd: Array<any> = [];
 
   SEL1 = [
     { id: 6, name: "Salir" },

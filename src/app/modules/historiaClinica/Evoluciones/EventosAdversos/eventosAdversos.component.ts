@@ -1,11 +1,12 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef, Input } from "@angular/core";
 import { TableService } from "../../../core/services/table.service";
 import { ColumnaService } from "../../../core/services/columna.service";
 import { TipoCampoService } from "../../../tipo-campo/tipo-campo.service";
 import { EventosAdversosService } from "./eventosAdversos.service";
 import { OdontologosService } from "../../../core/services/odontologos.service";
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -22,6 +23,9 @@ export class EventosAdversosComponent implements OnInit {
   public etiquetaNombreModulo = "Campos";
   public odontologo: any;
   public eventos: Array<any> = [];
+
+  public eventosAdversosForm: FormGroup;
+  @Input() listadoAdd: Array<any> = [];
   
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
@@ -29,11 +33,20 @@ export class EventosAdversosComponent implements OnInit {
     public dialog: MatDialog,
     public _odontologosService: OdontologosService,
     public eventosAdversosService: EventosAdversosService,
-
   ) {
     this.odontologo = {
       Nombres: "seleccionar especialista",
     };
+    this.eventosAdversosForm = new FormGroup({
+      nombre: new FormControl("", [
+        Validators.maxLength(50),
+        Validators.required,
+      ]),
+      observaciones: new FormControl("", [
+        Validators.maxLength(255),
+        Validators.required,
+      ]),
+    });
   }
   ngOnInit() {
     this.fetch();
@@ -46,9 +59,19 @@ export class EventosAdversosComponent implements OnInit {
   guardar() {
     this.showForm = false;
     this.showListado = true;
-    this.eventos.push();
+    const obj = {
+        nombre: this.eventosAdversosForm.controls["nombre"].value,
+        observaciones: this.eventosAdversosForm.controls["observaciones"].value,
+      };
+    this.eventos.push(obj);
+    this.listadoAdd.push(obj);
+    this.closeDialog();
+    Swal.fire(
+      "Operación exitosa",
+      "",
+      "success"
+    );
   }
-
 
   actualizar(item) {
 
@@ -58,7 +81,6 @@ export class EventosAdversosComponent implements OnInit {
     this.showListado = true;
   }
   closeDialog() {
-
     this.dialogRef.close();
   }
 
