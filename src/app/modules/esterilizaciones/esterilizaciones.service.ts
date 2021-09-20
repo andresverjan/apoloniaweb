@@ -18,12 +18,7 @@ export class EsterilizacionesService {
     let params = "";
     let ordenamiento = "";
     let filter = "";
-    /*si trae filtro
-    if (objeTosend) {
-      filter = `(filter: {
-        CedulaPaciente: "${objeTosend}"
-      })`;
-    }*/
+
     if (objeTosend) {
       filter = `(filter: {`;
       if(objeTosend.nombre) {
@@ -53,23 +48,30 @@ export class EsterilizacionesService {
   }
 
   saveSterilizations(obj: any): Observable<any> {
-    const { application, campos } = obj;
-
+    const { steril } = obj;
     let body = {
       query: `mutation{
-        saveSterilizations
-        {
-          id
-          nombre
-          nombreTabla
-          active
-          createdBy
-          createdAt
-          updatedAt
-        }
-      }`,
+        saveSterilizations(esteriliz: {
+          T27Fecha: "${steril.T27Fecha}",
+          sede: "${steril.sede}",
+          motivo: "${steril.motivo}",
+          tipo:"${steril.tipo}",
+          esporas:"${steril.esporas}",
+          dispmed:"${steril.dispMed}",
+          tipEmp:"${steril.tipEmp}",
+          timeMin:${steril.timeMin},
+          temper:${steril.temper},
+          presion:${steril.presion},
+          observ:"${steril.observ}",
+          cant:${steril.cant}
+        })
+          {
+            id
+          }
+        }`,
     };
 
-    return this.httpService.callApi(body);
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 }

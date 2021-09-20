@@ -60,7 +60,8 @@ export class EsterilizacionesComponent implements OnInit {
   constructor(
     private esterilizacionesService: EsterilizacionesService) {
       this.esterilForm = new FormGroup({
-        createdAt: new FormControl("", [Validators.maxLength(20),
+        T27Fecha: new FormControl("", [
+          Validators.maxLength(50),
           Validators.required
         ]),
 
@@ -79,7 +80,7 @@ export class EsterilizacionesComponent implements OnInit {
           Validators.maxLength(50),
         ]),
 
-        espora: new FormControl("", [
+        esporas: new FormControl("", [
           Validators.maxLength(50),
           Validators.required,
         ]),
@@ -94,8 +95,28 @@ export class EsterilizacionesComponent implements OnInit {
           Validators.required,
         ]),
 
-        time_min: new FormControl("", [
+        timeMin: new FormControl("", [
           Validators.maxLength(5),
+          Validators.required,
+        ]),
+
+        temper: new FormControl("", [
+          Validators.maxLength(5),
+          Validators.required,
+        ]),
+
+        presion: new FormControl("", [
+          Validators.maxLength(5),
+          Validators.required,
+        ]),
+
+        cant: new FormControl("", [
+          Validators.maxLength(5),
+          Validators.required,
+        ]),
+
+        observ: new FormControl("", [
+          Validators.maxLength(255),
           Validators.required,
         ])
       });
@@ -113,17 +134,23 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   guardar() {
+
+    console.log("esta: -");
     if (this.esterilForm.valid) {
       const obj = {
         steril: {
-          createdAt: this.esterilForm.controls["createdAt"].value,
-          sede: this.esterilForm.controls["sede"].value,
-          motivo: this.esterilForm.controls["motivo"].value,
-          tipo: this.esterilForm.controls["tipo"].value,
-          espora: this.esterilForm.controls["espora"].value,
-          dispMed: this.esterilForm.controls["dispMed"].value,
-          tipEmp: this.esterilForm.controls["tipEmp"].value,
-          timeMin: this.esterilForm.controls["timeMin"].value
+          T27Fecha: this.esterilForm.controls["T27Fecha"].value,
+          sede:     this.esterilForm.controls["sede"].value,
+          motivo:   this.esterilForm.controls["motivo"].value,
+          tipo:     this.esterilForm.controls["tipo"].value,
+          esporas:  this.esterilForm.controls["esporas"].value,
+          dispMed:  this.esterilForm.controls["dispMed"].value,
+          tipEmp:   this.esterilForm.controls["tipEmp"].value,
+          timeMin:  this.esterilForm.controls["timeMin"].value,
+          temper:   this.esterilForm.controls["temper"].value,
+          presion:  this.esterilForm.controls["presion"].value,
+          cant:     this.esterilForm.controls["cant"].value,
+          observ:   this.esterilForm.controls["observ"].value
         }
       };
 
@@ -153,14 +180,18 @@ export class EsterilizacionesComponent implements OnInit {
     this.showBtnEliminar = true;
     this.sterilization = esterilizacion;
 
-    this.esterilForm.controls["createdAt"].setValue(esterilizacion.createdAt);
+    this.esterilForm.controls["T27Fecha"].setValue(esterilizacion.T27Fecha);
     this.esterilForm.controls["sede"].setValue(esterilizacion.sede);
     this.esterilForm.controls["motivo"].setValue(esterilizacion.motivo);
     this.esterilForm.controls["tipo"].setValue(esterilizacion.tipo);
-    this.esterilForm.controls["espora"].setValue(esterilizacion.espora);
+    this.esterilForm.controls["esporas"].setValue(esterilizacion.esporas);
     this.esterilForm.controls["dispMed"].setValue(esterilizacion.dispMed);
     this.esterilForm.controls["tipEmp"].setValue(esterilizacion.tipEmp);
     this.esterilForm.controls["timeMin"].setValue(esterilizacion.timeMin);
+    this.esterilForm.controls["temper"].setValue(esterilizacion.temper);
+    this.esterilForm.controls["presion"].setValue(esterilizacion.presion);
+    this.esterilForm.controls["cant"].setValue(esterilizacion.cant);
+    this.esterilForm.controls["observ"].setValue(esterilizacion.observ);
   }
 
   ngOnInit(): void {
@@ -196,7 +227,6 @@ export class EsterilizacionesComponent implements OnInit {
       this.dateValue = moment(event.value).format();
     }
     this.valor.emit(this.dateValue);
-    //console.log("Triggered", this.esterilForm.controls['createdAt'].value);
   }
 }
 
