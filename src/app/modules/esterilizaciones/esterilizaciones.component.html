@@ -55,9 +55,9 @@
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                   <mat-icon matPrefix>alarm</mat-icon>
                   <input #dpInput matInput placeholder="Date Time:"
-                    id="{{ 'createdAt' }}"
-                    [formControlName]="'createdAt'"
-                    [(ngModel)]="createdAt"
+                    id="{{ 'T27Fecha' }}"
+                    [formControlName]="'T27Fecha'"
+                    [(ngModel)]="T27Fecha"
                     [owlDateTimeTrigger]="dt1"
                     [owlDateTime]="dt1"
                     (dateTimeChange)="onDateChange($event)"
@@ -75,8 +75,9 @@
               <mat-grid-tile fxFlex=50>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=50>
                   <input #dpInput matInput  type="number" min="0"
-                    id="timeMin"
-                    placeholder="Tiempo (Min)"
+                    id="timeMin"  placeholder="Tiempo (Min)"
+                    [formControlName]="'timeMin'"
+                    [(ngModel)]="timeMin"
                     required
                   >
                 </div>
@@ -84,8 +85,11 @@
               <mat-grid-tile fxFlex=50>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                   <mat-icon matPrefix><i class="fas fa-temperature"></i></mat-icon>
-                  <input #dpInput matInput  type="number" id="temp"
-                    placeholder="Temperatura"  required
+                  <input #dpInput matInput  type="number" id="temper"
+                    placeholder="Temperatura"
+                    [formControlName]="'temper'"
+                    [(ngModel)]="temper"
+                    required
                   >
                 </div>
               </mat-grid-tile>
@@ -93,7 +97,10 @@
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                   <mat-icon matPrefix><i class="fas fa-temperature"></i></mat-icon>
                   <input #dpInput matInput  type="number" id="presion"
-                    placeholder="Presión"  required
+                    placeholder="Presión"
+                    [formControlName]="'presion'"
+                    [(ngModel)]="presion"
+                    required
                   >
                 </div>
               </mat-grid-tile>
@@ -112,8 +119,8 @@
               </mat-grid-tile>
               <mat-grid-tile fxFlex=50>
                 <app-select label="Esporas" [data]=acts icono="local_police"
-                  (valSelected)="selectField($event, 'espora')"
-                  default="{{esterilForm.controls['espora'].value}}"
+                  (valSelected)="selectField($event, 'esporas')"
+                  default="{{esterilForm.controls['esporas'].value}}"
                   fxFlex="50"
                 >
                 </app-select>
@@ -125,10 +132,13 @@
               <mat-grid-tile fxFlex=90>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="90">
                 <!--div class="input-group"-->
-                  <textarea class="form-control"
+                  <textarea #dpInput matInput class="form-control"
                     placeholder="Observaciones"
                     aria-label="With textarea"
+                    [formControlName]="'observ'"
+                    [(ngModel)]="observ"
                     style="height: 80px; width: 90%"
+                    id="observ"
                   ></textarea>
                 </div>
               </mat-grid-tile>
@@ -156,8 +166,9 @@
               <mat-grid-tile fxFlex=50>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=50>
                   <input #dpInput matInput  type="number" min="0"
-                    id="timeMin"
-                    placeholder="Cantidad"
+                    id="cant" placeholder="Cantidad"
+                    [formControlName]="'cant'"
+                    [(ngModel)]="cant"
                     required
                   >
                 </div>
