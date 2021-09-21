@@ -260,9 +260,9 @@
           <mat-form-field fxFlex="100">
             <input
               matInput
-              id="filterbyNombre"
-              placeholder="Nombre"
-              [(ngModel)]="filter.nombre"
+              id="filterbyDisponible"
+              placeholder="Disponible"
+              [(ngModel)]="filter.disponible"
               (keyup)="findBy()"
             />
           </mat-form-field>
@@ -273,7 +273,7 @@
               matInput
               id="filterbyCedulaPaciente"
               placeholder="Cédula"
-              [(ngModel)]="filter.CedulaPaciente"
+              [(ngModel)]="filter.cedulaPaciente"
               (keyup)="findBy()"
             />
           </mat-form-field>
@@ -288,7 +288,7 @@
         <mat-card (click)="actualizar(app)" class="dashboard-card">
           <mat-card-content class="dashboard-card-content">
             <mat-icon>web</mat-icon>
-            <h5 class="cssRow">{{ app.nombre }}</h5>
+            <h5 class="cssRow">{{ app.disponible }}</h5>
             <br />
             <div>{{ app.T27Fecha }}</div>
           </mat-card-content>

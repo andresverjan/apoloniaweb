@@ -21,11 +21,11 @@ export class EsterilizacionesService {
 
     if (objeTosend) {
       filter = `(filter: {`;
-      if(objeTosend.nombre) {
-        filter +=   `nombre: "${objeTosend.nombre}"`;
+      if(objeTosend.disponible) {
+        filter +=   `disponible: "${objeTosend.disponible}"`;
       }
-      if(objeTosend.CedulaPaciente) {
-        filter +=   `${objeTosend.nombre? "," : ""} CedulaPaciente: "${objeTosend.CedulaPaciente}"`;
+      if(objeTosend.cedulaPaciente) {
+        filter +=   `${objeTosend.disponible? "," : ""} cedulaPaciente: "${objeTosend.cedulaPaciente}"`;
       }
       filter += '})';
     }
@@ -34,9 +34,9 @@ export class EsterilizacionesService {
     let body = {
       query: `{
         esterilizaciones ${filter}{
-          id: T27Consecutivo
-          CedulaPaciente
-          nombre: T27Campo9
+          id
+          cedulaPaciente
+          disponible
           T27Fecha
         }
       }
@@ -57,13 +57,13 @@ export class EsterilizacionesService {
           motivo: "${steril.motivo}",
           tipo:"${steril.tipo}",
           esporas:"${steril.esporas}",
-          dispmed:"${steril.dispMed}",
+          dispMed:"${steril.dispMed}",
           tipEmp:"${steril.tipEmp}",
           timeMin:${steril.timeMin},
           temper:${steril.temper},
           presion:${steril.presion},
           observ:"${steril.observ}",
-          cant:${steril.cant}
+          cantidad:${steril.cant}
         })
           {
             id

@@ -134,8 +134,6 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   guardar() {
-
-    console.log("esta: -");
     if (this.esterilForm.valid) {
       const obj = {
         steril: {
@@ -199,7 +197,7 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   findBy() {
-    if (this.filter.nombre || this.filter.CedulaPaciente) {
+    if (this.filter.disponible || this.filter.cedulaPaciente) {
       this.fetchSterilizations(this.filter);
     } else {
       this.fetchSterilizations();
@@ -210,7 +208,7 @@ export class EsterilizacionesComponent implements OnInit {
   fetchSterilizations = (obj?: any) => {
     this.IsWaiting = true;
     this.esterilizacionesService.getAll(obj).subscribe((res) => {
-      this.sterilizations = res.data.sterilizations;
+      this.sterilizations = res.data.esterilizaciones;
       this.IsWaiting = false;
     });
   };
