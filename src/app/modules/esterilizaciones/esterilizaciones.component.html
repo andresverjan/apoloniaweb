@@ -18,6 +18,13 @@
 </mat-card-actions>
 
 <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
+<mat-paginator
+  [length]="totalRegistros"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="handlePageChange($event)"
+>
+</mat-paginator>
 
 <div class="container" style="overflow: hidden">
   <mat-card-content

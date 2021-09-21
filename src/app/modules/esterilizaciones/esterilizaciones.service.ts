@@ -17,25 +17,29 @@ export class EsterilizacionesService {
   getAll(objeTosend?: any): Observable<any> {
     let params = "";
     let ordenamiento = "";
-    let filter = "";
+    let pagination = `
+    pagination: {
+      pagina: ${objeTosend.pagina}
+      limite: ${objeTosend.limite}
+    }`;
+    let filter = `${pagination}, \n`;
 
-    if (objeTosend) {
-      filter = `(filter: {`;
-      if(objeTosend.disponible) {
-        filter +=   `disponible: "${objeTosend.disponible}"`;
+    if (objeTosend.filter) {
+      filter = `filter: {`;
+      if(objeTosend.filter.disponible) {
+        filter +=   `disponible: "${objeTosend.filter.disponible}"`;
       }
-      if(objeTosend.cedulaPaciente) {
-        filter +=   `${objeTosend.disponible? "," : ""} cedulaPaciente: "${objeTosend.cedulaPaciente}"`;
+      if(objeTosend.filter.cedulaPaciente) {
+        filter +=   `${objeTosend.filter.disponible? "," : ""} cedulaPaciente: "${objeTosend.filter.cedulaPaciente}"`;
       }
-      filter += '})';
+      filter += '}';
     }
 
     params = this.toolService.getParams(filter, ordenamiento);
     let body = {
       query: `{
-        esterilizaciones ${filter}{
+        esterilizaciones ${params}{
           id
-          cedulaPaciente
           disponible
           T27Fecha
         }

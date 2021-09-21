@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EsterilizacionesService } from './esterilizaciones.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { PageEvent } from "@angular/material/paginator";
 import * as moment from 'moment';
 
 @Component({
@@ -34,6 +35,11 @@ export class EsterilizacionesComponent implements OnInit {
   public filter: any = {};
   public sterilizations: any = [];
   public sterilization: any;
+  public totalRegistros = 0;
+  public pageSize = 10;
+  public pageSizeOptions = [5, 10, 20, 30];
+  public pageNumber: number = 1;
+  public queryOptions = {};
 
   mockedItems: SelItem[] = [
     {'value' : 'id1', 'nombre': 'KANVAS'},
@@ -122,6 +128,12 @@ export class EsterilizacionesComponent implements OnInit {
       });
     }
 
+  handlePageChange(e: PageEvent) {
+    this.pageNumber = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+    this.findBy();
+  }
+
   adicionar() {
     this.showContent = false;
     this.showListado = false;
@@ -193,15 +205,23 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchSterilizations();
+    this.findBy();
   }
 
   findBy() {
     if (this.filter.disponible || this.filter.cedulaPaciente) {
-      this.fetchSterilizations(this.filter);
+      this.queryOptions = {
+        filter: this.filter,
+        pagina: this.pageNumber,
+        limite: this.pageSize,
+      };
     } else {
-      this.fetchSterilizations();
+      this.queryOptions = {
+        pagina: this.pageNumber,
+        limite: this.pageSize,
+      };
     }
+    this.fetchSterilizations(this.queryOptions);
     this.IsWaiting = true;
   }
 
