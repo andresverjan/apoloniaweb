@@ -25,17 +25,23 @@ export class EsterilizacionesService {
     let filter = `${pagination}, \n`;
 
     if (objeTosend.filter) {
-      filter = `filter: {`;
-      if(objeTosend.filter.disponible) {
-        filter +=   `disponible: "${objeTosend.filter.disponible}"`;
+      if ((objeTosend.filter.fechini != undefined && objeTosend.filter.fechini != null &&
+            objeTosend.filter.fechend != undefined && objeTosend.filter.fechend != null)) {
+        if(objeTosend.filter.disponible) {
+          filter +=   `filter: {disponible: "${objeTosend.filter.disponible}",`;
+          filter += ` fechini: "${objeTosend.filter.fechini}", fechend: "${objeTosend.filter.fechend}"}`;
+        }
+        else{
+          filter += `filter: { fechini: "${objeTosend.filter.fechini}", fechend: "${objeTosend.filter.fechend}"}`;
+        }
       }
-      if(objeTosend.filter.cedulaPaciente) {
-        filter +=   `${objeTosend.filter.disponible? "," : ""} cedulaPaciente: "${objeTosend.filter.cedulaPaciente}"`;
+      else if(objeTosend.filter.disponible) {
+        filter +=   `filter: { disponible: "${objeTosend.filter.disponible}"}`;
       }
-      filter += '}';
     }
-
+    console.log("FILTER-->>:", filter)
     params = this.toolService.getParams(filter, ordenamiento);
+    console.log("params:", params)
     let body = {
       query: `{
         esterilizaciones ${params}{

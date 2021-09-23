@@ -12,18 +12,18 @@ import * as moment from 'moment';
   styleUrls: ['./esterilizaciones.component.scss']
 })
 export class EsterilizacionesComponent implements OnInit {
+  private onChange = (value: any) => { };
+
   @Input() dateValue: string = null;
+  @Input() dateValus: string = null;
   @Output() valor = new EventEmitter<string>();
 
   public esterilForm: FormGroup;
   public mascaras = [];
-
   public showContent: boolean = true;
   public showListado: boolean = true;
   public showForm: boolean = false;
-
   public IsWaiting: Boolean = false;
-
   public showBtnActualizar: Boolean = false;
   public showBtnEliminar: Boolean = false;
   public dialogRef: any;
@@ -141,6 +141,7 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   cancelar() {
+    this.showContent = true;
     this.showForm = false;
     this.showListado = true;
   }
@@ -173,8 +174,8 @@ export class EsterilizacionesComponent implements OnInit {
         "Aplicación guardada correctamente!.",
         "success"
       );
-
-      this.fetchSterilizations();
+//      this.fetchSterilizations();
+      this.findBy();
       this.showListado = true;
       this.showContent = true;
     } else {
@@ -209,7 +210,7 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   findBy() {
-    if (this.filter.disponible || this.filter.cedulaPaciente) {
+    if (this.filter.disponible || this.filter.fechini || this.filter.fechend) {
       this.queryOptions = {
         filter: this.filter,
         pagina: this.pageNumber,
@@ -245,6 +246,20 @@ export class EsterilizacionesComponent implements OnInit {
       this.dateValue = moment(event.value).format();
     }
     this.valor.emit(this.dateValue);
+  }
+  onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
+    this.dateValue = moment(new Date(event.value)).format();
+//    this.onChange(event.value);
+    console.log("----**this.filter.fechini**---:", this.filter.fechini);
+    this.findBy();
+    this.valor.emit(this.dateValue);
+  }
+  onDateChangeFinal(event: MatDatepickerInputEvent<Date>) {
+    this.dateValus = moment(new Date(event.value)).format();
+//    this.onChange(event.value);
+    console.log("----**this.filter.fechend**---:", this.filter.fechend);
+    this.findBy();
+    this.valor.emit(this.dateValus);
   }
 }
 
