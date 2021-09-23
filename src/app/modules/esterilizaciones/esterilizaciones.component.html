@@ -263,7 +263,6 @@
       </mat-card-title>
       <mat-card-content fxLayout="column" fxLayoutAlign="center">
         <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-          <mat-icon matPrefix>search</mat-icon>
           <mat-form-field fxFlex="100">
             <input
               matInput
@@ -274,15 +273,34 @@
             />
           </mat-form-field>
 
-          <mat-icon matPrefix>search</mat-icon>
           <mat-form-field fxFlex="100">
-            <input
-              matInput
-              id="filterbyCedulaPaciente"
-              placeholder="Cédula"
-              [(ngModel)]="filter.cedulaPaciente"
-              (keyup)="findBy()"
+            <mat-label>Buscar por fecha de inicio</mat-label>
+            <input  #dpInput  matInput
+              id="filterbyFechini"
+              [(ngModel)]="filter.fechini"
+              [matDatepicker]="picker1"
+              (dateChange)="onDateChangeInicial($event)"
+              [(value)]="dateValue"
             />
+            <mat-datepicker-toggle
+              matSuffix [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field fxFlex="100">
+            <mat-label>Buscar por fecha final</mat-label>
+            <input  #dpInput  matInput
+              id="filterbyFechend"
+              [(ngModel)]="filter.fechend"
+              [matDatepicker]="picker2"
+              [min]="filter.fechini"
+              (dateChange)="onDateChangeFinal($event)"
+              [(value)]="dateValus"
+            />
+            <mat-datepicker-toggle
+              matSuffix [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
         </div>
       </mat-card-content>
