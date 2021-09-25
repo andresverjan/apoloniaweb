@@ -45,9 +45,11 @@ export class EsterilizacionesService {
     let body = {
       query: `{
         esterilizaciones ${params}{
-          id
-          disponible
-          T27Fecha
+          totalRegistros
+          list{ id
+                disponible
+          		  T27Fecha
+              }
         }
       }
       `,
