@@ -61,6 +61,11 @@ export class EsterilizacionesComponent implements OnInit {
     {'value' : 'id7', 'nombre': 'BRUJAS'}
   ];
 
+  disp: SelItem[] = [
+    {'value' : '0', 'nombre': 'No Disponible'},
+    {'value' : '1', 'nombre': 'Disponible'}
+  ];
+
   public acts: SelItem[] = this.mockedItems;
 
   constructor(
@@ -229,7 +234,9 @@ export class EsterilizacionesComponent implements OnInit {
   fetchSterilizations = (obj?: any) => {
     this.IsWaiting = true;
     this.esterilizacionesService.getAll(obj).subscribe((res) => {
-      this.sterilizations = res.data.esterilizaciones;
+      const { totalRegistros, list } = res.data.esterilizaciones;
+      this.sterilizations = list;
+      this.totalRegistros = totalRegistros;
       this.IsWaiting = false;
     });
   };
@@ -249,17 +256,23 @@ export class EsterilizacionesComponent implements OnInit {
   }
   onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
     this.dateValue = moment(new Date(event.value)).format();
-//    this.onChange(event.value);
     console.log("----**this.filter.fechini**---:", this.filter.fechini);
     this.findBy();
     this.valor.emit(this.dateValue);
   }
   onDateChangeFinal(event: MatDatepickerInputEvent<Date>) {
     this.dateValus = moment(new Date(event.value)).format();
-//    this.onChange(event.value);
+    this.filter.fechend = moment(new Date(event.value)
+        .setDate( new Date(event.value).getDate() + 1 )).format();
+
     console.log("----**this.filter.fechend**---:", this.filter.fechend);
     this.findBy();
     this.valor.emit(this.dateValus);
+    this.filter.fechend = this.dateValus;//moment(new Date(event.value)).format();
+
+  }
+  setAttribute(selected: any) {
+    this.filter.disponible = selected;
   }
 }
 
