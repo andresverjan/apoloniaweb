@@ -6,14 +6,12 @@
   </button>
 </mat-card-actions>
 
-<!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
 <div class="container" style="overflow: hidden">
   <mat-grid-list cols="5" rowHeight="230px">
     <mat-grid-tile *ngFor="let est of remision" style="overflow-x: hidden">
       <mat-card (click)="actualizar(app)" class="dashboard-card">
         <mat-card-content class="dashboard-card-content">
           <mat-icon>medical_services</mat-icon>
-          <!--h5-- class="cssRow">{{ est.T27Campo24 }}</!--h5-->
           <br />
           <div>{{ est.id }}</div>
           <div>{{ est.observaciones }}</div>
@@ -53,26 +51,26 @@
               <div fxLayout="column" fxLayoutAlign="space-between " fxFlex="100">
                 <div className="form-group formulario">
                   <h5 style="min-width: 61px;">De:</h5>
-                  <app-buscadormodal [filters]="['Nombres']" *ngIf="true" (selected)="onOdontologoSelected($event)"
+                  <app-buscadormodal [filters]="['Nombres']" *ngIf="true" (selected)="onOdontologoSelected1($event)"
                     [columnas]="{ Nombres: 'Nombre Especialista' }" [resultInputText]="['Nombres']"
-                    [service]="_odontologoService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo"
+                    [service]="_odontologoService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo1"
                     [readonly]="false" fxFlex="80"></app-buscadormodal>
                 </div>
                 <div className="formulario">
                   <h5 style="min-width: 61px;">Para:</h5>
-                  <app-buscadormodal [filters]="['Nombres']" *ngIf="true" (selected)="onOdontologoSelected($event)"
+                  <app-buscadormodal [filters]="['Nombres']" *ngIf="true" (selected)="onOdontologoSelected2($event)"
                     [columnas]="{ Nombres: 'Nombre Especialista' }" [resultInputText]="['Nombres']"
-                    [service]="_odontologoService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo"
+                    [service]="_odontologoService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo2"
                     [readonly]="false" fxFlex="80"></app-buscadormodal>
                 </div>
                 <div class="input-group">
                   <textarea class="form-control" placeholder="Observaciones" aria-label="With textarea"
-                    style="height: 200px; width: 90%"></textarea>
+                    [(ngModel)]="observaciones" style="height: 200px; width: 90%"></textarea>
                 </div>
               </div>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-              <button mat-raised-button (click)="crearCita()" color="primary" fxLayout="row" fxLayout.xs="column"
+              <button mat-raised-button (click)="guardar()" color="primary" fxLayout="row" fxLayout.xs="column"
                 fxLayoutAlign="center" fxFlex>
                 <mat-icon>add_task</mat-icon>
                 Crear
