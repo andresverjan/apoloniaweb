@@ -17,25 +17,35 @@ export class EsterilizacionesService {
   getAll(objeTosend?: any): Observable<any> {
     let params = "";
     let ordenamiento = "";
-    let filter = "";
+    let pagination = `
+    pagination: {
+      pagina: ${objeTosend.pagina}
+      limite: ${objeTosend.limite}
+    }`;
+    let filter = `${pagination}, \n`;
 
-    if (objeTosend) {
-      filter = `(filter: {`;
-      if(objeTosend.disponible) {
-        filter +=   `disponible: "${objeTosend.disponible}"`;
+    if (objeTosend.filter) {
+      if ((objeTosend.filter.fechini != undefined && objeTosend.filter.fechini != null &&
+            objeTosend.filter.fechend != undefined && objeTosend.filter.fechend != null)) {
+        if(objeTosend.filter.disponible) {
+          filter +=   `filter: {disponible: "${objeTosend.filter.disponible}",`;
+          filter += ` fechini: "${objeTosend.filter.fechini}", fechend: "${objeTosend.filter.fechend}"}`;
+        }
+        else{
+          filter += `filter: { fechini: "${objeTosend.filter.fechini}", fechend: "${objeTosend.filter.fechend}"}`;
+        }
       }
-      if(objeTosend.cedulaPaciente) {
-        filter +=   `${objeTosend.disponible? "," : ""} cedulaPaciente: "${objeTosend.cedulaPaciente}"`;
+      else if(objeTosend.filter.disponible) {
+        filter +=   `filter: { disponible: "${objeTosend.filter.disponible}"}`;
       }
-      filter += '})';
     }
-
+    console.log("FILTER-->>:", filter)
     params = this.toolService.getParams(filter, ordenamiento);
+    console.log("params:", params)
     let body = {
       query: `{
-        esterilizaciones ${filter}{
+        esterilizaciones ${params}{
           id
-          cedulaPaciente
           disponible
           T27Fecha
         }

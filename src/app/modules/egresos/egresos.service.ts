@@ -83,7 +83,7 @@ export class EgresosService {
           T17Factura: "${egreso.T17Factura}",
           T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
-          T17Valor: ${egreso.T17Valor},       
+          T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
           T17FormaPago: "${egreso.T17FormaPago}",
           T17Total: ${egreso.T17Total},
@@ -106,7 +106,7 @@ export class EgresosService {
           T17Factura: "${egreso.T17Factura}",
           T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
-          T17Valor: ${egreso.T17Valor},       
+          T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
           T17FormaPago: "${egreso.T17FormaPago}",
           T17Total: ${egreso.T17Total},
@@ -130,14 +130,14 @@ export class EgresosService {
           T17Factura: "${egreso.T17Factura}",
           T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
-          T17Valor: ${egreso.T17Valor},       
+          T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
           T17FormaPago: "${egreso.T17FormaPago}",
           T17Total: ${egreso.T17Total},
           T17Dctos: ${egreso.T17Dctos},
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
-        }) 
+        })
       }
       `,
     };
@@ -149,7 +149,7 @@ export class EgresosService {
     let body = {
       query: `
         mutation {
-          deleteEgresos (egreso: {T17Factura: "${factura}"}) 
+          deleteEgresos (egreso: {T17Factura: "${factura}"})
         }
         `,
     };
