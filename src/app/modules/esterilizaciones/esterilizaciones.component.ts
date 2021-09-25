@@ -41,6 +41,11 @@ export class EsterilizacionesComponent implements OnInit {
   public pageNumber: number = 1;
   public queryOptions = {};
 
+  public disponibleOptions: SelItem[] = [
+    { value: "1", nombre: "Disponible" },
+    { value: "0", nombre: "No Disponile" }
+   ];
+
   mockedItems: SelItem[] = [
     {'value' : 'id1', 'nombre': 'KANVAS'},
     {'value' : 'id2', 'nombre': 'BYRENA'},
@@ -131,6 +136,11 @@ export class EsterilizacionesComponent implements OnInit {
           Validators.required,
         ])
       });
+    }
+
+    onDisponibleSelected (lSelected: any) {
+      this.filter.disponible = lSelected.value;
+      this.findBy();
     }
 
   handlePageChange(e: PageEvent) {
