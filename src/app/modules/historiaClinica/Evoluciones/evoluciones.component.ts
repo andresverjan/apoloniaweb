@@ -18,24 +18,25 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
   public mascaras = [];
   public evolucionesLista: any = [];
 
-
   public remisionAdd: any = [];
   public eventosAdversosAdd: any = [];
   public laboratoriosAdd: any = [];
-  public esterilizacionAdd: any = [1,2,3,4];
+  public esterilizacionAdd: any = [1, 2, 3, 4];
   public recetarioAdd: any = [];
-
+  public detalle = {
+    observaciones: ""
+  };
 
   @Input() Cedula: string;
   constructor(//public _pacienteService: PacienteService,
-              public _evolucionesService: EvolucionesService) {
+    public _evolucionesService: EvolucionesService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.fetchEvoluciones(this.Cedula);
   }
 
-  actionAdicionar() {    
+  actionAdicionar() {
     this.showListado = false;
     this.showForm = true;
   }
@@ -45,10 +46,15 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
     console.log(this.esterilizacionAdd);
     console.log("IMPRIMO eventosAdversosAdd");
     console.log(this.eventosAdversosAdd);
+
+    console.log("IMPRIMO REMIsION");
+    console.log(this.remisionAdd);
+
+    console.log("IMPRIMO detalleAdd");
+    console.log(this.detalle);
+
     this.showForm = false;
     this.showListado = true;
-
-    
 
   }
 

@@ -47,21 +47,21 @@
       <div>
         <mat-tab-group>
           <mat-tab label="Detalles Evolución">
-            <app-detalle></app-detalle>
+            <app-detalle [(detalleAdd)]=detalle></app-detalle>
           </mat-tab>
           <mat-tab label="Esterilización">
             <app-esterilizacion [Cedula]=Cedula [listadoAdd]=esterilizacionAdd></app-esterilizacion>
           </mat-tab>
-          <mat-tab label="Recetario" >
+          <mat-tab label="Recetario">
             <app-recetario [listadoAdd]=recetarioAdd></app-recetario>
           </mat-tab>
-          <mat-tab label="Remisión" >
+          <mat-tab label="Remisión">
             <app-remision [listadoAdd]=remisionAdd></app-remision>
           </mat-tab>
-          <mat-tab label="Laboratorios" >
-            <app-laboratorios [Cedula]=Cedula [listadoAdd]=laboratoriosAdd >  </app-laboratorios>
+          <mat-tab label="Laboratorios">
+            <app-laboratorios [Cedula]=Cedula [listadoAdd]=laboratoriosAdd> </app-laboratorios>
           </mat-tab>
-          <mat-tab label="Eventos Adversos" >
+          <mat-tab label="Eventos Adversos">
             <app-eventosAdversos [listadoAdd]=eventosAdversosAdd></app-eventosAdversos>
           </mat-tab>
         </mat-tab-group>
