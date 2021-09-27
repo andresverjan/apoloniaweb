@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EsterilizacionesService } from './esterilizaciones.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { PageEvent } from "@angular/material/paginator";
 import * as moment from 'moment';
 
 @Component({
@@ -11,18 +12,18 @@ import * as moment from 'moment';
   styleUrls: ['./esterilizaciones.component.scss']
 })
 export class EsterilizacionesComponent implements OnInit {
+  private onChange = (value: any) => { };
+
   @Input() dateValue: string = null;
+  @Input() dateValus: string = null;
   @Output() valor = new EventEmitter<string>();
 
   public esterilForm: FormGroup;
   public mascaras = [];
-
   public showContent: boolean = true;
   public showListado: boolean = true;
   public showForm: boolean = false;
-
   public IsWaiting: Boolean = false;
-
   public showBtnActualizar: Boolean = false;
   public showBtnEliminar: Boolean = false;
   public dialogRef: any;
@@ -34,6 +35,16 @@ export class EsterilizacionesComponent implements OnInit {
   public filter: any = {};
   public sterilizations: any = [];
   public sterilization: any;
+  public totalRegistros = 0;
+  public pageSize = 10;
+  public pageSizeOptions = [5, 10, 20, 30];
+  public pageNumber: number = 1;
+  public queryOptions = {};
+
+  public disponibleOptions: SelItem[] = [
+    { value: "1", nombre: "Disponible" },
+    { value: "0", nombre: "No Disponile" }
+   ];
 
   mockedItems: SelItem[] = [
     {'value' : 'id1', 'nombre': 'KANVAS'},
@@ -55,12 +66,18 @@ export class EsterilizacionesComponent implements OnInit {
     {'value' : 'id7', 'nombre': 'BRUJAS'}
   ];
 
+  disp: SelItem[] = [
+    {'value' : '0', 'nombre': 'No Disponible'},
+    {'value' : '1', 'nombre': 'Disponible'}
+  ];
+
   public acts: SelItem[] = this.mockedItems;
 
   constructor(
     private esterilizacionesService: EsterilizacionesService) {
       this.esterilForm = new FormGroup({
-        createdAt: new FormControl("", [Validators.maxLength(20),
+        T27Fecha: new FormControl("", [
+          Validators.maxLength(50),
           Validators.required
         ]),
 
@@ -79,7 +96,7 @@ export class EsterilizacionesComponent implements OnInit {
           Validators.maxLength(50),
         ]),
 
-        espora: new FormControl("", [
+        esporas: new FormControl("", [
           Validators.maxLength(50),
           Validators.required,
         ]),
@@ -94,12 +111,43 @@ export class EsterilizacionesComponent implements OnInit {
           Validators.required,
         ]),
 
-        time_min: new FormControl("", [
+        timeMin: new FormControl("", [
           Validators.maxLength(5),
+          Validators.required,
+        ]),
+
+        temper: new FormControl("", [
+          Validators.maxLength(5),
+          Validators.required,
+        ]),
+
+        presion: new FormControl("", [
+          Validators.maxLength(5),
+          Validators.required,
+        ]),
+
+        cant: new FormControl("", [
+          Validators.maxLength(5),
+          Validators.required,
+        ]),
+
+        observ: new FormControl("", [
+          Validators.maxLength(255),
           Validators.required,
         ])
       });
     }
+
+    onDisponibleSelected (lSelected: any) {
+      this.filter.disponible = lSelected.value;
+      this.findBy();
+    }
+
+  handlePageChange(e: PageEvent) {
+    this.pageNumber = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+    this.findBy();
+  }
 
   adicionar() {
     this.showContent = false;
@@ -108,6 +156,7 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   cancelar() {
+    this.showContent = true;
     this.showForm = false;
     this.showListado = true;
   }
@@ -116,14 +165,18 @@ export class EsterilizacionesComponent implements OnInit {
     if (this.esterilForm.valid) {
       const obj = {
         steril: {
-          createdAt: this.esterilForm.controls["createdAt"].value,
-          sede: this.esterilForm.controls["sede"].value,
-          motivo: this.esterilForm.controls["motivo"].value,
-          tipo: this.esterilForm.controls["tipo"].value,
-          espora: this.esterilForm.controls["espora"].value,
-          dispMed: this.esterilForm.controls["dispMed"].value,
-          tipEmp: this.esterilForm.controls["tipEmp"].value,
-          timeMin: this.esterilForm.controls["timeMin"].value
+          T27Fecha: this.esterilForm.controls["T27Fecha"].value,
+          sede:     this.esterilForm.controls["sede"].value,
+          motivo:   this.esterilForm.controls["motivo"].value,
+          tipo:     this.esterilForm.controls["tipo"].value,
+          esporas:  this.esterilForm.controls["esporas"].value,
+          dispMed:  this.esterilForm.controls["dispMed"].value,
+          tipEmp:   this.esterilForm.controls["tipEmp"].value,
+          timeMin:  this.esterilForm.controls["timeMin"].value,
+          temper:   this.esterilForm.controls["temper"].value,
+          presion:  this.esterilForm.controls["presion"].value,
+          cant:     this.esterilForm.controls["cant"].value,
+          observ:   this.esterilForm.controls["observ"].value
         }
       };
 
@@ -136,8 +189,8 @@ export class EsterilizacionesComponent implements OnInit {
         "Aplicación guardada correctamente!.",
         "success"
       );
-
-      this.fetchSterilizations();
+//      this.fetchSterilizations();
+      this.findBy();
       this.showListado = true;
       this.showContent = true;
     } else {
@@ -153,33 +206,47 @@ export class EsterilizacionesComponent implements OnInit {
     this.showBtnEliminar = true;
     this.sterilization = esterilizacion;
 
-    this.esterilForm.controls["createdAt"].setValue(esterilizacion.createdAt);
+    this.esterilForm.controls["T27Fecha"].setValue(esterilizacion.T27Fecha);
     this.esterilForm.controls["sede"].setValue(esterilizacion.sede);
     this.esterilForm.controls["motivo"].setValue(esterilizacion.motivo);
     this.esterilForm.controls["tipo"].setValue(esterilizacion.tipo);
-    this.esterilForm.controls["espora"].setValue(esterilizacion.espora);
+    this.esterilForm.controls["esporas"].setValue(esterilizacion.esporas);
     this.esterilForm.controls["dispMed"].setValue(esterilizacion.dispMed);
     this.esterilForm.controls["tipEmp"].setValue(esterilizacion.tipEmp);
     this.esterilForm.controls["timeMin"].setValue(esterilizacion.timeMin);
+    this.esterilForm.controls["temper"].setValue(esterilizacion.temper);
+    this.esterilForm.controls["presion"].setValue(esterilizacion.presion);
+    this.esterilForm.controls["cant"].setValue(esterilizacion.cant);
+    this.esterilForm.controls["observ"].setValue(esterilizacion.observ);
   }
 
   ngOnInit(): void {
-    this.fetchSterilizations();
+    this.findBy();
   }
 
   findBy() {
-    if (this.filter.nombre || this.filter.CedulaPaciente) {
-      this.fetchSterilizations(this.filter);
+    if (this.filter.disponible || this.filter.fechini || this.filter.fechend) {
+      this.queryOptions = {
+        filter: this.filter,
+        pagina: this.pageNumber,
+        limite: this.pageSize,
+      };
     } else {
-      this.fetchSterilizations();
+      this.queryOptions = {
+        pagina: this.pageNumber,
+        limite: this.pageSize,
+      };
     }
+    this.fetchSterilizations(this.queryOptions);
     this.IsWaiting = true;
   }
 
   fetchSterilizations = (obj?: any) => {
     this.IsWaiting = true;
     this.esterilizacionesService.getAll(obj).subscribe((res) => {
-      this.sterilizations = res.data.sterilizations;
+      const { totalRegistros, list } = res.data.esterilizaciones;
+      this.sterilizations = list;
+      this.totalRegistros = totalRegistros;
       this.IsWaiting = false;
     });
   };
@@ -196,7 +263,26 @@ export class EsterilizacionesComponent implements OnInit {
       this.dateValue = moment(event.value).format();
     }
     this.valor.emit(this.dateValue);
-    //console.log("Triggered", this.esterilForm.controls['createdAt'].value);
+  }
+  onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
+    this.dateValue = moment(new Date(event.value)).format();
+    console.log("----**this.filter.fechini**---:", this.filter.fechini);
+    this.findBy();
+    this.valor.emit(this.dateValue);
+  }
+  onDateChangeFinal(event: MatDatepickerInputEvent<Date>) {
+    this.dateValus = moment(new Date(event.value)).format();
+    this.filter.fechend = moment(new Date(event.value)
+        .setDate( new Date(event.value).getDate() + 1 )).format();
+
+    console.log("----**this.filter.fechend**---:", this.filter.fechend);
+    this.findBy();
+    this.valor.emit(this.dateValus);
+    this.filter.fechend = this.dateValus;//moment(new Date(event.value)).format();
+
+  }
+  setAttribute(selected: any) {
+    this.filter.disponible = selected;
   }
 }
 
