@@ -76,8 +76,8 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
     console.log(this.laboratoriosForm.controls["proveedorId"].value);
     console.log(this.laboratoriosForm.controls["especialistaId"].value);
     const obj = {
-      especialistaId: this.laboratoriosForm.controls["especialistaId"].value,
-      proveedorId: this.laboratoriosForm.controls["proveedorId"].value,
+      especialista: this.laboratoriosForm.controls["especialistaId"].value,
+      proveedor: this.laboratoriosForm.controls["proveedorId"].value,
       observaciones: this.laboratoriosForm.controls["observaciones"].value
     };
     console.log(obj);
@@ -115,7 +115,7 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
     this.odontologo = selected;
     this.IsWaiting = true;
     console.log(this.odontologo);
-    this.laboratoriosForm.controls["especialistaId"].setValue(this.odontologo.id);
+    this.laboratoriosForm.controls["especialistaId"].setValue(this.odontologo);
     console.log(this.laboratoriosForm.controls["especialistaId"].value);
   }
 
@@ -123,7 +123,7 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
     this.paciente = selected;
     this.IsWaiting = true;
     console.log(this.paciente);
-    this.laboratoriosForm.controls["proveedorId"].setValue(this.paciente.id);
+    this.laboratoriosForm.controls["proveedorId"].setValue(this.paciente);
     console.log(this.laboratoriosForm.controls["proveedorId"].value);
   }
 
