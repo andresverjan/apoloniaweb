@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import * as Globals from "../../../core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { from, Observable } from "rxjs";
 import { ToolsService } from "../../../core/services/tools.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class RemisionService {
+export class LaboratoriosService {
   serverUrl: string;
 
   constructor(private http: HttpClient, private toolService: ToolsService) {
@@ -37,13 +37,13 @@ export class RemisionService {
     params = this.toolService.getParams(filtro, ordenamiento);
 
     let body = {
+      //TODO: Add Params PacienteId and EvolucionId
       query: `{
-        evolucionesRemision(filter: {evolucionId: "1", pacienteId: "1"}) {
+        evolucionesLaboratorios(filter: {evolucionId: "1", pacienteId: "1"}) {
           id
           evolucionId
           pacienteId
-          especialistaIdDestino
-          especialistaIdOrigen
+          especialistaId
           observaciones
           createdAt
         }
@@ -54,4 +54,5 @@ export class RemisionService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
+  
 }

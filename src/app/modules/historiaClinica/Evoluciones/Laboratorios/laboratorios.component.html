@@ -1,116 +1,75 @@
-<mat-card-actions
-  fxLayout="row"
-  fxLayoutAlign="end center"
-  style="margin-right: 10px"
-  *ngIf="showListado"
->
-  <button
-    mat-raised-button
-    fxLayout="row"
-    fxLayout.xs="column"
-    fxLayoutAlign="center"
-    fxFlex="22"
-    (click)="openModal()"
-    color="primary"
-  >
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+  <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="22" (click)="openModal()"
+    color="primary">
     <mat-icon>add_circle_outline</mat-icon>
     Adicion
   </button>
 </mat-card-actions>
 
-<!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
-<div class="container" *ngIf="showListado" style="overflow: hidden"></div>
+<!--mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></!--mat-progress-bar-->
+<div class="container" style="overflow: hidden">
+  <mat-grid-list cols="5" rowHeight="230px">
+    <mat-grid-tile *ngFor="let laboratorio of laboratorios" style="overflow-x: hidden">
+      <mat-card (click)="actualizar(app)" class="dashboard-card">
+        <mat-card-content class="dashboard-card-content">
+          <mat-icon>health_and_safety</mat-icon>
+          <br />
+          <div>{{ laboratorio.id }}</div>
+          <div>{{ laboratorio.nombre }}</div>
+          <div>{{ laboratorio.createdAt }}</div>
+          <div>{{ laboratorio.observaciones }}</div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
 
-<div>
-  <ng-template
-    #myDialog
-    style="overflow: hidden; display: flex; justify-content: center"
-  >
-    <div
-      style="
-        margin-left: -43px;
-        margin-right: -41px;
-        margin-top: -24px;
-        margin-bottom: -26px;
-      "
-    >
-      <div class="container" style="overflow: hidden">
-        <mat-card-content style="margin-bottom: 0px">
+<div class="container" style="overflow: hidden">
+  <ng-template #myDialog style="overflow: hidden">
+    <mat-dialog-content style="
+          margin-left: -63px;
+          margin-right: -63px;
+          margin-top: -24px;
+          margin-bottom: -38px;
+          width: 650px;
+          overflow: hidden;
+        ">
+      <div class="container" [formGroup]="laboratoriosForm" style="overflow: hidden">
+        <mat-card-content class="window-dashboard-card-content contentprincipal" style="margin-bottom: 0px">
           <mat-toolbar color="primary">
             <mat-icon matPrefix>account_balance</mat-icon>
-            <label>Laboratorios</label>
+            <label>Creación de Laboratorios</label>
             <span class="example-spacer"></span>
-            <button
-              mat-icon-button
-              class="example-icon"
-              aria-label="Example icon-button with share icon"
-              (click)="closeDialog()"
-            >
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+              (click)="closeDialog()">
               <mat-icon>close</mat-icon>
             </button>
           </mat-toolbar>
-          <mat-card-header>
-            <mat-card-title> </mat-card-title>
-          </mat-card-header>
           <mat-card class="cardcontent">
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
-              <app-buscadormodal
-                id="Especialestas"
-                [filters]="['Nombres']"
-                (selected)="onOdontologoSelected($event)"
-                [columnas]="{ Nombres: 'Nombre Especialista' }"
-                [resultInputText]="['Nombres']"
-                [service]="_odontologosService"
-                tituloBusqueda="Especialistas"
-                [defaultObjValue]="odontologo"
-                fxFlex="60"
-              ></app-buscadormodal>
-
-              <app-buscadormodal
-                id="Pacientes"
-                [filters]="['Cedula', 'Nombres', 'Apellidos']"
-                (selected)="onPatientSelected($event)"
-                [columnas]="{
-                  Nombres: 'Nombre'
-                }"
-                [resultInputText]="['Apellidos1', 'Cedula']"
-                [service]="_pacienteService"
-                tituloBusqueda=" Paciente"
-                [defaultObjValue]="paciente"
-                fxFill
-              ></app-buscadormodal>
+              <app-buscadormodal id="Especialestas" [filters]="['Nombres']" (selected)="onOdontologoSelected($event)"
+                [columnas]="{ Nombres: 'Nombre Especialista' }" [resultInputText]="['Nombres']"
+                [service]="_odontologosService" tituloBusqueda="Especialistas" [defaultObjValue]="odontologo"
+                fxFlex="60"></app-buscadormodal>
+ 
+                <app-buscadormodal id="Proveedor" [filters]="['Cedula', 'Nombres', 'Apellidos']"
+                (selected)="onProveedorSelected($event)" [columnas]="{Nombres: 'Nombre'}"
+                [resultInputText]="['Apellidos1', 'Cedula']" [service]="_pacienteService" tituloBusqueda=" Proveedor"
+                [defaultObjValue]="proveedor" fxFill></app-buscadormodal>
 
               <div class="input-group">
-                <textarea
-                  class="form-control"
-                  placeholder="Observaciones"
-                  aria-label="With textarea"
-                  style="height: 200px; width: 90%"
-                ></textarea>
+                <textarea class="form-control" placeholder="Observaciones" aria-label="With textarea"
+                  formControlName="observaciones" style="height: 200px; width: 90%"></textarea>
               </div>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-              <button
-                mat-raised-button
-                color="primary"
-                fxLayout="row"
-                (click)="closeDialog()"
-                fxLayout.xs="column"
-                fxLayoutAlign="center"
-                fxFlex
-              >
+              <button mat-raised-button (click)="guardar()" color="primary" fxLayout="row" fxLayout.xs="column"
+                fxLayoutAlign="center" fxFlex>
                 <mat-icon>add_task</mat-icon>
                 Crear
               </button>
-              <button
-                mat-raised-button
-                color="warn"
-                (click)="closeDialog()"
-                fxLayout="row"
-                fxLayout.xs="column"
-                fxLayoutAlign="center"
-                fxFlex
-              >
+              <button mat-raised-button color="warn" (click)="closeDialog()" fxLayout="row" fxLayout.xs="column"
+                fxLayoutAlign="center" fxFlex>
                 <mat-icon>cancel</mat-icon>
                 Cancelar
               </button>
@@ -118,6 +77,6 @@
           </mat-card>
         </mat-card-content>
       </div>
-    </div>
+    </mat-dialog-content>
   </ng-template>
 </div>

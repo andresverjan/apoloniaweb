@@ -1,6 +1,7 @@
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { OdontologosService } from "src/app/modules/core/services/odontologos.service";
+import { RecetarioService } from "./recetario.service";
 
 @Component({
   selector: "app-recetario",
@@ -15,6 +16,8 @@ export class RecetarioComponent implements OnInit {
   public etiquetaListado = "Listado de Mascaras";
   public etiquetaNombreModulo = "Campos";
   public odontologo: any;
+  public recetario: Array<any> = [];
+  @Input() listadoAdd: Array<any> = [];
 
   SEL1 = [
     { id: 6, name: "Salir" },
@@ -41,12 +44,18 @@ export class RecetarioComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public _odontologosService: OdontologosService
+    public _odontologosService: OdontologosService,
+    public recetarioService: RecetarioService
   ) {
     this.odontologo = {
       Nombres: "Seleccionar Especialista",
     };
   }
+
+  ngOnInit() {
+    this.fetch();
+  }
+
 
   actionAdicionar() {
     this.showListado = false;
@@ -66,8 +75,8 @@ export class RecetarioComponent implements OnInit {
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialogRef = this.dialog.open(templateRef, {
-      height: "810px",
-      width: "650px",
+      height: "602px",
+      width: "572px",
       disableClose: true,
     });
     this.dialogRef.afterClosed().subscribe(() => {});
@@ -76,10 +85,21 @@ export class RecetarioComponent implements OnInit {
   openModal() {
     this.openDialogWithTemplateRef(this.myDialog);
   }
-  ngOnInit() {}
 
   onOdontologoSelected(selected) {
     this.odontologo = selected;
     this.IsWaiting = true;
   }
+
+  fetch() {
+    this.IsWaiting = true;
+    this.recetarioService.getAll().subscribe(({ data }) => {
+      this.recetario = data.evolucionesRecetario;
+      console.log("RECETARIO:::");
+      console.log(this.recetario);
+      this.IsWaiting = false;
+    });
+  }
+
+
 }

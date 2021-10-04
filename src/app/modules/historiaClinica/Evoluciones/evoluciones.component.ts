@@ -5,6 +5,8 @@ import { TipoCampoService } from "../../tipo-campo/tipo-campo.service";
 import { EvolucionesService } from "./evoluciones.service";
 import { PacienteService } from "../../core/services/paciente.service";
 import { FormGroup } from "@angular/forms";
+import Swal from "sweetalert2";
+
 
 @Component({
   selector: "app-evoluciones",
@@ -24,10 +26,18 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
 
   public evolucionForm: FormGroup;
 
-  @Input() Cedula: string;
+  public remisionAdd: any = [];
+  public eventosAdversosAdd: any = [];
+  public laboratoriosAdd: any = [];
+  public esterilizacionAdd: any = [1, 2, 3, 4];
+  public recetarioAdd: any = [];
+  public detalle = {
+    observaciones: ""
+  };
 
+  @Input() Cedula: string;
   constructor(//public _pacienteService: PacienteService,
-              public _evolucionesService: EvolucionesService) {
+    public _evolucionesService: EvolucionesService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,9 +48,25 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
     this.showListado = false;
     this.showForm = true;
   }
+
   guardar() {
+    console.log("presiono guardar.....");
+    console.log(this.esterilizacionAdd);
+    console.log("IMPRIMO eventosAdversosAdd");
+    console.log(this.eventosAdversosAdd);
+
+    console.log("IMPRIMO REMIsION");
+    console.log(this.remisionAdd);
+
+    console.log("IMPRIMO detalleAdd");
+    console.log(this.detalle);
+
+    console.log("IMPRIMO LABORATORIOS");
+    console.log(this.laboratoriosAdd);
+
     this.showForm = false;
     this.showListado = true;
+
   }
 
   cancelar() {

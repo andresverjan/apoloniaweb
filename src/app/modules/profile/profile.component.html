@@ -22,7 +22,8 @@
                         <label>{{etiquetas.DatosBasicos}}</label>
                     </mat-card-title>
                     <mat-card-content fxLayout="column" fxLayoutAlign="center" *ngIf="showProfileUser">
-                        <app-avatar width=190 [(url)]=picurl [editmode]=true marginInput="auto" style="margin-top: 5px; margin-bottom: 10px;"></app-avatar>
+                        <app-avatar width=190 [(url)]=picurl [editmode]=true marginInput="auto"
+                            style="margin-top: 5px; margin-bottom: 10px;"></app-avatar>
 
                         <div *ngIf="showProfileUser" fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
                             <mat-form-field fxLayout="column" fxFlex>
@@ -52,14 +53,16 @@
                         </div>
 
                         <div *ngIf="showProfileUser" fxLayout="row" fxLayoutAlign="center center" fxFlex=100>
-                            <app-select label="Idioma" [data]=listadoIdiomas icono="language" default="{{profileForm.controls['IDIOMA_ID'].value}}" fxFlex="50" ></app-select>
+                            <app-select label="Idioma" [data]=listadoIdiomas icono="language"
+                                default="{{profileForm.controls['IDIOMA_ID'].value}}" fxFlex="50"></app-select>
                         </div>
                     </mat-card-content>
                     <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
                         <button mat-raised-button (click)="updateprofile()" color="primary" fxLayout="row"
-                            fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">                        
+                            fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
                             <mat-icon>loop</mat-icon>
-                            Actualizar Perfil</button>
+                            Actualizar Perfil
+                        </button>
 
                         <button mat-raised-button (click)="showChangePassword()" color="primary" fxLayout="row"
                             fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
@@ -68,7 +71,9 @@
                         </button>
                     </mat-card-actions>
                 </mat-card>
+            </form>
 
+            <form [formGroup]="passwordForm" autocomplete="off" novalidate>
                 <mat-card class="cardcontent" *ngIf="showUpdatePassword">
                     <mat-card-title fxLayoutAlign="center">
                         <label>Cambiar Contraseña</label>
@@ -84,13 +89,12 @@
                         <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
                             <mat-form-field fxLayout="column" fxFill>
                                 <mat-label>Confirmar Contraseña</mat-label>
-                                <input matInput type="password" id="email" [(ngModel)]="Observaciones"
-                                    value="">
+                                <input matInput type="password" id="email" formControlName="USUARIO_CONFIRMACION" value="">
                             </mat-form-field>
                         </div>
                     </mat-card-content>
                     <mat-card-actions fxLayout="col" fxLayoutAlign="center center">
-                    <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column"
+                        <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column"
                             (click)="changePassword()" fxFlex>
                             <mat-icon>check</mat-icon>
                             Confirmar
@@ -103,7 +107,6 @@
 
                     </mat-card-actions>
                 </mat-card>
-
             </form>
         </mat-card-content>
 

@@ -132,6 +132,7 @@ export class EsterilizacionesComponent implements OnInit {
           Validators.required,
         ]),
 
+
         observ: new FormControl("", [
           Validators.maxLength(255),
           Validators.required,
@@ -330,6 +331,7 @@ export class EsterilizacionesComponent implements OnInit {
     this.findBy();
     this.valor.emit(this.dateValus);
     this.filter.fechend = this.dateValus;
+
 
   }
   setAttribute(selected: any) {

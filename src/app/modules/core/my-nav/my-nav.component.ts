@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { UserSession } from "../interfaces/usersession.interface";
+import { RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: "my-nav",
@@ -38,7 +39,7 @@ export class MyNavComponent {
     this.getUserFromLocalStorage();
     this.array = this.usuario.PERMISOS.map((item) => {
       if (item.applicationId) {
-        item.routerLink = item.url_menu + item.applicationId;
+        item.routerLink = item.url_menu+ '/' +item.applicationId;
       } else {
         item.routerLink = item.url_menu;
       }
@@ -55,13 +56,14 @@ export class MyNavComponent {
     this.MostrarRouter = false;
   }
 
-  mostrarRouter(item) {
+  mostrarRouter(event:any, item) {
     this.MostrarRouter = true;
     if (item.applicationId) {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-      this.router.navigate([item.url_menu], {
+      this.router.navigate([item.routerLink], {
         queryParams: { applicationId: item.applicationId },
       });
+      item.selected = true;
     } else {
       if (item.url_menu == "/salida") {
         this.logout(item.url_menu);

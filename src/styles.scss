@@ -244,3 +244,14 @@ mat-icon {
 .fc-header-toolbar {
   margin-bottom: 0.7em !important;
 }
+
+.mat-tab-label-active{
+  background-color: #51267433;
+  border-radius: 5px;
+}
+
+@media (min-width: 1200px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1420px;
+}
+}

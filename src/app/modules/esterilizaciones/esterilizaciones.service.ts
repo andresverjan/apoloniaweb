@@ -49,6 +49,7 @@ export class EsterilizacionesService {
           list{ id
                 disponible
           		  T27Fecha
+
                 sede
                 motivo
                 tipo
@@ -61,6 +62,7 @@ export class EsterilizacionesService {
                 observ
                 cantidad
           }
+
         }
       }
       `,
@@ -87,6 +89,7 @@ export class EsterilizacionesService {
           presion:${steril.presion},
           observ:"${steril.observ}",
           cantidad:${steril.cant}
+<<<<<<< HEAD
         }){
             id
           }
@@ -120,6 +123,7 @@ export class EsterilizacionesService {
         }
       }`,
     };
+
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(environment.apiUrl, body, { headers: headers });
   }

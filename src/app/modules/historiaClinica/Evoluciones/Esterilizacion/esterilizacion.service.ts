@@ -27,9 +27,13 @@ export class EsterilizacionService {
 
     let body = {
       query: `{
-        esterilizaciones ${filter}{
-          id: T27Consecutivo
-          nombre: T27Campo9
+        evolucionesEsterilizacion(filter: {evolucionId: "2", pacienteId: "1"}) {
+          id
+          evolucionId
+          pacienteId
+          itemIdEsterilizacion
+          observaciones
+          createdAt
         }
       }
       `,

@@ -67,12 +67,11 @@ export const routes: Routes = [
         component: ApplicationsComponent,
         canActivate: [AuthGuardService],
       },
-
       {
-        path: "generic-list",
+        path: "generic-list/:applicationId",
         component: GenericComponent,
         canActivate: [AuthGuardService],
-      },
+      },       
       {
         path: "permisos-list",
         component: RolesComponent,
