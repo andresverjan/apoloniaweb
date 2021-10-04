@@ -20,6 +20,15 @@
       <mat-icon>info</mat-icon>
     </mat-toolbar>
 
+    <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
+    <mat-paginator
+      [length]="totalRegistros"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="handlePageChange($event)"
+    >
+    </mat-paginator>
+
     <mat-card fxFill>
       <mat-card-title fxLayoutAlign="center">
         <label>Buscar por Esterilización</label>
@@ -74,41 +83,35 @@
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
         </div>
+        <div class="container" *ngIf="showListado" style="overflow: hidden">
+          <mat-grid-list *ngIf="showContent" cols="5" rowHeight="230px">
+            <mat-grid-tile  *ngFor="let app of sterilizations"
+              style="overflow-x: hidden"
+            >
+              <mat-card (click)="actualizar(app)" class="dashboard-card">
+                <mat-card-content class="dashboard-card-content">
+                  <mat-icon>web</mat-icon>
+                  <h5 class="cssRow">{{ app.disponible }}</h5>
+                  <br />
+                  <div>{{ app.T27Fecha }}</div>
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
       </mat-card-content>
     </mat-card>
   </mat-card-content>
 </div>
 
-<mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
-<mat-paginator
-  [length]="totalRegistros"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="handlePageChange($event)"
->
-</mat-paginator>
 
-<div class="container" *ngIf="showListado" style="overflow: hidden">
-  <mat-grid-list *ngIf="showContent" cols="5" rowHeight="230px">
-    <mat-grid-tile  *ngFor="let app of sterilizations"
-      style="overflow-x: hidden"
-    >
-      <mat-card (click)="actualizar(app)" class="dashboard-card">
-        <mat-card-content class="dashboard-card-content">
-          <mat-icon>web</mat-icon>
-          <h5 class="cssRow">{{ app.disponible }}</h5>
-          <br />
-          <div>{{ app.T27Fecha }}</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
+
+
 
 <div class="container" style="overflow: hidden">
   <mat-card-content class="window-dashboard-card-content contentprincipal" *ngIf="showForm">
-    <!-- componente de busqueda -->
-    <div>
+    <!-- componente de busqueda >
+    <div-->
       <mat-card class="cardcontent">
         <mat-card-title fxLayoutAlign="center">
           <label>Datos de {{ etiquetaNombreModulo }}</label>
@@ -159,22 +162,27 @@
               </mat-grid-tile>
             </mat-grid-list>
 
-
             <mat-grid-list cols="5" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                   <mat-icon matPrefix>alarm</mat-icon>
-                  <input #dpInput matInput placeholder="Date Time:" id="{{ 'T27Fecha' }}" [formControlName]="'T27Fecha'"
-                    [(ngModel)]="T27Fecha" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
-                    (dateTimeChange)="onDateChange($event)" [(value)]="dateValue" style="margin-left: 0px">
+                  <input #dpInput matInput placeholder="Date Time:"
+                    id="T27Fecha"
+                    [formControlName]="'T27Fecha'"
+                    [(ngModel)]="esterilizacion.T27Fecha"
+                    [owlDateTimeTrigger]="dt1"
+                    [owlDateTime]="dt1"
+                    (dateTimeChange)="onDateChange($event)"
+                    [(value)]="dateValue" style="margin-left: 0px">
                   <owl-date-time [pickerType]="'timer'" [hour12Timer]=true #dt1></owl-date-time>
                 </div>
               </mat-grid-tile>
 
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=50>
-                  <input #dpInput matInput type="number" min="0" id="timeMin" placeholder="Tiempo (Min)"
-                    [formControlName]="'timeMin'" [(ngModel)]="timeMin" required>
+                  <input #dpInput matInput type="number" min="0" id="timeMin"
+                    placeholder="Tiempo (Min)"
+                    [formControlName]="'timeMin'" [(ngModel)]="esterilizacion.timeMin" required>
                 </div>
               </mat-grid-tile>
 
@@ -182,20 +190,20 @@
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                   <mat-icon matPrefix><i class="fas fa-temperature"></i></mat-icon>
                   <input #dpInput matInput type="number" id="temper" placeholder="Temperatura"
-                    [formControlName]="'temper'" [(ngModel)]="temper" required>
+                    [formControlName]="'temper'" [(ngModel)]="esterilizacion.temper" required>
                 </div>
               </mat-grid-tile>
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                   <mat-icon matPrefix><i class="fas fa-temperature"></i></mat-icon>
                   <input #dpInput matInput type="number" id="presion" placeholder="Presión"
-                    [formControlName]="'presion'" [(ngModel)]="presion" required>
+                    [formControlName]="'presion'" [(ngModel)]="esterilizacion.presion" required>
                 </div>
               </mat-grid-tile>
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=50>
                   <input #dpInput matInput type="number" min="0" id="cant" placeholder="Cantidad"
-                    [formControlName]="'cant'" [(ngModel)]="cant" required>
+                    [formControlName]="'cant'" [(ngModel)]="esterilizacion.cantidad" required>
                 </div>
               </mat-grid-tile>
             </mat-grid-list>
@@ -204,16 +212,15 @@
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="95">
                   <textarea #dpInput matInput class="form-control" placeholder="Observaciones"
-                    aria-label="With textarea" [formControlName]="'observ'" [(ngModel)]="observ"
+                    aria-label="With textarea" [formControlName]="'observ'" [(ngModel)]="esterilizacion.observ"
                     style="height: 80px; width: 100%" id="observ"></textarea>
                 </div>
               </mat-grid-tile>
             </mat-grid-list>
-
           </mat-card-content>
         </mat-card>
       </mat-card>
-    </div>
+    <!--/div-->
 
     <!--actions -->
     <mat-card class="cardcontent">

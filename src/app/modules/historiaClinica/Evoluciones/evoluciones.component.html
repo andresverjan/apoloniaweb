@@ -19,14 +19,14 @@
         <mat-card-title> </mat-card-title>
       </mat-card-header>
       <mat-grid-list cols="5" rowHeight="230px">
-        <mat-grid-tile *ngFor="let evolucion of evolucionesLista" style="overflow-x: hidden">
-          <mat-card (click)="actualizar(app)" class="dashboard-card">
+        <mat-grid-tile *ngFor="let evol of evolucionesLista" style="overflow-x: hidden">
+          <mat-card (click)="actualizar(evol)" class="dashboard-card">
             <mat-card-content class="dashboard-card-content">
               <mat-icon>web</mat-icon>
-              <h5 class="cssRow">{{ evolucion.Fecha }}</h5>
+              <h5 class="cssRow">{{ evol.Fecha }}</h5>
               <br />
-              <div>{{ evolucion.IdOdontologo }}</div>
-              <div>{{ evolucion.Paciente }}</div>
+              <div>{{ evol.IdOdontologo }}</div>
+              <div>{{ evol.Paciente }}</div>
             </mat-card-content>
           </mat-card>
         </mat-grid-tile>

@@ -49,7 +49,18 @@ export class EsterilizacionesService {
           list{ id
                 disponible
           		  T27Fecha
-              }
+                sede
+                motivo
+                tipo
+                esporas
+                dispMed
+                tipEmp
+                timeMin
+                temper
+                presion
+                observ
+                cantidad
+          }
         }
       }
       `,
@@ -76,8 +87,7 @@ export class EsterilizacionesService {
           presion:${steril.presion},
           observ:"${steril.observ}",
           cantidad:${steril.cant}
-        })
-          {
+        }){
             id
           }
         }`,
@@ -86,4 +96,33 @@ export class EsterilizacionesService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(environment.apiUrl, body, { headers: headers });
   }
+
+  updateEsteriliz(obj: any): Observable<any> {
+    const { steril } = obj;
+    let body = {
+      query: `mutation {
+        updateSterilizations (esterilizacion: {
+          id:       ${steril.id},
+          T27Fecha: "${steril.T27Fecha}",
+          sede: "${steril.sede}",
+          motivo: "${steril.motivo}",
+          tipo:"${steril.tipo}",
+          esporas:"${steril.esporas}",
+          dispMed:"${steril.dispMed}",
+          tipEmp:"${steril.tipEmp}",
+          timeMin:${steril.timeMin},
+          temper:${steril.temper},
+          presion:${steril.presion},
+          observ:"${steril.observ}",
+          cantidad:${steril.cant}
+        }){
+          id
+        }
+      }`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(environment.apiUrl, body, { headers: headers });
+  }
+
+
 }

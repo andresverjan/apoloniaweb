@@ -4,6 +4,7 @@ import { ColumnaService } from "../../core/services/columna.service";
 import { TipoCampoService } from "../../tipo-campo/tipo-campo.service";
 import { EvolucionesService } from "./evoluciones.service";
 import { PacienteService } from "../../core/services/paciente.service";
+import { FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-evoluciones",
@@ -13,9 +14,15 @@ import { PacienteService } from "../../core/services/paciente.service";
 export class EvolucionesComponent implements OnChanges {//OnInit,
   public IsWaiting: boolean;
   public showListado: boolean = true;
+  public showContent: boolean = true;
+  public showBtnActualizar: Boolean = false;
+  public showBtnEliminar: Boolean = false;
   public showForm: boolean = false;
   public mascaras = [];
   public evolucionesLista: any = [];
+  public evolucion: any;
+
+  public evolucionForm: FormGroup;
 
   @Input() Cedula: string;
 
@@ -49,7 +56,16 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
     });
   };
 
-  /*ngOnInit() {
-    this.fetchEvoluciones(this.Cedula);
-  }*/
+  actualizar(evolucion: any) {
+    this.showListado = false;
+    this.showContent = false;
+    this.showForm = true;
+    this.showBtnActualizar = true;
+    this.showBtnEliminar = true;
+    this.evolucion = evolucion;
+    this.Cedula    = evolucion.Cedula;
+    /*this.evolucionForm.controls["Fecha"].setValue(evolucion.Fecha);
+    this.evolucionForm.controls["IdOdontologo"].setValue(evolucion.IdOdontologo);
+    this.evolucionForm.controls["Paciente"].setValue(evolucion.Paciente);*/
+  }
 }
