@@ -269,12 +269,12 @@ export class ApplicationsComponent implements OnInit {
         application: {
           nombre: this.aplicacionForm.controls["nombre"].value,
           nombreTabla: this.aplicacionForm.controls["nombreTabla"].value,
+          icono: this.aplicacionForm.controls["icono"].value,
         },
         campos: [...this.campos],
       };
 
       this.applicationService.saveApplication(obj).subscribe((res) => res);
-
       this.showForm = false;
 
       this.tabla = {
