@@ -49,7 +49,6 @@ export class EsterilizacionesService {
           list{ id
                 disponible
           		  T27Fecha
-
                 sede
                 motivo
                 tipo
@@ -89,7 +88,6 @@ export class EsterilizacionesService {
           presion:${steril.presion},
           observ:"${steril.observ}",
           cantidad:${steril.cant}
-<<<<<<< HEAD
         }){
             id
           }

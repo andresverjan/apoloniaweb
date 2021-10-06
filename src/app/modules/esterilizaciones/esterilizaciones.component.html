@@ -94,7 +94,7 @@
               <mat-card (click)="actualizar(app)" class="dashboard-card">
                 <mat-card-content class="dashboard-card-content">
                   <mat-icon>web</mat-icon>
-                  <h5 class="cssRow">{{ app.disponible }}</h5>
+                  <h5 class="cssRow">{{ app.disponible=="true" ?"Disponible":"No Disponible" }}</h5>
                   <br />
                   <div>{{ app.T27Fecha }}</div>
                 </mat-card-content>
@@ -174,8 +174,8 @@
                   <mat-icon matPrefix>alarm</mat-icon>
                   <input #dpInput matInput placeholder="Date Time:"
                     id="T27Fecha"
-                    [formControlName]="'T27Fecha'"
-                    [(ngModel)]="esterilizacion.T27Fecha"
+                    formControlName="T27Fecha"
+
                     [owlDateTimeTrigger]="dt1"
                     [owlDateTime]="dt1"
                     (dateTimeChange)="onDateChange($event)"
@@ -183,12 +183,11 @@
                   <owl-date-time [pickerType]="'timer'" [hour12Timer]=true #dt1></owl-date-time>
                 </div>
               </mat-grid-tile>
-
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=50>
                   <input #dpInput matInput type="number" min="0" id="timeMin"
                     placeholder="Tiempo (Min)"
-                    [formControlName]="'timeMin'" [(ngModel)]="esterilizacion.timeMin" required>
+                    formControlName="timeMin"  required>
                 </div>
               </mat-grid-tile>
 
@@ -196,22 +195,20 @@
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                   <mat-icon matPrefix><i class="fas fa-temperature"></i></mat-icon>
                   <input #dpInput matInput type="number" id="temper" placeholder="Temperatura"
-                    [formControlName]="'temper'" [(ngModel)]="esterilizacion.temper" required>
-
+                    formControlName="temper"  required>
                 </div>
               </mat-grid-tile>
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                   <mat-icon matPrefix><i class="fas fa-temperature"></i></mat-icon>
                   <input #dpInput matInput type="number" id="presion" placeholder="Presión"
-                    [formControlName]="'presion'" [(ngModel)]="esterilizacion.presion" required>
-
+                    formControlName="presion"  required>
                 </div>
               </mat-grid-tile>
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=50>
                   <input #dpInput matInput type="number" min="0" id="cant" placeholder="Cantidad"
-                    [formControlName]="'cant'" [(ngModel)]="esterilizacion.cantidad" required>
+                    formControlName="cant"  required>
 
                 </div>
               </mat-grid-tile>
@@ -220,8 +217,11 @@
             <mat-grid-list cols="1" rowHeight="90px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
               <mat-grid-tile fxFlex>
                 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="95">
-                  <textarea #dpInput matInput class="form-control" placeholder="Observaciones"
-                    aria-label="With textarea" [formControlName]="'observ'" [(ngModel)]="esterilizacion.observ"
+                  <textarea #dpInput matInput class="form-control"
+                    placeholder="Observaciones"
+                    aria-label="With textarea"
+                    formControlName="observ"
+
                     style="height: 80px; width: 100%" id="observ"></textarea>
                 </div>
               </mat-grid-tile>

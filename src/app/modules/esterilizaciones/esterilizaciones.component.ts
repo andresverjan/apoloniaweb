@@ -76,74 +76,13 @@ export class EsterilizacionesComponent implements OnInit {
 
   constructor(
     private esterilizacionesService: EsterilizacionesService) {
-      this.esterilForm = new FormGroup({
-        T27Fecha: new FormControl("", [
-          Validators.maxLength(50),
-          Validators.required
-        ]),
 
-        sede: new FormControl("", [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-
-        motivo: new FormControl("", [
-          Validators.maxLength(50),
-          Validators.required,
-        ]),
-
-        tipo: new FormControl("", [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-
-        esporas: new FormControl("", [
-          Validators.maxLength(50),
-          Validators.required,
-        ]),
-
-        dispMed: new FormControl("", [
-          Validators.required,
-          Validators.maxLength(50),
-        ]),
-
-        tipEmp: new FormControl("", [
-          Validators.maxLength(50),
-          Validators.required,
-        ]),
-
-        timeMin: new FormControl("", [
-          Validators.maxLength(5),
-          Validators.required,
-        ]),
-
-        temper: new FormControl("", [
-          Validators.maxLength(5),
-          Validators.required,
-        ]),
-
-        presion: new FormControl("", [
-          Validators.maxLength(5),
-          Validators.required,
-        ]),
-
-        cant: new FormControl("", [
-          Validators.maxLength(5),
-          Validators.required,
-        ]),
-
-
-        observ: new FormControl("", [
-          Validators.maxLength(255),
-          Validators.required,
-        ])
-      });
     }
 
-    onDisponibleSelected (lSelected: any) {
-      this.filter.disponible = lSelected.value;
-      this.findBy();
-    }
+  onDisponibleSelected (lSelected: any) {
+    this.filter.disponible = lSelected.value;
+    this.findBy();
+  }
 
   handlePageChange(e: PageEvent) {
     this.pageNumber = e.pageIndex + 1;
@@ -152,25 +91,13 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   adicionar() {
-//    this.showContent = false;
-//    this.esterilForm.reset();
+    this.showContent = false;
+    this.esterilForm.reset();
     this.lShowPanelDatos = true;
     this.showListado = false;
     this.showBtnEliminar = false;
     this.showBtnActualizar = false;
     this.showForm = true;
-
-    this.patchParametrosForm();
-  }
-
-  patchParametrosForm() {
-    this.esterilForm.controls["T27Fecha"].setValue(new Date());
-    /*this.egresoForm.controls["T17RF"].setValue(
-      this.parametrosContaConfig[1].Valor
-    );
-    this.egresoForm.controls["T17ICA"].setValue(
-      this.parametrosContaConfig[2].Valor
-    );*/
   }
 
   cancelar() {
@@ -197,7 +124,6 @@ export class EsterilizacionesComponent implements OnInit {
           observ:   this.esterilForm.controls["observ"].value
         }
       };
-//      const steril = this.esterilForm.value;
       this.esterilizacionesService.saveSterilizations(obj).subscribe((res) => res);
       this.showForm = false;
       this.lShowPanelDatos = false;
@@ -258,16 +184,13 @@ export class EsterilizacionesComponent implements OnInit {
       }
     };
     this.esterilizacionesService.updateEsteriliz(obj).subscribe((res) => res);
-    this.showForm = false;
-    this.esterilForm.reset();
-    Swal.fire(
-      "Actualización exitosa",
+    this.findBy();
+    Swal.fire("Actualización exitosa",
       "Esterilización agregada correctamente!.",
       "success"
     );
-
-    this.findBy();
-
+    this.esterilForm.reset();
+    this.showForm = false;
     this.showBtnActualizar = false;
     this.showBtnEliminar = false;
     this.showListado = true;
@@ -275,6 +198,68 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.esterilForm = new FormGroup({
+      T27Fecha: new FormControl("", [
+        Validators.maxLength(50),
+        Validators.required
+      ]),
+
+      sede: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+
+      motivo: new FormControl("", [
+        Validators.maxLength(50),
+        Validators.required,
+      ]),
+
+      tipo: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+
+      esporas: new FormControl("", [
+        Validators.maxLength(50),
+        Validators.required,
+      ]),
+
+      dispMed: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+
+      tipEmp: new FormControl("", [
+        Validators.maxLength(50),
+        Validators.required,
+      ]),
+
+      timeMin: new FormControl("", [
+        Validators.maxLength(5),
+        Validators.required,
+      ]),
+
+      temper: new FormControl("", [
+        Validators.maxLength(5),
+        Validators.required,
+      ]),
+
+      presion: new FormControl("", [
+        Validators.maxLength(5),
+        Validators.required,
+      ]),
+
+      cant: new FormControl("", [
+        Validators.maxLength(5),
+        Validators.required,
+      ]),
+
+
+      observ: new FormControl("", [
+        Validators.maxLength(255),
+        Validators.required,
+      ])
+    });
     this.findBy();
   }
 
@@ -331,8 +316,6 @@ export class EsterilizacionesComponent implements OnInit {
     this.findBy();
     this.valor.emit(this.dateValus);
     this.filter.fechend = this.dateValus;
-
-
   }
   setAttribute(selected: any) {
     this.filter.disponible = selected;
