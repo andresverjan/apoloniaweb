@@ -88,7 +88,7 @@ export class ApplicationsComponent implements OnInit {
     this.icono = {
       nombre: application.icono,
     };
-
+    this.aplicacionForm.controls["icono"].setValue(this.icono.nombre);
     this.aplicacionForm.controls["nombreTabla"].setValue(this.tabla);
     this.aplicacionForm.controls["nombre"].setValue(application.nombre);
 
