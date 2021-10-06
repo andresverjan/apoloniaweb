@@ -15,11 +15,12 @@ export class TableService {
   }
 
   getAll(objeTosend?: any): Observable<any> {
+    console.log(objeTosend);
     let filter = "";
     //si trae filtro
     if (objeTosend) {
       filter = `(filter: {
-        TABLE_NAME: "${objeTosend.nombre}",
+        TABLE_NAME: "${objeTosend.TABLE_NAME}",
       })`;
     }
     let body = {
