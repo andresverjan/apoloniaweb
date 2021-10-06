@@ -14,6 +14,7 @@ import { MatMenuTrigger } from "@angular/material/menu";
 })
 export class MyNavComponent {  
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  @ViewChild('childMenu') public childMenu;
   
   public session: UserSession;
   public serverURlImagesUsuarios: String;
