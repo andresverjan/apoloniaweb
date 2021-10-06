@@ -1,6 +1,6 @@
-<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px" *ngIf="showListado">
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px" >
   <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
-    fxFlex="22">
+    fxFlex="22" *ngIf="showListado">
     <mat-icon>add_circle_outline</mat-icon>
     Adicion
   </button>
@@ -104,16 +104,11 @@
         </div>
 
       </mat-card-content>
-    </mat-card>
+    </mat-card> 
   </mat-card-content>
-</div>
 
 
 
-
-
-
-<div class="container" style="overflow: hidden">
   <mat-card-content class="window-dashboard-card-content contentprincipal" *ngIf="showForm">
     <!-- componente de busqueda >
     <div-->
@@ -258,6 +253,5 @@
       </mat-card-actions>
     </mat-card>
   </mat-card-content>
+
 </div>
-
-
