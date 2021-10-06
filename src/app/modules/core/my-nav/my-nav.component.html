@@ -16,11 +16,36 @@
       <img class="cssLogo" src="{{ urlLogo }}" alt="logo" style="float: left" />
     </mat-toolbar>
     <mat-list style="margin-left: 20px; margin-right: 20px">
+
+      <!--TODO: HACER MENU MULTILEVEL, DEFINIR BD....
+        <mat-list-item mat-button [matMenuTriggerFor]="periodicos" style="margin-top: 9px">
+        <mat-icon class="menuIcon">web</mat-icon>
+        Administración
+        <mat-icon>chevron_right</mat-icon>
+      </mat-list-item>
+      <mat-menu #periodicos="matMenu" style="margin-left:-3px" (mouseout)="menuOut()" style="display: none">
+        <button mat-menu-item routerLink="{{ item.routerLink }}" [routerLinkActive]="['is-active']"
+          style="margin-top: 9px" (click)="mostrarRouter($event, item)" *ngFor="let item of array">
+          <mat-icon class="menuIcon">{{ item.icon }}</mat-icon>
+          {{ item.nombre }}
+        </button>
+      </mat-menu>
+      -->
       <mat-list-item routerLink="{{ item.routerLink }}" [routerLinkActive]="['is-active']" style="margin-top: 9px"
         (click)="mostrarRouter($event, item)" *ngFor="let item of array">
         <mat-icon class="menuIcon">{{ item.icon }}</mat-icon>
         {{ item.nombre }}
       </mat-list-item>
+    
+      <!--MENU LEVEL 3-->
+      <!--<mat-menu #argentina="matMenu">
+        <a mat-menu-item href="https://www.lanacion.com.ar">La Nación</a>
+        <a mat-menu-item href="https://www.clarin.com">Clarin</a>
+      </mat-menu>
+      <mat-menu #chile="matMenu">
+        <a mat-menu-item href="https://www.emol.com">El Mercurio</a>
+        <a mat-menu-item href="https://www.latercera.com">La Tercera</a>
+      </mat-menu>-->
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>

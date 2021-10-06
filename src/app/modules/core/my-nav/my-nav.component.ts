@@ -1,17 +1,20 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { UserSession } from "../interfaces/usersession.interface";
 import { RouterLinkActive } from '@angular/router';
+import { MatMenuTrigger } from "@angular/material/menu";
 
 @Component({
   selector: "my-nav",
   templateUrl: "./my-nav.component.html",
   styleUrls: ["./my-nav.component.scss"],
 })
-export class MyNavComponent {
+export class MyNavComponent {  
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  
   public session: UserSession;
   public serverURlImagesUsuarios: String;
   public actualUrlFoto: string;
@@ -45,6 +48,14 @@ export class MyNavComponent {
       }
       return item;
     });
+  }
+
+  menuOver() {
+    this.trigger.openMenu();
+  }
+
+  menuOut(){
+    this.trigger.closeMenu();
   }
 
   logout(ruta) {
