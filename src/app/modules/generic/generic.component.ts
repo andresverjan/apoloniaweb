@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { Campo } from "../core/interfaces/campoTable.interace";
 import { ColumnaService } from "../core/services/columna.service";
 import { GenericService } from "./generic.service";
+import { ToolsService } from "./../core/services/tools.service";
 import { PageEvent } from "@angular/material/paginator";
 
 @Component({
@@ -15,6 +16,7 @@ import { PageEvent } from "@angular/material/paginator";
 export class GenericComponent implements OnInit {
   constructor(
     private genericService: GenericService,
+    private toolsService: ToolsService,    
     private columnasService: ColumnaService,
     private route: ActivatedRoute
   ) {}
@@ -31,6 +33,7 @@ export class GenericComponent implements OnInit {
   public filterForm: FormGroup;
   public item: any;
   public testVar;
+  public USUARIO: any;
   public application: Application = {
     id: 0,
     nombre: "",
@@ -51,7 +54,9 @@ export class GenericComponent implements OnInit {
   }
   public campos = [];
 
-  ngOnInit(): void {
+  ngOnInit(): void {      
+    this.USUARIO = this.toolsService.getUserFromLocalStorage();
+    console.log(this.USUARIO);
     this.route.queryParams.subscribe((params) => {
       this.application.id = params["applicationId"];
     });
@@ -74,6 +79,7 @@ export class GenericComponent implements OnInit {
         let formGroup = {};
 
         this.appColumnas.forEach((field: Campo) => {
+          console.log(field);
           let constraints = [];
           if (field.requerido) {
             constraints.push(Validators.required);
@@ -87,6 +93,10 @@ export class GenericComponent implements OnInit {
           formGroup[field.nombre] = new FormControl("", constraints);
         });
         this.genericForm = new FormGroup(formGroup);
+        
+        if (this.genericForm.contains("EmpresaId")){
+          this.genericForm.controls['EmpresaId'].setValue(this.USUARIO.EMPRESA_ID);
+        }
         this.isWaiting = false;
       });
   }
