@@ -71,6 +71,9 @@ export class ApplicationsComponent implements OnInit {
     this.showListado = false;
     this.showForm = true;
   }
+  reloadFields(){
+    this.fetchCamposByTabla(this.tabla);
+  }
 
   actualizar(application: any) {
     console.log(application);
@@ -228,7 +231,7 @@ export class ApplicationsComponent implements OnInit {
 
       this.campos = res.data.listaCamposTable.map((item) => {
         item.nombreUi = item.nombre;
-        item.mascaraId = 1;
+        item.mascaraId = 4;//Set Default Value to Text
         item.tipoCampoId = 1;
         item.orden = 1;
         item.minLength = 1;
