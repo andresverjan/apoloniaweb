@@ -73,6 +73,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   actualizar(application: any) {
+    console.log(application);
     this.showListado = false;
     this.showContent = false;
     this.showForm = true;
@@ -103,24 +104,22 @@ export class ApplicationsComponent implements OnInit {
       },
       campos: [...this.campos],
     };
-
-    this.applicationService.updateApplication(obj).subscribe((res) => res);
-
-    this.showForm = false;
-
-    this.aplicacionForm.reset();
-    Swal.fire(
-      "Operación exitosa",
-      "Aplicación agregada correctamente!.",
-      "success"
-    );
-
-    this.fetchApplications();
-
-    this.showBtnActualizar = false;
-    this.showBtnEliminar = false;
-    this.showListado = true;
-    this.showContent = true;
+    console.log(obj);
+    this.applicationService.updateApplication(obj)
+      .subscribe((res) => {
+        this.showForm = false;
+        this.aplicacionForm.reset();
+        this.fetchApplications();
+        Swal.fire(
+          "Operación exitosa",
+          "Aplicación agregada correctamente!.",
+          "success"
+        );
+        this.showBtnActualizar = false;
+        this.showBtnEliminar = false;
+        this.showListado = true;
+        this.showContent = true;
+      });
   }
 
   procesarValSelect2(comSelect: any) {
@@ -135,6 +134,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   onIconoSelected(selected) {
+    console.log(selected);
     this.icono = selected;
     this.aplicacionForm.controls["icono"].setValue(this.icono.nombre);
   }

@@ -144,7 +144,8 @@ export class ApplicationService {
         }
       }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 }
