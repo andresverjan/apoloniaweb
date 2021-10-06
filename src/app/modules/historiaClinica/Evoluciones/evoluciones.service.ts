@@ -28,6 +28,7 @@ export class EvolucionesService {
       query: `{
         getCitasHC ${filter}{
           Paciente
+          Cedula
           IdOdontologo
           Fecha
         }
