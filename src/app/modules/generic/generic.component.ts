@@ -94,9 +94,15 @@ export class GenericComponent implements OnInit {
         });
         this.genericForm = new FormGroup(formGroup);
         
-        if (this.genericForm.contains("EmpresaId")){
-          this.genericForm.controls['EmpresaId'].setValue(this.USUARIO.EMPRESA_ID);
+        if (this.genericForm.contains("EMPRESA_ID")){
+          this.genericForm.controls['EMPRESA_ID'].setValue(this.USUARIO.EMPRESA_ID);
         }
+
+        if (this.genericForm.contains("IDIOMA_ID")){
+          this.genericForm.controls['IDIOMA_ID'].setValue(this.USUARIO.IDIOMA_ID);
+          console.log(this.USUARIO);
+        }
+
         this.isWaiting = false;
       });
   }
@@ -137,6 +143,8 @@ export class GenericComponent implements OnInit {
         });
 
         this.genericForm = new FormGroup(formGroup);
+
+
         this.showForm = true;
         this.showBtnActualizar = true;
         this.showBtnEliminar = true;
