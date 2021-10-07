@@ -28,6 +28,8 @@ jobs:
           npm run build --if-present
           pwd
           ls
+          cd dist
+          ls
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -53,6 +55,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'apoloniaWebPrd'
-          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A9EA1E26B2CC46DA9B54EAECA73CA804 }}
-          package: .
+          package: ./dist/
+          
