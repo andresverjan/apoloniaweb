@@ -55,4 +55,4 @@ jobs:
           app-name: 'apoloniaWebPrd'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A9EA1E26B2CC46DA9B54EAECA73CA804 }}
-          package: ./dist/MarlynkWeb
+          package: .
