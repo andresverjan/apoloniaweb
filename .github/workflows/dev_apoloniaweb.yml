@@ -23,8 +23,11 @@ jobs:
 
       - name: npm install, build, and test
         run: |
+          echo "INSTALL ...."
           npm install
           npm run build --if-present
+          pwd
+          ls                  
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -52,4 +55,4 @@ jobs:
           app-name: 'ApoloniaWeb'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F724FB25A421442DAEACC54F3D3D240B }}
-          package: .
+          package: ./dist/MarlynkWeb
