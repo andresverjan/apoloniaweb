@@ -8,7 +8,7 @@
     "ng": "ng",
     "start": "ng serve -o",
     "start_dev": "ng serve -c=dev",
-    "build": "ng build",
+    "build": "ng build --prod --build-optimize",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
