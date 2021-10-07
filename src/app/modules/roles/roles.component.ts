@@ -68,8 +68,8 @@ export class RolesComponent implements OnInit {
   async fetchPermisosByRol(obj: any) {
     this.IsWaiting = true;
     this.rolService.permisosByRolId(obj.id).subscribe((res) => {
-      this.permisor = res.data.rolById.permisos;
-
+      this.permisor = res.data.rolById;
+      console.log(this.permisor);
       this.IsWaiting = false;
       this.showBtnActualizar = true;
     });
@@ -77,9 +77,10 @@ export class RolesComponent implements OnInit {
 
   async fetchPermisos(obj: any) {
     this.IsWaiting = true;
+    console.log("fetchPermisos*********** ");
     this.rolService.getPermisos(obj).subscribe((res) => {
       this.permisos = res.data.permisos;
-
+      console.log(this.permisos);
       this.IsWaiting = false;
     });
   }
@@ -90,7 +91,13 @@ export class RolesComponent implements OnInit {
     this.showForm = true;
   }
 
+
+  multiListChange(data){
+    this.permisor = data;
+  }
+
   actionActualizar() {
+    console.log(this.permisor);
     const obj = {
       id: this.rol.id,
 
