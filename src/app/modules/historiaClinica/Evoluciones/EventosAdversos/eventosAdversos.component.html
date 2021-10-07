@@ -47,13 +47,14 @@
                         </mat-toolbar>
                         <mat-card class="cardcontent">
                             <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                <mat-form-field>
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput formControlName="nombre" placeholder="Nombre"/>
+                                  </mat-form-field>
                                 <div class="input-group">
-                                    <input class="form-control"  matInput formControlName="nombre" placeholder="Nombre" aria-label="With textarea"
-                                        style="height: 60px; width: 90%; margin-top: 20px; margin-bottom: 20px;" />
-                                </div>
-                                <div class="input-group">
-                                    <textarea class="form-control"  matInput formControlName="observaciones" placeholder="Observaciones"
-                                        aria-label="With textarea" style="height: 200px; width: 90%"></textarea>
+                                    <mat-label>Observaciones</mat-label>
+                                    <textarea class="form-control"  matInput formControlName="observaciones"
+                                        aria-label="With textarea" style="height: 200px; width: 90%;border: groove;"></textarea>
                                 </div>
                             </mat-card-content>
                             <mat-card-actions fxLayout="row" fxLayoutAlign="center center ">

@@ -80,7 +80,11 @@ export class LaboratoriosComponent implements OnChanges {//OnInit {
       proveedor: this.laboratoriosForm.controls["proveedorId"].value,
       observaciones: this.laboratoriosForm.controls["observaciones"].value
     };
+    this.laboratoriosForm.controls["especialistaId"].setValue("");
+    this.laboratoriosForm.controls["proveedorId"].setValue("");
+    this.laboratoriosForm.controls["observaciones"].setValue("");
     console.log(obj);
+    
     this.laboratorios.push(obj);
     this.listadoAdd.push(obj);
     this.closeDialog();

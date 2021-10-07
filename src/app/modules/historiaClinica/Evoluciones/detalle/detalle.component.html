@@ -11,6 +11,12 @@
               </app-select>
             </mat-grid-tile>
             <mat-grid-tile fxFlex=50>
+              <app-select label="TERMINADO" [data]=firms icono="local_police"
+                (valSelected)="firmaSelected($event, 'firma')" default="{{detaForm.controls['firma'].value}}"
+                fxFlex="50">
+              </app-select>
+            </mat-grid-tile>
+            <mat-grid-tile fxFlex=50>
               <app-select label="Firma" [data]=firms icono="local_police"
                 (valSelected)="firmaSelected($event, 'firma')" default="{{detaForm.controls['firma'].value}}"
                 fxFlex="50">
