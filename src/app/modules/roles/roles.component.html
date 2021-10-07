@@ -3,47 +3,24 @@
     <!-- componente de busqueda -->
     <div>
       <mat-card class="cardcontent">
-        <mat-card-content
-          fxLayout="column"
-          fxLayoutAlign="center"
-          appearance="outline"
-          style="margin-left: 15px; margin-right: 15px"
-        >
-          <app-buscadormodal
-            *ngIf="!IsWaiting"
-            (selected)="onRolSelected($event)"
-            [filters]="['nombre']"
-            [columnas]="{ nombre: 'Nombre' }"
-            [resultInputText]="['nombre']"
-            [service]="rolService"
-            tituloBusqueda="Roles"
-            [defaultObjValue]="rol"
-          >
+        <mat-card-content fxLayout="column" fxLayoutAlign="center" appearance="outline"
+          style="margin-left: 15px; margin-right: 15px">
+          <app-buscadormodal *ngIf="!IsWaiting" (selected)="onRolSelected($event)" [filters]="['nombre']"
+            [columnas]="{ nombre: 'Nombre' }" [resultInputText]="['nombre']" [service]="rolService"
+            tituloBusqueda="Roles" [defaultObjValue]="rol">
           </app-buscadormodal>
         </mat-card-content>
 
         <mat-card-content fxLayout="column" fxLayoutAlign="center">
-          <app-multilist [sel1]="permisos" [(sel2)]="permisor"></app-multilist>
+          <app-multilist [sel1]="permisos" [(sel2)]="permisor" (onChange)="multiListChange($event)" ></app-multilist>
         </mat-card-content>
       </mat-card>
     </div>
-    <mat-card-actions
-      fxLayout="row"
-      fxLayoutAlign="end center"
-      style="margin-right: 10px"
-    >
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
       <!--app-datetime></app-datetime-->
       <!--app-datepicker></app-datepicker-->
-      <button
-        mat-raised-button
-        (click)="actionActualizar()"
-        *ngIf="showBtnActualizar"
-        fxLayout="row"
-        color="primary"
-        fxLayout.xs="column"
-        fxLayoutAlign="center"
-        fxFlex="22"
-      >
+      <button mat-raised-button (click)="actionActualizar()" *ngIf="showBtnActualizar" fxLayout="row" color="primary"
+        fxLayout.xs="column" fxLayoutAlign="center" fxFlex="22">
         Actualizar
       </button>
     </mat-card-actions>
