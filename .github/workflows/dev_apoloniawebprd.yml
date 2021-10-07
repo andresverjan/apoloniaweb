@@ -28,8 +28,10 @@ jobs:
           npm run build --if-present
           pwd
           ls
+          echo ":::::::::entre al DIST!:::::::::"
           cd dist
           ls
+          cd ..
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
