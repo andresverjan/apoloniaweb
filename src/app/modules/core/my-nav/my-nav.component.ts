@@ -7,7 +7,7 @@ import { UserSession } from "../interfaces/usersession.interface";
 import { RouterLinkActive } from '@angular/router';
 import { MatMenuTrigger } from "@angular/material/menu";
 
-@Component({
+@Component({ 
   selector: "my-nav",
   templateUrl: "./my-nav.component.html",
   styleUrls: ["./my-nav.component.scss"],
