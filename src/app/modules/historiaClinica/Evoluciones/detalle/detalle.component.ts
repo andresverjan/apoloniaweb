@@ -25,7 +25,10 @@ export class DetalleComponent implements OnInit {
     { 'value': 'id7', 'nombre': 'PRAGA' }
   ];
   public acts: SelItem[] = this.mockedItems;
-  public firms: SelItem[] = this.mockedItems;
+  public firms: SelItem[] = [
+    { 'value': '1', 'nombre': 'SI' },
+    { 'value': '0', 'nombre': 'NO' },
+  ];
 
   @Input() detalleAdd: any = {
     observaciones: ""

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EsterilizacionesService } from './esterilizaciones.service';
+import { GenericService } from '../generic/generic.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { PageEvent } from "@angular/material/paginator";
 import * as moment from 'moment';
@@ -36,6 +37,9 @@ export class EsterilizacionesComponent implements OnInit {
   public filter: any = {};
   public sterilizations: any = [];
   public esterilizacion: any;
+  public motivosEsterilizacion: any = [];
+  public tiposEsterilizacion: any = [];
+  
   public totalRegistros = 0;
   public pageSize = 10;
   public pageSizeOptions = [5, 10, 20, 30];
@@ -47,6 +51,12 @@ export class EsterilizacionesComponent implements OnInit {
     { value: "0", nombre: "No Disponile" }
    ];
 
+
+   
+   espora: SelItem[] = [
+    {'value' : '0', 'nombre': 'SI'},
+    {'value' : '', 'nombre': 'NO'}    
+  ];
   mockedItems: SelItem[] = [
     {'value' : 'id1', 'nombre': 'KANVAS'},
     {'value' : 'id2', 'nombre': 'BYRENA'},
@@ -75,7 +85,9 @@ export class EsterilizacionesComponent implements OnInit {
   public acts: SelItem[] = this.mockedItems;
 
   constructor(
-    private esterilizacionesService: EsterilizacionesService) {
+    private genericService: GenericService,
+    private esterilizacionesService: EsterilizacionesService)
+    {
 
     }
 
@@ -198,6 +210,8 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fechMotivosEsterilizacion();
+    this.fechTiposEsterilizacion();
     this.esterilForm = new FormGroup({
       T27Fecha: new FormControl("", [
         Validators.maxLength(50),
@@ -289,6 +303,52 @@ export class EsterilizacionesComponent implements OnInit {
       this.IsWaiting = false;
     });
   };
+
+  fechMotivosEsterilizacion(){
+    let obj =  {
+      applicationId : 31,
+      campos: [ ],
+      limit: {
+        pagina: 1,
+        limite: 1000,
+      },
+    }
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList =  res.data.genericList[0];
+      let listado = genericList.campos.map((val)=> {
+              return JSON.parse(val);
+      });
+      this.motivosEsterilizacion = listado.map((val)=> {
+        return  {value: "'"+val.id+"'",
+                nombre: val.nombre} 
+      });
+      this.IsWaiting = false;
+    });
+  }
+
+  fechTiposEsterilizacion(){
+    let obj =  {
+      applicationId : 35,
+      campos: [ ],
+      limit: {
+        pagina: 1,
+        limite: 1000,
+      },
+    }
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList =  res.data.genericList[0];
+      let listado = genericList.campos.map((val)=> {
+              return JSON.parse(val);
+      });
+      this.tiposEsterilizacion = listado.map((val)=> {
+        return  {value: "'"+val.id+"'",
+                nombre: val.nombre} 
+      });
+      this.IsWaiting = false;
+    });
+  }
+
+ 
 
   selectField(rolSelected: any, campo: any){
     this.esterilForm.controls[campo].setValue(rolSelected.value);
