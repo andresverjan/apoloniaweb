@@ -23,15 +23,17 @@ jobs:
 
       - name: npm install, build, and test
         run: |
+          echo "INSTALL ...."
           npm install
           npm run build --if-present
-          npm run test --if-present
+          pwd
+          ls
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          path: ./dist/MarlynkWeb
 
   deploy:
     runs-on: ubuntu-latest
@@ -53,4 +55,4 @@ jobs:
           app-name: 'apoloniaWebPrd'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A9EA1E26B2CC46DA9B54EAECA73CA804 }}
-          package: .
+          package: ./dist/MarlynkWeb
