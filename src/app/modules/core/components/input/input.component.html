@@ -2,22 +2,10 @@
   <mat-form-field *ngIf="campo.visible" fxFlex="100">
     <mat-icon matPrefix>edit</mat-icon>
     <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
-    <input
-      matInput
-      *ngIf="campo.visible"
-      id="{{ campo.nombre }}"
-      placeholder=""
-      style="margin-left: -28px"
-      [formControlName]="campo.nombre"
-    />
-    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.maxlength"
-      >error-maxlenght</mat-hint
-    >
-    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.minlength"
-      >error-minliength</mat-hint
-    >
-    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.required"
-      >error-required</mat-hint
-    >
+    <input matInput *ngIf="campo.visible" id="{{ campo.nombre }}" placeholder="" style="margin-left: -28px"
+      [formControlName]="campo.nombre" />
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.maxlength">Error Maxima Longitud</mat-hint>
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.minlength">Error Longitud Minima</mat-hint>
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.required">Requerido</mat-hint>
   </mat-form-field>
 </div>
