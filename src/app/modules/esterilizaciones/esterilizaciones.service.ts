@@ -78,17 +78,17 @@ export class EsterilizacionesService {
       query: `mutation{
         saveSterilizations(esteriliz: {
           T27Fecha: "${steril.T27Fecha}",
-          sede: "${steril.sede}",
-          motivo: "${steril.motivo}",
-          tipo:"${steril.tipo}",
-          esporas:"${steril.esporas}",
-          dispMed:"${steril.dispMed}",
-          tipEmp:"${steril.tipEmp}",
-          timeMin:${steril.timeMin},
-          temper:${steril.temper},
-          presion:${steril.presion},
-          observ:"${steril.observ}",
-          cantidad:${steril.cant}
+          sede: ${steril.sede.replace(/'/g, '')},
+          motivo: ${steril.motivo.replace(/'/g, '')},
+          tipo: ${steril.tipo.replace(/'/g, '')},
+          esporas: "${steril.esporas.replace(/'/g, '')}",
+          dispMed: ${steril.dispMed.replace(/'/g, '')},
+          tipEmp: ${steril.tipEmp.replace(/'/g, '')},
+          timeMin: ${steril.timeMin},
+          temper: ${steril.temper},
+          presion: ${steril.presion},
+          observ: "${steril.observ}",
+          cantidad: ${steril.cant}
         }){
             id
           }
@@ -106,12 +106,12 @@ export class EsterilizacionesService {
         updateSterilizations (esterilizacion: {
           id:       ${steril.id},
           T27Fecha: "${steril.T27Fecha}",
-          sede: "${steril.sede}",
-          motivo: "${steril.motivo}",
-          tipo:"${steril.tipo}",
-          esporas:"${steril.esporas}",
-          dispMed:"${steril.dispMed}",
-          tipEmp:"${steril.tipEmp}",
+          sede: ${steril.sede.replace(/'/g, '')},
+          motivo: ${steril.motivo.replace(/'/g, '')},
+          tipo: ${steril.tipo.replace(/'/g, '')},
+          esporas:"${steril.esporas.replace(/'/g, '')}",
+          dispMed:${steril.dispMed.replace(/'/g, '')},
+          tipEmp:${steril.tipEmp.replace(/'/g, '')},
           timeMin:${steril.timeMin},
           temper:${steril.temper},
           presion:${steril.presion},

@@ -39,50 +39,53 @@ export class EsterilizacionesComponent implements OnInit {
   public esterilizacion: any;
   public motivosEsterilizacion: any = [];
   public tiposEsterilizacion: any = [];
-  
+  public sedes: any = [];
+  public dispMedics: any = [];
+  public tipEmpac: any = [];
+
   public totalRegistros = 0;
   public pageSize = 10;
   public pageSizeOptions = [5, 10, 20, 30];
   public pageNumber: number = 1;
   public queryOptions = {};
 
-  public disponibleOptions: SelItem[] = [
-    { value: "1", nombre: "Disponible" },
-    { value: "0", nombre: "No Disponile" }
-   ];
+  public disponibleOptions:
+    SelItem[] = [
+      { 'value': '1', nombre: "Disponible" },
+      { 'value': '0', nombre: "No Disponile" }
+    ];
 
+    espora: SelItem[] = [
+      {'value' : '1', 'nombre': 'SI'},
+      {'value' : '0', 'nombre': 'NO'}
+    ];
 
-   
-   espora: SelItem[] = [
-    {'value' : '0', 'nombre': 'SI'},
-    {'value' : '', 'nombre': 'NO'}    
-  ];
-  mockedItems: SelItem[] = [
-    {'value' : 'id1', 'nombre': 'KANVAS'},
-    {'value' : 'id2', 'nombre': 'BYRENA'},
-    {'value' : 'id3', 'nombre': 'Opion 3'},
-    {'value' : 'id4', 'nombre': 'TESALIA'},
-    {'value' : 'id5', 'nombre': 'Opion 5'},
-    {'value' : 'id6', 'nombre': 'ORION'},
-    {'value' : 'id7', 'nombre': 'PRAGA'}
-  ];
+    /*mockedItems: SelItem[] = [
+      {'value' : 'id1', 'nombre': 'KANVAS'},
+      {'value' : 'id2', 'nombre': 'BYRENA'},
+      {'value' : 'id3', 'nombre': 'Opion 3'},
+      {'value' : 'id4', 'nombre': 'TESALIA'},
+      {'value' : 'id5', 'nombre': 'Opion 5'},
+      {'value' : 'id6', 'nombre': 'ORION'},
+      {'value' : 'id7', 'nombre': 'PRAGA'}
+    ];
 
-  sedes: SelItem[] = [
-    {'value' : 'id1', 'nombre': 'PUNE'},
-    {'value' : 'id2', 'nombre': 'IBIZA'},
-    {'value' : 'id3', 'nombre': 'BARANQUILLA'},
-    {'value' : 'id4', 'nombre': 'DENVER'},
-    {'value' : 'id5', 'nombre': 'BERNA'},
-    {'value' : 'id6', 'nombre': 'OKINAWA'},
-    {'value' : 'id7', 'nombre': 'BRUJAS'}
-  ];
+    sedes: SelItem[] = [
+      {'value' : 'id1', 'nombre': 'PUNE'},
+      {'value' : 'id2', 'nombre': 'IBIZA'},
+      {'value' : 'id3', 'nombre': 'BARANQUILLA'},
+      {'value' : 'id4', 'nombre': 'DENVER'},
+      {'value' : 'id5', 'nombre': 'BERNA'},
+      {'value' : 'id6', 'nombre': 'OKINAWA'},
+      {'value' : 'id7', 'nombre': 'BRUJAS'}
+    ];
 
   disp: SelItem[] = [
     {'value' : '0', 'nombre': 'No Disponible'},
     {'value' : '1', 'nombre': 'Disponible'}
-  ];
+  ];*/
 
-  public acts: SelItem[] = this.mockedItems;
+//  public acts: SelItem[] = this.mockedItems;
 
   constructor(
     private genericService: GenericService,
@@ -164,12 +167,12 @@ export class EsterilizacionesComponent implements OnInit {
     this.esterilizacion = esterilizacion;
 
     this.esterilForm.controls["T27Fecha"].setValue(esterilizacion.T27Fecha);
-    this.esterilForm.controls["sede"].setValue(esterilizacion.sede);
-    this.esterilForm.controls["motivo"].setValue(esterilizacion.motivo);
-    this.esterilForm.controls["tipo"].setValue(esterilizacion.tipo);
+    this.esterilForm.controls["sede"].setValue("'"+esterilizacion.sede+"'");
+    this.esterilForm.controls["motivo"].setValue("'"+esterilizacion.motivo+"'");
+    this.esterilForm.controls["tipo"].setValue("'"+esterilizacion.tipo+"'");
     this.esterilForm.controls["esporas"].setValue(esterilizacion.esporas);
-    this.esterilForm.controls["dispMed"].setValue(esterilizacion.dispMed);
-    this.esterilForm.controls["tipEmp"].setValue(esterilizacion.tipEmp);
+    this.esterilForm.controls["dispMed"].setValue("'"+esterilizacion.dispMed+"'");
+    this.esterilForm.controls["tipEmp"].setValue("'"+esterilizacion.tipEmp+"'");
     this.esterilForm.controls["timeMin"].setValue(esterilizacion.timeMin);
     this.esterilForm.controls["temper"].setValue(esterilizacion.temper);
     this.esterilForm.controls["presion"].setValue(esterilizacion.presion);
@@ -212,6 +215,9 @@ export class EsterilizacionesComponent implements OnInit {
   ngOnInit(): void {
     this.fechMotivosEsterilizacion();
     this.fechTiposEsterilizacion();
+    this.getSedes();
+    this.getDispMedics();
+    this.getEmpacTip();
     this.esterilForm = new FormGroup({
       T27Fecha: new FormControl("", [
         Validators.maxLength(50),
@@ -320,7 +326,7 @@ export class EsterilizacionesComponent implements OnInit {
       });
       this.motivosEsterilizacion = listado.map((val)=> {
         return  {value: "'"+val.id+"'",
-                nombre: val.nombre} 
+                nombre: val.nombre}
       });
       this.IsWaiting = false;
     });
@@ -342,13 +348,77 @@ export class EsterilizacionesComponent implements OnInit {
       });
       this.tiposEsterilizacion = listado.map((val)=> {
         return  {value: "'"+val.id+"'",
-                nombre: val.nombre} 
+                nombre: val.nombre}
       });
       this.IsWaiting = false;
     });
   }
 
- 
+  getDispMedics(){
+    let obj =  {
+      applicationId : 38,
+      campos: [ ],
+      limit: {
+        pagina: 1,
+        limite: 1000,
+      },
+    }
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList =  res.data.genericList[0];
+      let listado = genericList.campos.map((val)=> {
+              return JSON.parse(val);
+      });
+      this.dispMedics = listado.map((val)=> {
+        return  {value: "'"+val.id+"'",
+                nombre: val.nombre}
+      });
+      this.IsWaiting = false;
+    });
+  }
+
+  getEmpacTip(){
+    let obj =  {
+      applicationId : 37,
+      campos: [ ],
+      limit: {
+        pagina: 1,
+        limite: 1000,
+      },
+    }
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList =  res.data.genericList[0];
+      let listado = genericList.campos.map((val)=> {
+              return JSON.parse(val);
+      });
+      this.tipEmpac = listado.map((val)=> {
+        return  {value: "'"+val.id+"'",
+                nombre: val.nombre}
+      });
+      this.IsWaiting = false;
+    });
+  }
+
+  getSedes(){
+    let obj =  {
+      applicationId : 30,
+      campos: [ ],
+      limit: {
+        pagina: 1,
+        limite: 1000,
+      },
+    }
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList =  res.data.genericList[0];
+      let listado = genericList.campos.map((val)=> {
+              return JSON.parse(val);
+      });
+      this.sedes = listado.map((val)=> {
+        return  {value: "'"+val.id+"'",//
+                nombre: val.nombre}
+      });
+      this.IsWaiting = false;
+    });
+  }
 
   selectField(rolSelected: any, campo: any){
     this.esterilForm.controls[campo].setValue(rolSelected.value);
