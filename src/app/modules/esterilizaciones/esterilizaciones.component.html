@@ -159,13 +159,13 @@
           <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
             <mat-grid-list cols="3" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
               <mat-grid-tile fxFlex=50>
-                <app-select label="Dispositivo Médico" [data]=sedes icono="local_police"
+                <app-select label="Dispositivo Médico" [data]=dispMedics icono="local_police"
                   (valSelected)="selectField($event, 'dispMed')" default="{{esterilForm.controls['dispMed'].value}}"
                   fxFlex="50">
                 </app-select>
               </mat-grid-tile>
               <mat-grid-tile fxFlex=50>
-                <app-select label="Tipo de Empaque" [data]=acts icono="local_police"
+                <app-select label="Tipo de Empaque" [data]=tipEmpac icono="local_police"
                   (valSelected)="selectField($event, 'tipEmp')" default="{{esterilForm.controls['tipEmp'].value}}"
                   fxFlex="50">
                 </app-select>
