@@ -1,15 +1,8 @@
-<mat-card-actions
-  fxLayout="row"
-  fxLayoutAlign="end center"
-  style="margin-right: 10px"
->
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
 </mat-card-actions>
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar> -->
 <div class="container" style="overflow: hidden">
-  <mat-card-content
-    class="window-dashboard-card-content"
-    style="overflow-block: hidden"
-  >
+  <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
     <mat-card-content class="window-dashboard-card-content contentprincipal">
       <mat-toolbar color="primary">
         <mat-icon matPrefix>local_hospital</mat-icon>
@@ -19,25 +12,15 @@
       <mat-card-header>
         <mat-card-title> </mat-card-title>
       </mat-card-header>
-      <mat-card class="cardcontent">
-        <mat-card-title fxLayoutAlign="center">
-          <label>Historia Clinica</label>
-        </mat-card-title>
+      <mat-card class="cardcontent">        
         <mat-card-content fxLayout="column" fxLayoutAlign="center">
-          <app-buscadormodal
-            [filters]="['Cedula', 'Nombres', 'Apellidos']"
-            (selected)="onPatientSelected($event)"
+          <app-buscadormodal [filters]="['Cedula', 'Nombres', 'Apellidos']" (selected)="onPatientSelected($event)"
             [columnas]="{
               Cedula: 'Cedula',
               Nombres: 'Nombre',
               Apellidos: 'Apellido'
-            }"
-            [resultInputText]="['Apellidos', 'Cedula']"
-            [service]="_pacienteService"
-            tituloBusqueda="Paciente"
-            [defaultObjValue]="paciente"
-
-          ></app-buscadormodal>
+            }" [resultInputText]="['Apellidos', 'Cedula']" [service]="_pacienteService" tituloBusqueda="Paciente"
+            [defaultObjValue]="paciente"></app-buscadormodal>
           <div *ngIf="IsWaitings">
             <mat-tab-group>
               <mat-tab label="Datos Paciente">

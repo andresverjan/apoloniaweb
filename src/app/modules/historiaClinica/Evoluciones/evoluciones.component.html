@@ -19,14 +19,14 @@
         <mat-card-title> </mat-card-title>
       </mat-card-header>
       <mat-grid-list cols="5" rowHeight="230px">
-        <mat-grid-tile *ngFor="let evolucion of evolucionesLista" style="overflow-x: hidden">
-          <mat-card (click)="actualizar(app)" class="dashboard-card">
+        <mat-grid-tile *ngFor="let evol of evolucionesLista" style="overflow-x: hidden">
+          <mat-card (click)="actualizar(evol)" class="dashboard-card">
             <mat-card-content class="dashboard-card-content">
               <mat-icon>web</mat-icon>
-              <h5 class="cssRow">{{ evolucion.Fecha }}</h5>
+              <h5 class="cssRow">{{ evol.Fecha }}</h5>
               <br />
-              <div>{{ evolucion.IdOdontologo }}</div>
-              <div>{{ evolucion.Paciente }}</div>
+              <div>{{ evol.IdOdontologo }}</div>
+              <div>{{ evol.Paciente }}</div>
             </mat-card-content>
           </mat-card>
         </mat-grid-tile>
@@ -46,23 +46,23 @@
     <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
       <div>
         <mat-tab-group>
-          <mat-tab label="Detalles Evolucion">
-            <app-detalle></app-detalle>
+          <mat-tab label="Detalles Evolución">
+            <app-detalle [(detalleAdd)]=detalle></app-detalle>
           </mat-tab>
-          <mat-tab label="Esterilizacion">
-            <app-esterilizacion [Cedula]=Cedula></app-esterilizacion>
+          <mat-tab label="Esterilización">
+            <app-esterilizacion [Cedula]=Cedula [listadoAdd]=esterilizacionAdd></app-esterilizacion>
           </mat-tab>
           <mat-tab label="Recetario">
-            <app-recetario></app-recetario>
+            <app-recetario [listadoAdd]=recetarioAdd></app-recetario>
           </mat-tab>
-          <mat-tab label="Remision">
-            <app-remision></app-remision>
+          <mat-tab label="Remisión">
+            <app-remision [listadoAdd]=remisionAdd></app-remision>
           </mat-tab>
           <mat-tab label="Laboratorios">
-            <app-laboratorios [Cedula]=Cedula></app-laboratorios>
+            <app-laboratorios [Cedula]=Cedula [listadoAdd]=laboratoriosAdd> </app-laboratorios>
           </mat-tab>
           <mat-tab label="Eventos Adversos">
-            <app-eventosAdversos></app-eventosAdversos>
+            <app-eventosAdversos [listadoAdd]=eventosAdversosAdd></app-eventosAdversos>
           </mat-tab>
         </mat-tab-group>
       </div>

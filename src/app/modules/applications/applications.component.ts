@@ -71,8 +71,12 @@ export class ApplicationsComponent implements OnInit {
     this.showListado = false;
     this.showForm = true;
   }
+  reloadFields(){
+    this.fetchCamposByTabla(this.tabla);
+  }
 
   actualizar(application: any) {
+    console.log(application);
     this.showListado = false;
     this.showContent = false;
     this.showForm = true;
@@ -87,7 +91,7 @@ export class ApplicationsComponent implements OnInit {
     this.icono = {
       nombre: application.icono,
     };
-
+    this.aplicacionForm.controls["icono"].setValue(this.icono.nombre);
     this.aplicacionForm.controls["nombreTabla"].setValue(this.tabla);
     this.aplicacionForm.controls["nombre"].setValue(application.nombre);
 
@@ -103,24 +107,22 @@ export class ApplicationsComponent implements OnInit {
       },
       campos: [...this.campos],
     };
-
-    this.applicationService.updateApplication(obj).subscribe((res) => res);
-
-    this.showForm = false;
-
-    this.aplicacionForm.reset();
-    Swal.fire(
-      "Operación exitosa",
-      "Aplicación agregada correctamente!.",
-      "success"
-    );
-
-    this.fetchApplications();
-
-    this.showBtnActualizar = false;
-    this.showBtnEliminar = false;
-    this.showListado = true;
-    this.showContent = true;
+    console.log(obj);
+    this.applicationService.updateApplication(obj)
+      .subscribe((res) => {
+        this.showForm = false;
+        this.aplicacionForm.reset();
+        this.fetchApplications();
+        Swal.fire(
+          "Operación exitosa",
+          "Aplicación agregada correctamente!.",
+          "success"
+        );
+        this.showBtnActualizar = false;
+        this.showBtnEliminar = false;
+        this.showListado = true;
+        this.showContent = true;
+      });
   }
 
   procesarValSelect2(comSelect: any) {
@@ -135,6 +137,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   onIconoSelected(selected) {
+    console.log(selected);
     this.icono = selected;
     this.aplicacionForm.controls["icono"].setValue(this.icono.nombre);
   }
@@ -228,7 +231,7 @@ export class ApplicationsComponent implements OnInit {
 
       this.campos = res.data.listaCamposTable.map((item) => {
         item.nombreUi = item.nombre;
-        item.mascaraId = 1;
+        item.mascaraId = 4;//Set Default Value to Text
         item.tipoCampoId = 1;
         item.orden = 1;
         item.minLength = 1;
@@ -259,18 +262,22 @@ export class ApplicationsComponent implements OnInit {
     campo.tipoCampoId = Number.parseInt(value.value);
   }
 
+  setAttribute(attrib: string, campo: Campo, value: any) {
+    campo[attrib] = Number.parseInt(value.value);
+  }
+
   aceptar() {
     if (this.aplicacionForm.valid) {
       const obj = {
         application: {
           nombre: this.aplicacionForm.controls["nombre"].value,
           nombreTabla: this.aplicacionForm.controls["nombreTabla"].value,
+          icono: this.aplicacionForm.controls["icono"].value,
         },
         campos: [...this.campos],
       };
 
       this.applicationService.saveApplication(obj).subscribe((res) => res);
-
       this.showForm = false;
 
       this.tabla = {

@@ -11,6 +11,7 @@ import { ProfileService } from "./profile.service";
 })
 export class ProfileComponent implements OnInit {
   public profileForm: FormGroup;
+  public passwordForm: FormGroup;
   public USUARIO;
   public isWaiting: Boolean = false;
   lShowPanelDatosViaje: boolean;
@@ -47,6 +48,13 @@ export class ProfileComponent implements OnInit {
       USUARIO_CONFIRMACION: new FormControl(""),
       IDIOMA_ID: new FormControl(""),
     });
+
+    this.passwordForm = new FormGroup({
+      USUARIO_PASSWORD: new FormControl(""),  
+      USUARIO_CONFIRMACION: new FormControl(""),
+    });
+
+    
   }
 
   ngOnInit() {
@@ -66,11 +74,11 @@ export class ProfileComponent implements OnInit {
   changePassword() {
     const usuarioPass = {
       USUARIO_CORREO: this.USUARIO.USUARIO_CORREO,
-      USUARIO_PASSWORD: this.profileForm.controls["USUARIO_CONFIRMACION"].value,
+      USUARIO_PASSWORD: this.passwordForm.controls["USUARIO_PASSWORD"].value,
     };
     if (
-      this.profileForm.controls["USUARIO_PASSWORD"].value ==
-      this.profileForm.controls["USUARIO_CONFIRMACION"].value
+      this.passwordForm.controls["USUARIO_PASSWORD"].value ==
+      this.passwordForm.controls["USUARIO_CONFIRMACION"].value
     ) {
       this.profileService.updatePassword(usuarioPass).subscribe((response) => {
         Swal.fire("Contraseña", "Actualizada correctamente.", "success");

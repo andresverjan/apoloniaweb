@@ -8,37 +8,34 @@
     </mat-card-actions>
 
     <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
-
     <mat-card-content class="window-dashboard-card-content" *ngIf="showListado" style="overflow-block:hidden">
-        <mat-toolbar color="primary">
-            <mat-icon matPrefix> web </mat-icon>
-            <span>{{ etiquetaListado }}</span>
-            <mat-icon>info</mat-icon>
-        </mat-toolbar>
     </mat-card-content>
     <mat-card-content>
-
         <mat-grid-list cols="5" rowHeight="230px">
             <mat-grid-tile *ngFor=" let item of eventos" style="overflow-x: hidden">
                 <mat-card (click)="actualizar(item)" class="dashboard-card">
                     <mat-card-content class="dashboard-card-content">
-                        <mat-icon> web </mat-icon>
+                        <mat-icon>event</mat-icon>
                         <h5 class="cssRow">{{item.nombre}}</h5>
                         <br>
-                        <div>{{item.descripciom}}</div>
-                        <div>{{item.active}}</div>
+                        <div>{{item.observaciones}}</div>
                     </mat-card-content>
                 </mat-card>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>
-
-
-    <div>
+    <div class="container" style="overflow: hidden">
         <ng-template #myDialog style="overflow: hidden">
-            <div>
-                <div class="container" style="overflow: hidden">
-                    <mat-card-content style="margin-bottom: 0px">
+            <mat-dialog-content style="
+            margin-left: -63px;
+            margin-right: -63px;
+            margin-top: -24px;
+            margin-bottom: -38px;
+            width: 650px;
+            overflow: hidden;
+          ">
+                <div class="container"  [formGroup]="eventosAdversosForm" style="overflow: hidden">
+                    <mat-card-content class="window-dashboard-card-content contentprincipal" style="margin-bottom: 0px">
                         <mat-toolbar color="primary">
                             <mat-icon matPrefix>event_note</mat-icon>
                             <label>Creación de Eventos Adversos</label>
@@ -48,20 +45,17 @@
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-toolbar>
-                        <mat-card-header>
-                            <mat-card-title></mat-card-title>
-                        </mat-card-header>
                         <mat-card class="cardcontent">
                             <mat-card-content fxLayout="column" fxLayoutAlign="center">
-                                <app-buscadormodal [filters]="['Nombres']" (selected)="onOdontologoSelected($event)"
-                                    [columnas]="{ Nombres: 'Nombre Especialista' }" [resultInputText]="['Nombres']"
-                                    [service]="_odontologosService" tituloBusqueda="Especialistas"
-                                    [defaultObjValue]="odontologo" fxFlex="60">
-                                </app-buscadormodal>
-                                <app-multilist [sel1]="sel1" [sel2]="sel2"
-                                [nonSelectedItemsTitle]="'Medicamentos para seleccionar'"
-                                    [selectedItemsTitle]="'Medicamentos seleccionados'" [materialIconName]="'medication'"
-                                    (finalSelection)="onSelection($event)"></app-multilist>
+                                <mat-form-field>
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput formControlName="nombre" placeholder="Nombre"/>
+                                  </mat-form-field>
+                                <div class="input-group">
+                                    <mat-label>Observaciones</mat-label>
+                                    <textarea class="form-control"  matInput formControlName="observaciones"
+                                        aria-label="With textarea" style="height: 200px; width: 90%;border: groove;"></textarea>
+                                </div>
                             </mat-card-content>
                             <mat-card-actions fxLayout="row" fxLayoutAlign="center center ">
                                 <button mat-raised-button color="primary" fxLayout="row" (click)="guardar()"
@@ -78,7 +72,7 @@
                         </mat-card>
                     </mat-card-content>
                 </div>
-            </div>
+            </mat-dialog-content>
         </ng-template>
     </div>
 

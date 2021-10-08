@@ -37,13 +37,15 @@ export class EventosAdversosService {
     params = this.toolService.getParams(filtro, ordenamiento);
 
     let body = {
+      //TODO: Add Params PacienteId and EvolucionId
       query: `{
-        mascaras ${params}{
+        evolucionesEventos(filter: {evolucionId: "1", pacienteId: "1"}) { 
           id
+          evolucionId
+          pacienteId
           nombre
-          descripcion
-          active
-          createdBy
+          observaciones
+          createdAt
         }
       }
       `,

@@ -21,24 +21,11 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
   public dialogRef: any;
   public esterilizacionArreglo: any = [];
   public esterilizacion: SelItem[] = [];
-  public esterilizacions: SelItem[] = [];
-  /*public user: any;
-  public users: any = [];
+  public esterilizaciones: Array<any> = [];
 
-  public esteriForm: FormGroup;
-  esterilizacions: SelItem[] = [{id : 'id2', name: 'BYRENA'}]; // input/output
-
-  mockedItems: SelItem[] = [
-    {T27Consecutivo : 993, T27Campo9: 'KANVAS'},
-    {T27Consecutivo : 994, T27Campo9: 'BYRENA'},
-    {T27Consecutivo : 995, T27Campo9: 'Opion 3'},
-    {T27Consecutivo : 996, T27Campo9: 'TESALIA'},
-    {T27Consecutivo : 997, T27Campo9: 'Opion 5'},
-    {T27Consecutivo : 998, T27Campo9: 'ORION'},
-    {T27Consecutivo : 999, T27Campo9: 'PRAGA'}
-  ];*/
 
   @Input() Cedula: string;
+  @Input() listadoAdd: Array<any> = [];
 
   public etiquetaNombreModulo = "Campos";
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
@@ -47,11 +34,18 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
               public _esterilizacionService:EsterilizacionService) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.fetchEsterilizacion(this.Cedula);//
+  ngOnInit() {
+    console.log("llego esto del parent...");    
+    console.log(this.listadoAdd);
+    this.listadoAdd.push(999),
+    this.fetch();
   }
 
-  actionAdicionar() {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.fetchEsterilizacion(this.Cedula);//    
+  }
+
+  actionAdicionar() {    
     this.showListado = false;
     this.showForm = true;
   }
@@ -68,15 +62,17 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     this.dialogRef.close();
   }
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
+    
     this.dialogRef = this.dialog.open(templateRef, {
+      height:"536px",
+      width:"572px",
       disableClose: true,
     });
-    this.dialogRef.afterClosed().subscribe(() => {});
+    this.dialogRef.afterClosed().subscribe((a) => { });
   }
 
   openModal() {
     this.openDialogWithTemplateRef(this.myDialog);
-    this.fetchEsterilDisp();
   }
 
   fetchEsterilizacion = (obj?: any) => {
@@ -87,14 +83,17 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     });
   };
 
-  fetchEsterilDisp = (obj?: any) => {
+  fetch() {
     this.IsWaiting = true;
-    this._esterilizacionService.getAll(obj).subscribe((res) => {
-      this.esterilizacions = res.data.esterilizaciones;
+    this._esterilizacionService.getAll().subscribe(({ data }) => {
+      this.esterilizaciones = data.evolucionesEsterilizacion;
+      console.log("llego.. esteril");
+      console.log(data);
       this.IsWaiting = false;
-//      console.log("****esterilizaciones*******", this.esterilizacions);
     });
-  };
+  }
+
+
 }
 
 interface SelItem {

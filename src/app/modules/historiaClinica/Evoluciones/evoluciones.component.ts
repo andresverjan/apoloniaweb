@@ -4,6 +4,9 @@ import { ColumnaService } from "../../core/services/columna.service";
 import { TipoCampoService } from "../../tipo-campo/tipo-campo.service";
 import { EvolucionesService } from "./evoluciones.service";
 import { PacienteService } from "../../core/services/paciente.service";
+import { FormGroup } from "@angular/forms";
+import Swal from "sweetalert2";
+
 
 @Component({
   selector: "app-evoluciones",
@@ -13,14 +16,28 @@ import { PacienteService } from "../../core/services/paciente.service";
 export class EvolucionesComponent implements OnChanges {//OnInit,
   public IsWaiting: boolean;
   public showListado: boolean = true;
+  public showContent: boolean = true;
+  public showBtnActualizar: Boolean = false;
+  public showBtnEliminar: Boolean = false;
   public showForm: boolean = false;
   public mascaras = [];
   public evolucionesLista: any = [];
+  public evolucion: any;
+
+  public evolucionForm: FormGroup;
+
+  public remisionAdd: any = [];
+  public eventosAdversosAdd: any = [];
+  public laboratoriosAdd: any = [];
+  public esterilizacionAdd: any = [1, 2, 3, 4];
+  public recetarioAdd: any = [];
+  public detalle = {
+    observaciones: ""
+  };
 
   @Input() Cedula: string;
-
   constructor(//public _pacienteService: PacienteService,
-              public _evolucionesService: EvolucionesService) {
+    public _evolucionesService: EvolucionesService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -31,9 +48,25 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
     this.showListado = false;
     this.showForm = true;
   }
+
   guardar() {
+    console.log("presiono guardar.....");
+    console.log(this.esterilizacionAdd);
+    console.log("IMPRIMO eventosAdversosAdd");
+    console.log(this.eventosAdversosAdd);
+
+    console.log("IMPRIMO REMIsION");
+    console.log(this.remisionAdd);
+
+    console.log("IMPRIMO detalleAdd");
+    console.log(this.detalle);
+
+    console.log("IMPRIMO LABORATORIOS");
+    console.log(this.laboratoriosAdd);
+
     this.showForm = false;
     this.showListado = true;
+
   }
 
   cancelar() {
@@ -49,7 +82,16 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
     });
   };
 
-  /*ngOnInit() {
-    this.fetchEvoluciones(this.Cedula);
-  }*/
+  actualizar(evolucion: any) {
+    this.showListado = false;
+    this.showContent = false;
+    this.showForm = true;
+    this.showBtnActualizar = true;
+    this.showBtnEliminar = true;
+    this.evolucion = evolucion;
+    this.Cedula    = evolucion.Cedula;
+    /*this.evolucionForm.controls["Fecha"].setValue(evolucion.Fecha);
+    this.evolucionForm.controls["IdOdontologo"].setValue(evolucion.IdOdontologo);
+    this.evolucionForm.controls["Paciente"].setValue(evolucion.Paciente);*/
+  }
 }

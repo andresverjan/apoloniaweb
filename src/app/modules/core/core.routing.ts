@@ -67,12 +67,11 @@ export const routes: Routes = [
         component: ApplicationsComponent,
         canActivate: [AuthGuardService],
       },
-
       {
-        path: "generic-list",
+        path: "generic-list/:applicationId",
         component: GenericComponent,
         canActivate: [AuthGuardService],
-      },
+      },       
       {
         path: "permisos-list",
         component: RolesComponent,
@@ -118,4 +117,4 @@ export const routes: Routes = [
 ];
 
 //export const routing: ModuleWithProviders = RouterModule.forChild(routes);
-export const routing: ModuleWithProviders<Route> = RouterModule.forRoot(routes);
+export const routing: ModuleWithProviders<Route> = RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' });
