@@ -1,44 +1,69 @@
 <mat-toolbar class="matToolbarCss">
   <mat-toolbar-row>
-    <button
-      type="button"
-      aria-label="Toggle sidenav"
-      mat-icon-button
-      (click)="drawer.toggle(); afterClick()"
-      style="color: white"
-      [ngStyle]="navSizeCss"
-    >
+    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle(); afterClick()"
+      style="color: white" [ngStyle]="navSizeCss">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
-    <span style="padding: 3px; color: white">{{
-      etiquetas.MenuMarlynkWeb
-    }}</span>
+    <span style="padding: 3px; color: white">Apolonia Especialistas</span>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport="true"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)"
-  >
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
     <mat-toolbar style="margin-top: 25px">
       <img class="cssLogo" src="{{ urlLogo }}" alt="logo" style="float: left" />
     </mat-toolbar>
-    <mat-list style="margin-left: 20px; margin-right: 20px">
-      <mat-list-item
-        routerLink="{{ item.routerLink }}"
-        [routerLinkActive]="['is-active']"
-        style="margin-top: 9px"
-        (click)="mostrarRouter(item)"
-        *ngFor="let item of array"
-      >
-        <mat-icon class="menuIcon">{{ item.icon }}</mat-icon>
-        {{ item.nombre }}
+    <mat-list style="margin-left: 12px; margin-right: 20px">
+      <!--TODO: HACER MENU MULTILEVEL, DEFINIR BD....
+        <mat-list-item mat-button [matMenuTriggerFor]="periodicos" style="margin-top: 9px">
+        <mat-icon class="menuIcon">web</mat-icon>
+        Administración
+        <mat-icon>chevron_right</mat-icon>
       </mat-list-item>
+      <mat-menu #periodicos="matMenu" style="margin-left:-3px" (mouseout)="menuOut()" style="display: none">
+        <button mat-menu-item routerLink="{{ item.routerLink }}" [routerLinkActive]="['is-active']"
+          style="margin-top: 9px" (click)="mostrarRouter($event, item)" *ngFor="let item of array">
+          <mat-icon class="menuIcon">{{ item.icon }}</mat-icon>
+          {{ item.nombre }}
+        </button>
+      </mat-menu>
+      -->
+      <div id="menuItem" *ngFor="let item of array" >
+        <div *ngIf="item.url_menu == '#'">
+          <mat-list-item mat-button [matMenuTriggerFor]="menu" style="margin-top: 9px">
+            <mat-icon class="menuIcon">web</mat-icon>
+             <mat-label>{{ item.nombre }}</mat-label>
+            <mat-icon class="menuIcon">chevron_right</mat-icon>
+          </mat-list-item>
+          <mat-menu #menu style="margin-left: -3px" (mouseout)="menuOut()" style="display: none">
+            <div *ngFor="let item2 of array" style="width: 217px;">
+              <button mat-menu-item routerLink="{{ item2.routerLink }}" [routerLinkActive]="['is-active']"
+              style="margin-top: 9px" (click)="mostrarRouter($event, item2)" *ngIf="item2.url_menu != '#' && item2.padreId != null && item2.padreId==item.id">
+              <mat-icon class="menuIcon">{{ item2.icon }}</mat-icon>
+              <mat-label>{{ item2.nombre }}</mat-label>
+            </button>
+            </div>
+          </mat-menu>
+        </div>
+
+        <mat-list-item routerLink="{{ item.routerLink }}" [routerLinkActive]="['is-active']" style="margin-top: 9px"
+          (click)="mostrarRouter($event, item)" *ngIf="item.url_menu != '#' && item.padreId == null" >
+          <mat-icon class="menuIcon">{{ item.icon }}</mat-icon>
+          {{ item.nombre }}
+        </mat-list-item>
+      </div>
+
+      <!--MENU LEVEL 3-->
+      <!--<mat-menu #argentina="matMenu">
+        <a mat-menu-item href="https://www.lanacion.com.ar">La Nación</a>
+        <a mat-menu-item href="https://www.clarin.com">Clarin</a>
+      </mat-menu>
+      <mat-menu #chile="matMenu">
+        <a mat-menu-item href="https://www.emol.com">El Mercurio</a>
+        <a mat-menu-item href="https://www.latercera.com">La Tercera</a>
+      </mat-menu>-->
     </mat-list>
   </mat-sidenav>
   <mat-sidenav-content>

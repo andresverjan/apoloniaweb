@@ -32,11 +32,13 @@ export class LoginService {
           EMPRESA_ID
           IDIOMA_ID
           PERMISOS {
+            id
             nombre
             descripcion
             icon
             url_menu
             applicationId
+            padreId
           }
           IDIOMA{
             NOMBRE_IDIOMA

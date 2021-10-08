@@ -27,6 +27,7 @@ export class ToolsService {
   public msgDialogRef: any;
   public isReloadLogout: boolean = false;
   private messageSource = new BehaviorSubject<any>("Mensaje defecto");
+  public userKey: string = "USUARIO";
   currentMessage = this.messageSource.asObservable();
 
   private dataFiltroReporte = new BehaviorSubject<any>("");
@@ -258,5 +259,8 @@ export class ToolsService {
       ":" +
       currentSecs;
     return currentDateTime;
+  }
+  getUserFromLocalStorage():any {
+    return JSON.parse(localStorage.getItem(this.userKey));
   }
 }

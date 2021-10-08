@@ -1,16 +1,21 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { UserSession } from "../interfaces/usersession.interface";
+import { RouterLinkActive } from '@angular/router';
+import { MatMenuTrigger } from "@angular/material/menu";
 
-@Component({
+@Component({ 
   selector: "my-nav",
   templateUrl: "./my-nav.component.html",
   styleUrls: ["./my-nav.component.scss"],
 })
-export class MyNavComponent {
+export class MyNavComponent {  
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  @ViewChild('childMenu') public childMenu;
+  
   public session: UserSession;
   public serverURlImagesUsuarios: String;
   public actualUrlFoto: string;
@@ -38,12 +43,20 @@ export class MyNavComponent {
     this.getUserFromLocalStorage();
     this.array = this.usuario.PERMISOS.map((item) => {
       if (item.applicationId) {
-        item.routerLink = item.url_menu + item.applicationId;
+        item.routerLink = item.url_menu+ '/' +item.applicationId;
       } else {
         item.routerLink = item.url_menu;
       }
       return item;
     });
+  }
+
+  menuOver() {
+    this.trigger.openMenu();
+  }
+
+  menuOut(){
+    this.trigger.closeMenu();
   }
 
   logout(ruta) {
@@ -55,13 +68,14 @@ export class MyNavComponent {
     this.MostrarRouter = false;
   }
 
-  mostrarRouter(item) {
+  mostrarRouter(event:any, item) {
     this.MostrarRouter = true;
     if (item.applicationId) {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-      this.router.navigate([item.url_menu], {
+      this.router.navigate([item.routerLink], {
         queryParams: { applicationId: item.applicationId },
       });
+      item.selected = true;
     } else {
       if (item.url_menu == "/salida") {
         this.logout(item.url_menu);

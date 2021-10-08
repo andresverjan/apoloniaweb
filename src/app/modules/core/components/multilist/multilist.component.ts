@@ -14,7 +14,7 @@ export class MultilistComponent implements OnInit {
   @Input() selectedItemsTitle: String = "Elementos seleccionados";
   @Input() materialIconName: String = "category";
   @Input() sel2: Array<any> = [];
-  @Output() emitter = new EventEmitter<Array<any>>();
+  @Output() onChange = new EventEmitter<Array<any>>();  
   public sel1Filter = "";
   public sel2Filter = "";
 
@@ -46,17 +46,17 @@ export class MultilistComponent implements OnInit {
 
   actionAddOnClick(element: any) {
     this.sel1 = this.sel1.filter((opt) => element.id != opt.id);
-
     if (this.sel2.indexOf(element) < 0) {
       this.sel2.push(element);
     }
+    this.onChange.emit(this.sel2);
   }
 
   actionRemoveOnClick(element: any) {
     this.sel2 = this.sel2.filter((opt) => element.id != opt.id);
-
     if (this.sel1.indexOf(element) < 0) {
       this.sel1.push(element);
     }
+    this.onChange.emit(this.sel2);
   }
 }

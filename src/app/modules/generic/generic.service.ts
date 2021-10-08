@@ -50,6 +50,8 @@ export class GenericService {
     return this.httpService.callApi(body);
   }
 
+
+
   updateGeneric(generic: any) {
     const { id, application, campos } = generic;
     let body = {

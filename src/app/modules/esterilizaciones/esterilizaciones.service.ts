@@ -5,6 +5,7 @@ import { ToolsService } from '../core/services/tools.service';
 import { environment } from "src/environments/environment";
 import { HttpService } from '../core/services/HttpService';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -49,7 +50,19 @@ export class EsterilizacionesService {
           list{ id
                 disponible
           		  T27Fecha
-              }
+                sede
+                motivo
+                tipo
+                esporas
+                dispMed
+                tipEmp
+                timeMin
+                temper
+                presion
+                observ
+                cantidad
+          }
+
         }
       }
       `,
@@ -65,19 +78,18 @@ export class EsterilizacionesService {
       query: `mutation{
         saveSterilizations(esteriliz: {
           T27Fecha: "${steril.T27Fecha}",
-          sede: "${steril.sede}",
-          motivo: "${steril.motivo}",
-          tipo:"${steril.tipo}",
-          esporas:"${steril.esporas}",
-          dispMed:"${steril.dispMed}",
-          tipEmp:"${steril.tipEmp}",
-          timeMin:${steril.timeMin},
-          temper:${steril.temper},
-          presion:${steril.presion},
-          observ:"${steril.observ}",
-          cantidad:${steril.cant}
-        })
-          {
+          sede: ${steril.sede.replace(/'/g, '')},
+          motivo: ${steril.motivo.replace(/'/g, '')},
+          tipo: ${steril.tipo.replace(/'/g, '')},
+          esporas: "${steril.esporas.replace(/'/g, '')}",
+          dispMed: ${steril.dispMed.replace(/'/g, '')},
+          tipEmp: ${steril.tipEmp.replace(/'/g, '')},
+          timeMin: ${steril.timeMin},
+          temper: ${steril.temper},
+          presion: ${steril.presion},
+          observ: "${steril.observ}",
+          cantidad: ${steril.cant}
+        }){
             id
           }
         }`,
@@ -86,4 +98,34 @@ export class EsterilizacionesService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(environment.apiUrl, body, { headers: headers });
   }
+
+  updateEsteriliz(obj: any): Observable<any> {
+    const { steril } = obj;
+    let body = {
+      query: `mutation {
+        updateSterilizations (esterilizacion: {
+          id:       ${steril.id},
+          T27Fecha: "${steril.T27Fecha}",
+          sede: ${steril.sede.replace(/'/g, '')},
+          motivo: ${steril.motivo.replace(/'/g, '')},
+          tipo: ${steril.tipo.replace(/'/g, '')},
+          esporas:"${steril.esporas.replace(/'/g, '')}",
+          dispMed:${steril.dispMed.replace(/'/g, '')},
+          tipEmp:${steril.tipEmp.replace(/'/g, '')},
+          timeMin:${steril.timeMin},
+          temper:${steril.temper},
+          presion:${steril.presion},
+          observ:"${steril.observ}",
+          cantidad:${steril.cant}
+        }){
+          id
+        }
+      }`,
+    };
+
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(environment.apiUrl, body, { headers: headers });
+  }
+
+
 }
