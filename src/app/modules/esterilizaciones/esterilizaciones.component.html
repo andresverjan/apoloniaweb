@@ -206,20 +206,20 @@
     <mat-card class="cardcontent">
       <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
         <button mat-raised-button (click)="guardar()" color="primary" fxLayout="row" fxLayout.xs="column"
-          *ngIf="!showBtnActualizar" fxLayoutAlign="center" fxFlex="80">
+          *ngIf="!showBtnActualizar" fxLayoutAlign="center" fxFlex="80" [disabled]="!esterilForm.valid">
           <mat-icon>person_add</mat-icon>
           Guardar
         </button>
         <button mat-raised-button (click)="actionActualizar()" color="primary" fxLayout="row" fxLayout.xs="column"
-          *ngIf="showBtnActualizar" fxLayoutAlign="center" fxFlex="80">
+          *ngIf="showBtnActualizar" fxLayoutAlign="center" fxFlex="80" [disabled]="!esterilForm.valid">
           <mat-icon>person_add</mat-icon>
           Actualizar
         </button>
-        <button mat-raised-button fxLayout="row" color="warn" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80"
+        <!--<button mat-raised-button fxLayout="row" color="warn" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80"
           (click)="eliminar()" *ngIf="showBtnEliminar">
           <mat-icon>more_vert</mat-icon>
           Eliminar
-        </button>
+        </button>-->
         <button mat-raised-button color="warn" (click)="cancelar()" fxLayout="row" fxLayout.xs="column"
           fxLayoutAlign="center" fxFlex="80">
           <mat-icon>cancel</mat-icon>
