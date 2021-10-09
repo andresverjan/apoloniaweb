@@ -32,7 +32,7 @@
   box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
   -webkit-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
   -moz-box-shadow: 10px 10px 32px -9px rgba(0, 0, 0, 0.33);
-  padding-bottom: 30px;
+  padding-bottom: 20px;
 }
 
 .upload-btn-wrapper {
@@ -66,4 +66,9 @@
 .cssVal {
   color: #4a4a4a;
   font-weight: 900;
+}
+
+
+.dashboard-card{
+  padding: 2px
 }

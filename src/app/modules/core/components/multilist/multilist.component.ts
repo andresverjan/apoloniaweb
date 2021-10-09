@@ -10,8 +10,8 @@ import { Component, OnInit } from "@angular/core";
 })
 export class MultilistComponent implements OnInit {
   @Input() sel1: Array<any>;
-  @Input() nonSelectedItemsTitle: String = "Elementos para seleccionar";
-  @Input() selectedItemsTitle: String = "Elementos seleccionados";
+  @Input() nonSelectedItemsTitle: String = "Seleccionar";
+  @Input() selectedItemsTitle: String = "Seleccionados";
   @Input() materialIconName: String = "category";
   @Input() sel2: Array<any> = [];
   @Output() onChange = new EventEmitter<Array<any>>();  
