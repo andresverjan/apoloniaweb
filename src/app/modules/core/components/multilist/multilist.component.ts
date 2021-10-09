@@ -13,6 +13,7 @@ export class MultilistComponent implements OnInit {
   @Input() nonSelectedItemsTitle: String = "Seleccionar";
   @Input() selectedItemsTitle: String = "Seleccionados";
   @Input() materialIconName: String = "category";
+  @Input() rowHeight: String = "400px";
   @Input() sel2: Array<any> = [];
   @Output() onChange = new EventEmitter<Array<any>>();  
   public sel1Filter = "";
