@@ -16,6 +16,7 @@ import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { PageEvent } from "@angular/material/paginator";
 import { FormasPagosService } from "../../core/services/formaspagos.service";
 import { ProveedoresService } from "../../core/services/proveedores.service";
+import { ToolsService } from "../../core/services/tools.service";
 
 const DATE_FORMATS = {
   parse: {
@@ -64,6 +65,7 @@ export class ConfigEgresosComponent implements OnInit {
   public pageNumber: number = 1;
   public queryOptions = {};
   public formasPagos = [];
+  public proveedores: any = [];
 
   public parametrosContaConfig = [];
 
@@ -72,7 +74,8 @@ export class ConfigEgresosComponent implements OnInit {
     public _egresosService: EgresosService,
     public configParametros: ConfigParametrosService,
     public formasPagosService: FormasPagosService,
-    public proveedoresService: ProveedoresService
+    public proveedoresService: ProveedoresService,
+    private toolService: ToolsService
   ) {
     this.egresoForm = new FormGroup({
       T17Factura: new FormControl(""),
@@ -107,10 +110,11 @@ export class ConfigEgresosComponent implements OnInit {
     this.findBy();
     this.fetchParamsByGroup("CONTA_CONFIG");
     this.fetchFormasPagos();
+    this.fetchProveedores();
   }
   onPorveedorSelected(selected) {
     this.IsWaiting = true;
-    this.egresoForm.controls["T17Proveedor"].setValue(selected.Nit);
+    this.egresoForm.controls["T17Proveedor"].setValue(selected);
     this.IsWaiting = false;
   }
 
@@ -163,7 +167,11 @@ export class ConfigEgresosComponent implements OnInit {
     this.showBtnAdicionar = false;
     this.showBtnEliminar = true;
     this.egresoForm.reset();
+    const proveedor = this.proveedores.filter(
+      (p) => p.Nit === input.T17Proveedor
+    )[0];
     this.egresoForm.patchValue(input);
+    this.egresoForm.controls["T17Proveedor"].setValue(proveedor);
     this.patchParametrosForm();
   }
   eliminar() {
@@ -180,8 +188,10 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   cancelar() {
-    this.showListado = true;
+    const proveedor = this.egresoForm.controls["T17Proveedor"].value;
+    this.egresoForm.controls["T17Proveedor"].setValue(proveedor?.Nit);
     this.egresoForm.reset();
+    this.showListado = true;
   }
 
   patchParametrosForm() {
@@ -260,6 +270,15 @@ export class ConfigEgresosComponent implements OnInit {
     });
   };
 
+  fetchProveedores = (obj?) => {
+    this.IsWaiting = true;
+    this.proveedoresService.getAll(obj).subscribe((res) => {
+      const { proveedores } = res.data;
+      this.proveedores = proveedores;
+      this.IsWaiting = false;
+    });
+  };
+
   onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     this.filter["T17FechaIni"] = dateValue;
@@ -269,5 +288,8 @@ export class ConfigEgresosComponent implements OnInit {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     this.filter["T17FechaFin"] = dateValue;
     this.findBy();
+  }
+  formatCurrency(number: number): string {
+    return this.toolService.formatCurrency(number);
   }
 }

@@ -1,5 +1,9 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  NgModule,
+  NO_ERRORS_SCHEMA,
+} from "@angular/core";
 
 import { routing } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -11,7 +15,7 @@ import { MaterialModule } from "./modules/core/material.module";
 import { LayoutModule } from "@angular/cdk/layout";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule } from "angularx-social-login";
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 /*import {
 	IgxTimePickerModule,
 	IgxInputGroupModule,
@@ -31,13 +35,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
     LayoutModule,
     FlexLayoutModule,
     SocialLoginModule,
-    NgxMaterialTimepickerModule.setLocale('ar-AE')
+    NgxMaterialTimepickerModule.setLocale("ar-AE"),
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
   ],
   bootstrap: [AppComponent],
-  schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

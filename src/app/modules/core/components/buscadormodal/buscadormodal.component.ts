@@ -39,7 +39,7 @@ export class BuscadormodalComponent implements OnInit {
 
     let resultString = [];
     propiedades.forEach((propiedad) => {
-      if (this.defaultObjValue.hasOwnProperty(propiedad)) {
+      if (this.defaultObjValue?.hasOwnProperty(propiedad)) {
         resultString.push(this.defaultObjValue[propiedad]);
       }
     });
@@ -64,7 +64,7 @@ export class BuscadormodalComponent implements OnInit {
         let resultString = [];
         if (result != undefined) {
           propiedades.forEach((propiedad) => {
-            if (result.hasOwnProperty(propiedad)) {
+            if (result?.hasOwnProperty(propiedad)) {
               resultString.push(result[propiedad]);
             }
           });
