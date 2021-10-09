@@ -64,6 +64,11 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
     console.log("IMPRIMO LABORATORIOS");
     console.log(this.laboratoriosAdd);
 
+
+    console.log("IMPRIMO RECETARIO");
+    console.log(this.recetarioAdd);
+
+
     this.showForm = false;
     this.showListado = true;
 
