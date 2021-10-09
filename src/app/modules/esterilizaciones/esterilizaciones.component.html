@@ -164,24 +164,6 @@
                   fxFlex="50">
                 </app-select>
               </mat-grid-tile>
-            </mat-grid-list>
-
-
-            <mat-grid-list cols="2" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
-              <mat-grid-tile fxFlex>
-                <app-select label="Tipo" [data]=sedes icono="local_police" (valSelected)="selectField($event, 'tipo')"
-                  default="{{esterilForm.controls['tipo'].value}}" fxFlex="50">
-                </app-select>
-              </mat-grid-tile>
-              <mat-grid-tile fxFlex>
-                <app-select label="Esporas" [data]=acts icono="local_police"
-                  (valSelected)="selectField($event, 'esporas')" default="{{esterilForm.controls['esporas'].value}}"
-                  fxFlex="50">
-                </app-select>
-              </mat-grid-tile>
-            </mat-grid-list>
-
-            <mat-grid-list cols="2" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
               <mat-grid-tile fxFlex=50>
                 <app-select label="Tipo de Empaque" [data]=tipEmpac icono="local_police"
                   (valSelected)="selectField($event, 'tipEmp')" default="{{esterilForm.controls['tipEmp'].value}}"
