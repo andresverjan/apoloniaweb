@@ -29,7 +29,7 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
   public remisionAdd: any = [];
   public eventosAdversosAdd: any = [];
   public laboratoriosAdd: any = [];
-  public esterilizacionAdd: any = [1, 2, 3, 4];
+  public esterilizacionAdd: any = [];
   public recetarioAdd: any = [];
   public detalle = {
     observaciones: ""
