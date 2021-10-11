@@ -53,8 +53,8 @@ export class EgresosService {
 
     let body = {
       query: `{
-        egresos ${params}{
-          egresos {
+        egresosProgramados ${params}{
+          egresosProgramados {
             T17Factura
             T17RF
             T17Fecha
@@ -75,7 +75,7 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  createEgreso(egreso): Observable<any> {
+  createEgresos(egreso): Observable<any> {
     let body = {
       query: `
       mutation {
@@ -98,7 +98,7 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  createEgresoProgramado(egreso): Observable<any> {
+  createEgresosProgramados(egreso): Observable<any> {
     let body = {
       query: `
       mutation {
@@ -122,11 +122,11 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  updateEgreso(egreso): Observable<any> {
+  updateEgresosProgramados(egreso): Observable<any> {
     let body = {
       query: `
       mutation {
-        updateEgresos (egreso: {
+        updateEgresosProgramados (egresoProgramado: {
           T17Factura: "${egreso.T17Factura}",
           T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
@@ -145,11 +145,11 @@ export class EgresosService {
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
-  deleteEgreso(factura): Observable<any> {
+  deleteEgresosProgramados(factura): Observable<any> {
     let body = {
       query: `
         mutation {
-          deleteEgresos (egreso: {T17Factura: "${factura}"})
+          deleteEgresosProgramados (egresoProgramado: {T17Factura: "${factura}"})
         }
         `,
     };
