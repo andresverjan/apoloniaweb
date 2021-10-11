@@ -59,10 +59,7 @@
             >
               <ng-container *ngFor="let item of appColumnas">
                 <mat-grid-tile *ngIf="item.visible">
-                  <div
-                    *ngIf="!isWaiting"
-                    fxLayout="row"
-                    fxFlex
+                  <div  *ngIf="!isWaiting"  fxLayout="row"  fxFlex
                     fxLayoutAlign="space-between center"
                   >
 
@@ -123,6 +120,20 @@
                           [campo]="item"
                           (valor)="setDate($event, item)"
                         ></app-slider>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
+                      </div>
+
+                      <div *ngSwitchCase="7" fxFlex="100">
+                        <app-numeric
+                          [form]="genericForm"
+                          [campo]="item"
+                          [label]="item.nombre.toString().toUpperCase()"
+                          (valor)="setDate($event, item)"
+                        ></app-numeric>
                         <textarea
                           matInput
                           hidden
