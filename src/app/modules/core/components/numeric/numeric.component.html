@@ -1,0 +1,14 @@
+<div [formGroup]="form">
+  <mat-form-field *ngIf="campo.visible" fxFlex>
+    <mat-icon matPrefix>edit</mat-icon>
+    <mat-label>{{ label }}</mat-label>
+    <input #dpInput matInput *ngIf="campo.visible" type="number" min="0"
+      id="{{ campo.nombre }}"
+      style="margin-left: 0px"
+      [formControlName]="campo.nombre"
+      [value]="val"/>
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.maxlength">Error Maxima Longitud</mat-hint>
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.minlength">Error Longitud Minima</mat-hint>
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.required">Requerido</mat-hint>
+  </mat-form-field>
+</div>
