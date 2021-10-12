@@ -3,11 +3,12 @@ import { MatDialog } from "@angular/material/dialog";
 import { TableService } from "../../../core/services/table.service";
 import { ColumnaService } from "../../../core/services/columna.service";
 import { TipoCampoService } from "../../../tipo-campo/tipo-campo.service";
-import { EsterilizacionService } from "./esterilizacion.service";
+import { EsterilizacionEvolucionesService } from "./esterilizacion.service";
 import { OdontologosService } from "../../../core/services/odontologos.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { UsersService } from "src/app/modules/users/users.service";
 import { Observable } from "rxjs";
+import  {EsterilizacionesService} from "../../../esterilizaciones/esterilizaciones.service";
 
 @Component({
   selector: "app-esterilizacion",
@@ -21,8 +22,10 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
   public dialogRef: any;
   public esterilizacionArreglo: any = [];
   public esterilizacion: SelItem[] = [];
-  public esterilizaciones: Array<any> = [];
-
+  public esterilizacionesDisponible: Array<any> = [];
+  public esterilizacionesNoDisponible: Array<any> = [];
+  public filter: any = {};
+  public queryOptions = {};
 
   @Input() Cedula: string;
   @Input() listadoAdd: Array<any> = [];
@@ -31,18 +34,29 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
   constructor(public dialog: MatDialog,
-              public _esterilizacionService:EsterilizacionService) {
+              public _esterilizacionService:EsterilizacionesService) {
   }
 
   ngOnInit() {
-    console.log("llego esto del parent...");    
-    console.log(this.listadoAdd);
-    this.listadoAdd.push(999),
-    this.fetch();
+    console.log("llego esto del parent...");
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.fetchEsterilizacion(this.Cedula);//    
+    console.log("ON CHANGES!!!");
+    this.filter.disponible = 1;
+    if (this.filter.disponible) {
+      this.queryOptions = {
+        filter: this.filter,
+        pagina: 1,
+        limite: 100,
+      };
+    } else {
+      this.queryOptions = {
+        pagina: 1,
+        limite: 100,
+      };
+    }
+    this.fetchEsterilizacion(this.queryOptions);
   }
 
   actionAdicionar() {    
@@ -50,8 +64,11 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
     this.showForm = true;
   }
   guardar() {
+    console.log("GUARDANDO TEMP");
+    console.log(this.listadoAdd);
     this.showForm = false;
     this.showListado = true;
+    this.closeDialog();
   }
 
   cancelar() {
@@ -72,27 +89,29 @@ export class EsterilizacionComponent implements OnChanges {//OnInit {
   }
 
   openModal() {
+    console.log("LISTADO ESTERILIZA");
+    console.log(this.esterilizacionesDisponible);
     this.openDialogWithTemplateRef(this.myDialog);
   }
 
   fetchEsterilizacion = (obj?: any) => {
     this.IsWaiting = true;
     this._esterilizacionService.getAll(obj).subscribe((res) => {
-      this.esterilizacionArreglo = res.data.esterilizaciones;
+      const { totalRegistros, list } = res.data.esterilizaciones;
+      this.esterilizacionesDisponible = list.map((val)=> {
+        return  {id : val.id,
+                nombre: val.observ}
+      });
       this.IsWaiting = false;
     });
   };
-
-  fetch() {
-    this.IsWaiting = true;
-    this._esterilizacionService.getAll().subscribe(({ data }) => {
-      this.esterilizaciones = data.evolucionesEsterilizacion;
-      console.log("llego.. esteril");
-      console.log(data);
-      this.IsWaiting = false;
-    });
+ 
+  multiListChange(data){
+    console.log(data);
+    this.listadoAdd= data;
   }
 
+  
 
 }
 

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, TemplateRef, ViewChild } from "@angular/core"
 import { MatDialog } from "@angular/material/dialog";
 import { OdontologosService } from "src/app/modules/core/services/odontologos.service";
 import { RecetarioService } from "./recetario.service";
+import { GenericService } from "src/app/modules/generic/generic.service";
 
 @Component({
   selector: "app-recetario",
@@ -45,7 +46,9 @@ export class RecetarioComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public _odontologosService: OdontologosService,
-    public recetarioService: RecetarioService
+    public recetarioService: RecetarioService,
+    public genericService: GenericService
+
   ) {
     this.odontologo = {
       Nombres: "Seleccionar Especialista",
@@ -53,7 +56,7 @@ export class RecetarioComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetch();
+    this.getMedicamentos();
   }
 
 
@@ -83,6 +86,8 @@ export class RecetarioComponent implements OnInit {
   }
 
   openModal() {
+    console.log("OPEN MODAL...");
+    console.log(this.recetario);
     this.openDialogWithTemplateRef(this.myDialog);
   }
 
@@ -91,7 +96,7 @@ export class RecetarioComponent implements OnInit {
     this.IsWaiting = true;
   }
 
-  fetch() {
+  /*fetch() {
     this.IsWaiting = true;
     this.recetarioService.getAll().subscribe(({ data }) => {
       this.recetario = data.evolucionesRecetario;
@@ -99,6 +104,42 @@ export class RecetarioComponent implements OnInit {
       console.log(this.recetario);
       this.IsWaiting = false;
     });
+  }*/
+
+  getMedicamentos(){
+    let obj =  {
+      applicationId : 34,
+      campos: [],
+      limit: {
+        pagina: 1,
+        limite: 1000,
+      },
+    }
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList =  res.data.genericList[0];
+      let listado = genericList.campos.map((val)=> {
+              return JSON.parse(val);
+      });
+      console.log("REQUEST");
+
+      console.log(listado);
+      this.recetario  = listado.map((val)=> {
+        return  {id: val.id,
+                name: val.Nombre}
+      });
+      this.IsWaiting = false;
+    });
+  }
+
+  multiListChange(data){
+    console.log(data);
+    this.listadoAdd = data;
+  }
+
+  crear(){
+    console.log("DATA....");
+    console.log(this.listadoAdd);
+    this.closeDialog();
   }
 
 

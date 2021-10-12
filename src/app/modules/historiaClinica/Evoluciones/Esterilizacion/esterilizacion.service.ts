@@ -7,7 +7,7 @@ import { ToolsService } from "../../../core/services/tools.service";
 @Injectable({
   providedIn: "root",
 })
-export class EsterilizacionService {
+export class EsterilizacionEvolucionesService {
   serverUrl: string;
 
   constructor(private http: HttpClient, private toolService: ToolsService) {

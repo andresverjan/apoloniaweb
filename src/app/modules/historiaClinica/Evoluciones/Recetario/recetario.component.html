@@ -8,14 +8,13 @@
 
 <div class="container" style="overflow: hidden">
   <mat-grid-list cols="5" rowHeight="230px">
-    <mat-grid-tile *ngFor="let receta of recetario" style="overflow-x: hidden">
+    <mat-grid-tile *ngFor="let receta of listadoAdd" style="overflow-x: hidden">
       <mat-card (click)="actualizar(app)" class="dashboard-card">
         <mat-card-content class="dashboard-card-content">
           <mat-icon>receipt</mat-icon>
           <br />
           <div>{{ receta.id }}</div>
-          <div>{{ receta.observaciones }}</div>
-          <div>{{ receta.createdAt }}</div>
+          <div>{{ receta.name }}</div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -54,11 +53,11 @@
                 fxFlex="60"></app-buscadormodal>
               <app-multilist-observaciones [nonSelectedItemsTitle]="'Medicamentos para seleccionar'"
                 [selectedItemsTitle]="'Medicamentos seleccionados'" [materialIconName]="'medication'"
-                [selection1]="SEL1" [selection2]="SEL2">
+                [selection1]="recetario" [selection2]="listadoAdd" (finalSelection)="multiListChange($event)"  rowHeight="270px">
               </app-multilist-observaciones>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-              <button mat-raised-button color="primary" fxLayout="row" (click)="closeDialog()" fxLayout.xs="column"
+              <button mat-raised-button color="primary" fxLayout="row" (click)="crear()" fxLayout.xs="column"
                 fxLayoutAlign="center" fxFlex>
                 <mat-icon>add_task</mat-icon>
                 Crear
