@@ -49,7 +49,7 @@
         </div>
 
         <mat-list-item routerLink="{{ item.routerLink }}" [routerLinkActive]="['is-active']" style="margin-top: 9px"
-          (click)="mostrarRouter($event, item)" *ngIf="item.url_menu != '#' && item.padreId == null" >
+          (click)="mostrarRouter($event, item)" *ngIf="item.url_menu != '#' && (item.padreId == NULL || item.padreId==0)" >
           <mat-icon class="menuIcon">{{ item.icon }}</mat-icon>
           {{ item.nombre }}
         </mat-list-item>
