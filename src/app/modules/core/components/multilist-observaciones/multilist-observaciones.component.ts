@@ -96,6 +96,9 @@ export class MultilistObservacionesComponent implements OnInit {
     if (this.selection1.indexOf(element) < 0) {
       this.selection1.push(element);
     }
+
+    console.log(this.selection2);
+    this.finalSelection.emit(this.selection2);
   }
 }
 
