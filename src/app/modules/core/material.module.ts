@@ -1,5 +1,5 @@
-import { BrowserModule } from "@angular/platform-browser";
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+
 
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -30,6 +30,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatNativeDateModule } from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatChipsModule,
     MatSlideToggleModule,
     MatTooltipModule,
+    MatNativeDateModule,
     //componentes de rutas
   ],
 
@@ -89,6 +91,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatTableModule,
     MatPaginatorModule,
     MatChipsModule,
+    MatNativeDateModule,
   ],
   schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],

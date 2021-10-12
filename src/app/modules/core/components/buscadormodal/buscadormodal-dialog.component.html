@@ -49,7 +49,7 @@
           style="cursor: pointer"
         >
           <th scope="row" *ngFor="let property of properties">
-            <div *ngIf="item.hasOwnProperty(property)">
+            <div *ngIf="item?.hasOwnProperty(property)">
               {{ item[property] }}
             </div>
           </th>

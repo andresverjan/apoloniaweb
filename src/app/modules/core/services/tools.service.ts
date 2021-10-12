@@ -1,15 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
-import { map, catchError, tap } from "rxjs/operators";
 import { Observable, BehaviorSubject } from "rxjs";
 
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogConfig,
-} from "@angular/material/dialog";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import { LoadingComponent } from "../loading/loading.component";
 import * as Globals from "../globals";
@@ -207,6 +200,15 @@ export class ToolsService {
     }
     return false;
   }
+
+  formatCurrency(number: number): string {
+    const formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    return formatter.format(number);
+  }
+
   public getParams(filtro, ordenamiento): string {
     let params = "";
 
@@ -260,7 +262,7 @@ export class ToolsService {
       currentSecs;
     return currentDateTime;
   }
-  getUserFromLocalStorage():any {
+  getUserFromLocalStorage(): any {
     return JSON.parse(localStorage.getItem(this.userKey));
   }
 }

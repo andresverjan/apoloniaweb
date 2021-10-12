@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import Swal from "sweetalert2";
 
@@ -16,6 +16,7 @@ import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { PageEvent } from "@angular/material/paginator";
 import { FormasPagosService } from "../../core/services/formaspagos.service";
 import { ProveedoresService } from "../../core/services/proveedores.service";
+import { ToolsService } from "../../core/services/tools.service";
 
 const DATE_FORMATS = {
   parse: {
@@ -31,7 +32,6 @@ const DATE_FORMATS = {
 @Component({
   selector: "app-config-egresos",
   templateUrl: "./config-egresos.component.html",
-  styleUrls: ["./config-egresos.component.scss"],
   providers: [
     {
       provide: DateAdapter,
@@ -64,29 +64,30 @@ export class ConfigEgresosComponent implements OnInit {
   public pageNumber: number = 1;
   public queryOptions = {};
   public formasPagos = [];
-
+  public proveedores: any = [];
   public parametrosContaConfig = [];
-
+  public tieneImpuestos: boolean = true;
   constructor(
     public dialog: MatDialog,
     public _egresosService: EgresosService,
     public configParametros: ConfigParametrosService,
     public formasPagosService: FormasPagosService,
-    public proveedoresService: ProveedoresService
+    public proveedoresService: ProveedoresService,
+    private toolService: ToolsService
   ) {
     this.egresoForm = new FormGroup({
-      T17Factura: new FormControl(""),
-      T17Proveedor: new FormControl(""),
-      T17Soporte: new FormControl(""),
-      T17Valor: new FormControl(0),
-      T17Dctos: new FormControl(0),
+      T17Factura: new FormControl("", [Validators.required]),
+      T17Proveedor: new FormControl("", [Validators.required]),
+      T17Soporte: new FormControl("", [Validators.required]),
+      T17Valor: new FormControl(0, [Validators.required]),
+      T17Dctos: new FormControl(0, [Validators.required]),
       T17IVA: new FormControl(0),
-      T17Fecha: new FormControl(""),
+      T17Fecha: new FormControl("", [Validators.required]),
       T17ICA: new FormControl(0),
       T17Total: new FormControl(""),
-      T17FormaPago: new FormControl(""),
+      T17FormaPago: new FormControl("", [Validators.required]),
       T17RF: new FormControl(0),
-      T17Observacion: new FormControl(""),
+      T17Observacion: new FormControl("", [Validators.required]),
     });
   }
 
@@ -107,10 +108,11 @@ export class ConfigEgresosComponent implements OnInit {
     this.findBy();
     this.fetchParamsByGroup("CONTA_CONFIG");
     this.fetchFormasPagos();
+    this.fetchProveedores();
   }
   onPorveedorSelected(selected) {
     this.IsWaiting = true;
-    this.egresoForm.controls["T17Proveedor"].setValue(selected.Nit);
+    this.egresoForm.controls["T17Proveedor"].setValue(selected);
     this.IsWaiting = false;
   }
 
@@ -123,18 +125,28 @@ export class ConfigEgresosComponent implements OnInit {
     this.egresoForm.controls["T17Valor"].setValue(
       parseInt(this.egresoForm.controls["T17Valor"].value)
     );
-    this._egresosService.updateEgreso(this.egresoForm.value).subscribe(() => {
-      this.IsWaiting = false;
-      this.patchParametrosForm();
-      Swal.fire("Actualizado", "Egreso actualizado exitosamente", "success");
-      this.egresoForm.reset();
-      this.showListado = true;
-      this.showBtnAdicionar = false;
-      this.showBtnActualizar = true;
-      this.showBtnEliminar = true;
-      this.showPanelDatos = false;
-      this.findBy();
-    });
+    const proveedor = this.proveedores.filter(
+      (p) => p.Nit === this.egresoForm.controls["T17Proveedor"].value.Nit
+    )[0];
+    this.egresoForm.controls["T17Proveedor"].setValue(proveedor.Nit);
+    const formaPago = this.formasPagos.filter(
+      (fp) => fp.nombre === this.egresoForm.controls["T17FormaPago"].value
+    )[0];
+    this.egresoForm.controls["T17FormaPago"].setValue(formaPago.nombre);
+    this._egresosService
+      .updateEgresosProgramados(this.egresoForm.value)
+      .subscribe(() => {
+        this.IsWaiting = false;
+        this.patchParametrosForm();
+        Swal.fire("Actualizado", "Egreso actualizado exitosamente", "success");
+        this.egresoForm.reset();
+        this.showListado = true;
+        this.showBtnAdicionar = false;
+        this.showBtnActualizar = true;
+        this.showBtnEliminar = true;
+        this.showPanelDatos = false;
+        this.findBy();
+      });
   }
 
   calculateTotal() {
@@ -163,25 +175,40 @@ export class ConfigEgresosComponent implements OnInit {
     this.showBtnAdicionar = false;
     this.showBtnEliminar = true;
     this.egresoForm.reset();
+    const proveedor = this.proveedores.filter(
+      (p) => p.Nit === input["T17Proveedor"]
+    )[0];
     this.egresoForm.patchValue(input);
+    this.egresoForm.controls["T17Proveedor"].setValue(proveedor);
+    const formaPago = this.formasPagos.filter(
+      (fp) => fp.nombre === input["T17FormaPago"]
+    )[0];
+
+    this.egresoForm.controls["T17FormaPago"].setValue(formaPago.nombre);
     this.patchParametrosForm();
   }
   eliminar() {
     let egreso = this.egresoForm.value;
     let factura = egreso["T17Factura"];
     this.IsWaiting = true;
-    this._egresosService.deleteEgreso(factura).subscribe((response) => {
-      this.egresoForm.reset();
-      this.patchParametrosForm();
-      this.showListado = true;
-      Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
-    });
+    this._egresosService
+      .deleteEgresosProgramados(factura)
+      .subscribe((response) => {
+        this.egresoForm.reset();
+        this.patchParametrosForm();
+        this.showListado = true;
+        Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
+      });
     this.findBy();
   }
 
   cancelar() {
-    this.showListado = true;
+    const proveedor = this.egresoForm.controls["T17Proveedor"].value;
+    this.egresoForm.controls["T17Proveedor"].setValue(proveedor?.Nit);
+    const formaPago = this.egresoForm.controls["T17FormaPago"].value;
+    this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
     this.egresoForm.reset();
+    this.showListado = true;
   }
 
   patchParametrosForm() {
@@ -213,7 +240,7 @@ export class ConfigEgresosComponent implements OnInit {
 
     const egreso = this.egresoForm.value;
 
-    this._egresosService.createEgreso(egreso).subscribe(() => {
+    this._egresosService.createEgresosProgramados(egreso).subscribe(() => {
       this.IsWaiting = false;
       Swal.fire("Guardado", "Egreso guardado exitosamente", "success");
       this.egresoForm.reset();
@@ -253,9 +280,19 @@ export class ConfigEgresosComponent implements OnInit {
   fetchEgresosProgramados = (obj?) => {
     this.IsWaiting = true;
     this._egresosService.getAll(obj).subscribe((res) => {
-      const { egresos, totalRegistros } = res.data.egresos;
-      this.egresos = egresos;
+      const { egresosProgramados, totalRegistros } =
+        res.data.egresosProgramados;
+      this.egresos = egresosProgramados;
       this.totalRegistros = totalRegistros;
+      this.IsWaiting = false;
+    });
+  };
+
+  fetchProveedores = (obj?) => {
+    this.IsWaiting = true;
+    this.proveedoresService.getAll(obj).subscribe((res) => {
+      const { proveedores } = res.data;
+      this.proveedores = proveedores;
       this.IsWaiting = false;
     });
   };
@@ -269,5 +306,13 @@ export class ConfigEgresosComponent implements OnInit {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     this.filter["T17FechaFin"] = dateValue;
     this.findBy();
+  }
+  onDateChangeFechaDocumento(event: MatDatepickerInputEvent<Date>) {
+    const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
+    this.egresoForm.controls["T17Fecha"].setValue(dateValue);
+    this.findBy();
+  }
+  formatCurrency(number: number): string {
+    return this.toolService.formatCurrency(number);
   }
 }

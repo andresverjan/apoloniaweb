@@ -9,7 +9,6 @@ import { EgresosService } from "../egresos.service";
 @Component({
   selector: "app-egresos-programados",
   templateUrl: "./egresos-programados.component.html",
-  styleUrls: ["./egresos-programados.component.scss"],
 })
 export class EgresosProgramadosComponent implements OnInit {
   public IsWaiting: boolean;
@@ -128,7 +127,7 @@ export class EgresosProgramadosComponent implements OnInit {
 
     const egreso = this.egresosProgramadosForm.value;
 
-    this._egresosService.createEgresoProgramado(egreso).subscribe(() => {
+    this._egresosService.createEgresos(egreso).subscribe(() => {
       this.IsWaiting = false;
       Swal.fire("Guardado", "Egreso guardado exitosamente", "success");
       this.egresosProgramadosForm.reset();

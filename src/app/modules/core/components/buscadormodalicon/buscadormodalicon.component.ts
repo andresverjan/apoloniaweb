@@ -38,7 +38,7 @@ export class BuscadormodaliconComponent implements OnInit {
 
     let resultString = [];
     propiedades.forEach((propiedad) => {
-      if (this.defaultObjValue.hasOwnProperty(propiedad)) {
+      if (this.defaultObjValue?.hasOwnProperty(propiedad)) {
         resultString.push(this.defaultObjValue[propiedad]);
       }
     });
@@ -61,7 +61,7 @@ export class BuscadormodaliconComponent implements OnInit {
         let propiedades = this.resultInputText;
         let resultString = [];
         propiedades.forEach((propiedad) => {
-          if (result.hasOwnProperty(propiedad)) {
+          if (result?.hasOwnProperty(propiedad)) {
             resultString.push(result[propiedad]);
           }
         });
