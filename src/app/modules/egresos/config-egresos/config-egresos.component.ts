@@ -237,6 +237,10 @@ export class ConfigEgresosComponent implements OnInit {
     this.egresoForm.controls["T17Valor"].setValue(
       parseFloat(this.egresoForm.controls["T17Valor"].value)
     );
+    const proveedor = this.proveedores.filter(
+      (p) => p.Nit === this.egresoForm.controls["T17Proveedor"].value.Nit
+    )[0];
+    this.egresoForm.controls["T17Proveedor"].setValue(proveedor.Nit);
 
     const egreso = this.egresoForm.value;
 
