@@ -12,7 +12,7 @@
       <mat-card-header>
         <mat-card-title> </mat-card-title>
       </mat-card-header>
-      <mat-card class="cardcontent">        
+      <mat-card class="cardcontent">
         <mat-card-content fxLayout="column" fxLayoutAlign="center">
           <app-buscadormodal [filters]="['Cedula', 'Nombres', 'Apellidos']" (selected)="onPatientSelected($event)"
             [columnas]="{
@@ -27,7 +27,7 @@
                 <app-datosPaciente></app-datosPaciente>
               </mat-tab>
               <mat-tab label="Evoluciones">
-                <app-evoluciones [Cedula]=Cedula></app-evoluciones>
+                <app-evoluciones [Cedula]=Cedula [Paciente]=paciente></app-evoluciones>
               </mat-tab>
               <mat-tab label="Anamnesis"> Anamnesis </mat-tab>
               <mat-tab label="Examen Fisico"> Examen Fisico </mat-tab>
