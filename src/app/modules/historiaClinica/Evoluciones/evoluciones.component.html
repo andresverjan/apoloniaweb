@@ -68,12 +68,16 @@
       </div>
     </mat-card-content>
     <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+      <button mat-raised-button (click)="update()" color="primary" fxLayout="row" fxLayout.xs="column"
+        fxLayoutAlign="center" fxFlex="80"  *ngIf="this.showBtnActualizar" >
+        <mat-icon>person_add</mat-icon>
+        Actualizar
+      </button>
       <button mat-raised-button (click)="guardar()" color="primary" fxLayout="row" fxLayout.xs="column"
-        fxLayoutAlign="center" fxFlex="80">
+        fxLayoutAlign="center" fxFlex="80" *ngIf="!this.showBtnActualizar">
         <mat-icon>person_add</mat-icon>
         Guardar
       </button>
-
       <button mat-raised-button (click)="cancelar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
         color="warn" fxFlex="80">
         <mat-icon>cancel</mat-icon>
