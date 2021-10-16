@@ -50,6 +50,10 @@ export class EvolucionesService {
     Object.entries(objeTosend).forEach(([key, value]) => {
       paramTest.push(key + ': "' + value + '"');
     });
+    
+    let eventosAdversos = objeTosend.EventosAdversos;
+    let remision = objeTosend.remision;
+    
     console.log(paramTest);
     console.log(paramTest.toString());
     let body = {

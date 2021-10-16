@@ -64,8 +64,10 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
   guardar() {
     console.log("presiono guardar.....");
     console.log(this.esterilizacionAdd);
+    
     console.log("IMPRIMO eventosAdversosAdd");
     console.log(this.eventosAdversosAdd);
+
 
     console.log("IMPRIMO REMIsION");
     console.log(this.remisionAdd);
@@ -91,7 +93,9 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
       IdUsuario: this.USUARIO.USUARIO_LOGIN,
       Paciente: this.Paciente.Nombre + " " + this.Paciente.Apellidos,
       Nombres: this.Paciente.Nombre,
-      Apellidos: this.Paciente.Apellidos
+      Apellidos: this.Paciente.Apellidos,
+      eventosAdversos: this.eventosAdversosAdd,
+      remision: this.remisionAdd
     };
     console.log(evolucion);
     console.log("*****************");
