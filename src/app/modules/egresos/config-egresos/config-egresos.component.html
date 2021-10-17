@@ -14,7 +14,7 @@
     *ngIf="showListado"
   >
     <mat-icon>add_circle_outline</mat-icon>
-    Adicion
+    Adición
   </button>
 </mat-card-actions>
 
@@ -103,22 +103,29 @@
 
 <div class="container" *ngIf="!showListado" style="overflow: hidden">
   <mat-card-content class="window-dashboard-card-content contentprincipal">
-    <mat-toolbar color="primary">
+    <mat-toolbar style="display: flex; flex-direction: row" color="primary">
       <mat-icon matPrefix>account_balance</mat-icon>
-      <label>Configuración de Egresos</label>
-      <span class="example-spacer"></span>
+
+      <label style="margin-bottom: 0"> Configuración de Egresos </label>
+
       <button
+        (click)="eliminar()"
+        *ngIf="showBtnEliminar"
+        style="margin-left: 10px"
         mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with share icon"
-        (click)="cancelar()"
+        color="secondary"
       >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="example-icon" (click)="cancelar()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-toolbar>
 
     <mat-card-header>
-      <mat-card-title> </mat-card-title>
+      <mat-card-title></mat-card-title>
     </mat-card-header>
     <mat-card class="cardcontent">
       <mat-card-content fxLayout="column" fxLayoutAlign="center">
@@ -150,6 +157,7 @@
 
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
+                    <!-- TODO: AGREGAR PROP ISAPPLICATION Y CAMBIAR LA REQUEST -->
                     <app-buscadormodal
                       [filters]="['Nombre', 'Nit']"
                       (selected)="onPorveedorSelected($event)"
@@ -222,6 +230,7 @@
                     />
                   </mat-form-field>
                   <mat-form-field appearance="outline" readonly fxFlex>
+                    <mat-label>ICA</mat-label>
                     <mat-icon matPrefix>edit_off</mat-icon>
                     <input
                       matInput
@@ -235,6 +244,7 @@
                 </div>
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field appearance="outline" readonly fxFlex>
+                    <mat-label>iva</mat-label>
                     <mat-icon matPrefix>edit_off</mat-icon>
                     <input
                       matInput
@@ -246,6 +256,7 @@
                     />
                   </mat-form-field>
                   <mat-form-field appearance="outline" readonly fxFlex>
+                    <mat-label>Retención en la fuente</mat-label>
                     <mat-icon matPrefix>edit_off</mat-icon>
                     <input
                       matInput
@@ -312,17 +323,22 @@
           <mat-icon>loop</mat-icon>
           Actualizar
         </button>
+        <!-- TODO: FALLO POR DUPLICADO - NO PUEDE HABER DUPLICADO -->
         <button
           mat-raised-button
-          (click)="eliminar()"
+          color="success"
           fxLayout="row"
           fxLayout.xs="column"
           fxLayoutAlign="center"
           fxFlex
+          (click)="pagar()"
           *ngIf="showBtnEliminar"
+          matTooltip="No se puede pagar dos veces el mismo egreso"
+          matTooltipPosition="above"
+          [matTooltipHideDelay]="1000"
         >
           <mat-icon>delete</mat-icon>
-          Eliminar
+          Pagar
         </button>
         <button
           mat-raised-button

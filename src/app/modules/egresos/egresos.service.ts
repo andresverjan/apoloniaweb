@@ -94,6 +94,7 @@ export class EgresosService {
       }
       `,
     };
+    console.log(body.query);
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }

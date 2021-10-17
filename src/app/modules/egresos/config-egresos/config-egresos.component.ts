@@ -32,6 +32,7 @@ const DATE_FORMATS = {
 @Component({
   selector: "app-config-egresos",
   templateUrl: "./config-egresos.component.html",
+  styleUrls: ["./config-egresos.component.scss"],
   providers: [
     {
       provide: DateAdapter,
@@ -80,7 +81,11 @@ export class ConfigEgresosComponent implements OnInit {
       T17Proveedor: new FormControl("", [Validators.required]),
       T17Soporte: new FormControl("", [Validators.required]),
       T17Valor: new FormControl(0, [Validators.required]),
-      T17Dctos: new FormControl(0, [Validators.required]),
+      T17Dctos: new FormControl(0, [
+        Validators.required,
+        Validators.max(100),
+        Validators.min(0),
+      ]),
       T17IVA: new FormControl(0),
       T17Fecha: new FormControl("", [Validators.required]),
       T17ICA: new FormControl(0),
@@ -183,8 +188,7 @@ export class ConfigEgresosComponent implements OnInit {
     const formaPago = this.formasPagos.filter(
       (fp) => fp.nombre === input["T17FormaPago"]
     )[0];
-
-    this.egresoForm.controls["T17FormaPago"].setValue(formaPago.nombre);
+    this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
     this.patchParametrosForm();
   }
   eliminar() {
@@ -252,6 +256,48 @@ export class ConfigEgresosComponent implements OnInit {
       this.showListado = true;
       this.showPanelDatos = false;
       this.findBy();
+    });
+  }
+  pagar() {
+    Swal.fire({
+      title: "Confirmar el valor total del egreso",
+      text: this.formatCurrency(this.egresoForm.controls["T17Total"].value),
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Pagar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.IsWaiting = true;
+        this.egresoForm.controls["T17ICA"].setValue(
+          parseFloat(this.egresoForm.controls["T17ICA"].value)
+        );
+        this.egresoForm.controls["T17IVA"].setValue(
+          parseFloat(this.egresoForm.controls["T17IVA"].value)
+        );
+        this.egresoForm.controls["T17RF"].setValue(
+          parseFloat(this.egresoForm.controls["T17RF"].value)
+        );
+        this.egresoForm.controls["T17Valor"].setValue(
+          parseFloat(this.egresoForm.controls["T17Valor"].value)
+        );
+        const proveedor = this.proveedores.filter(
+          (p) => p.Nit === this.egresoForm.controls["T17Proveedor"].value.Nit
+        )[0];
+        this.egresoForm.controls["T17Proveedor"].setValue(proveedor.Nit);
+        const egreso = this.egresoForm.value;
+        this._egresosService.createEgresos(egreso).subscribe(() => {
+          this.IsWaiting = false;
+          Swal.fire("Pagado", "Egreso pagado exitosamente", "success");
+          this.egresoForm.reset();
+          this.patchParametrosForm();
+          this.showListado = true;
+          this.showPanelDatos = false;
+          this.findBy();
+        });
+      } else if (result.isDenied) {
+        Swal.fire("Cancelado", "", "error");
+      }
     });
   }
   fetchParamsByGroup(nombreParametro) {
