@@ -77,9 +77,9 @@ export class RemisionComponent implements OnInit {
     this.showForm = false;
     this.showListado = true;
     const obj = {
-      de: this.odontologo1,
-      para: this.odontologo2,
-      observaciones: this.observaciones,
+      especialistaIdOrigen: this.odontologo1,
+      especialistaIdDestino: this.odontologo2,
+      Observaciones: this.observaciones,
     };
     this.remision.push(obj);
     this.listadoAdd.push(obj);
