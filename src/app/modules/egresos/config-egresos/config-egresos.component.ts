@@ -47,7 +47,6 @@ export class ConfigEgresosComponent implements OnInit {
   public IsWaiting: boolean;
   public etiquetaNombreModulo = "Egresos";
   public etiquetaListado = "Listado de Egresos";
-
   public showListado: boolean = true;
   public showPanelDatos: Boolean = false;
   public showBtnAdicionar: Boolean = true;
@@ -153,6 +152,17 @@ export class ConfigEgresosComponent implements OnInit {
         this.findBy();
       });
   }
+  onChangeTieneImpuestos(checked: boolean) {
+    this.tieneImpuestos = checked;
+    if (!this.tieneImpuestos) {
+      this.egresoForm.controls["T17IVA"].setValue(0);
+      this.egresoForm.controls["T17ICA"].setValue(0);
+      this.egresoForm.controls["T17RF"].setValue(0);
+    } else {
+      this.patchParametrosForm();
+    }
+    this.calculateTotal();
+  }
 
   calculateTotal() {
     let iva = parseFloat(this.egresoForm.controls["T17IVA"].value) / 100;
@@ -169,7 +179,7 @@ export class ConfigEgresosComponent implements OnInit {
 
     total = total + (iva + ica + retefuente);
 
-    this.egresoForm.controls["T17Total"].setValue(total);
+    this.egresoForm.controls["T17Total"].setValue(isNaN(total) ? 0 : total);
   }
 
   verDetalle(input: any) {
@@ -255,6 +265,7 @@ export class ConfigEgresosComponent implements OnInit {
       this.patchParametrosForm();
       this.showListado = true;
       this.showPanelDatos = false;
+      this.tieneImpuestos = true;
       this.findBy();
     });
   }
@@ -294,6 +305,7 @@ export class ConfigEgresosComponent implements OnInit {
           this.showListado = true;
           this.showPanelDatos = false;
           this.findBy();
+          this.tieneImpuestos = true;
         });
       } else if (result.isDenied) {
         Swal.fire("Cancelado", "", "error");

@@ -221,53 +221,71 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
-                      formControlName="T17Dctos"
-                      matTooltip="Presione enter para guardar el valor"
-                      matTooltipPosition="right"
-                      id="T17Dctos"
-                      (change)="calculateTotal()"
-                      placeholder="% Descuento"
-                    />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" readonly fxFlex>
-                    <mat-label>ICA</mat-label>
-                    <mat-icon matPrefix>edit_off</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17ICA"
-                      id="T17ICA"
-                      placeholder="ICA"
-                      readonly
-                      [disabled]="true"
+                      formControlName="T17Observacion"
+                      id="T17Observacion"
+                      placeholder="Observaciones"
                     />
                   </mat-form-field>
                 </div>
-                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                  <mat-form-field appearance="outline" readonly fxFlex>
-                    <mat-label>iva</mat-label>
-                    <mat-icon matPrefix>edit_off</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17IVA"
-                      id="T17IVA"
-                      placeholder="IVA"
-                      readonly
-                      [disabled]="true"
-                    />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" readonly fxFlex>
-                    <mat-label>Retención en la fuente</mat-label>
-                    <mat-icon matPrefix>edit_off</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17RF"
-                      id="T17RF"
-                      placeholder="RF"
-                      readonly
-                      [disabled]="true"
-                    />
-                  </mat-form-field>
+                <div
+                  fxLayout="row"
+                  fxFlex
+                  fxLayoutAlign="space-between flex-start"
+                  style="margin-left: 30px; margin-bottom: 20px"
+                >
+                  <mat-checkbox
+                    (change)="onChangeTieneImpuestos($event.checked)"
+                    [checked]="tieneImpuestos"
+                    [disabled]="showBtnEliminar"
+                    color="primary"
+                  >
+                    Tiene más impuestos
+                  </mat-checkbox>
                 </div>
+                <mat-card *ngIf="tieneImpuestos" style="margin-bottom: 20px">
+                  <div
+                    fxLayout="row"
+                    fxFlex
+                    fxLayoutAlign="space-between center"
+                  >
+                    <mat-form-field appearance="outline" readonly fxFlex>
+                      <mat-label>ICA</mat-label>
+                      <mat-icon matPrefix>edit_off</mat-icon>
+                      <input
+                        matInput
+                        formControlName="T17ICA"
+                        id="T17ICA"
+                        placeholder="ICA"
+                        readonly
+                        [disabled]="true"
+                      />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" readonly fxFlex>
+                      <mat-label>IVA</mat-label>
+                      <mat-icon matPrefix>edit_off</mat-icon>
+                      <input
+                        matInput
+                        formControlName="T17IVA"
+                        id="T17IVA"
+                        placeholder="IVA"
+                        readonly
+                        [disabled]="true"
+                      />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" readonly fxFlex>
+                      <mat-label>Retención en la fuente</mat-label>
+                      <mat-icon matPrefix>edit_off</mat-icon>
+                      <input
+                        matInput
+                        formControlName="T17RF"
+                        id="T17RF"
+                        placeholder="RF"
+                        readonly
+                        [disabled]="true"
+                      />
+                    </mat-form-field>
+                  </div>
+                </mat-card>
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
@@ -283,9 +301,12 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
-                      formControlName="T17Observacion"
-                      id="T17Observacion"
-                      placeholder="Observaciones"
+                      formControlName="T17Dctos"
+                      matTooltip="Presione enter para guardar el valor"
+                      matTooltipPosition="right"
+                      id="T17Dctos"
+                      (change)="calculateTotal()"
+                      placeholder="% Descuento"
                     />
                   </mat-form-field>
                 </div>
