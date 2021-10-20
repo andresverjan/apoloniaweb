@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="90">
+  <mat-card [style.background-color]="bgColor" [style.color]="fontColor" fxFill>
+    <mat-card-content style="display: flex; align-items: center;" fxLayout="column" fxLayoutAlign="space-around center" (click)="onClick()">
+      <div fxLayout="row" fxLayoutAlign="space-around center">
+        <mat-icon matPrefix style="font-size: 90px;padding: 2px;height: 90px;width: 90px;" flex="30">{{icono}}</mat-icon>
+        <mat-label-content fxLayoutAlign="end center" style="font-size:80px; padding-left: 10px;" flex="50" > {{valor}}</mat-label-content>
+      </div>
+        <mat-label-content style="font-size:18px; padding: 2px;" flex="60"> {{label}}</mat-label-content>
+    </mat-card-content>
+  </mat-card>
+</div>
