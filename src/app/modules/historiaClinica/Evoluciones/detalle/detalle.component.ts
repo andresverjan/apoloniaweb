@@ -30,11 +30,8 @@ export class DetalleComponent implements OnInit {
     { 'value': '0', 'nombre': 'NO' },
   ];
 
-  @Input() detalleAdd: any = {
-    observaciones: ""
-  };
+  @Input() detalleAdd: any;
   constructor() {
-    this.detalleAdd.observaciones = "";
     this.detaForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
       act_id: new FormControl("", [
@@ -45,15 +42,18 @@ export class DetalleComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50),
       ]),
-      observaciones: new FormControl("", [
+      Observacion: new FormControl("", [
         Validators.required,
         Validators.maxLength(255),
       ]),
-
     });
 
   }
 
+  ngAfterContentInit(){
+    console.log("ngAfterContentInit");
+    console.log(this.detalleAdd);
+  }
   actionAdicionar() {
     this.showListado = false;
     this.showForm = true;
@@ -70,13 +70,16 @@ export class DetalleComponent implements OnInit {
   }
 
   runKeyPress(){
-     this.detalleAdd.observaciones =this.detaForm.controls["observaciones"].value;
+     this.detalleAdd.Observacion =this.detaForm.controls["Observacion"].value;
      console.log("OTROOROROR");
      console.log(this.detaForm);
   }
 
   ngOnInit() {
+    console.log(this.detalleAdd);
+    this.detaForm.controls['Observacion'].setValue(this.detalleAdd.Observacion);
   }
+
 }
 
 interface SelItem {

@@ -1,5 +1,5 @@
 import { MatDialog } from '@angular/material/dialog';
-import { Component, OnInit, ViewChild, TemplateRef, Input } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef, Input, OnChanges } from "@angular/core";
 import { TableService } from "../../../core/services/table.service";
 import { ColumnaService } from "../../../core/services/columna.service";
 import { TipoCampoService } from "../../../tipo-campo/tipo-campo.service";
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   templateUrl: './eventosAdversos.component.html',
   styleUrls: ['./eventosAdversos.component.scss']
 })
-export class EventosAdversosComponent implements OnInit {
+export class EventosAdversosComponent implements OnChanges {
   public IsWaiting: boolean;
   public showListado: boolean = true;
   public showForm: boolean = false;
@@ -48,6 +48,12 @@ export class EventosAdversosComponent implements OnInit {
       ]),
     });
   }
+
+  ngOnChanges(){
+    console.log("run onchanges!!");
+    //this.eventosAdversosForm.reset();
+  }
+
   ngOnInit() {
     this.fetch();
   }
@@ -98,9 +104,9 @@ export class EventosAdversosComponent implements OnInit {
   }
 
   openModal() {
+    this.eventosAdversosForm.reset();
     this.openDialogWithTemplateRef(this.myDialog);
   }
-
 
   onOdontologoSelected(selected) {
     this.IsWaiting = true;

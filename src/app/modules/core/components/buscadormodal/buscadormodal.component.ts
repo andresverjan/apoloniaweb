@@ -13,6 +13,8 @@ import {
   MatDialogRef,
 } from "@angular/material/dialog";
 
+import { GenericService } from "src/app/modules/generic/generic.service";
+
 @Component({
   selector: "app-buscadormodal",
   templateUrl: "./buscadormodal.component.html",
@@ -20,6 +22,10 @@ import {
 })
 export class BuscadormodalComponent implements OnInit {
   @Input() service: any; //Servicio a Ejecutar.
+
+  @Input() isGenericService: boolean = false; //Si es un servicio de GENERIC O NO.
+  @Input() objForGenericService: any = {}; //Si es un servicio de GENERIC, TIENE QUE ENVIAR UN OBJETO.
+
   @Input() readonly: boolean = false; //Propiedad readonly (editable).
   @Input() tituloBusqueda: string; //Titulo
   @Input() filters: string; //Array de string con nombres de filtros por los cuales se puede filtrar en el componente
@@ -29,8 +35,10 @@ export class BuscadormodalComponent implements OnInit {
   @Output() selected: EventEmitter<any>; //objeto seleccionado.
 
   public itemBuscar: any;
+  public genericService: GenericService;
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, genericService : GenericService) {
+    this.genericService = genericService;
     this.selected = new EventEmitter();
   }
 
@@ -44,6 +52,7 @@ export class BuscadormodalComponent implements OnInit {
       }
     });
     this.itemBuscar = resultString.join(" - ");
+
   }
 
   openDialog(): void {
@@ -55,6 +64,9 @@ export class BuscadormodalComponent implements OnInit {
           columnas: this.columnas,
           filters: this.filters,
           tituloBusqueda: this.tituloBusqueda,
+          isGenericService: this.isGenericService,
+          objForGenericService: this.objForGenericService,
+          genericService : this.genericService
         },
         disableClose: true,
       });
@@ -83,11 +95,15 @@ export class BuscadormodalComponent implements OnInit {
 export class DialogOverviewExample {
   public loading: boolean = true;
   service: any;
+  genericService : any;
   columnas: any;
   tituloBusqueda: any;
   filters: any;
   properties: any;
   tituloColumnas: any;
+  isGenericService: boolean = false;
+  objForGenericService: any = {};
+
 
   constructor(
     public dialogRef: MatDialogRef<any>,
@@ -99,9 +115,10 @@ export class DialogOverviewExample {
     this.tituloBusqueda = data.tituloBusqueda;
     this.properties = Object.keys(data.columnas);
     this.tituloColumnas = Object.values(data.columnas);
-
+    this.isGenericService = data.isGenericService;
+    this.objForGenericService = data.objForGenericService;
+    this.genericService = data.genericService;
     this.setFilters();
-
     this.findBy();
   }
   public dataSource: [any];
@@ -128,6 +145,32 @@ export class DialogOverviewExample {
 
   findBy() {
     this.loading = true;
+    if(this.isGenericService){
+      if(this.filters){        
+        let listadoTMP = Object.keys(this.filters).map((key)=> {
+          let valor = this.filters[key];          
+          return {
+            id : 0,
+            campo : key,
+            valor: valor
+          }
+        });
+        listadoTMP = listadoTMP.filter(function(item){
+          if (item.valor != "" && item.valor !=0 ){
+            return item;
+          }
+        });
+        this.objForGenericService.campos= listadoTMP;        
+      }
+      this.genericService.getAll(this.objForGenericService).subscribe((res) => {
+        let genericList =  res.data.genericList[0];
+        this.dataSource = genericList.campos.map((val)=> {
+              return JSON.parse(val);
+        });
+      });
+      return;
+    }
+
     if (this.filters) {
       this.service.getAll(this.filters).subscribe((res) => {
         this.dataSource = res.data[Object.keys(res.data)[0]];
