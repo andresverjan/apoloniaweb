@@ -65,7 +65,8 @@ export class ConfigEgresosComponent implements OnInit {
   public queryOptions = {};
   public formasPagos = [];
   public proveedores: any = [];
-  public parametrosContaConfig = [];
+  public parametrosContaConfig;
+  public parametrosContaConfigEmpresa;
   public tieneImpuestos: boolean = true;
   public objForGenericService: any = {
     applicationId: 41,
@@ -78,7 +79,7 @@ export class ConfigEgresosComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public _egresosService: EgresosService,
-    public configParametros: ConfigParametrosService,
+    public configParametrosService: ConfigParametrosService,
     public formasPagosService: FormasPagosService,
     public proveedoresService: ProveedoresService,
     private toolService: ToolsService
@@ -119,7 +120,8 @@ export class ConfigEgresosComponent implements OnInit {
   }
   ngOnInit() {
     this.findBy();
-    this.fetchParamsByGroup("CONTA_CONFIG");
+    this.fetchParamsByGroupContaConfig();
+    this.fetchParamsByGroupContaConfigEmpresa();
     this.fetchFormasPagos();
     this.fetchProveedores();
   }
@@ -130,8 +132,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
   onTipoEgresoSelected(selected) {
     this.IsWaiting = true;
-    this.egresoForm.controls["T17Clasificacion"].setValue(selected);
-    console.log(this.egresoForm.controls["T17Clasificacion"].value);
+    this.egresoForm.controls["T17Clasificacion"].setValue(selected.id);
     this.IsWaiting = false;
   }
 
@@ -310,7 +311,11 @@ export class ConfigEgresosComponent implements OnInit {
           (p) => p.Nit === this.egresoForm.controls["T17Proveedor"].value.Nit
         )[0];
         this.egresoForm.controls["T17Proveedor"].setValue(proveedor.Nit);
+        this.egresoForm.controls["T17Factura"].setValue(
+          `PAGADO ${this.parametrosContaConfigEmpresa[0].Valor}${this.parametrosContaConfigEmpresa[1].Valor} `
+        );
         const egreso = this.egresoForm.value;
+
         this._egresosService.createEgresos(egreso).subscribe(() => {
           this.IsWaiting = false;
           Swal.fire("Pagado", "Egreso pagado exitosamente", "success");
@@ -321,16 +326,30 @@ export class ConfigEgresosComponent implements OnInit {
           this.findBy();
           this.tieneImpuestos = true;
         });
+        this.configParametrosService
+          .incrementCountConfigParamOnPayment(
+            this.parametrosContaConfigEmpresa[0]
+          )
+          .subscribe(() => {
+            this.fetchParamsByGroupContaConfigEmpresa();
+          });
       } else if (result.isDenied) {
         Swal.fire("Cancelado", "", "error");
       }
     });
   }
-  fetchParamsByGroup(nombreParametro) {
-    this.configParametros
-      .configByParamGroup(nombreParametro)
+  fetchParamsByGroupContaConfig() {
+    this.configParametrosService
+      .configByParamGroup("CONTA_CONFIG")
       .subscribe((response) => {
         this.parametrosContaConfig = response.data.configByParamGroup;
+      });
+  }
+  fetchParamsByGroupContaConfigEmpresa() {
+    this.configParametrosService
+      .configByParamGroup("CONTA_CONFIG_EMPRESA")
+      .subscribe((response) => {
+        this.parametrosContaConfigEmpresa = response.data.configByParamGroup;
       });
   }
   onClickAdicionar() {

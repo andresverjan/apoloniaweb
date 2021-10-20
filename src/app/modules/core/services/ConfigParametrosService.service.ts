@@ -22,6 +22,7 @@ export class ConfigParametrosService {
 
     let body = {
       query: `query{ configByParamGroup ${filter}{
+                id
                 NombreParametro
                 GrupoParametro
                 EmpresaID
@@ -29,6 +30,21 @@ export class ConfigParametrosService {
                 Valor
             }
           }`,
+    };
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+
+  incrementCountConfigParamOnPayment(param): Observable<any> {
+  let body = {
+      query: `mutation {
+                updateParamGroup(configParam: { id: ${param.id},
+                                                Valor: "${
+                                                  parseInt(param.Valor) + 1
+                                                }"
+                                               })
+              }
+            `,
     };
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
