@@ -108,17 +108,16 @@
 
       <label style="margin-bottom: 0"> Configuración de Egresos </label>
 
+      <span class="example-spacer"></span>
       <button
         (click)="eliminar()"
         *ngIf="showBtnEliminar"
-        style="margin-left: 10px"
+        style="align-self: center; justify-self: center"
         mat-icon-button
         color="secondary"
       >
         <mat-icon>delete_outline</mat-icon>
       </button>
-
-      <span class="example-spacer"></span>
       <button mat-icon-button class="example-icon" (click)="cancelar()">
         <mat-icon>close</mat-icon>
       </button>
@@ -157,7 +156,6 @@
 
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
-                    <!-- TODO: AGREGAR PROP ISAPPLICATION Y CAMBIAR LA REQUEST -->
                     <app-buscadormodal
                       [filters]="['Nombre', 'Nit']"
                       (selected)="onPorveedorSelected($event)"
@@ -226,12 +224,31 @@
                       placeholder="Observaciones"
                     />
                   </mat-form-field>
+                  <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
+                    <app-buscadormodal
+                      [filters]="['id', 'T17Nombre']"
+                      (selected)="onTipoEgresoSelected($event)"
+                      [columnas]="{
+                        id: 'Id',
+                        T17Nombre: 'Nombre'
+                      }"
+                      [resultInputText]="['T17Nombre']"
+                      [isGenericService]="true"
+                      [objForGenericService]="objForGenericService"
+                      tituloBusqueda="Tipo de Egreso"
+                      [defaultObjValue]="
+                        egresoForm.controls['T17Clasificacion'].value
+                      "
+                      fxFlex="60"
+                      [readonly]="false"
+                    ></app-buscadormodal>
+                  </div>
                 </div>
                 <div
                   fxLayout="row"
                   fxFlex
                   fxLayoutAlign="space-between flex-start"
-                  style="margin-left: 30px; margin-bottom: 20px"
+                  style="margin-left: 30px; margin-bottom: 10px"
                 >
                   <mat-checkbox
                     (change)="onChangeTieneImpuestos($event.checked)"

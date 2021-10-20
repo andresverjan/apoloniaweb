@@ -67,6 +67,14 @@ export class ConfigEgresosComponent implements OnInit {
   public proveedores: any = [];
   public parametrosContaConfig = [];
   public tieneImpuestos: boolean = true;
+  public objForGenericService: any = {
+    applicationId: 41,
+    campos: [],
+    limit: {
+      pagina: 1,
+      limite: 1000,
+    },
+  };
   constructor(
     public dialog: MatDialog,
     public _egresosService: EgresosService,
@@ -92,6 +100,7 @@ export class ConfigEgresosComponent implements OnInit {
       T17FormaPago: new FormControl("", [Validators.required]),
       T17RF: new FormControl(0),
       T17Observacion: new FormControl("", [Validators.required]),
+      T17Clasificacion: new FormControl("", [Validators.required]),
     });
   }
 
@@ -117,6 +126,12 @@ export class ConfigEgresosComponent implements OnInit {
   onPorveedorSelected(selected) {
     this.IsWaiting = true;
     this.egresoForm.controls["T17Proveedor"].setValue(selected);
+    this.IsWaiting = false;
+  }
+  onTipoEgresoSelected(selected) {
+    this.IsWaiting = true;
+    this.egresoForm.controls["T17Clasificacion"].setValue(selected);
+    console.log(this.egresoForm.controls["T17Clasificacion"].value);
     this.IsWaiting = false;
   }
 
@@ -274,7 +289,6 @@ export class ConfigEgresosComponent implements OnInit {
       title: "Confirmar el valor total del egreso",
       text: this.formatCurrency(this.egresoForm.controls["T17Total"].value),
       showDenyButton: true,
-      showCancelButton: true,
       confirmButtonText: "Pagar",
       denyButtonText: `Cancelar`,
     }).then((result) => {
