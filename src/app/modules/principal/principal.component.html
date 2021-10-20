@@ -1,24 +1,13 @@
 <div class="grid-container">
     <h1 class="mat-h1">Dashboard</h1>
-    <mat-grid-list cols="2" rowHeight="350px">
-        <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-            <mat-card class="dashboard-card">
-                <mat-card-header>
-                    <mat-card-title>
-                        {{card.title}}
-                        <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-                        <mat-menu #menu="matMenu" xPosition="before">
-                            <button mat-menu-item>Expand</button>
-                            <button mat-menu-item>Remove</button>
-                        </mat-menu>
-                    </mat-card-title>
-                </mat-card-header>
-                <mat-card-content class="dashboard-card-content">
-                    <div>Card Content Here</div>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-    </mat-grid-list>
+
+        
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+        <app-basiccard bgColor="red" fontColor="white" label="Citas del Dia" valor="22" icono="spa" fxFlex [onClickFunction]="runOnClick"></app-basiccard>
+        <app-basiccard bgColor="red" fontColor="white" label="Citas Canceladas" valor="23" icono="whatshot" fxFlex></app-basiccard>
+        <app-basiccard bgColor="#090979" fontColor="white" label="Citas Atendidas" valor="24" icono="smoke_free" fxFlex></app-basiccard>
+        <app-basiccard bgColor="blue" fontColor="white" label="Total Pacientes" valor="25" icono="room_service" fxFlex></app-basiccard>
+    </div>
+
+
 </div>

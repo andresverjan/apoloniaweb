@@ -32,6 +32,10 @@ export class PrincipalComponent implements OnInit {
 
   constructor(private breakpointObserver: BreakpointObserver) { }
 
+  runOnClick = (args: any): void => {
+    console.log("imprimo desddf eel componente Hijo ");
+    console.log(args);
+  }
   ngOnInit() {
   }
 
