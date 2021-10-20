@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import {EsterilizacionesService} from '../../../esterilizaciones/esterilizaciones.service';
 
 @Component({
   selector: "app-basiccard",
@@ -17,11 +18,13 @@ export class BasiccardComponent implements OnInit {
   @Output() valSelected = new EventEmitter<string>();
   @Input() onClickFunction: (args?: any) => void;
 
-
-  constructor() {
+  constructor( public esterilizacionesService: EsterilizacionesService) {
 
   }
-  
+
+
+
+
   ngOnInit() {
     console.log(this.bgColor);
     /*const exist = this.data.some((r: { value: string }) => r.value == "");
