@@ -65,6 +65,7 @@ export class EgresosService {
             T17Dctos
             T17Proveedor
             T17Observacion
+            T17Clasificacion
           }
           totalRegistros
         }
@@ -90,6 +91,7 @@ export class EgresosService {
           T17Dctos: ${egreso.T17Dctos},
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
+          T17Clasificacion: "${egreso.T17Clasificacion}",
         })
       }
       `,
@@ -113,6 +115,7 @@ export class EgresosService {
           T17Dctos: ${egreso.T17Dctos},
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
+          T17Clasificacion: "${egreso.T17Clasificacion}",
         })
       }
       `,
@@ -137,6 +140,7 @@ export class EgresosService {
           T17Dctos: ${egreso.T17Dctos},
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
+          T17Clasificacion: "${egreso.T17Clasificacion}",
         })
       }
       `,
