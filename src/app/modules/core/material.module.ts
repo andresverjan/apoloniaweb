@@ -1,5 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  NgModule,
+  NO_ERRORS_SCHEMA,
+} from "@angular/core";
 
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -31,6 +34,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatNativeDateModule } from "@angular/material/core";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -63,6 +67,7 @@ import { MatNativeDateModule } from "@angular/material/core";
     MatSlideToggleModule,
     MatTooltipModule,
     MatNativeDateModule,
+    MatCheckboxModule,
     //componentes de rutas
   ],
 
@@ -92,8 +97,9 @@ import { MatNativeDateModule } from "@angular/material/core";
     MatPaginatorModule,
     MatChipsModule,
     MatNativeDateModule,
+    MatCheckboxModule,
   ],
-  schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [], //componente
 })
