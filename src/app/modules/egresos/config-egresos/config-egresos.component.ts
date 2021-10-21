@@ -137,7 +137,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
   onTipoEgresoSelected(selected) {
     this.IsWaiting = true;
-    this.egresoForm.controls["T17Clasificacion"].setValue(selected.id);
+    this.egresoForm.controls["T17Clasificacion"].setValue(selected);
     this.IsWaiting = false;
   }
 
@@ -158,11 +158,13 @@ export class ConfigEgresosComponent implements OnInit {
       (fp) => fp.nombre === this.egresoForm.controls["T17FormaPago"].value
     )[0];
     this.egresoForm.controls["T17FormaPago"].setValue(formaPago.nombre);
+
     const tipoEgreso = this.tiposEgresos.filter(
-      (fp) =>
-        fp.id === parseInt(this.egresoForm.controls["T17Clasificacion"].value)
+      (te) =>
+        te.id ===
+        parseInt(this.egresoForm.controls["T17Clasificacion"].value.id)
     )[0];
-    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso.id);
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso?.id);
     this._egresosService
       .updateEgresosProgramados(this.egresoForm.value)
       .subscribe(() => {
@@ -227,7 +229,7 @@ export class ConfigEgresosComponent implements OnInit {
     this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
 
     const tipoEgreso = this.tiposEgresos.filter(
-      (fp) => fp.id === parseInt(input["T17Clasificacion"])
+      (te) => te.id === parseInt(input["T17Clasificacion"])
     )[0];
 
     this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
@@ -235,18 +237,27 @@ export class ConfigEgresosComponent implements OnInit {
     this.patchParametrosForm();
   }
   eliminar() {
-    let egreso = this.egresoForm.value;
-    let factura = egreso["T17Factura"];
-    this.IsWaiting = true;
-    this._egresosService
-      .deleteEgresosProgramados(factura)
-      .subscribe((response) => {
-        this.egresoForm.reset();
-        this.patchParametrosForm();
-        this.showListado = true;
-        Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
-      });
-    this.findBy();
+    Swal.fire({
+      title: "¿Seguro que desea eliminar este egreso?",
+      showDenyButton: true,
+      confirmButtonText: "Eliminar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const egreso = this.egresoForm.value;
+        const factura = egreso["T17Factura"];
+        this.IsWaiting = true;
+        this._egresosService
+          .deleteEgresosProgramados(factura)
+          .subscribe((response) => {
+            this.egresoForm.reset();
+            this.patchParametrosForm();
+            this.showListado = true;
+            Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
+          });
+        this.findBy();
+      }
+    });
   }
 
   cancelar() {
@@ -352,8 +363,6 @@ export class ConfigEgresosComponent implements OnInit {
           .subscribe(() => {
             this.fetchParamsByGroupContaConfigEmpresa();
           });
-      } else if (result.isDenied) {
-        Swal.fire("Cancelado", "", "error");
       }
     });
   }
