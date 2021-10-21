@@ -25,6 +25,8 @@ jobs:
         run: |
           echo "INSTALL ...."
           npm install --global yarn
+          rm package-lock.json
+          rm -rf node_modules          
           yarn install
           yarn run build
           pwd
