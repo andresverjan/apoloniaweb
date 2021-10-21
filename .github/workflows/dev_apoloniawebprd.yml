@@ -25,9 +25,8 @@ jobs:
         run: |
           echo "INSTALL ...."
           npm install --global yarn
-          rm -rf node_modules          
           yarn install
-          yarn run build
+          yarn build
           pwd
           ls
           echo ":::::::::entre al DIST!:::::::::"
