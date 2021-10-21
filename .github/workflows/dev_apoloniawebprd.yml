@@ -24,7 +24,8 @@ jobs:
       - name: npm install, build, and test
         run: |
           echo "INSTALL ...."
-          npm install
+          npm install --global yarn
+          yarn install
           npm run build --if-present
           pwd
           ls
