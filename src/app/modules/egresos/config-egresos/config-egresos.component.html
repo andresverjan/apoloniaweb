@@ -361,7 +361,6 @@
           <mat-icon>loop</mat-icon>
           Actualizar
         </button>
-        <!-- TODO: FALLO POR DUPLICADO - NO PUEDE HABER DUPLICADO -->
         <button
           mat-raised-button
           color="success"
@@ -371,9 +370,6 @@
           fxFlex
           (click)="pagar()"
           *ngIf="showBtnEliminar"
-          matTooltip="No se puede pagar dos veces el mismo egreso"
-          matTooltipPosition="above"
-          [matTooltipHideDelay]="1000"
         >
           <mat-icon>delete</mat-icon>
           Pagar

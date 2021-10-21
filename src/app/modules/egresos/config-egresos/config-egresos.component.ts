@@ -17,6 +17,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { FormasPagosService } from "../../core/services/formaspagos.service";
 import { ProveedoresService } from "../../core/services/proveedores.service";
 import { ToolsService } from "../../core/services/tools.service";
+import { GenericService } from "../../generic/generic.service";
 
 const DATE_FORMATS = {
   parse: {
@@ -76,13 +77,16 @@ export class ConfigEgresosComponent implements OnInit {
       limite: 1000,
     },
   };
+  public tiposEgresos;
+
   constructor(
     public dialog: MatDialog,
     public _egresosService: EgresosService,
     public configParametrosService: ConfigParametrosService,
     public formasPagosService: FormasPagosService,
     public proveedoresService: ProveedoresService,
-    private toolService: ToolsService
+    private toolService: ToolsService,
+    public genericService: GenericService
   ) {
     this.egresoForm = new FormGroup({
       T17Factura: new FormControl("", [Validators.required]),
@@ -124,6 +128,7 @@ export class ConfigEgresosComponent implements OnInit {
     this.fetchParamsByGroupContaConfigEmpresa();
     this.fetchFormasPagos();
     this.fetchProveedores();
+    this.fetchTiposEgresos();
   }
   onPorveedorSelected(selected) {
     this.IsWaiting = true;
@@ -153,6 +158,11 @@ export class ConfigEgresosComponent implements OnInit {
       (fp) => fp.nombre === this.egresoForm.controls["T17FormaPago"].value
     )[0];
     this.egresoForm.controls["T17FormaPago"].setValue(formaPago.nombre);
+    const tipoEgreso = this.tiposEgresos.filter(
+      (fp) =>
+        fp.id === parseInt(this.egresoForm.controls["T17Clasificacion"].value)
+    )[0];
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso.id);
     this._egresosService
       .updateEgresosProgramados(this.egresoForm.value)
       .subscribe(() => {
@@ -215,6 +225,13 @@ export class ConfigEgresosComponent implements OnInit {
       (fp) => fp.nombre === input["T17FormaPago"]
     )[0];
     this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
+
+    const tipoEgreso = this.tiposEgresos.filter(
+      (fp) => fp.id === parseInt(input["T17Clasificacion"])
+    )[0];
+
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
+
     this.patchParametrosForm();
   }
   eliminar() {
@@ -237,6 +254,8 @@ export class ConfigEgresosComponent implements OnInit {
     this.egresoForm.controls["T17Proveedor"].setValue(proveedor?.Nit);
     const formaPago = this.egresoForm.controls["T17FormaPago"].value;
     this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
+    const tipoEgreso = this.egresoForm.controls["T17Clasificacion"].value;
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso?.id);
     this.egresoForm.reset();
     this.showListado = true;
   }
@@ -409,5 +428,27 @@ export class ConfigEgresosComponent implements OnInit {
   }
   formatCurrency(number: number): string {
     return this.toolService.formatCurrency(number);
+  }
+  fetchTiposEgresos() {
+    let obj = {
+      applicationId: 41,
+      campos: [],
+      limit: {
+        pagina: 1,
+        limite: 10000,
+      },
+    };
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList = res.data.genericList[0];
+      let listado = genericList.campos.map((val) => {
+        return JSON.parse(val);
+      });
+
+      this.tiposEgresos = listado.map((val) => {
+        return { id: val.id, T17Nombre: val.T17Nombre };
+      });
+
+      this.IsWaiting = false;
+    });
   }
 }
