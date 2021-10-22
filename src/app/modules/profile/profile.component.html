@@ -120,10 +120,35 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" class="container" style="overflow: hidden">
     <app-listado
     style="margin-top: 5px; margin-bottom: 20px; padding: 20px; padding-right: 20px; padding-left: 20px" 
-    bgColor="warn" 
-    fontColor="black"
+    bgColor="yellow" 
+    headerColor="orange"
+    fontColor="White"
     size="bold font-size:15;"
     label="label" 
+    [data]="lista" 
+    icono="person" 
+    fxFlex="95">
+    </app-listado>
+
+    <app-listado
+    style="margin-top: 5px; margin-bottom: 20px; padding: 20px; padding-right: 20px; padding-left: 20px" 
+    bgColor="red" 
+    headerColor="blue"
+    fontColor="White"
+    size="bold font-size:15;"
+    label="label2" 
+    [data]="lista" 
+    icono="person" 
+    fxFlex="95">
+    </app-listado>
+
+    <app-listado
+    style="margin-top: 5px; margin-bottom: 20px; padding: 20px; padding-right: 20px; padding-left: 20px" 
+    bgColor="blue" 
+    fontColor="White"
+    headerColor="orange"
+    size="bold font-size:15;"
+    label="label ETIQUETA 3" 
     [data]="lista" 
     icono="person" 
     fxFlex="95">

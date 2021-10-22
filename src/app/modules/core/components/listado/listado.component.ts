@@ -13,6 +13,7 @@ export class ListadoComponent implements OnInit {
   @Input() nombre: 'yuletsypabon.com';
   @Input() icono: string;
   @Input() bgColor: string;
+  @Input() headerColor: string;
   @Input() fontColor: string;
   @Input() valor: string;
   @Input() size: string;
