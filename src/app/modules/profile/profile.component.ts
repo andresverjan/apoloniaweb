@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
   valorSeleccionado: string = "";
   idiomSelect: number;
   valuePassword: string = "";
-
+  service:any;
   public picurl: string = "";
 
   public clear() {
@@ -35,6 +35,45 @@ export class ProfileComponent implements OnInit {
   }
 
   public etiquetas: any = {};
+
+  public dataSource: [any];
+  public loading: boolean = true;
+  columnas: any;
+
+  lista = [
+    { 
+      id : 5,
+      nombre: "marcela",
+      apellido:"quiroga",
+      hcita: "3:30 pm",
+    },
+    { 
+      id : 19,
+      nombre: "sara",
+      apellido:"gallego",
+      hcita: "3:30 pm"
+
+    },
+    { 
+      id : 6,
+      nombre: "juliana",
+      apellido:"hernandez",
+      hcita: "3:30 pm",
+
+    },
+    { 
+      id : 9,
+      nombre: "paola",
+      apellido:"pabon",
+      hcita: "3:30 pm",
+    },
+    { 
+      id : 7,
+      nombre: "johanna",
+      apellido:"pabon",
+      hcita: "3:70 pm",
+    },
+  ];
 
   constructor(private profileService: ProfileService, private router: Router) {
     this.profileForm = new FormGroup({
@@ -63,6 +102,18 @@ export class ProfileComponent implements OnInit {
     this.lShowImagen = true;
     this.getUserFromLocalStorage();
     this.fetchIdiomas();
+  }
+
+  loadData() {
+    this.service().subscribe((res) => {
+      this.dataSource = res.data[Object.keys(res.data)[0]];
+      this.loading = false;
+    });
+}
+
+  mostrarData(res:string){
+    console.log("mostrarData");
+    console.log(this.lista);
   }
 
   getUserFromLocalStorage() {

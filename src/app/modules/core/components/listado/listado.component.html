@@ -1,0 +1,22 @@
+<mat-card fxLayout="row" [style.background-color]="bgColor" [style.color]="fontColor" fxFill>
+    <mat-card-content style="display: flex; align-items: center;" fxLayout="column" fxLayoutAlign="space-around center">
+        <mat-grid-list cols="3" rowHeight="230px" style="font-size: 10px;padding: 10px; margin: top 30px;" flex="30"
+            fxFlex="50">
+            <mat-grid-tile *ngFor="let item of data" [value]="item.value">
+                <div fxLayout="row" fxLayoutAlign="space-around center" fxFill>
+                    <mat-icon matPrefix style="font-size: 88px;padding: 2px;height: 80px;width: 80px;" flex="30">
+                        {{icono}}
+                    </mat-icon>
+                    <br>
+                    {{item.id}}<br>
+                    {{item.nombre}}<br>
+                    {{item.apellido}} <br>
+                    {{item.hcita}}
+
+                    <mat-label-content fxLayoutAlign="end center" style="font-size: 70px; padding-left: 10px;"
+                        flex="50">{{valor}}</mat-label-content>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card-content>
+</mat-card>

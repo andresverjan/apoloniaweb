@@ -89,7 +89,8 @@
                         <div fxLayout="row" fxLayoutAlign="space-between center" fxFill>
                             <mat-form-field fxLayout="column" fxFill>
                                 <mat-label>Confirmar Contraseña</mat-label>
-                                <input matInput type="password" id="email" formControlName="USUARIO_CONFIRMACION" value="">
+                                <input matInput type="password" id="email" formControlName="USUARIO_CONFIRMACION"
+                                    value="">
                             </mat-form-field>
                         </div>
                     </mat-card-content>
@@ -108,7 +109,25 @@
                     </mat-card-actions>
                 </mat-card>
             </form>
-        </mat-card-content>
+        </mat-card-content> 
 
     </mat-card-content>
+</div>
+<!--Grafico - Componente-->
+
+
+<div>
+<div fxLayout="row" fxLayoutAlign="space-between center" class="container" style="overflow: hidden">
+    <app-listado
+    style="margin-top: 5px; margin-bottom: 20px; padding: 20px; padding-right: 20px; padding-left: 20px" 
+    bgColor="warn" 
+    fontColor="black"
+    size="bold font-size:15;"
+    label="label" 
+    [data]="lista" 
+    icono="person" 
+    fxFlex="95">
+    </app-listado>
+</div>
+
 </div>
