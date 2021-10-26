@@ -54,7 +54,6 @@ import { InputComponent } from "./components/input/input.component";
 import { ToogleComponent } from "./components/toogle/toogle.component";
 import { SchedulerComponent } from "./components/scheduler/scheduler.component";
 import { AgendaComponent } from "../agenda/agenda.component";
-import { FlatpickrModule } from "angularx-flatpickr";
 import { CalendarModule, DateAdapter } from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -67,7 +66,6 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatInputModule } from "@angular/material/input";
 import { DatetimeComponent } from "./components/datetime/datetime.component";
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { SliderComponent } from "./components/slider/slider.component";
 import { MatSliderModule } from "@angular/material/slider";
 import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/recetario.component";
@@ -78,11 +76,8 @@ import { EsterilizacionesComponent } from '../esterilizaciones/esterilizaciones.
 import { EgresosComponent } from "../egresos/egresos.component";
 import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egresos-programados.component";
 import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
-import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { NumericComponent } from './components/numeric/numeric.component';
 import {  BasiccardComponent } from './components/basiccard/basiccard.component';
-
-//import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -162,7 +157,6 @@ FullCalendarModule.registerPlugins([
     MatSlideToggleModule,
     FullCalendarModule,
     MatListModule,
-    FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
@@ -170,8 +164,6 @@ FullCalendarModule.registerPlugins([
     MatNativeDateModule,
     MatDatepickerModule,
     MatInputModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
     MatSliderModule,
   ],
 
@@ -183,9 +175,8 @@ FullCalendarModule.registerPlugins([
     MyNavComponent,
   ],
 
-  providers: [ServicesService,
-              {provide: OWL_DATE_TIME_LOCALE, useValue: 'co'}/*,
-  { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } },*/],
+  providers: [ServicesService,  
+    /*{ provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } },*/],
   bootstrap: [DatetimeComponent], //componente
   entryComponents: [ModalComponent, LoadingComponent, DialogOverviewExample],
   schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]
