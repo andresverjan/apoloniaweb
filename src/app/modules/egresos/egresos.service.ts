@@ -143,7 +143,6 @@ export class EgresosService {
       mutation {
         createEgresos (egreso: {
           T17Factura: "${egreso.T17Factura}",
-          T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
@@ -153,6 +152,9 @@ export class EgresosService {
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
           T17Clasificacion: "${egreso.T17Clasificacion}",
+          T17IVA:${egreso.T17IVA},
+          T17ICA:${egreso.T17ICA},
+          T17RF: ${egreso.T17RF},
         })
       }
       `,
@@ -167,7 +169,6 @@ export class EgresosService {
       mutation {
         createEgresosProgramados (egresoProgramado: {
           T17Factura: "${egreso.T17Factura}",
-          T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
@@ -177,6 +178,9 @@ export class EgresosService {
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
           T17Clasificacion: "${egreso.T17Clasificacion}",
+          T17IVA:${egreso.T17IVA},
+          T17ICA:${egreso.T17ICA},
+          T17RF: ${egreso.T17RF},
         })
       }
       `,
@@ -192,7 +196,6 @@ export class EgresosService {
       mutation {
         updateEgresosProgramados (egresoProgramado: {
           T17Factura: "${egreso.T17Factura}",
-          T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
@@ -202,6 +205,9 @@ export class EgresosService {
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
           T17Clasificacion: "${egreso.T17Clasificacion}",
+          T17IVA:${egreso.T17IVA},
+          T17ICA:${egreso.T17ICA},
+          T17RF:${egreso.T17RF}
         })
       }
       `,

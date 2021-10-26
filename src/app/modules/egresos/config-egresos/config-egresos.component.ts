@@ -301,6 +301,12 @@ export class ConfigEgresosComponent implements OnInit {
       (p) => p.Nit === this.egresoForm.controls["T17Proveedor"].value.Nit
     )[0];
     this.egresoForm.controls["T17Proveedor"].setValue(proveedor.Nit);
+    const tipoEgreso = this.tiposEgresos.filter(
+      (te) =>
+        te.id ===
+        parseInt(this.egresoForm.controls["T17Clasificacion"].value.id)
+    )[0];
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso?.id);
 
     const egreso = this.egresoForm.value;
 
