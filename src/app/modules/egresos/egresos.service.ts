@@ -75,6 +75,67 @@ export class EgresosService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
+  getAllEgresosPagados(egreso?: any): Observable<any> {
+    let params = "";
+    let ordenamiento = "";
+    let pagination = `
+    pagination: {
+      pagina: ${egreso.pagina}
+      limite: ${egreso.limite}
+    }`;
+    let filtro = `${pagination}, \n`;
+
+    if (
+      (egreso.filter["T17Factura"] != undefined &&
+        egreso.filter["T17Factura"] != null) ||
+      (egreso.filter["T17FechaIni"] != undefined &&
+        egreso.filter["T17FechaIni"] != null &&
+        egreso.filter["T17FechaFin"] != undefined &&
+        egreso.filter["T17FechaFin"] != null)
+    ) {
+      filtro =
+        filtro +
+        `filter: {
+         ${Object.keys(egreso?.filter).map((prop) => {
+           if (
+             typeof egreso.filter[prop] === "string" ||
+             egreso.filter[prop] instanceof String
+           ) {
+             return `${prop} : "${egreso.filter[prop]}"`;
+           } else {
+             return `${prop} : ${egreso.filter[prop]}`;
+           }
+         })}
+        },
+        `;
+    }
+
+    params = this.toolService.getParams(filtro, ordenamiento);
+
+    let body = {
+      query: `{
+        egresos ${params}{
+          egresos {
+            T17Factura
+            T17RF
+            T17Fecha
+            T17Valor
+            T17Soporte
+            T17FormaPago
+            T17Total
+            T17Dctos
+            T17Proveedor
+            T17Observacion
+            T17Clasificacion
+          }
+          totalRegistros
+        }
+      }`,
+    };
+
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
 
   createEgresos(egreso): Observable<any> {
     let body = {
