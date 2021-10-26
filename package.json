@@ -52,7 +52,6 @@
     "ng-material-datetimepicker": "^1.19.7",
     "ng-pick-datetime-moment": "^1.0.8",
     "ngx-bootstrap": "^2.0.5",
-    "ngx-mat-datetime-picker": "^3.0.0",
     "ngx-mat-moment-adapter": "^1.0.0-beta.1",
     "ngx-material-timepicker": "^5.5.3",
     "rxjs": "~7.2.0",
