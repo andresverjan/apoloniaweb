@@ -407,6 +407,7 @@ export class ConfigEgresosComponent implements OnInit {
         res.data.egresosProgramados;
       this.egresos = egresosProgramados;
       this.totalRegistros = totalRegistros;
+
       this.IsWaiting = false;
     });
   };
