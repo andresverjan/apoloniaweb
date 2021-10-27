@@ -51,7 +51,8 @@ export class ProfileComponent implements OnInit {
       id : 19,
       nombre: "sara",
       apellido:"gallego",
-      hcita: "3:30 pm"
+      hcita: "3:30 pm",
+      icono: "person"
 
     },
     { 
@@ -59,6 +60,7 @@ export class ProfileComponent implements OnInit {
       nombre: "juliana",
       apellido:"hernandez",
       hcita: "3:30 pm",
+      icono: "person"
 
     },
     { 
@@ -66,12 +68,14 @@ export class ProfileComponent implements OnInit {
       nombre: "paola",
       apellido:"pabon",
       hcita: "3:30 pm",
+      icono: "user"
     },
     { 
       id : 7,
       nombre: "johanna",
       apellido:"pabon",
       hcita: "3:70 pm",
+      icono: "person"
     },
   ];
 

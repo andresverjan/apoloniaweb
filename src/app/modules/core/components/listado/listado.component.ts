@@ -11,9 +11,9 @@ export class ListadoComponent implements OnInit {
   @Input() data: any;
   @Input() label: string;
   @Input() nombre: 'yuletsypabon.com';
-  @Input() icono: string;
   @Input() bgColor: string;
   @Input() headerColor: string;
+  @Input() fontHeaderColor: string;
   @Input() fontColor: string;
   @Input() valor: string;
   @Input() size: string;

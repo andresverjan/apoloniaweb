@@ -1,48 +1,67 @@
-<mat-card [style.background-color]="bgColor" [style.color]="fontColor">
+<mat-card [style.background-color]="bgColor">
     <mat-card-content fxLayout="row" fxLayoutAlign="center">
-        <mat-grid-list fxLayout="row" cols="3" rowHeight="60px" [style.background-color]="headerColor" fxFlex="100">
+        <mat-grid-list fxLayout="row" cols="4" rowHeight="60px" [style.background-color]="headerColor"
+            [style.color]="fontHeaderColor"  style="padding: 10px; margin: top 30px; border-radius: 4px;" fxFlex="100">
             <mat-grid-tile>
-                <mat-label-content fxLayoutAlign="end center" style="padding-left: 10px;">
-                    NOMBRE
+                <mat-label-content fxLayoutAlign="end center" style="padding-left: 5px;">
+                    <mat-icon aria-hidden="false" aria-label="example analytics icon">analytics</mat-icon>
                 </mat-label-content>
             </mat-grid-tile>
             <mat-grid-tile>
-                <mat-label-content fxLayoutAlign="end center" style="padding-left: 10px;">
-                    APELLIDO
+                <mat-label-content fxLayoutAlign="end center" style="padding-left: 5px;">
+                    Nombre
                 </mat-label-content>
             </mat-grid-tile>
             <mat-grid-tile>
-                <mat-label-content fxLayoutAlign="end center" style="padding-left: 10px;">
-                    HORA CITA
+                <mat-label-content fxLayoutAlign="end center" style="padding-left: 5px;">
+                    Apellido
                 </mat-label-content>
             </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-label-content fxLayoutAlign="end center" style="padding-left: 5px;">
+                    Hora Cita
+                </mat-label-content>
+            </mat-grid-tile>
+
         </mat-grid-list>
-        <mat-grid-list fxLayout="row" cols="3" rowHeight="60px" style="padding: 10px; margin: top 30px;" fxFlex="100">
+    </mat-card-content>
+    <mat-card-content>
+
+        <mat-grid-list fxLayout="row" cols="4" rowHeight="60px" [style.color]="fontColor"
+            style="padding: 10px; margin: top 30px;" fxFlex="100">
             <div *ngFor="let item of data">
                 <mat-grid-tile>
                     <div fxLayout="row" fxLayoutAlign="space-around center" fxFill>
-                        <mat-label-content fxLayoutAlign="end center" style="padding-left: 10px;" flex="50">
+                        <mat-label-content fxLayoutAlign="end center" style="padding-left: 16px;" flex="50">
+                            <mat-icon aria-hidden="false" aria-label="Example assignment icon">assignment</mat-icon>
+                        </mat-label-content>
+                    </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div fxLayout="row" fxLayoutAlign="space-around center" fxFill>
+                        <mat-label-content fxLayoutAlign="end center" style="padding-left: 16px;" flex="50">
                             {{item.nombre}}
                         </mat-label-content>
                     </div>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <div fxLayout="row" fxLayoutAlign="space-around center" fxFill>
-                        <mat-label-content fxLayoutAlign="end center" style="padding-left: 10px;" flex="50">
+                        <mat-label-content fxLayoutAlign="end center" style="padding-left: 16px;" flex="50">
                             {{item.apellido}}
                         </mat-label-content>
                     </div>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <div fxLayout="row" fxLayoutAlign="space-around center" fxFill>
-                        <mat-label-content fxLayoutAlign="end center" style="padding-left: 10px;" flex="50">
+                        <mat-label-content fxLayoutAlign="end center" style="padding-left: 16px;" flex="50">
                             {{item.hcita}}
                         </mat-label-content>
                     </div>
                 </mat-grid-tile>
+
             </div>
         </mat-grid-list>
-    </mat-card-content>       
+    </mat-card-content>
 </mat-card>
 
 
