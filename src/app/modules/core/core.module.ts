@@ -79,6 +79,8 @@ import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos
 import { NumericComponent } from './components/numeric/numeric.component';
 import {  BasiccardComponent } from './components/basiccard/basiccard.component';
 
+import { NgApexchartsModule } from 'ng-apexcharts';
+
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   timeGridPlugin,
@@ -146,8 +148,9 @@ FullCalendarModule.registerPlugins([
     HttpClientModule,
     routing,
     BrowserAnimationsModule,
-    FormsModule,
+    FormsModule,    
     ReactiveFormsModule,
+    NgApexchartsModule,
     MaterialModule,
     MatGridListModule,
     MatCardModule,
@@ -171,6 +174,7 @@ FullCalendarModule.registerPlugins([
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    NgApexchartsModule,
     MaterialModule,
     MyNavComponent,
   ],

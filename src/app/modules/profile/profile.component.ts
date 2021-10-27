@@ -1,8 +1,17 @@
 import { Router } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
 import { ProfileService } from "./profile.service";
+import { ApexAxisChartSeries, ApexChart, ApexTitleSubtitle, ApexXAxis, ChartComponent } from "ng-apexcharts";
+
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  title: ApexTitleSubtitle;
+};
 
 @Component({
   selector: "app-profile",
@@ -10,6 +19,12 @@ import { ProfileService } from "./profile.service";
   styleUrls: ["./profile.component.scss"],
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild("chart") chart: ChartComponent;
+
+  public chartOptions: Partial<ChartOptions>;
+  public optionsDonut: {};
+  public optionsPie: {};
+
   public profileForm: FormGroup;
   public passwordForm: FormGroup;
   public USUARIO;
@@ -27,6 +42,8 @@ export class ProfileComponent implements OnInit {
   valorSeleccionado: string = "";
   idiomSelect: number;
   valuePassword: string = "";
+  public te = 'testttt';
+
 
   public picurl: string = "";
 
@@ -35,8 +52,51 @@ export class ProfileComponent implements OnInit {
   }
 
   public etiquetas: any = {};
+  public series: [];
 
   constructor(private profileService: ProfileService, private router: Router) {
+
+    this.chartOptions = {
+      series: [
+        {
+          name: "My-series",
+          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      title: {
+        text: "My First Angular Chart"
+      },
+      xaxis: {
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+      }
+    };
+
+    this.optionsDonut = {
+      chart: {
+        type: 'donut'
+      },
+      series: [30,40,45,50,49,60,70,91,125],
+      xaxis: {
+        categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
+      }
+    };
+
+    this.optionsPie = {
+      chart: {
+        type: 'pie'
+      },
+      series: [30,40,45,50,49,60,70,91,125],
+      xaxis: {
+        categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
+      }
+    };
+
+
+
     this.profileForm = new FormGroup({
       USUARIO_NOMBRE: new FormControl(""),
       USUARIO_CORREO: new FormControl(""),
@@ -50,11 +110,11 @@ export class ProfileComponent implements OnInit {
     });
 
     this.passwordForm = new FormGroup({
-      USUARIO_PASSWORD: new FormControl(""),  
+      USUARIO_PASSWORD: new FormControl(""),
       USUARIO_CONFIRMACION: new FormControl(""),
     });
 
-    
+
   }
 
   ngOnInit() {
