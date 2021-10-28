@@ -40,54 +40,6 @@ export class ProfileComponent implements OnInit {
   public loading: boolean = true;
   columnas: any;
 
-  titulos = ['Nombre', 'Apellido', 'HoraCita'];
-  titulos2 = ['Nombre', 'Apellido', 'SEXO', 'EDAD' ];
-
-  lista2 = [
-    { 
-      Nombre: "marcela",
-      Apellido:"quiroga",
-      SEXO: "F",
-      EDAD: 10
-    },    
-    { 
-      Nombre: "PEDRO",
-      Apellido:"quiroga",
-      SEXO: "M",
-      EDAD: 10
-    },    
-     
-  ];
-
-
-  lista = [
-    { 
-      nombre: "marcela",
-      apellido:"quiroga",
-      hcita: "3:30 pm",
-    },
-    { 
-      nombre: "sara",
-      apellido:"gallego",
-      hcita: "3:30 pm",
-    },
-    { 
-      nombre: "juliana",
-      apellido:"hernandez",
-      hcita: "3:30 pm",      
-    },
-    { 
-      nombre: "paola",
-      apellido:"pabon",
-      hcita: "3:30 pm"
-    },
-    { 
-      nombre: "johanna",
-      apellido:"pabon",
-      hcita: "3:70 pm",
-    },
-  ];
-
   constructor(private profileService: ProfileService, private router: Router) {
     this.profileForm = new FormGroup({
       USUARIO_NOMBRE: new FormControl(""),
@@ -124,10 +76,6 @@ export class ProfileComponent implements OnInit {
     });
 }
 
-  mostrarData(res:string){
-    console.log("mostrarData");
-    console.log(this.lista);
-  }
 
   getUserFromLocalStorage() {
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
