@@ -20,16 +20,13 @@
         <mat-card-title> </mat-card-title>
       </mat-card-header>
       <mat-card class="cardcontent">
-        <mat-card-title fxLayoutAlign="center">
-          <label>{{ etiquetaNombreModulo }}</label>
-        </mat-card-title>
         <mat-card-content fxLayout="column" fxLayoutAlign="center">
           <div>
             <mat-tab-group>
               <mat-tab label="Configuración de Egresos">
                 <app-config-egresos></app-config-egresos>
               </mat-tab>
-              <mat-tab label="Egresos Programados">
+              <mat-tab label="Resumen de Egresos PAGADOS">
                 <app-egresos-programados></app-egresos-programados>
               </mat-tab>
             </mat-tab-group>

@@ -17,6 +17,7 @@ import { PageEvent } from "@angular/material/paginator";
 import { FormasPagosService } from "../../core/services/formaspagos.service";
 import { ProveedoresService } from "../../core/services/proveedores.service";
 import { ToolsService } from "../../core/services/tools.service";
+import { GenericService } from "../../generic/generic.service";
 
 const DATE_FORMATS = {
   parse: {
@@ -32,6 +33,7 @@ const DATE_FORMATS = {
 @Component({
   selector: "app-config-egresos",
   templateUrl: "./config-egresos.component.html",
+  styleUrls: ["./config-egresos.component.scss"],
   providers: [
     {
       provide: DateAdapter,
@@ -46,7 +48,6 @@ export class ConfigEgresosComponent implements OnInit {
   public IsWaiting: boolean;
   public etiquetaNombreModulo = "Egresos";
   public etiquetaListado = "Listado de Egresos";
-
   public showListado: boolean = true;
   public showPanelDatos: Boolean = false;
   public showBtnAdicionar: Boolean = true;
@@ -65,22 +66,38 @@ export class ConfigEgresosComponent implements OnInit {
   public queryOptions = {};
   public formasPagos = [];
   public proveedores: any = [];
-  public parametrosContaConfig = [];
+  public parametrosContaConfig;
+  public parametrosContaConfigEmpresa: Array<any>;
   public tieneImpuestos: boolean = true;
+  public objForGenericService: any = {
+    applicationId: 41,
+    campos: [],
+    limit: {
+      pagina: 1,
+      limite: 1000,
+    },
+  };
+  public tiposEgresos;
+
   constructor(
     public dialog: MatDialog,
     public _egresosService: EgresosService,
-    public configParametros: ConfigParametrosService,
+    public configParametrosService: ConfigParametrosService,
     public formasPagosService: FormasPagosService,
     public proveedoresService: ProveedoresService,
-    private toolService: ToolsService
+    private toolService: ToolsService,
+    public genericService: GenericService
   ) {
     this.egresoForm = new FormGroup({
       T17Factura: new FormControl("", [Validators.required]),
       T17Proveedor: new FormControl("", [Validators.required]),
       T17Soporte: new FormControl("", [Validators.required]),
       T17Valor: new FormControl(0, [Validators.required]),
-      T17Dctos: new FormControl(0, [Validators.required]),
+      T17Dctos: new FormControl(0, [
+        Validators.required,
+        Validators.max(100),
+        Validators.min(0),
+      ]),
       T17IVA: new FormControl(0),
       T17Fecha: new FormControl("", [Validators.required]),
       T17ICA: new FormControl(0),
@@ -88,6 +105,7 @@ export class ConfigEgresosComponent implements OnInit {
       T17FormaPago: new FormControl("", [Validators.required]),
       T17RF: new FormControl(0),
       T17Observacion: new FormControl("", [Validators.required]),
+      T17Clasificacion: new FormControl("", [Validators.required]),
     });
   }
 
@@ -106,13 +124,20 @@ export class ConfigEgresosComponent implements OnInit {
   }
   ngOnInit() {
     this.findBy();
-    this.fetchParamsByGroup("CONTA_CONFIG");
+    this.fetchParamsByGroupContaConfig();
+    this.fetchParamsByGroupContaConfigEmpresa();
     this.fetchFormasPagos();
     this.fetchProveedores();
+    this.fetchTiposEgresos();
   }
   onPorveedorSelected(selected) {
     this.IsWaiting = true;
     this.egresoForm.controls["T17Proveedor"].setValue(selected);
+    this.IsWaiting = false;
+  }
+  onTipoEgresoSelected(selected) {
+    this.IsWaiting = true;
+    this.egresoForm.controls["T17Clasificacion"].setValue(selected);
     this.IsWaiting = false;
   }
 
@@ -133,6 +158,13 @@ export class ConfigEgresosComponent implements OnInit {
       (fp) => fp.nombre === this.egresoForm.controls["T17FormaPago"].value
     )[0];
     this.egresoForm.controls["T17FormaPago"].setValue(formaPago.nombre);
+
+    const tipoEgreso = this.tiposEgresos.filter(
+      (te) =>
+        te.id ===
+        parseInt(this.egresoForm.controls["T17Clasificacion"].value.id)
+    )[0];
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso?.id);
     this._egresosService
       .updateEgresosProgramados(this.egresoForm.value)
       .subscribe(() => {
@@ -147,6 +179,17 @@ export class ConfigEgresosComponent implements OnInit {
         this.showPanelDatos = false;
         this.findBy();
       });
+  }
+  onChangeTieneImpuestos(checked: boolean) {
+    this.tieneImpuestos = checked;
+    if (!this.tieneImpuestos) {
+      this.egresoForm.controls["T17IVA"].setValue(0);
+      this.egresoForm.controls["T17ICA"].setValue(0);
+      this.egresoForm.controls["T17RF"].setValue(0);
+    } else {
+      this.patchParametrosForm();
+    }
+    this.calculateTotal();
   }
 
   calculateTotal() {
@@ -164,7 +207,7 @@ export class ConfigEgresosComponent implements OnInit {
 
     total = total + (iva + ica + retefuente);
 
-    this.egresoForm.controls["T17Total"].setValue(total);
+    this.egresoForm.controls["T17Total"].setValue(isNaN(total) ? 0 : total);
   }
 
   verDetalle(input: any) {
@@ -183,23 +226,38 @@ export class ConfigEgresosComponent implements OnInit {
     const formaPago = this.formasPagos.filter(
       (fp) => fp.nombre === input["T17FormaPago"]
     )[0];
+    this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
 
-    this.egresoForm.controls["T17FormaPago"].setValue(formaPago.nombre);
+    const tipoEgreso = this.tiposEgresos.filter(
+      (te) => te.id === parseInt(input["T17Clasificacion"])
+    )[0];
+
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
+
     this.patchParametrosForm();
   }
   eliminar() {
-    let egreso = this.egresoForm.value;
-    let factura = egreso["T17Factura"];
-    this.IsWaiting = true;
-    this._egresosService
-      .deleteEgresosProgramados(factura)
-      .subscribe((response) => {
-        this.egresoForm.reset();
-        this.patchParametrosForm();
-        this.showListado = true;
-        Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
-      });
-    this.findBy();
+    Swal.fire({
+      title: "¿Seguro que desea eliminar este egreso?",
+      showDenyButton: true,
+      confirmButtonText: "Eliminar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const egreso = this.egresoForm.value;
+        const factura = egreso["T17Factura"];
+        this.IsWaiting = true;
+        this._egresosService
+          .deleteEgresosProgramados(factura)
+          .subscribe((response) => {
+            this.egresoForm.reset();
+            this.patchParametrosForm();
+            this.showListado = true;
+            Swal.fire("Eliminado", "Egreso eliminado exitosamente", "success");
+          });
+        this.findBy();
+      }
+    });
   }
 
   cancelar() {
@@ -207,6 +265,8 @@ export class ConfigEgresosComponent implements OnInit {
     this.egresoForm.controls["T17Proveedor"].setValue(proveedor?.Nit);
     const formaPago = this.egresoForm.controls["T17FormaPago"].value;
     this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
+    const tipoEgreso = this.egresoForm.controls["T17Clasificacion"].value;
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso?.id);
     this.egresoForm.reset();
     this.showListado = true;
   }
@@ -241,6 +301,12 @@ export class ConfigEgresosComponent implements OnInit {
       (p) => p.Nit === this.egresoForm.controls["T17Proveedor"].value.Nit
     )[0];
     this.egresoForm.controls["T17Proveedor"].setValue(proveedor.Nit);
+    const tipoEgreso = this.tiposEgresos.filter(
+      (te) =>
+        te.id ===
+        parseInt(this.egresoForm.controls["T17Clasificacion"].value.id)
+    )[0];
+    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso?.id);
 
     const egreso = this.egresoForm.value;
 
@@ -251,14 +317,81 @@ export class ConfigEgresosComponent implements OnInit {
       this.patchParametrosForm();
       this.showListado = true;
       this.showPanelDatos = false;
+      this.tieneImpuestos = true;
       this.findBy();
     });
   }
-  fetchParamsByGroup(nombreParametro) {
-    this.configParametros
-      .configByParamGroup(nombreParametro)
+  pagar() {
+    Swal.fire({
+      title: "Confirmar el valor total del egreso",
+      text: this.formatCurrency(this.egresoForm.controls["T17Total"].value),
+      showDenyButton: true,
+      confirmButtonText: "Pagar",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.IsWaiting = true;
+        this.egresoForm.controls["T17ICA"].setValue(
+          parseFloat(this.egresoForm.controls["T17ICA"].value)
+        );
+        this.egresoForm.controls["T17IVA"].setValue(
+          parseFloat(this.egresoForm.controls["T17IVA"].value)
+        );
+        this.egresoForm.controls["T17RF"].setValue(
+          parseFloat(this.egresoForm.controls["T17RF"].value)
+        );
+        this.egresoForm.controls["T17Valor"].setValue(
+          parseFloat(this.egresoForm.controls["T17Valor"].value)
+        );
+        const proveedor = this.proveedores.filter(
+          (p) => p.Nit === this.egresoForm.controls["T17Proveedor"].value.Nit
+        )[0];
+        this.egresoForm.controls["T17Proveedor"].setValue(proveedor.Nit);
+        this.egresoForm.controls["T17Factura"].setValue(
+          `${this.egresoForm.controls["T17Factura"].value} PAGADO ${this.parametrosContaConfigEmpresa[0].Valor}${this.parametrosContaConfigEmpresa[1].Valor} `
+        );
+        const tipoEgreso = this.tiposEgresos.filter(
+          (te) =>
+            te.id ===
+            parseInt(this.egresoForm.controls["T17Clasificacion"].value.id)
+        )[0];
+        this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso?.id);
+
+        const egreso = this.egresoForm.value;
+        this._egresosService.createEgresos(egreso).subscribe(() => {
+          this.IsWaiting = false;
+          Swal.fire("Pagado", "Egreso pagado exitosamente", "success");
+          this.egresoForm.reset();
+          this.patchParametrosForm();
+          this.showListado = true;
+          this.showPanelDatos = false;
+          this.findBy();
+          this.tieneImpuestos = true;
+        });
+
+        const configParam = this.parametrosContaConfigEmpresa.filter(
+          (cp) => cp.id === 10
+        )[0];
+        this.configParametrosService
+          .incrementCountConfigParamOnPayment(configParam)
+          .subscribe(() => {
+            this.fetchParamsByGroupContaConfigEmpresa();
+          });
+      }
+    });
+  }
+  fetchParamsByGroupContaConfig() {
+    this.configParametrosService
+      .configByParamGroup("CONTA_CONFIG")
       .subscribe((response) => {
         this.parametrosContaConfig = response.data.configByParamGroup;
+      });
+  }
+  fetchParamsByGroupContaConfigEmpresa() {
+    this.configParametrosService
+      .configByParamGroup("CONTA_CONFIG_EMPRESA")
+      .subscribe((response) => {
+        this.parametrosContaConfigEmpresa = response.data.configByParamGroup;
       });
   }
   onClickAdicionar() {
@@ -318,5 +451,27 @@ export class ConfigEgresosComponent implements OnInit {
   }
   formatCurrency(number: number): string {
     return this.toolService.formatCurrency(number);
+  }
+  fetchTiposEgresos() {
+    let obj = {
+      applicationId: 41,
+      campos: [],
+      limit: {
+        pagina: 1,
+        limite: 10000,
+      },
+    };
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList = res.data.genericList[0];
+      let listado = genericList.campos.map((val) => {
+        return JSON.parse(val);
+      });
+
+      this.tiposEgresos = listado.map((val) => {
+        return { id: val.id, T17Nombre: val.T17Nombre };
+      });
+
+      this.IsWaiting = false;
+    });
   }
 }

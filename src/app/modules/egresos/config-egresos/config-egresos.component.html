@@ -14,7 +14,7 @@
     *ngIf="showListado"
   >
     <mat-icon>add_circle_outline</mat-icon>
-    Adicion
+    Adición
   </button>
 </mat-card-actions>
 
@@ -103,22 +103,28 @@
 
 <div class="container" *ngIf="!showListado" style="overflow: hidden">
   <mat-card-content class="window-dashboard-card-content contentprincipal">
-    <mat-toolbar color="primary">
+    <mat-toolbar style="display: flex; flex-direction: row" color="primary">
       <mat-icon matPrefix>account_balance</mat-icon>
-      <label>Configuración de Egresos</label>
+
+      <label style="margin-bottom: 0"> Configuración de Egresos </label>
+
       <span class="example-spacer"></span>
       <button
+        (click)="eliminar()"
+        *ngIf="showBtnEliminar"
+        style="align-self: center; justify-self: center"
         mat-icon-button
-        class="example-icon"
-        aria-label="Example icon-button with share icon"
-        (click)="cancelar()"
+        color="secondary"
       >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon" (click)="cancelar()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-toolbar>
 
     <mat-card-header>
-      <mat-card-title> </mat-card-title>
+      <mat-card-title></mat-card-title>
     </mat-card-header>
     <mat-card class="cardcontent">
       <mat-card-content fxLayout="column" fxLayoutAlign="center">
@@ -213,50 +219,90 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
-                      formControlName="T17Dctos"
-                      matTooltip="Presione enter para guardar el valor"
-                      matTooltipPosition="right"
-                      id="T17Dctos"
-                      (change)="calculateTotal()"
-                      placeholder="% Descuento"
+                      formControlName="T17Observacion"
+                      id="T17Observacion"
+                      placeholder="Observaciones"
                     />
                   </mat-form-field>
-                  <mat-form-field appearance="outline" readonly fxFlex>
-                    <mat-icon matPrefix>edit_off</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17ICA"
-                      id="T17ICA"
-                      placeholder="ICA"
-                      readonly
-                      [disabled]="true"
-                    />
-                  </mat-form-field>
+                  <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
+                    <app-buscadormodal
+                      [filters]="['T17Nombre']"
+                      (selected)="onTipoEgresoSelected($event)"
+                      [columnas]="{
+                        id: 'Id',
+                        T17Nombre: 'Nombre'
+                      }"
+                      [resultInputText]="['T17Nombre']"
+                      [isGenericService]="true"
+                      [objForGenericService]="objForGenericService"
+                      tituloBusqueda="Tipo de Egreso"
+                      [defaultObjValue]="
+                        egresoForm.controls['T17Clasificacion'].value
+                      "
+                      fxFlex="60"
+                      [readonly]="false"
+                    ></app-buscadormodal>
+                  </div>
                 </div>
-                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                  <mat-form-field appearance="outline" readonly fxFlex>
-                    <mat-icon matPrefix>edit_off</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17IVA"
-                      id="T17IVA"
-                      placeholder="IVA"
-                      readonly
-                      [disabled]="true"
-                    />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline" readonly fxFlex>
-                    <mat-icon matPrefix>edit_off</mat-icon>
-                    <input
-                      matInput
-                      formControlName="T17RF"
-                      id="T17RF"
-                      placeholder="RF"
-                      readonly
-                      [disabled]="true"
-                    />
-                  </mat-form-field>
+                <div
+                  fxLayout="row"
+                  fxFlex
+                  fxLayoutAlign="space-between flex-start"
+                  style="margin-left: 30px; margin-bottom: 10px"
+                >
+                  <mat-checkbox
+                    (change)="onChangeTieneImpuestos($event.checked)"
+                    [checked]="tieneImpuestos"
+                    [disabled]="showBtnEliminar"
+                    color="primary"
+                  >
+                    Tiene más impuestos
+                  </mat-checkbox>
                 </div>
+                <mat-card *ngIf="tieneImpuestos" style="margin-bottom: 20px">
+                  <div
+                    fxLayout="row"
+                    fxFlex
+                    fxLayoutAlign="space-between center"
+                  >
+                    <mat-form-field appearance="outline" readonly fxFlex>
+                      <mat-label>ICA</mat-label>
+                      <mat-icon matPrefix>edit_off</mat-icon>
+                      <input
+                        matInput
+                        formControlName="T17ICA"
+                        id="T17ICA"
+                        placeholder="ICA"
+                        readonly
+                        [disabled]="true"
+                      />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" readonly fxFlex>
+                      <mat-label>IVA</mat-label>
+                      <mat-icon matPrefix>edit_off</mat-icon>
+                      <input
+                        matInput
+                        formControlName="T17IVA"
+                        id="T17IVA"
+                        placeholder="IVA"
+                        readonly
+                        [disabled]="true"
+                      />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" readonly fxFlex>
+                      <mat-label>Retención en la fuente</mat-label>
+                      <mat-icon matPrefix>edit_off</mat-icon>
+                      <input
+                        matInput
+                        formControlName="T17RF"
+                        id="T17RF"
+                        placeholder="RF"
+                        readonly
+                        [disabled]="true"
+                      />
+                    </mat-form-field>
+                  </div>
+                </mat-card>
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
@@ -272,9 +318,12 @@
                     <mat-icon matPrefix>edit</mat-icon>
                     <input
                       matInput
-                      formControlName="T17Observacion"
-                      id="T17Observacion"
-                      placeholder="Observaciones"
+                      formControlName="T17Dctos"
+                      matTooltip="Presione enter para guardar el valor"
+                      matTooltipPosition="right"
+                      id="T17Dctos"
+                      (change)="calculateTotal()"
+                      placeholder="% Descuento"
                     />
                   </mat-form-field>
                 </div>
@@ -314,15 +363,16 @@
         </button>
         <button
           mat-raised-button
-          (click)="eliminar()"
+          color="success"
           fxLayout="row"
           fxLayout.xs="column"
           fxLayoutAlign="center"
           fxFlex
+          (click)="pagar()"
           *ngIf="showBtnEliminar"
         >
           <mat-icon>delete</mat-icon>
-          Eliminar
+          Pagar
         </button>
         <button
           mat-raised-button

@@ -65,6 +65,68 @@ export class EgresosService {
             T17Dctos
             T17Proveedor
             T17Observacion
+            T17Clasificacion
+          }
+          totalRegistros
+        }
+      }`,
+    };
+
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+  getAllEgresosPagados(egreso?: any): Observable<any> {
+    let params = "";
+    let ordenamiento = "";
+    let pagination = `
+    pagination: {
+      pagina: ${egreso.pagina}
+      limite: ${egreso.limite}
+    }`;
+    let filtro = `${pagination}, \n`;
+
+    if (
+      (egreso.filter["T17Factura"] != undefined &&
+        egreso.filter["T17Factura"] != null) ||
+      (egreso.filter["T17FechaIni"] != undefined &&
+        egreso.filter["T17FechaIni"] != null &&
+        egreso.filter["T17FechaFin"] != undefined &&
+        egreso.filter["T17FechaFin"] != null)
+    ) {
+      filtro =
+        filtro +
+        `filter: {
+         ${Object.keys(egreso?.filter).map((prop) => {
+           if (
+             typeof egreso.filter[prop] === "string" ||
+             egreso.filter[prop] instanceof String
+           ) {
+             return `${prop} : "${egreso.filter[prop]}"`;
+           } else {
+             return `${prop} : ${egreso.filter[prop]}`;
+           }
+         })}
+        },
+        `;
+    }
+
+    params = this.toolService.getParams(filtro, ordenamiento);
+
+    let body = {
+      query: `{
+        egresos ${params}{
+          egresos {
+            T17Factura
+            T17RF
+            T17Fecha
+            T17Valor
+            T17Soporte
+            T17FormaPago
+            T17Total
+            T17Dctos
+            T17Proveedor
+            T17Observacion
+            T17Clasificacion
           }
           totalRegistros
         }
@@ -81,7 +143,6 @@ export class EgresosService {
       mutation {
         createEgresos (egreso: {
           T17Factura: "${egreso.T17Factura}",
-          T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
@@ -90,6 +151,10 @@ export class EgresosService {
           T17Dctos: ${egreso.T17Dctos},
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
+          T17Clasificacion: "${egreso.T17Clasificacion}",
+          T17IVA:${egreso.T17IVA},
+          T17ICA:${egreso.T17ICA},
+          T17RF: ${egreso.T17RF},
         })
       }
       `,
@@ -104,7 +169,6 @@ export class EgresosService {
       mutation {
         createEgresosProgramados (egresoProgramado: {
           T17Factura: "${egreso.T17Factura}",
-          T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
@@ -113,6 +177,10 @@ export class EgresosService {
           T17Dctos: ${egreso.T17Dctos},
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
+          T17Clasificacion: "${egreso.T17Clasificacion}",
+          T17IVA:${egreso.T17IVA},
+          T17ICA:${egreso.T17ICA},
+          T17RF: ${egreso.T17RF},
         })
       }
       `,
@@ -128,7 +196,6 @@ export class EgresosService {
       mutation {
         updateEgresosProgramados (egresoProgramado: {
           T17Factura: "${egreso.T17Factura}",
-          T17RF: ${egreso.T17RF},
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
           T17Soporte: "${egreso.T17Soporte}",
@@ -137,6 +204,10 @@ export class EgresosService {
           T17Dctos: ${egreso.T17Dctos},
           T17Proveedor: "${egreso.T17Proveedor}",
           T17Observacion: "${egreso.T17Observacion}",
+          T17Clasificacion: "${egreso.T17Clasificacion}",
+          T17IVA:${egreso.T17IVA},
+          T17ICA:${egreso.T17ICA},
+          T17RF:${egreso.T17RF}
         })
       }
       `,

@@ -6,7 +6,7 @@ import { EvolucionesService } from "./evoluciones.service";
 import { PacienteService } from "../../core/services/paciente.service";
 import { FormGroup } from "@angular/forms";
 import Swal from "sweetalert2";
-
+import { ToolsService } from "../../core/services/tools.service";
 
 @Component({
   selector: "app-evoluciones",
@@ -23,37 +23,51 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
   public mascaras = [];
   public evolucionesLista: any = [];
   public evolucion: any;
-
   public evolucionForm: FormGroup;
-
   public remisionAdd: any = [];
   public eventosAdversosAdd: any = [];
   public laboratoriosAdd: any = [];
   public esterilizacionAdd: any = [];
   public recetarioAdd: any = [];
+  public USUARIO: any = {};
   public detalle = {
-    observaciones: ""
+    Observacion: ""
   };
 
   @Input() Cedula: string;
+  @Input() Paciente: any;
   constructor(//public _pacienteService: PacienteService,
-    public _evolucionesService: EvolucionesService) {
+    public _evolucionesService: EvolucionesService,
+    public toolsService: ToolsService
+  ) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.fetchEvoluciones(this.Cedula);
   }
 
+  ngOnInit() {
+    this.USUARIO = this.toolsService.getUserFromLocalStorage();
+    console.log(this.USUARIO);
+    console.log("INGRESO A EVOLUCIONES!!!");
+    console.log(this.Paciente);
+  }
+
   actionAdicionar() {
     this.showListado = false;
     this.showForm = true;
+
+    this.detalle.Observacion = "";
+    
   }
 
   guardar() {
     console.log("presiono guardar.....");
     console.log(this.esterilizacionAdd);
+    
     console.log("IMPRIMO eventosAdversosAdd");
     console.log(this.eventosAdversosAdd);
+
 
     console.log("IMPRIMO REMIsION");
     console.log(this.remisionAdd);
@@ -63,14 +77,32 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
 
     console.log("IMPRIMO LABORATORIOS");
     console.log(this.laboratoriosAdd);
-
-
     console.log("IMPRIMO RECETARIO");
     console.log(this.recetarioAdd);
 
-
     this.showForm = false;
     this.showListado = true;
+
+    console.log("*****************");
+    console.log(this.Cedula);
+    console.log("*****************");
+
+    let evolucion = {
+      Cedula: this.Cedula,
+      Observaciones: this.detalle.Observacion,
+      IdUsuario: this.USUARIO.USUARIO_LOGIN,
+      Paciente: this.Paciente.Nombre + " " + this.Paciente.Apellidos,
+      Nombres: this.Paciente.Nombre,
+      Apellidos: this.Paciente.Apellidos,
+      eventosAdversos: this.eventosAdversosAdd,
+      remision: this.remisionAdd
+    };
+    console.log(evolucion);
+    console.log("*****************");
+
+    this._evolucionesService.save(evolucion).subscribe((reponse) => {
+      Swal.fire('Evoluciones', 'Agregado correctamente.', 'success');
+    });
 
   }
 
@@ -80,23 +112,39 @@ export class EvolucionesComponent implements OnChanges {//OnInit,
   }
 
   fetchEvoluciones = (obj: any) => {
-    console.log("****NG***PACIENTE*******", obj)
     this._evolucionesService.getAll(obj).subscribe((res) => {
-      console.log(res.data.getCitasHC)
       this.evolucionesLista = res.data.getCitasHC;
     });
   };
 
   actualizar(evolucion: any) {
+    console.log(evolucion);
     this.showListado = false;
     this.showContent = false;
     this.showForm = true;
     this.showBtnActualizar = true;
     this.showBtnEliminar = true;
     this.evolucion = evolucion;
-    this.Cedula    = evolucion.Cedula;
-    /*this.evolucionForm.controls["Fecha"].setValue(evolucion.Fecha);
-    this.evolucionForm.controls["IdOdontologo"].setValue(evolucion.IdOdontologo);
-    this.evolucionForm.controls["Paciente"].setValue(evolucion.Paciente);*/
+    this.Cedula = evolucion.Cedula;
+    this.detalle.Observacion = evolucion.Observacion;
+    console.log(this.detalle);
   }
+
+  update() {
+    console.log(this.evolucion);
+    this.evolucion.Observacion = this.detalle.Observacion;
+    this.evolucion.IdUsuario = this.USUARIO.USUARIO_LOGIN;
+    this.evolucion.Paciente = this.Paciente.Nombre + " " + this.Paciente.Apellidos;
+    this.evolucion.Nombres = this.Paciente.Nombre;
+    this.evolucion.Apellidos = this.Paciente.Apellidos;
+
+    this._evolucionesService.update(this.evolucion).subscribe((reponse) => {
+      Swal.fire('Evoluciones', 'Actualizado correctamente.', 'success');
+      this.showForm = false;
+      this.showListado = true;
+      this.detalle.Observacion = "";
+    });
+  }
+
+
 }
