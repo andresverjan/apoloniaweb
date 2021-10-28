@@ -19,16 +19,6 @@
             <form [formGroup]="profileForm" autocomplete="off" novalidate>
                 <mat-card class="cardcontent" *ngIf="showProfileUser">
 
-                    <p>PRUEBA</p>
-                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-                        [title]="chartOptions.title"></apx-chart>
-
-                    <apx-chart [series]="optionsDonut.series" [chart]="optionsDonut.chart" [xaxis]="optionsDonut.xaxis"
-                        [title]="optionsDonut.title"></apx-chart>
-
-                    <apx-chart [series]="optionsPie.series" [chart]="optionsPie.chart" [xaxis]="optionsPie.xaxis"
-                        [title]="optionsPie.title"></apx-chart>
-
                     <mat-card-title fxLayoutAlign="center">
                         <label>{{etiquetas.DatosBasicos}}</label>
                     </mat-card-title>

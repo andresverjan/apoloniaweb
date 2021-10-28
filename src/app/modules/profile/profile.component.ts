@@ -5,12 +5,12 @@ import Swal from "sweetalert2";
 import { ProfileService } from "./profile.service";
 import { ApexAxisChartSeries, ApexChart, ApexTitleSubtitle, ApexXAxis, ChartComponent } from "ng-apexcharts";
 
-
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
   title: ApexTitleSubtitle;
+  colors: string[];
 };
 
 @Component({
@@ -57,22 +57,30 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService: ProfileService, private router: Router) {
 
     this.chartOptions = {
+      chart: {
+        height: 350,
+        type: "bar"
+      },
       series: [
         {
           name: "My-series",
           data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
         }
       ],
-      chart: {
-        height: 350,
-        type: "bar"
+      xaxis: {
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
       },
       title: {
         text: "My First Angular Chart"
       },
-      xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
-      }
+      colors: [
+        '#E91E63',
+        '#F44336',
+        '#9C27B0',
+        '#9C27B1',
+        '#9C27B9',
+        '#9C27B3',
+      ]
     };
 
     this.optionsDonut = {
@@ -82,7 +90,10 @@ export class ProfileComponent implements OnInit {
       series: [30,40,45,50,49,60,70,91,125],
       xaxis: {
         categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
-      }
+      },
+      title: {
+        text: "My First Angular Chart"
+      },
     };
 
     this.optionsPie = {
@@ -92,7 +103,10 @@ export class ProfileComponent implements OnInit {
       series: [30,40,45,50,49,60,70,91,125],
       xaxis: {
         categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
-      }
+      },
+      title: {
+        text: "My First Angular Chart"
+      },
     };
 
 
