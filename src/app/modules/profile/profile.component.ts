@@ -40,43 +40,51 @@ export class ProfileComponent implements OnInit {
   public loading: boolean = true;
   columnas: any;
 
-  titulos: ['Nombre', 'Apellido', 'Cedula', 'Sexo'];
+  titulos = ['Nombre', 'Apellido', 'HoraCita'];
+  titulos2 = ['Nombre', 'Apellido', 'SEXO', 'EDAD' ];
+
+  lista2 = [
+    { 
+      Nombre: "marcela",
+      Apellido:"quiroga",
+      SEXO: "F",
+      EDAD: 10
+    },    
+    { 
+      Nombre: "PEDRO",
+      Apellido:"quiroga",
+      SEXO: "M",
+      EDAD: 10
+    },    
+     
+  ];
+
+
   lista = [
     { 
-      id : 5,
       nombre: "marcela",
       apellido:"quiroga",
       hcita: "3:30 pm",
     },
     { 
-      id : 19,
       nombre: "sara",
       apellido:"gallego",
       hcita: "3:30 pm",
-      icono: "person"
-
     },
     { 
-      id : 6,
       nombre: "juliana",
       apellido:"hernandez",
-      hcita: "3:30 pm",
-      icono: "person"
-
+      hcita: "3:30 pm",      
     },
     { 
-      id : 9,
       nombre: "paola",
       apellido:"pabon",
-      hcita: "3:30 pm",
-      icono: "user"
+      hcita: "3:30 pm"
     },
     { 
-      id : 7,
       nombre: "johanna",
       apellido:"pabon",
       hcita: "3:70 pm",
-      icono: "person"
     },
   ];
 

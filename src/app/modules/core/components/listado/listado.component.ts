@@ -7,7 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./listado.component.sass']
 })
 export class ListadoComponent implements OnInit {
-
+  objectKeys = Object.keys;
+  
   @Input() data: any;
   @Input() label: string;
   @Input() nombre: 'yuletsypabon.com';
@@ -18,16 +19,17 @@ export class ListadoComponent implements OnInit {
   @Input() valor: string;
   @Input() size: string;
   @Input() default: string;
-  @Input() icono: string;
+  @Input() icono: string ="person_add";
   @Input() columnas: string[];
   
   @Output() mostrar = new EventEmitter<string>();
 
-  constructor(public dialog:MatDialog) {
-    this.mostrar = new EventEmitter();
+  
+  constructor(public dialog:MatDialog) {    
+    console.log(this.columnas);
   }
+
   Mostrar(res:string) {
-    console.log("esta funcionando el mostrar");
      this.mostrar.emit(res);
   }
 

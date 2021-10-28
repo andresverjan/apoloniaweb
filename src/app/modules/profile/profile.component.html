@@ -109,56 +109,26 @@
                     </mat-card-actions>
                 </mat-card>
             </form>
-        </mat-card-content> 
+        </mat-card-content>
 
     </mat-card-content>
 </div>
 <!--Grafico - Componente-->
 
-
 <div>
-<div fxLayout="row" fxLayoutAlign="space-between center" class="container" style="overflow: hidden">
-    <app-listado
-    style="margin-top: 5px; margin-right: 10px; padding: 0px 16px; padding-right: 20px; padding-left: 20px" 
-    bgColor="white" 
-    headerColor="#512774"
-    fontHeaderColor="white" 
-    fontColor="black"
-    icono="person"
-    size="roboto font-size:14;"
-    label="label" 
-    [data]="lista" 
-    fxFlex="95">
-    </app-listado>
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="container" style="overflow: hidden">
+        <app-listado
+            style="margin-top: 5px; margin-right: 10px; padding: 0px 16px; padding-right: 20px; padding-left: 20px"
+            bgColor="white" headerColor="#512774" fontHeaderColor="white" fontColor="black" icono="person"
+            size="roboto font-size:14;" label="label" [data]="lista" [columnas]="titulos" fxFlex="40">
+        </app-listado>
 
-    <app-listado
-    style="margin-top: 5px; margin-bottom: 20px; padding: 16px; padding-right: 20px; padding-left: 20px" 
-    bgColor="white" 
-    headerColor="#512774"
-    fontHeaderColor="white" 
-    fontColor="black"
-    icono="person_add"
-    size="bold font-size:15;"
-    label="label2" 
-    [columnas] = "titulos"
-    [data]="lista" 
-    fxFlex="95">
-    </app-listado>
+        <app-listado
+            style="margin-top: 5px; margin-bottom: 20px; padding: 16px; padding-right: 20px; padding-left: 20px"
+            bgColor="white" headerColor="#d90c0cde" fontHeaderColor="white" fontColor="black"
+            size="bold font-size:15;" label="label2" [columnas]="titulos2" [data]="lista2" fxFlex="40">
+        </app-listado>
 
-    <app-listado
-    style="margin-top: 5px; margin-bottom: 20px; padding: 16px; padding-right: 20px; padding-left: 20px" 
-    bgColor="white" 
-    headerColor="#512774"
-    fontHeaderColor="white" 
-    fontColor="black"
-    icono="person"
-    size="bold font-size:15;"
-    label="label ETIQUETA 3"
-    [columnas] = "titulos" 
-    [data]="lista" 
-    fxFlex="95">
-
-    </app-listado>
-</div>
+    </div>
 
 </div>
