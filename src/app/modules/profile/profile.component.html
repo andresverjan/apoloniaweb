@@ -124,6 +124,7 @@
     headerColor="#512774"
     fontHeaderColor="white" 
     fontColor="black"
+    icono="person"
     size="roboto font-size:14;"
     label="label" 
     [data]="lista" 
@@ -136,6 +137,7 @@
     headerColor="#512774"
     fontHeaderColor="white" 
     fontColor="black"
+    icono="person_add"
     size="bold font-size:15;"
     label="label2" 
     [data]="lista" 
@@ -148,10 +150,13 @@
     headerColor="#512774"
     fontHeaderColor="white" 
     fontColor="black"
+    icono="person"
     size="bold font-size:15;"
-    label="label ETIQUETA 3" 
+    label="label ETIQUETA 3"
+    [columnas] = "titulos" 
     [data]="lista" 
     fxFlex="95">
+
     </app-listado>
 </div>
 

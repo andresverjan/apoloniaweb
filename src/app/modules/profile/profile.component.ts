@@ -40,6 +40,7 @@ export class ProfileComponent implements OnInit {
   public loading: boolean = true;
   columnas: any;
 
+  titulos: ['Nombre', 'Apellido', 'Cedula', 'Sexo'];
   lista = [
     { 
       id : 5,

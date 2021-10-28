@@ -18,6 +18,8 @@ export class ListadoComponent implements OnInit {
   @Input() valor: string;
   @Input() size: string;
   @Input() default: string;
+  @Input() icono: string;
+  @Input() columnas: string;
   
   @Output() mostrar = new EventEmitter<string>();
 
