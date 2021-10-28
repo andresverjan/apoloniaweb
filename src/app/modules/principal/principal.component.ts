@@ -71,34 +71,7 @@ export class PrincipalComponent implements OnInit {
     ]
   };
 
-  public chartOptions2: Partial<ChartOptionsPieDonut> = {
-    chart: {
-      height: 250,
-      type: "pie"
-    },
-    series: [10, 41, 35, 51, 49, 62, 69, 91, 148],
-    labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
-    xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
-    },
-    title: {
-      text: "Aplonia Chart"
-    },
-    colors: [
-      '#E91E63',
-      '#F44336',
-      '#9C27B0',
-      '#00FF00',
-      '#29b6f6',
-      '#388e3c',
-      '#ffeb3b',
-      '#e65100',
-      '#bdbdbd',
-      '#1a237e',
-      '#f50057',
-    ]
-  };
-
+  public chartOptions2: Partial<ChartOptionsPieDonut> ;
 
 
   public USUARIO: any = {};
@@ -113,6 +86,34 @@ export class PrincipalComponent implements OnInit {
     this.citasDelDia();
     this.citasCanceladas();
     this.totalPacientes();
+    this.pacientesBySex();
+
+    
+  }
+
+  pacientesBySex(){
+    this.chartOptions2 = {
+      chart: {
+        height: 250,
+        type: "pie"
+      },
+      series: [11, 42],
+      labels: ['Hombre', 'Mujer'],
+      xaxis: {
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+      },
+      title: {
+        text: "Aplonia Chart"
+      },
+      colors: [
+        '#090979',
+        '#800080',
+        '#e65100',
+        '#bdbdbd',
+        '#1a237e',
+        '#f50057',
+      ]
+    };
   }
 
   fetchDataEstetilizaciones() {
