@@ -1,34 +1,26 @@
+<h1 class="mat-h1">Bienvenido, {{USUARIO.USUARIO_NOMBRE}}</h1>
 
-    <h1 class="mat-h1">Bienvenido, {{USUARIO.USUARIO_NOMBRE}}</h1>
-    
-    <!--<mat-card fxLayout="row wrap" fxLayoutGap fxLayoutAlign="space-around center">
-        <app-basiccard bgColor="purple" fontColor="white" label="Citas del Dia" valor="{{totalCitasDelDia}}"
-            icono="calendar_today" fxFlex=30 [onClickFunction]="runOnClick"></app-basiccard>
-        <app-basiccard bgColor="#090979" fontColor="white" label="Citas Atendidas" valor="{{totalCitasAtendidas}}"
-            icono="task_alt" fxFlex=30>
-        </app-basiccard>
-        <app-basiccard bgColor="red" fontColor="white" label="Citas Canceladas" valor="{{totalCitasCanceladas}}"
-            icono="highlight_off" fxFlex=30>
-        </app-basiccard>
-        <app-basiccard bgColor="blue" fontColor="white" label="Total Pacientes" valor="{{totalPacientesClinica}}"
-            icono="toc" fxFlex=30>
-        </app-basiccard>
-    </mat-card>-->
-
-    <mat-card fxLayout="row" fxLayoutAlign="space-around" style="background-color:transparent; padding:5px;">
-        <app-basiccard bgColor="purple" fontColor="white" label="Citas del Dia" valor="{{totalCitasDelDia}}"
-            icono="calendar_today" fxFlex=30 [onClickFunction]="runOnClick"></app-basiccard>
-        <app-basiccard bgColor="#090979" fontColor="white" label="Citas Atendidas" valor="{{totalCitasAtendidas}}"
-            icono="task_alt" fxFlex=30>
-        </app-basiccard>
-        <app-basiccard bgColor="red" fontColor="white" label="Citas Canceladas" valor="{{totalCitasCanceladas}}"
-            icono="highlight_off" fxFlex=30>
-        </app-basiccard>
-        <app-basiccard bgColor="blue" fontColor="white" label="Total Pacientes" valor="{{totalPacientesClinica}}"
-            icono="toc" fxFlex=30>
-        </app-basiccard>        
-
-        <app-basiccard bgColor="blue" fontColor="white" label="Total Egresos del Dia" valor="{{totalPacientesClinica}}"
+<mat-card fxLayout="row" fxLayoutAlign="space-around" style="background-color:transparent; padding:5px;">
+    <app-basiccard bgColor="purple" fontColor="white" label="Citas del Dia" valor="{{totalCitasDelDia}}"
+        icono="calendar_today" fxFlex=30 [onClickFunction]="runOnClick"></app-basiccard>
+    <app-basiccard bgColor="#090979" fontColor="white" label="Citas Atendidas" valor="{{totalCitasAtendidas}}"
+        icono="task_alt" fxFlex=30>
+    </app-basiccard>
+    <app-basiccard bgColor="red" fontColor="white" label="Citas Canceladas" valor="{{totalCitasCanceladas}}"
+        icono="highlight_off" fxFlex=30>
+    </app-basiccard>
+    <app-basiccard bgColor="blue" fontColor="white" label="Total Pacientes" valor="{{totalPacientesClinica}}"
         icono="toc" fxFlex=30>
     </app-basiccard>
-    </mat-card>
+
+    <app-basiccard bgColor="blue" fontColor="white" label="Total Egresos del Dia" valor="{{totalPacientesClinica}}"
+        icono="toc" fxFlex=30>
+    </app-basiccard>
+</mat-card>
+
+<mat-card fxLayout="row" fxLayoutAlign="space-around" style="background-color:transparent; padding:5px;">
+    <app-piechart label="Citas del Dia" fxFlex=50 [chartOptions]='chartOptions' labels='chartOptions.labels'> </app-piechart>
+    <app-piechart label="Citas Options 1" fxFlex=50 [chartOptions]='chartOptions1' labels='chartOptions1.labels'>
+    </app-piechart>
+    <app-piechart label="Citas Options 2" fxFlex=50 [chartOptions]='chartOptions2' labels='chartOptions2.labels'> </app-piechart>
+</mat-card>
