@@ -1,0 +1,10 @@
+<div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="98">
+  <mat-card [style.background-color]="bgColor" [style.color]="fontColor" fxFill>
+    <mat-card-content style="display: flex; align-items: center;" fxLayout="column" fxLayoutAlign="space-around center"
+      (click)="onClick()">
+      <mat-label-content style="font-size:18px; padding: 2px;" flex="80"> {{label}}</mat-label-content>      
+        <apx-chart [colors]="chartOptions.colors" [series]="chartOptions.series" [chart]="chartOptions.chart"
+          [xaxis]="chartOptions.xaxis" [title]="chartOptions.title" [labels]="chartOptions.labels" fxFill></apx-chart>
+    </mat-card-content>
+  </mat-card>
+</div>

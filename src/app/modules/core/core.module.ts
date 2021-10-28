@@ -78,6 +78,7 @@ import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egre
 import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
 import { NumericComponent } from './components/numeric/numeric.component';
 import {  BasiccardComponent } from './components/basiccard/basiccard.component';
+import { PieChartComponent } from './components/piechart/piechart.component';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
 
@@ -140,7 +141,8 @@ FullCalendarModule.registerPlugins([
     EgresosProgramadosComponent,
     ConfigEgresosComponent,
     NumericComponent,
-    BasiccardComponent
+    BasiccardComponent,
+    PieChartComponent
   ],
 
   imports: [
