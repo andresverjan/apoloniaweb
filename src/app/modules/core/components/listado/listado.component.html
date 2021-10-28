@@ -11,11 +11,13 @@
                             {{icono}}</mat-icon>
                     </mat-label-content>
                 </mat-grid-tile>
-                <mat-grid-tile>
+                
+                <mat-grid-tile  *ngFor="let columna of columnas">
                     <mat-label-content fxLayoutAlign="end center" style="padding-left: 5px;">
+                        <mat-icon matPrefix style="font-size: 80px;padding: 2px;height: 80px;width: 80px;" flex="30">
+                            {{columna}}</mat-icon>
                     </mat-label-content>
-                </mat-grid-tile>
-
+                </mat-grid-tile>                
             </div>
 
         </mat-grid-list>
