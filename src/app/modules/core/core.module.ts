@@ -77,6 +77,8 @@ import { EgresosComponent } from "../egresos/egresos.component";
 import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egresos-programados.component";
 import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
 import { NumericComponent } from './components/numeric/numeric.component';
+import {ListadoComponent} from './components/listado/listado.component';
+//import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
 import {  BasiccardComponent } from './components/basiccard/basiccard.component';
 
 FullCalendarModule.registerPlugins([
@@ -138,6 +140,7 @@ FullCalendarModule.registerPlugins([
     EgresosProgramadosComponent,
     ConfigEgresosComponent,
     NumericComponent,
+    ListadoComponent,
     BasiccardComponent
   ],
 

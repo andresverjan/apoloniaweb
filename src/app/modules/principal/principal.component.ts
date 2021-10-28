@@ -18,6 +18,56 @@ export class PrincipalComponent implements OnInit {
   public totalCitasCanceladas: number = 0;
   public totalPacientesClinica: number = 0;
 
+
+  titulos = ['Nombre', 'Apellido', 'HoraCita'];
+  titulos2 = ['Nombre', 'Apellido', 'SEXO', 'EDAD'];
+
+  lista2 = [
+    {
+      Nombre: "marcela",
+      Apellido: "quiroga",
+      SEXO: "F",
+      EDAD: 10
+    },
+    {
+      Nombre: "PEDRO",
+      Apellido: "quiroga",
+      SEXO: "M",
+      EDAD: 10
+    },
+
+  ];
+
+
+  lista = [
+    {
+      nombre: "marcela",
+      apellido: "quiroga",
+      hcita: "3:30 pm",
+    },
+    {
+      nombre: "sara",
+      apellido: "gallego",
+      hcita: "3:30 pm",
+    },
+    {
+      nombre: "juliana",
+      apellido: "hernandez",
+      hcita: "3:30 pm",
+    },
+    {
+      nombre: "paola",
+      apellido: "pabon",
+      hcita: "3:30 pm"
+    },
+    {
+      nombre: "johanna",
+      apellido: "pabon",
+      hcita: "3:70 pm",
+    },
+  ];
+
+
   constructor(public esterilizacionesService: EsterilizacionesService, public toolsService: ToolsService) {
 
     this.citasAtendidas();

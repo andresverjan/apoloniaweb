@@ -27,7 +27,6 @@ export class ProfileComponent implements OnInit {
   valorSeleccionado: string = "";
   idiomSelect: number;
   valuePassword: string = "";
-
   public picurl: string = "";
 
   public clear() {
