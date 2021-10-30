@@ -1,11 +1,10 @@
-<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px; margin-bottom: 2px">
   <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="22"
     (click)="onClickAdicionar()" color="primary" *ngIf="showListado">
     <mat-icon>add_circle_outline</mat-icon>
     Adición
   </button>
 </mat-card-actions>
-
 <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar>
 
 <div class="container" *ngIf="showListado" style="overflow: hidden">
@@ -46,8 +45,9 @@
           <mat-card (click)="verDetalle(egreso)" class="dashboard-card">
             <mat-card-content class="dashboard-card-content">
               <mat-icon>attach_money</mat-icon>
+              {{egreso.nombre}}
               <h5 class="cssRow">
-                <small>Prov:</small>
+                <small>Prov:</small>                                
                 {{ egreso.T17Proveedor }}
               </h5>
               <div>
@@ -69,9 +69,7 @@
   <mat-card-content class="window-dashboard-card-content contentprincipal">
     <mat-toolbar style="display: flex; flex-direction: row" color="primary">
       <mat-icon matPrefix>account_balance</mat-icon>
-
       <label style="margin-bottom: 0"> Configuración de Egresos </label>
-
       <span class="example-spacer"></span>
       <button (click)="eliminar()" *ngIf="showBtnEliminar" style="align-self: center; justify-self: center"
         mat-icon-button color="secondary">
@@ -91,6 +89,12 @@
           <form [formGroup]="egresoForm" autocomplete="off" novalidate>
             <mat-card class="cardcontent">
               <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                <div fxLayout="row" fxFlex fxLayoutAlign="center center">
+                  <mat-form-field fxFlex="60">
+                    <mat-icon matPrefix>note</mat-icon>
+                    <input matInput formControlName="nombre" id="nombre" placeholder="Nombre Personalizado" />
+                  </mat-form-field> 
+                </div>
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>note</mat-icon>
@@ -136,7 +140,7 @@
                   </div>
 
                   <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
+                    <mat-icon matPrefix>attach_money</mat-icon>
                     <input matInput formControlName="T17Valor" matTooltip="Presione enter para guardar el valor"
                       matTooltipPosition="right" (change)="calculateTotal()" id="T17Valor" placeholder="Valor" />
                   </mat-form-field>
@@ -158,7 +162,7 @@
                       matTooltipPosition="right" id="T17Dctos" (change)="calculateTotal()" placeholder="% Descuento" />
                   </mat-form-field>
                 </div>
-                
+
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between flex-start"
                   style="margin-left: 30px; margin-bottom: 10px">
                   <mat-checkbox (change)="onChangeTieneImpuestos($event.checked)" [checked]="tieneImpuestos"
@@ -186,19 +190,19 @@
                       <input matInput formControlName="T17RF" id="T17RF" placeholder="RF" readonly [disabled]="true" />
                     </mat-form-field>
                   </div>
-                </mat-card>              
+                </mat-card>
 
 
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input matInput formControlName="T17Observacion" id="T17Observacion" placeholder="Observaciones" />
-                  </mat-form-field>                
+                  </mat-form-field>
                 </div>
 
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
+                    <mat-icon matPrefix>attach_money</mat-icon>
                     <input matInput formControlName="T17Total" id="T17Total" placeholder="Total" readonly />
                   </mat-form-field>
                 </div>

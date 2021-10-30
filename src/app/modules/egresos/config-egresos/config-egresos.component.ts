@@ -89,6 +89,7 @@ export class ConfigEgresosComponent implements OnInit {
     public genericService: GenericService
   ) {
     this.egresoForm = new FormGroup({
+      nombre: new FormControl("", [Validators.required]),
       T17Factura: new FormControl("", [Validators.required]),
       T17Proveedor: new FormControl("", [Validators.required]),
       T17Soporte: new FormControl("", [Validators.required]),

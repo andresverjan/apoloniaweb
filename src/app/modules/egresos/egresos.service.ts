@@ -57,6 +57,7 @@ export class EgresosService {
       query: `{
         egresosProgramados ${params}{
           egresosProgramados {
+            nombre
             T17Factura
             T17RF
             T17Fecha
@@ -156,7 +157,7 @@ export class EgresosService {
     let body = {
       query: `
       mutation {
-        createEgresos (egreso: {
+        createEgresos (egreso: {          
           T17Factura: "${egreso.T17Factura}",
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
@@ -182,6 +183,7 @@ export class EgresosService {
       query: `
       mutation {
         createEgresosProgramados (egresoProgramado: {
+          nombre: "${egreso.nombre}",
           T17Factura: "${egreso.T17Factura}",
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
@@ -208,6 +210,7 @@ export class EgresosService {
       query: `
       mutation {
         updateEgresosProgramados (egresoProgramado: {
+          nombre: "${egreso.nombre}",
           T17Factura: "${egreso.T17Factura}",
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
