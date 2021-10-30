@@ -105,6 +105,7 @@
 
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
+                    <mat-label style="padding: 10px;">Proveedor</mat-label>
                     <app-buscadormodal [filters]="['Nombre', 'Nit']" (selected)="onPorveedorSelected($event)"
                       [columnas]="{
                         Nombre: 'Nombre Proveedor',
@@ -114,15 +115,19 @@
                         egresoForm.controls['T17Proveedor'].value
                       " fxFlex="60" [readonly]="false"></app-buscadormodal>
                   </div>
-                  <mat-form-field fxFlex="100">
-                    <mat-label>Fecha del documento</mat-label>
-                    <input matInput [matDatepicker]="pickerFechaDocumento"
-                      (dateChange)="onDateChangeFechaDocumento($event)" [value]="egresoForm.controls['T17Fecha'].value"
-                      readonly />
-                    <mat-datepicker-toggle matSuffix [for]="pickerFechaDocumento"></mat-datepicker-toggle>
-                    <mat-datepicker #pickerFechaDocumento></mat-datepicker>
-                  </mat-form-field>
+
+                  <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
+                    <mat-label style="padding: 10px;">Tipo de Egreso</mat-label>
+                    <app-buscadormodal [filters]="['T17Nombre']" (selected)="onTipoEgresoSelected($event)" [columnas]="{
+                        id: 'Id',
+                        T17Nombre: 'Nombre'
+                      }" [resultInputText]="['T17Nombre']" [isGenericService]="true"
+                      [objForGenericService]="objForGenericService" tituloBusqueda="Tipo de Egreso" [defaultObjValue]="
+                        egresoForm.controls['T17Clasificacion'].value
+                      " fxFlex="60" [readonly]="false"></app-buscadormodal>
+                  </div>
                 </div>
+
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
                     <app-select label="Forma de Pago" [data]="formasPagos" icono="attach_money" fxFlex
@@ -136,21 +141,24 @@
                       matTooltipPosition="right" (change)="calculateTotal()" id="T17Valor" placeholder="Valor" />
                   </mat-form-field>
                 </div>
+
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <input matInput formControlName="T17Observacion" id="T17Observacion" placeholder="Observaciones" />
+                    <mat-label>Fecha del documento</mat-label>
+                    <input matInput [matDatepicker]="pickerFechaDocumento"
+                      (dateChange)="onDateChangeFechaDocumento($event)" [value]="egresoForm.controls['T17Fecha'].value"
+                      readonly />
+                    <mat-datepicker-toggle matSuffix [for]="pickerFechaDocumento"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerFechaDocumento></mat-datepicker>
                   </mat-form-field>
-                  <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
-                    <app-buscadormodal [filters]="['T17Nombre']" (selected)="onTipoEgresoSelected($event)" [columnas]="{
-                        id: 'Id',
-                        T17Nombre: 'Nombre'
-                      }" [resultInputText]="['T17Nombre']" [isGenericService]="true"
-                      [objForGenericService]="objForGenericService" tituloBusqueda="Tipo de Egreso" [defaultObjValue]="
-                        egresoForm.controls['T17Clasificacion'].value
-                      " fxFlex="60" [readonly]="false"></app-buscadormodal>
-                  </div>
+
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input matInput formControlName="T17Dctos" matTooltip="Presione enter para guardar el valor"
+                      matTooltipPosition="right" id="T17Dctos" (change)="calculateTotal()" placeholder="% Descuento" />
+                  </mat-form-field>
                 </div>
+                
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between flex-start"
                   style="margin-left: 30px; margin-bottom: 10px">
                   <mat-checkbox (change)="onChangeTieneImpuestos($event.checked)" [checked]="tieneImpuestos"
@@ -178,18 +186,23 @@
                       <input matInput formControlName="T17RF" id="T17RF" placeholder="RF" readonly [disabled]="true" />
                     </mat-form-field>
                   </div>
-                </mat-card>
+                </mat-card>              
+
+
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                  <mat-form-field fxFlex>
+                    <mat-icon matPrefix>edit</mat-icon>
+                    <input matInput formControlName="T17Observacion" id="T17Observacion" placeholder="Observaciones" />
+                  </mat-form-field>                
+                </div>
+
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
                     <mat-icon matPrefix>edit</mat-icon>
                     <input matInput formControlName="T17Total" id="T17Total" placeholder="Total" readonly />
                   </mat-form-field>
-                  <mat-form-field fxFlex>
-                    <mat-icon matPrefix>edit</mat-icon>
-                    <input matInput formControlName="T17Dctos" matTooltip="Presione enter para guardar el valor"
-                      matTooltipPosition="right" id="T17Dctos" (change)="calculateTotal()" placeholder="% Descuento" />
-                  </mat-form-field>
                 </div>
+
               </mat-card-content>
             </mat-card>
           </form>
