@@ -38,3 +38,25 @@
     </mat-card-content>
 
 </div>
+        <app-basiccard bgColor="blue" fontColor="white" label="Total Egresos del Dia" valor="{{totalPacientesClinica}}"
+        icono="toc" fxFlex=30>
+    </app-basiccard>
+    </mat-card>
+
+
+    <mat-card fxLayout="row" fxLayoutAlign="space-around" style="background-color:transparent; padding:5px;">
+        <app-listado
+            style="margin-top: 5px; margin-right: 10px; padding: 0px 16px; padding-right: 20px; padding-left: 20px"
+            bgColor="white" headerColor="#512774" fontHeaderColor="white" fontColor="black" icono="person"
+            size="roboto font-size:14;" label="label" [data]="lista" [columnas]="titulos" fxFlex="40">
+        </app-listado>
+
+        <app-listado
+            style="margin-top: 5px; margin-bottom: 20px; padding: 16px; padding-right: 20px; padding-left: 20px"
+            bgColor="white" headerColor="#d90c0cde" fontHeaderColor="white" fontColor="black"
+            size="bold font-size:15;" label="label2" [columnas]="titulos2" [data]="lista2" fxFlex="40">
+        </app-listado>
+
+    </mat-card>
+
+

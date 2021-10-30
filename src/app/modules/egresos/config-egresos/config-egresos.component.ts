@@ -67,7 +67,7 @@ export class ConfigEgresosComponent implements OnInit {
   public formasPagos = [];
   public proveedores: any = [];
   public parametrosContaConfig;
-  public parametrosContaConfigEmpresa;
+  public parametrosContaConfigEmpresa: Array<any>;
   public tieneImpuestos: boolean = true;
   public objForGenericService: any = {
     applicationId: 41,
@@ -348,10 +348,16 @@ export class ConfigEgresosComponent implements OnInit {
         )[0];
         this.egresoForm.controls["T17Proveedor"].setValue(proveedor.Nit);
         this.egresoForm.controls["T17Factura"].setValue(
-          `PAGADO ${this.parametrosContaConfigEmpresa[0].Valor}${this.parametrosContaConfigEmpresa[1].Valor} `
+          `${this.egresoForm.controls["T17Factura"].value} PAGADO ${this.parametrosContaConfigEmpresa[0].Valor}${this.parametrosContaConfigEmpresa[1].Valor} `
         );
-        const egreso = this.egresoForm.value;
+        const tipoEgreso = this.tiposEgresos.filter(
+          (te) =>
+            te.id ===
+            parseInt(this.egresoForm.controls["T17Clasificacion"].value.id)
+        )[0];
+        this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso?.id);
 
+        const egreso = this.egresoForm.value;
         this._egresosService.createEgresos(egreso).subscribe(() => {
           this.IsWaiting = false;
           Swal.fire("Pagado", "Egreso pagado exitosamente", "success");
@@ -362,10 +368,12 @@ export class ConfigEgresosComponent implements OnInit {
           this.findBy();
           this.tieneImpuestos = true;
         });
+
+        const configParam = this.parametrosContaConfigEmpresa.filter(
+          (cp) => cp.id === 10
+        )[0];
         this.configParametrosService
-          .incrementCountConfigParamOnPayment(
-            this.parametrosContaConfigEmpresa[0]
-          )
+          .incrementCountConfigParamOnPayment(configParam)
           .subscribe(() => {
             this.fetchParamsByGroupContaConfigEmpresa();
           });
