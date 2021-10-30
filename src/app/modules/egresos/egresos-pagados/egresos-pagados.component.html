@@ -35,16 +35,26 @@
         <mat-grid-tile *ngFor="let egreso of egresos" style="overflow-x: hidden">
           <mat-card class="dashboard-card" style="cursor: default">
             <mat-card-content class="dashboard-card-content">
-              <mat-icon>attach_money</mat-icon>
+              <div class="cssRow">
+                <span class="cssRow">
+                  Nombre: {{egreso.nombre}}
+                </span>
+              </div>
+              <br/>
+              <div class="cssRow">
+                <span class="cssRow">
+                  Fecha: {{egreso.T17Fecha | date :'mediumDate'}}
+                </span>
+              </div>
+              <div class="cssRow">
+                <span class="cssRow">
+                  Factura: {{egreso.T17Factura}}
+                </span>
+              </div>
+
               <h5 class="cssRow">
-                <small>Factura:</small>
-                {{ egreso.T17Factura }}
               </h5>
-              <h5 class="cssRow">
-                <small>Prov:</small>
-                {{ egreso.T17Proveedor }}
-              </h5>
-              <div>
+              <div class="cssRow">
                 Total:
                 <strong>
                   {{ formatCurrency(egreso.T17Total) }}

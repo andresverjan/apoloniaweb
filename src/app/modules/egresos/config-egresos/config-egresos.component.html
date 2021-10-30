@@ -44,13 +44,26 @@
         <mat-grid-tile *ngFor="let egreso of egresos" style="overflow-x: hidden">
           <mat-card (click)="verDetalle(egreso)" class="dashboard-card">
             <mat-card-content class="dashboard-card-content">
-              <mat-icon>attach_money</mat-icon>
-              {{egreso.nombre}}
+              <div class="cssRow">
+                <span class="cssRow">
+                  Nombre: {{egreso.nombre}}
+                </span>
+              </div>
+              <br/>
+              <div class="cssRow">
+                <span class="cssRow">
+                  Fecha: {{egreso.T17Fecha | date :'mediumDate'}}
+                </span>
+              </div>
+              <div class="cssRow">
+                <span class="cssRow">
+                  Factura: {{egreso.T17Factura}}
+                </span>
+              </div>
+
               <h5 class="cssRow">
-                <small>Prov:</small>                                
-                {{ egreso.T17Proveedor }}
               </h5>
-              <div>
+              <div class="cssRow">
                 Total:
                 <strong>
                   {{ formatCurrency(egreso.T17Total) }}
@@ -93,7 +106,7 @@
                   <mat-form-field fxFlex="60">
                     <mat-icon matPrefix>note</mat-icon>
                     <input matInput formControlName="nombre" id="nombre" placeholder="Nombre Personalizado" />
-                  </mat-form-field> 
+                  </mat-form-field>
                 </div>
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                   <mat-form-field fxFlex>
