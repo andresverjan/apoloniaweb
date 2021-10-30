@@ -1,15 +1,8 @@
-<mat-card-actions
-  fxLayout="row"
-  fxLayoutAlign="end center"
-  style="margin-right: 10px"
->
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
 </mat-card-actions>
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar> -->
 <div class="container" style="overflow: hidden">
-  <mat-card-content
-    class="window-dashboard-card-content"
-    style="overflow-block: hidden"
-  >
+  <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
     <mat-card-content class="window-dashboard-card-content contentprincipal">
       <mat-toolbar color="primary">
         <mat-icon matPrefix>attach_money</mat-icon>
@@ -26,8 +19,8 @@
               <mat-tab label="Configuración de Egresos">
                 <app-config-egresos></app-config-egresos>
               </mat-tab>
-              <mat-tab label="Resumen de Egresos PAGADOS">
-                <app-egresos-programados></app-egresos-programados>
+              <mat-tab label="Pagos Realizados">
+                <app-egresos-pagados></app-egresos-pagados>
               </mat-tab>
             </mat-tab-group>
           </div>

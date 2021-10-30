@@ -429,12 +429,16 @@ export class ConfigEgresosComponent implements OnInit {
   onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     this.filter["T17FechaIni"] = dateValue;
-    this.findBy();
+    if (this.filter["T17FechaFin"] != '' && this.filter["T17FechaIni"] != '') {
+      this.findBy();
+    }
   }
   onDateChangeFinal(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     this.filter["T17FechaFin"] = dateValue;
-    this.findBy();
+    if (this.filter["T17FechaFin"] != '' && this.filter["T17FechaIni"] != '') {
+      this.findBy();
+    }
   }
   onDateChangeFechaDocumento(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
