@@ -133,6 +133,7 @@ export class EgresosService {
       query: `{
         egresos ${params}{
           egresos {
+            fechaPago
             T17Factura
             T17RF
             T17Fecha

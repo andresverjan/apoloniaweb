@@ -43,7 +43,7 @@
               <br/>
               <div class="cssRow">
                 <span class="cssRow">
-                  Fecha: {{egreso.T17Fecha | date :'mediumDate'}}
+                  Fecha Pago: {{egreso.fechaPago | date :'mediumDate'}}
                 </span>
               </div>
               <div class="cssRow">
@@ -54,7 +54,7 @@
 
               <h5 class="cssRow">
               </h5>
-              <div class="cssRow">
+              <div class="cssRow" style="margin-top: 25px;float: right;">
                 Total:
                 <strong>
                   {{ formatCurrency(egreso.T17Total) }}
