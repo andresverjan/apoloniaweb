@@ -82,7 +82,7 @@ export class PrincipalComponent implements OnInit {
   public totalPacientesClinica: number = 0;
 
 
-  titulos = ['Nombre', 'Apellido', 'HoraCita'];
+  titulos = ['Nombre', 'Apellido', 'HoraCita', 't'];
   titulos2 = ['Nombre', 'Apellido', 'SEXO', 'EDAD'];
 
   lista2 = [
@@ -107,26 +107,31 @@ export class PrincipalComponent implements OnInit {
       nombre: "marcela",
       apellido: "quiroga",
       hcita: "3:30 pm",
+      hhcita: "3:30 pm",
     },
     {
       nombre: "sara",
       apellido: "gallego",
       hcita: "3:30 pm",
+      hhcita: "3:30 pm",
     },
     {
       nombre: "juliana",
       apellido: "hernandez",
       hcita: "3:30 pm",
+      hhcita: "3:30 pm",
     },
     {
       nombre: "paola",
       apellido: "pabon",
-      hcita: "3:30 pm"
+      hcita: "3:30 pm",
+      hhcita: "3:30 pm",
     },
     {
       nombre: "johanna",
       apellido: "pabon",
       hcita: "3:70 pm",
+      hhcita: "3:30 pm",
     },
   ];
 
