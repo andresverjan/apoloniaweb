@@ -6,6 +6,7 @@
   "license": "ISC",
   "scripts": {
     "ng": "ng",
+    "serve": "ng serve -c=dev",
     "start": "ng serve -c=production -o",
     "start_dev": "ng serve -c=dev",
     "build": "ng build -c=production",
