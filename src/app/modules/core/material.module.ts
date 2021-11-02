@@ -36,6 +36,9 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, } from '@angular-material-components/datetime-picker';
+
+
 @NgModule({
   declarations: [
     //CourseDialogComponent
@@ -68,6 +71,8 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatTooltipModule,
     MatNativeDateModule,
     MatCheckboxModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule
     //componentes de rutas
   ],
 
@@ -98,9 +103,11 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatChipsModule,
     MatNativeDateModule,
     MatCheckboxModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [], //componente
 })
 export class MaterialModule {}

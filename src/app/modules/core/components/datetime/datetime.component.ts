@@ -24,7 +24,7 @@ import {
   APP_DATETIME_FORMATS,
 } from "src/app/modules/core/components/datepicker/format-datepicker";
 import * as _moment from "moment";
-import { ControlValueAccessor } from "@angular/forms";
+
 
 @Component({
   selector: "app-datetime",
@@ -40,21 +40,30 @@ import { ControlValueAccessor } from "@angular/forms";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatetimeComponent implements ControlValueAccessor {
+export class DatetimeComponent {
   private onChange = (value: any) => {};
 
   @Input() campo: any;
   @Input() form: any;
   @Input() dateValue: string = null;
-
   @Output() valor = new EventEmitter<string>();
 
+  public parms: any = {
+    disabled: false,
+    showSpinners: true,
+    showSeconds: false,
+    disableMinute: false,
+    touchUi: false,
+    hideTime: false,
+    enableMeridian: false,
+    stepHour: 1,
+    stepMinute: 1,
+    stepSecond: 1,
+    color: "Primary",
+  };
+
   constructor(private cdr: ChangeDetectorRef) {}
-
-  setDisabledState?(isDisabled: boolean): void {
-    throw new Error("Method not implemented.");
-  }
-
+ 
   ngOnInit(): void {}
 
   onDateChange(event: MatDatepickerInputEvent<Date>) {
@@ -71,13 +80,5 @@ export class DatetimeComponent implements ControlValueAccessor {
 
   registerOnChange(fn) {
     this.onChange = fn;
-  }
-
-  registerOnTouched() {}
-
-  insideYourValidations() {
-    setTimeout(() => {
-      this.cdr.detectChanges(); //call to update/detect your changes
-    }, 1500);
   }
 }

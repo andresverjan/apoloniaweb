@@ -11,7 +11,6 @@ import { MaterialModule } from "./modules/core/material.module";
 import { LayoutModule } from "@angular/cdk/layout";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule } from "angularx-social-login";
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 /*import {
 	IgxTimePickerModule,
 	IgxInputGroupModule,
@@ -19,6 +18,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
  } from "igniteui-angular";
 import { TimepickerDropdownComponent } from "./timepicker-dropdown/timepicker-dropdown.component";*/
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { NgxMatNativeDateModule,  } from "@angular-material-components/datetime-picker";
+import { MatNativeDateModule } from "@angular/material/core"; 
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +32,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
     LayoutModule,
     FlexLayoutModule,
     SocialLoginModule,
-    NgxMaterialTimepickerModule.setLocale('ar-AE')
+    MatNativeDateModule  ,
+    NgxMatNativeDateModule
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
