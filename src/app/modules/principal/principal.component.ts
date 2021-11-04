@@ -3,6 +3,9 @@ import { ToolsService } from '../core/services/tools.service';
 import { EsterilizacionesService } from '../esterilizaciones/esterilizaciones.service';
 import { ChartOptions, ChartOptionsPieDonut } from '../core/components/piechart/piechart.type';
 
+import { PacienteService } from '../core/services/paciente.service';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
@@ -10,6 +13,7 @@ import { ChartOptions, ChartOptionsPieDonut } from '../core/components/piechart/
 })
 export class PrincipalComponent implements OnInit {
 
+  public happyBirthdayList: [];
   public chartOptions: Partial<ChartOptions> = {
     chart: {
       height: 250,
@@ -84,6 +88,8 @@ export class PrincipalComponent implements OnInit {
 
   titulos = ['Nombre', 'Apellido', 'HoraCita', 't'];
   titulos2 = ['Nombre', 'Apellido', 'SEXO', 'EDAD'];
+  titulosCumple = ['Nombres', 'Apellidos', 'Fecha'];
+  
 
   lista2 = [
     {
@@ -136,13 +142,15 @@ export class PrincipalComponent implements OnInit {
   ];
 
 
-  constructor(public esterilizacionesService: EsterilizacionesService, public toolsService: ToolsService) {
+  constructor(public esterilizacionesService: EsterilizacionesService, public toolsService: ToolsService,
+    public pacienteService: PacienteService) {
+
     this.citasAtendidas();
     this.citasDelDia();
     this.citasCanceladas();
     this.totalPacientes();
     this.pacientesBySex();
-
+    this.fetchPacientesCumpleaños();
     
   }
 
@@ -187,6 +195,21 @@ export class PrincipalComponent implements OnInit {
 
   }
 
+  fetchPacientesCumpleaños() { 
+    this.pacienteService.getHappyBirthdayList().subscribe((res) => {
+      const list  = res.data.getHappyBirthdayList;
+      this.happyBirthdayList = list.map((res) => {
+        if (res.FechaNacimiento){
+          res.FechaNacimiento = moment(new Date(res.FechaNacimiento)).format("YYYY-MM-DD");
+        }
+        return res;
+      })
+      console.log(this.happyBirthdayList);
+    });
+
+  }
+
+
   citasDelDia() {
     this.totalCitasDelDia = 13;
   }
@@ -197,7 +220,11 @@ export class PrincipalComponent implements OnInit {
     this.totalCitasCanceladas = 2
   }
   totalPacientes() {
-    this.totalPacientesClinica = 205;
+    this.pacienteService.getNumPacientes().subscribe((res) => {
+      const list  = res.data.getNumPacientes;
+      this.totalPacientesClinica = list.count;
+    });
+
   }
 
 
