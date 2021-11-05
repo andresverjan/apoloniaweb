@@ -47,6 +47,7 @@
     "date-fns": "^2.22.1",
     "hammerjs": "^2.0.8",
     "igniteui-angular": "^12.0.8",
+    "jspdf": "^2.4.0",
     "mat-timepicker": "^5.1.4",
     "mdbootstrap": "^4.19.2",
     "moment": "^2.29.1",
