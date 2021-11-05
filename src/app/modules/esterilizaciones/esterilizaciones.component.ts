@@ -1,4 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Input, OnInit, Output, TemplateRef
+        } from '@angular/core';
+import { DataSource } from '@angular/cdk/collections';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { MatDialog } from "@angular/material/dialog";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EsterilizacionesService } from './esterilizaciones.service';
@@ -6,6 +10,15 @@ import { GenericService } from '../generic/generic.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { PageEvent } from "@angular/material/paginator";
 import * as moment from 'moment';
+
+export interface Devices {
+  position: number;
+  name: string;
+  packing: number;
+  amount: number;
+}
+
+
 
 @Component({
   selector: 'app-esterilizaciones',
@@ -17,7 +30,10 @@ export class EsterilizacionesComponent implements OnInit {
 
   @Input() dateValue: string = null;
   @Input() dateValus: string = null;
+  @Input() idSterlz: number;
+  @Input() listadoAdd: Array<Multilist> = [];
   @Output() valor = new EventEmitter<string>();
+  @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
   public esterilForm: FormGroup;
   public mascaras = [];
@@ -41,7 +57,11 @@ export class EsterilizacionesComponent implements OnInit {
   public tiposEsterilizacion: any = [];
   public sedes: any = [];
   public dispMedics: any = [];
+  public disp_Avails: Array<Multilist> = [];
   public tipEmpac: any = [];
+//  displayColumns = ['Dispositivo', 'Cantidad', 'Tipo Empaque'];
+  displayedColumns: string[] = ['posicion', 'Dispositivo', 'Cantidad', 'Tipo Empaque'];
+  dataSource = new DeviceDataSource();
 
   public totalRegistros = 0;
   public pageSize = 10;
@@ -60,39 +80,9 @@ export class EsterilizacionesComponent implements OnInit {
       {'value' : '0', 'nombre': 'NO'}
     ];
 
-    /*mockedItems: SelItem[] = [
-      {'value' : 'id1', 'nombre': 'KANVAS'},
-      {'value' : 'id2', 'nombre': 'BYRENA'},
-      {'value' : 'id3', 'nombre': 'Opion 3'},
-      {'value' : 'id4', 'nombre': 'TESALIA'},
-      {'value' : 'id5', 'nombre': 'Opion 5'},
-      {'value' : 'id6', 'nombre': 'ORION'},
-      {'value' : 'id7', 'nombre': 'PRAGA'}
-    ];
-
-    sedes: SelItem[] = [
-      {'value' : 'id1', 'nombre': 'PUNE'},
-      {'value' : 'id2', 'nombre': 'IBIZA'},
-      {'value' : 'id3', 'nombre': 'BARANQUILLA'},
-      {'value' : 'id4', 'nombre': 'DENVER'},
-      {'value' : 'id5', 'nombre': 'BERNA'},
-      {'value' : 'id6', 'nombre': 'OKINAWA'},
-      {'value' : 'id7', 'nombre': 'BRUJAS'}
-    ];
-
-  disp: SelItem[] = [
-    {'value' : '0', 'nombre': 'No Disponible'},
-    {'value' : '1', 'nombre': 'Disponible'}
-  ];*/
-
-//  public acts: SelItem[] = this.mockedItems;
-
-  constructor(
+  constructor( public dialog: MatDialog,
     private genericService: GenericService,
-    private esterilizacionesService: EsterilizacionesService)
-    {
-
-    }
+    private esterilizacionesService: EsterilizacionesService) {}
 
   onDisponibleSelected (lSelected: any) {
     this.filter.disponible = lSelected.value;
@@ -130,13 +120,13 @@ export class EsterilizacionesComponent implements OnInit {
           motivo:   this.esterilForm.controls["motivo"].value,
           tipo:     this.esterilForm.controls["tipo"].value,
           esporas:  this.esterilForm.controls["esporas"].value,
-          dispMed:  this.esterilForm.controls["dispMed"].value,
-          tipEmp:   this.esterilForm.controls["tipEmp"].value,
           timeMin:  this.esterilForm.controls["timeMin"].value,
           temper:   this.esterilForm.controls["temper"].value,
           presion:  this.esterilForm.controls["presion"].value,
+          observ:   this.esterilForm.controls["observ"].value/*
           cant:     this.esterilForm.controls["cant"].value,
-          observ:   this.esterilForm.controls["observ"].value
+          dispMed:  this.esterilForm.controls["dispMed"].value,
+          tipEmp:   this.esterilForm.controls["tipEmp"].value,*/
         }
       };
       this.esterilizacionesService.saveSterilizations(obj).subscribe((res) => res);
@@ -157,7 +147,7 @@ export class EsterilizacionesComponent implements OnInit {
     }
   }
 
-  actualizar(esterilizacion: any) {
+  async actualizar(esterilizacion: any) {
     this.showListado = false;
     this.showContent = false;
     this.showForm = true;
@@ -178,6 +168,9 @@ export class EsterilizacionesComponent implements OnInit {
     this.esterilForm.controls["presion"].setValue(esterilizacion.presion);
     this.esterilForm.controls["cant"].setValue(esterilizacion.cantidad);
     this.esterilForm.controls["observ"].setValue(esterilizacion.observ);
+
+    await this.fetchMedicalDisp(esterilizacion.id);
+    await this.fetchMedicalDispByEsterilizacion(esterilizacion.id);
   }
 
   actionActualizar() {
@@ -213,11 +206,16 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.idSterlz = 0;
     this.fechMotivosEsterilizacion();
     this.fechTiposEsterilizacion();
     this.getSedes();
     this.getDispMedics();
     this.getEmpacTip();
+
+    this.fetchMedicalDisp(this.idSterlz);
+    this.fetchMedicalDispByEsterilizacion(this.idSterlz);
+
     this.esterilForm = new FormGroup({
       T27Fecha: new FormControl("", [
         Validators.maxLength(50),
@@ -447,12 +445,85 @@ export class EsterilizacionesComponent implements OnInit {
     this.valor.emit(this.dateValus);
     this.filter.fechend = this.dateValus;
   }
+
   setAttribute(selected: any) {
     this.filter.disponible = selected;
   }
+
+  async openModal() {
+    this.openDialogWithTemplateRef(this.myDialog);
+  }
+
+  closeDialog() {
+    const ELEMENT_DATA: Devices[] = this.listadoAdd.map((val)=> {
+      return { position: val.id,
+               name: val.nombre,
+               packing: 1,
+               amount: 0}
+    });
+
+
+
+    this.dialogRef.close();
+  }
+
+  addDev() {
+    this.dialogRef.close();
+  }
+
+  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
+
+    this.dialogRef = this.dialog.open(templateRef, {
+      height:"536px",
+      width:"572px",
+      disableClose: true,
+    });
+    this.dialogRef.afterClosed().subscribe((a) => {});
+  }
+
+  async fetchMedicalDispByEsterilizacion(obj: any) {
+    this.IsWaiting = true;
+    this.esterilizacionesService.getAssignedDevices(obj).subscribe((res) => {
+      this.listadoAdd = res.data.devicesByEsterilizationId;
+      this.IsWaiting = false;
+      this.showBtnActualizar = true;
+    });
+  }
+
+  fetchMedicalDisp = (obj?: any) => {
+    this.IsWaiting = true;
+    this.esterilizacionesService.getDispAvails(obj).subscribe((res) => {
+      this.disp_Avails = res.data.dispositivos;
+      console.log("LISTADO ESTERILIZA disponible", this.disp_Avails);
+      this.IsWaiting = false;
+    });
+  };
+
+  multiListChange(data){
+    this.listadoAdd = data;
+  }
+}
+
+const ELEMENT_DATA: Devices[] = [];
+
+export class DeviceDataSource extends DataSource<Devices> {
+  /** Stream of data that is provided to the table. */
+  data = new BehaviorSubject<Devices[]>(ELEMENT_DATA);
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<Devices[]> {
+    return this.data;
+  }
+
+  disconnect() {}
 }
 
 interface SelItem {
   value: string;
+  nombre: string;
+}
+
+interface Multilist {
+  id: number;
   nombre: string;
 }

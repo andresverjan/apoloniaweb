@@ -54,13 +54,10 @@ export class EsterilizacionesService {
                 motivo
                 tipo
                 esporas
-                dispMed
-                tipEmp
                 timeMin
                 temper
                 presion
                 observ
-                cantidad
           }
 
         }
@@ -127,5 +124,21 @@ export class EsterilizacionesService {
     return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 
+  getDispAvails(objeTosend: any): Observable<any> {
+    let body = {
+      query: `{ dispositivos(esterilizacionId: ${objeTosend}) { id nombre } }`
+    }
 
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(environment.apiUrl, body, { headers: headers })
+  }
+
+  getAssignedDevices(objeTosend: any): Observable<any> {
+    let body = {
+      query: `{ devicesByEsterilizationId(id: ${objeTosend}) { id nombre } }`
+    }
+
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(environment.apiUrl, body, { headers: headers })
+  }
 }

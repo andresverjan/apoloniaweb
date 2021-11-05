@@ -157,7 +157,14 @@
 
           <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
             <mat-grid-list cols="3" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
-              <mat-grid-tile fxFlex=50>
+              <mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="22"
+                    (click)="openModal()" color="primary">
+                    <mat-icon>add_circle_outline</mat-icon>
+                    Disp. Médicos
+                </button>
+              </mat-card-actions>
+              <!--<mat-grid-tile fxFlex=50>
                 <app-select label="Dispositivo Médico" [data]=dispMedics icono="local_police"
                   (valSelected)="selectField($event, 'dispMed')" default="{{esterilForm.controls['dispMed'].value}}"
                   fxFlex="50">
@@ -177,7 +184,7 @@
                   <input #dpInput matInput type="number" min="0" id="cant" placeholder="Cantidad" formControlName="cant"
                     required />
                 </mat-form-field>
-              </mat-grid-tile>
+              </mat-grid-tile>-->
 
             </mat-grid-list>
 
@@ -192,7 +199,52 @@
                 </mat-form-field>
               </mat-grid-tile>
             </mat-grid-list>
+            <div class="container" style="overflow: hidden">
+              <mat-grid-list cols="5" rowHeight="230px">
+                  <mat-grid-tile *ngFor="let dev of listadoAdd" style="overflow-x: hidden">
+                      <mat-card class="dashboard-card">
+                          <mat-card-content class="dashboard-card-content">
+                              <mat-icon>web</mat-icon>
+                              <br />
+                              <div>{{ dev.id }}</div>
+                              <div>{{ dev.nombre }}</div>
+                          </mat-card-content>
+                      </mat-card>
+                  </mat-grid-tile>
+              </mat-grid-list>
+            </div>
+
+            <table cdk-table [dataSource]="dataSource">
+              <!-- Position Column -->
+              <ng-container cdkColumnDef="position">
+                <th cdk-header-cell *cdkHeaderCellDef> No. </th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.position}} </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container cdkColumnDef="name">
+                <th cdk-header-cell *cdkHeaderCellDef> Name </th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container cdkColumnDef="packing">
+                <th cdk-header-cell *cdkHeaderCellDef> Weight </th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.packing}} </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container cdkColumnDef="amount">
+                <th cdk-header-cell *cdkHeaderCellDef> Symbol </th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.amount}} </td>
+              </ng-container>
+
+              <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+              <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
           </mat-card-content>
+
+
 
 
 
@@ -228,4 +280,46 @@
     </mat-card>
   </mat-card-content>
 
+</div>
+
+<!--el multilist de dispositivos médicos-->
+<div class="container" style="overflow: hidden">
+  <ng-template #myDialog style="overflow: hidden">
+      <mat-dialog-content style="margin-left: -63px; margin-right: -63px; margin-top: -24px;
+        margin-bottom: -38px; width: 650px; overflow: hidden;"
+      >
+          <div class="container" style="overflow: hidden">
+              <mat-card-content class="window-dashboard-card-content contentprincipal" style="margin-bottom: 0px">
+                  <mat-toolbar color="primary">
+                      <mat-icon matPrefix>account_balance</mat-icon>
+                      <label>Adicionar Dispositivos Médicos</label>
+                      <span class="example-spacer"></span>
+                      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+                          (click)="closeDialog()">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                  </mat-toolbar>
+                  <mat-card class="cardcontent">
+                      <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                          <app-multilist [sel1]="disp_Avails" [(sel2)]="listadoAdd"
+                            (onChange)="multiListChange($event)"  rowHeight="270px">
+                          </app-multilist>
+                      </mat-card-content>
+                      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                          <button mat-raised-button (click)="addDev()" color="primary" fxLayout="row"
+                              fxLayout.xs="column" fxLayoutAlign="center" fxFlex>
+                              <mat-icon>add_task</mat-icon>
+                              Crear
+                          </button>
+                          <button mat-raised-button color="warn" (click)="closeDialog()" fxLayout="row"
+                              fxLayout.xs="column" fxLayoutAlign="center" fxFlex>
+                              <mat-icon>cancel</mat-icon>
+                              Cancelar
+                          </button>
+                      </mat-card-actions>
+                  </mat-card>
+              </mat-card-content>
+          </div>
+      </mat-dialog-content>
+  </ng-template>
 </div>
