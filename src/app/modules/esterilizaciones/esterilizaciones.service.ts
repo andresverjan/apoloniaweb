@@ -12,8 +12,8 @@ import { HttpService } from '../core/services/HttpService';
 export class EsterilizacionesService {
 
   constructor(private http: HttpClient,
-              private toolService: ToolsService,
-              private httpService: HttpService) { }
+    private toolService: ToolsService,
+    private httpService: HttpService) { }
 
   getAll(objeTosend?: any): Observable<any> {
     let params = "";
@@ -27,17 +27,17 @@ export class EsterilizacionesService {
 
     if (objeTosend.filter) {
       if ((objeTosend.filter.fechini != undefined && objeTosend.filter.fechini != null &&
-            objeTosend.filter.fechend != undefined && objeTosend.filter.fechend != null)) {
-        if(objeTosend.filter.disponible) {
-          filter +=   `filter: {disponible: "${objeTosend.filter.disponible}",`;
+        objeTosend.filter.fechend != undefined && objeTosend.filter.fechend != null)) {
+        if (objeTosend.filter.disponible) {
+          filter += `filter: {disponible: "${objeTosend.filter.disponible}",`;
           filter += ` fechini: "${objeTosend.filter.fechini}", fechend: "${objeTosend.filter.fechend}"}`;
         }
-        else{
+        else {
           filter += `filter: { fechini: "${objeTosend.filter.fechini}", fechend: "${objeTosend.filter.fechend}"}`;
         }
       }
-      else if(objeTosend.filter.disponible) {
-        filter +=   `filter: { disponible: "${objeTosend.filter.disponible}"}`;
+      else if (objeTosend.filter.disponible) {
+        filter += `filter: { disponible: "${objeTosend.filter.disponible}"}`;
       }
     }
     console.log("FILTER-->>:", filter)
@@ -70,30 +70,46 @@ export class EsterilizacionesService {
   }
 
   saveSterilizations(obj: any): Observable<any> {
-    const { steril } = obj;
+    const { sterilization, devices } = obj;
+    console.log(obj);
+
+
+
+
     let body = {
       query: `mutation{
-        saveSterilizations(esteriliz: {
-          T27Fecha: "${steril.T27Fecha}",
-          sede: ${steril.sede.replace(/'/g, '')},
-          motivo: ${steril.motivo.replace(/'/g, '')},
-          tipo: ${steril.tipo.replace(/'/g, '')},
-          esporas: "${steril.esporas.replace(/'/g, '')}",
-          dispMed: ${steril.dispMed.replace(/'/g, '')},
-          tipEmp: ${steril.tipEmp.replace(/'/g, '')},
-          timeMin: ${steril.timeMin},
-          temper: ${steril.temper},
-          presion: ${steril.presion},
-          observ: "${steril.observ}",
-          cantidad: ${steril.cant}
-        }){
+        saveSterilizations(          
+          esterilizacion :{
+            sterilization : {
+              T27Fecha: "${sterilization.T27Fecha}",
+              sede: ${sterilization.sede.replace(/'/g, '')},
+              motivo: ${sterilization.motivo.replace(/'/g, '')},
+              tipo: ${sterilization.tipo.replace(/'/g, '')},
+              esporas: "${sterilization.esporas.replace(/'/g, '')}",
+              timeMin: ${sterilization.timeMin},
+              temper: ${sterilization.temper},
+              presion: ${sterilization.presion},
+              observ: "${sterilization.observ}",
+            }
+        devices : [
+          ${devices.map((item) => {
+            return `{
+                id: ${item.id}
+                tipoEmpaque: ${item.tipoEmpaque}
+                cantidad: ${item.cantidad}
+                }`;
+          })}
+          ]
+        }
+        ){
             id
           }
         }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(environment.apiUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 
   updateEsteriliz(obj: any): Observable<any> {
