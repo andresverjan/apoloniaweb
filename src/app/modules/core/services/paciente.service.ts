@@ -72,8 +72,7 @@ export class PacienteService {
             }
           }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
   getPacienteById(objeTosend: any): Observable<any> {
     let filter = "";
@@ -100,7 +99,32 @@ export class PacienteService {
         }
       }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
+
+  getNumPacientes(): Observable<any> {
+    let body = {
+      query: `
+      {
+        getNumPacientes {
+          count
+        }
+      }`,
+    };
+    return this.httpService.callApi(body);
+  }
+  getHappyBirthdayList(): Observable<any> {
+    let body = {
+      query: `
+      {
+        getHappyBirthdayList {
+          Nombres
+          Apellidos
+          FechaNacimiento
+        }
+      }`,
+    };
+    return this.httpService.callApi(body);
+  }
+
 }

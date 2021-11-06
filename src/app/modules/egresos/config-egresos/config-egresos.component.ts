@@ -89,6 +89,7 @@ export class ConfigEgresosComponent implements OnInit {
     public genericService: GenericService
   ) {
     this.egresoForm = new FormGroup({
+      nombre: new FormControl("", [Validators.required]),
       T17Factura: new FormControl("", [Validators.required]),
       T17Proveedor: new FormControl("", [Validators.required]),
       T17Soporte: new FormControl("", [Validators.required]),
@@ -437,12 +438,16 @@ export class ConfigEgresosComponent implements OnInit {
   onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     this.filter["T17FechaIni"] = dateValue;
-    this.findBy();
+    if (this.filter["T17FechaFin"] != '' && this.filter["T17FechaIni"] != '') {
+      this.findBy();
+    }
   }
   onDateChangeFinal(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     this.filter["T17FechaFin"] = dateValue;
-    this.findBy();
+    if (this.filter["T17FechaFin"] != '' && this.filter["T17FechaIni"] != '') {
+      this.findBy();
+    }
   }
   onDateChangeFechaDocumento(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");

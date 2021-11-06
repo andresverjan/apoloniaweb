@@ -66,6 +66,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatInputModule } from "@angular/material/input";
 import { DatetimeComponent } from "./components/datetime/datetime.component";
+import { GDatetimeComponent } from "./components/Gdatetime/Gdatetime.component";
 import { SliderComponent } from "./components/slider/slider.component";
 import { MatSliderModule } from "@angular/material/slider";
 import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/recetario.component";
@@ -74,12 +75,15 @@ import { MultilistObservacionesComponent } from "./components/multilist-observac
 import { EventosAdversosComponent } from "../historiaClinica/Evoluciones/EventosAdversos/eventosAdversos.component";
 import { EsterilizacionesComponent } from '../esterilizaciones/esterilizaciones.component';
 import { EgresosComponent } from "../egresos/egresos.component";
-import { EgresosProgramadosComponent } from "../egresos/egresos-programados/egresos-programados.component";
+import { EgresosPagadosComponent } from "../egresos/egresos-pagados/egresos-pagados.component";
 import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
 import { NumericComponent } from './components/numeric/numeric.component';
 import {ListadoComponent} from './components/listado/listado.component';
 //import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
 import {  BasiccardComponent } from './components/basiccard/basiccard.component';
+import { PieChartComponent } from './components/piechart/piechart.component';
+
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -124,6 +128,7 @@ FullCalendarModule.registerPlugins([
     SchedulerComponent,
     DatepickerComponent,
     DatetimeComponent,
+    GDatetimeComponent,
     SliderComponent,
     HistoriaClinicaComponent,
     DatosPacienteComponent,
@@ -137,9 +142,11 @@ FullCalendarModule.registerPlugins([
     EventosAdversosComponent,
     EsterilizacionesComponent,
     EgresosComponent,
-    EgresosProgramadosComponent,
+    EgresosPagadosComponent,
     ConfigEgresosComponent,
     NumericComponent,
+    BasiccardComponent,
+    PieChartComponent,
     ListadoComponent,
     BasiccardComponent
   ],
@@ -149,8 +156,9 @@ FullCalendarModule.registerPlugins([
     HttpClientModule,
     routing,
     BrowserAnimationsModule,
-    FormsModule,
+    FormsModule,    
     ReactiveFormsModule,
+    NgApexchartsModule,
     MaterialModule,
     MatGridListModule,
     MatCardModule,
@@ -174,6 +182,7 @@ FullCalendarModule.registerPlugins([
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    NgApexchartsModule,
     MaterialModule,
     MyNavComponent,
   ],
