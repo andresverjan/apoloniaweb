@@ -90,11 +90,11 @@
                       </div>
 
                       <div *ngSwitchCase="3" fxFlex="100">
-                        <app-datetime
+                        <app-Gdatetime
                           [form]="genericForm"
                           [campo]="item"
                           (valor)="setDate($event, item)"
-                        ></app-datetime>
+                        ></app-Gdatetime>
                         <textarea
                           matInput
                           hidden

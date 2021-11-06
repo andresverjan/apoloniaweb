@@ -9,7 +9,7 @@
       (dateChange)="onDateChange($event)"
       [(value)]="dateValue"
       style="margin-left: -28px"
-    />
+      (click)="picker.open()"/>
 
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>

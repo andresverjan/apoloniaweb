@@ -66,6 +66,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatInputModule } from "@angular/material/input";
 import { DatetimeComponent } from "./components/datetime/datetime.component";
+import { GDatetimeComponent } from "./components/Gdatetime/Gdatetime.component";
 import { SliderComponent } from "./components/slider/slider.component";
 import { MatSliderModule } from "@angular/material/slider";
 import { RecetarioComponent } from "../historiaClinica/Evoluciones/Recetario/recetario.component";
@@ -127,6 +128,7 @@ FullCalendarModule.registerPlugins([
     SchedulerComponent,
     DatepickerComponent,
     DatetimeComponent,
+    GDatetimeComponent,
     SliderComponent,
     HistoriaClinicaComponent,
     DatosPacienteComponent,

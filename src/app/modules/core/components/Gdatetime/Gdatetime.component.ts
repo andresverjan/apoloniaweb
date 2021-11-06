@@ -18,14 +18,13 @@ import {
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import * as moment from "moment";
 import {
-  AppDateAdapter,
   APP_DATETIME_FORMATS,
 } from "src/app/modules/core/components/datepicker/format-datepicker";
 
 @Component({
-  selector: "app-datetime",
-  templateUrl: "./datetime.component.html",
-  styleUrls: ["./datetime.component.scss"],
+  selector: "app-Gdatetime",
+  templateUrl: "./Gdatetime.component.html",
+  styleUrls: ["./Gdatetime.component.scss"],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter },
     {
@@ -36,11 +35,12 @@ import {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatetimeComponent {
-  private onChange = (value: any) => { };
-  @Input() label: any;
+export class GDatetimeComponent {
+  private onChange = (value: any) => {};
+
+  @Input() campo: any;
+  @Input() form: any;
   @Input() dateValue: string = null;
-  @Input() requerido: boolean = false;
   @Output() valor = new EventEmitter<string>();
 
   public parms: any = {
@@ -57,9 +57,9 @@ export class DatetimeComponent {
     color: "Primary",
   };
 
-  constructor(private cdr: ChangeDetectorRef) { }
-
-  ngOnInit(): void { }
+  constructor(private cdr: ChangeDetectorRef) {}
+ 
+  ngOnInit(): void {}
 
   onDateChange(event: MatDatepickerInputEvent<Date>) {
     this.dateValue = moment(event.value).format();

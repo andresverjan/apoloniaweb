@@ -15,6 +15,7 @@ import * as moment from 'moment';
 })
 export class PrincipalComponent implements OnInit {
 
+  public dateValue; 
   public happyBirthdayList: [];
   public chartOptions: Partial<ChartOptions> = {
     chart: {
@@ -252,5 +253,8 @@ export class PrincipalComponent implements OnInit {
   }
 
 
+  setDate (newFecha) {
+    console.log(newFecha);
+  }
 
 }

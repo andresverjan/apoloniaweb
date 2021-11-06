@@ -2,10 +2,15 @@
 </mat-card-actions>
 
 <div class="container" style="overflow: hidden">
-<mat-card>
-    <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden; box-shadow: none;">
+
+    <app-datetime label="Datetime PRUEBA" required=false (valor)="setDate($event)"></app-datetime>
+
+
+    <mat-card>
+        <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden; box-shadow: none;">
             <h1 class="mat-h1">Bienvenido, {{USUARIO.USUARIO_NOMBRE}}</h1>
-            <mat-card fxLayout="row" fxLayoutAlign="space-around" style="background-color:transparent; padding:5px;box-shadow: none;">
+            <mat-card fxLayout="row" fxLayoutAlign="space-around"
+                style="background-color:transparent; padding:5px;box-shadow: none;">
                 <app-basiccard bgColor="purple" fontColor="white" label="Citas del Dia" valor="{{totalCitasDelDia}}"
                     icono="calendar_today" fxFlex=30 [onClickFunction]="runOnClick"></app-basiccard>
                 <app-basiccard bgColor="#090979" fontColor="white" label="Citas Atendidas"
@@ -23,7 +28,8 @@
                 </app-basiccard>
             </mat-card>
 
-            <mat-card fxLayout="row" fxLayoutAlign="space-around" style="background-color:transparent; padding:15px;box-shadow: none;">
+            <mat-card fxLayout="row" fxLayoutAlign="space-around"
+                style="background-color:transparent; padding:15px;box-shadow: none;">
                 <app-piechart label="Clientes por mes" fxFlex=50 [chartOptions]='chartOptions'
                     labels='chartOptions.labels'> </app-piechart>
                 <app-piechart label="Citas Options 1" fxFlex=50 [chartOptions]='chartOptions1'
@@ -32,26 +38,24 @@
                     labels='chartOptions2.labels'> </app-piechart>
             </mat-card>
 
-            <mat-card fxLayout="row" fxLayoutAlign="space-around" style="background-color:transparent; padding:5px;box-shadow: none;">
-                <app-listado
-                    bgColor="orange" headerColor="#512774" fontHeaderColor="white" fontColor="black" icono="person"
-                    size="roboto font-size:14;" label="Proximas Citas" [data]="lista" [columnas]="titulos" fxFlex="40">
+            <mat-card fxLayout="row" fxLayoutAlign="space-around"
+                style="background-color:transparent; padding:5px;box-shadow: none;">
+                <app-listado bgColor="orange" headerColor="#512774" fontHeaderColor="white" fontColor="black"
+                    icono="person" size="roboto font-size:14;" label="Proximas Citas" [data]="lista"
+                    [columnas]="titulos" fxFlex="40">
                 </app-listado>
-        
-                <app-listado
-                    bgColor="white" headerColor="red" fontHeaderColor="white" fontColor="black" icono="cake"
-                    size="bold font-size:15;" label="Listado Cumpleaños" [columnas]="titulosCumple" [data]="happyBirthdayList" fxFlex="40">
+
+                <app-listado bgColor="white" headerColor="red" fontHeaderColor="white" fontColor="black" icono="cake"
+                    size="bold font-size:15;" label="Listado Cumpleaños" [columnas]="titulosCumple"
+                    [data]="happyBirthdayList" fxFlex="40">
                 </app-listado>
 
             </mat-card>
-    </mat-card-content>
+        </mat-card-content>
 
 
-</mat-card>
+    </mat-card>
 
-    
+
 
 </div>
-        
-
-
