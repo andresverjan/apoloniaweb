@@ -254,3 +254,9 @@ mat-icon {
     max-width: 1420px;
 }
 }
+
+.ngx-mat-timepicker form .ngx-mat-timepicker-table .ngx-mat-timepicker-tbody tr td .mat-form-field {
+  width: 40px !important;
+  max-width: 50px !important;
+  text-align: center;
+} 

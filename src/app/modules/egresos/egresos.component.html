@@ -1,39 +1,27 @@
-<mat-card-actions
-  fxLayout="row"
-  fxLayoutAlign="end center"
-  style="margin-right: 10px"
->
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
 </mat-card-actions>
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="IsWaiting"></mat-progress-bar> -->
 <div class="container" style="overflow: hidden">
-  <mat-card-content
-    class="window-dashboard-card-content"
-    style="overflow-block: hidden"
-  >
+  <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
     <mat-card-content class="window-dashboard-card-content contentprincipal">
       <mat-toolbar color="primary">
         <mat-icon matPrefix>attach_money</mat-icon>
         <label>{{ etiquetaNombreModulo }}</label>
         <span class="example-spacer"></span>
       </mat-toolbar>
-      <mat-card-header>
-        <mat-card-title> </mat-card-title>
-      </mat-card-header>
-      <mat-card class="cardcontent">
+      <mat-card class="cardcontent" style="padding-top: 5px;">
         <mat-card-content fxLayout="column" fxLayoutAlign="center">
           <div>
             <mat-tab-group>
               <mat-tab label="Configuración de Egresos">
                 <app-config-egresos></app-config-egresos>
               </mat-tab>
-              <mat-tab label="Resumen de Egresos PAGADOS">
-                <app-egresos-programados></app-egresos-programados>
+              <mat-tab label="Pagos Realizados">
+                <app-egresos-pagados></app-egresos-pagados>
               </mat-tab>
             </mat-tab-group>
           </div>
         </mat-card-content>
-        <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-        </mat-card-actions>
       </mat-card>
     </mat-card-content>
   </mat-card-content>

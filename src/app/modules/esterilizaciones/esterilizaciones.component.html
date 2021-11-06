@@ -122,10 +122,12 @@
             <mat-grid-tile fxFlex>
               <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                 <mat-icon matPrefix>alarm</mat-icon>
-                <input #dpInput matInput placeholder="Date Time:" id="T27Fecha" formControlName="T27Fecha"
+                <!--<input #dpInput matInput placeholder="Date Time:" id="T27Fecha" formControlName="T27Fecha"
                   [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" (dateTimeChange)="onDateChange($event)"
                   [(value)]="dateValue" style="margin-left: 0px">
-                <owl-date-time [pickerType]="'timer'" [hour12Timer]=true #dt1></owl-date-time>
+                <owl-date-time [pickerType]="'timer'" [hour12Timer]=true #dt1></owl-date-time>-->
+                <app-datetime label="Date Time:" required=false (valor)="onDateChange($event)"></app-datetime>
+                <!--<owl-date-time #defaultValue></owl-date-time>-->
               </div>
             </mat-grid-tile>
             <mat-grid-tile fxFlex>

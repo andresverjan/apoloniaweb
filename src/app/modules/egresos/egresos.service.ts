@@ -3,6 +3,8 @@ import * as Globals from "../core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "../core/services/tools.service";
+import { HttpService } from "../core/services/HttpService";
+import * as moment from "moment";
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +12,7 @@ import { ToolsService } from "../core/services/tools.service";
 export class EgresosService {
   serverUrl: string;
 
-  constructor(private http: HttpClient, private toolService: ToolsService) {
+  constructor(private httpService: HttpService, private toolService: ToolsService) {
     this.serverUrl = Globals.SERVER;
   }
 
@@ -36,15 +38,15 @@ export class EgresosService {
         filtro +
         `filter: {
          ${Object.keys(egreso.filter).map((prop) => {
-           if (
-             typeof egreso.filter[prop] === "string" ||
-             egreso.filter[prop] instanceof String
-           ) {
-             return `${prop} : "${egreso.filter[prop]}"`;
-           } else {
-             return `${prop} : ${egreso.filter[prop]}`;
-           }
-         })}
+          if (
+            typeof egreso.filter[prop] === "string" ||
+            egreso.filter[prop] instanceof String
+          ) {
+            return `${prop} : "${egreso.filter[prop]}"`;
+          } else {
+            return `${prop} : ${egreso.filter[prop]}`;
+          }
+        })}
         },
         `;
     }
@@ -55,6 +57,7 @@ export class EgresosService {
       query: `{
         egresosProgramados ${params}{
           egresosProgramados {
+            nombre
             T17Factura
             T17RF
             T17Fecha
@@ -72,13 +75,18 @@ export class EgresosService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
   getAllEgresosPagados(egreso?: any): Observable<any> {
     let params = "";
     let ordenamiento = "";
-    let pagination = `
+    let defaultFechaI="";
+    let defaultFechaF="";
+
+    let startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+    let endOfMonth   = moment().endOf('month').format('YYYY-MM-DD');
+
+    let pagination = `    
     pagination: {
       pagina: ${egreso.pagina}
       limite: ${egreso.limite}
@@ -97,15 +105,24 @@ export class EgresosService {
         filtro +
         `filter: {
          ${Object.keys(egreso?.filter).map((prop) => {
-           if (
-             typeof egreso.filter[prop] === "string" ||
-             egreso.filter[prop] instanceof String
-           ) {
-             return `${prop} : "${egreso.filter[prop]}"`;
-           } else {
-             return `${prop} : ${egreso.filter[prop]}`;
-           }
-         })}
+          if (
+            typeof egreso.filter[prop] === "string" ||
+            egreso.filter[prop] instanceof String
+          ) {
+            return `${prop} : "${egreso.filter[prop]}"`;
+          } else {
+            return `${prop} : ${egreso.filter[prop]}`;
+          }
+        })}
+        },
+        `;
+    }else{
+      console.log("los datos de fechas son vacios... ");
+      filtro =
+        filtro +
+        `filter: {
+          T17FechaIni : "${startOfMonth}",
+          T17FechaFin : "${endOfMonth}"
         },
         `;
     }
@@ -116,6 +133,7 @@ export class EgresosService {
       query: `{
         egresos ${params}{
           egresos {
+            fechaPago
             T17Factura
             T17RF
             T17Fecha
@@ -133,15 +151,14 @@ export class EgresosService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   createEgresos(egreso): Observable<any> {
     let body = {
       query: `
       mutation {
-        createEgresos (egreso: {
+        createEgresos (egreso: {          
           T17Factura: "${egreso.T17Factura}",
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
@@ -159,8 +176,7 @@ export class EgresosService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   createEgresosProgramados(egreso): Observable<any> {
@@ -168,6 +184,7 @@ export class EgresosService {
       query: `
       mutation {
         createEgresosProgramados (egresoProgramado: {
+          nombre: "${egreso.nombre}",
           T17Factura: "${egreso.T17Factura}",
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
@@ -186,8 +203,7 @@ export class EgresosService {
       `,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   updateEgresosProgramados(egreso): Observable<any> {
@@ -195,6 +211,7 @@ export class EgresosService {
       query: `
       mutation {
         updateEgresosProgramados (egresoProgramado: {
+          nombre: "${egreso.nombre}",
           T17Factura: "${egreso.T17Factura}",
           T17Fecha: "${egreso.T17Fecha}",
           T17Valor: ${egreso.T17Valor},
@@ -212,8 +229,7 @@ export class EgresosService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   deleteEgresosProgramados(factura): Observable<any> {
@@ -224,7 +240,6 @@ export class EgresosService {
         }
         `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 }

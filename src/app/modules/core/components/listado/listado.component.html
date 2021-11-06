@@ -1,13 +1,14 @@
-<mat-card [style.background-color]="bgColor">
-    <mat-card-content fxLayout="row" fxLayoutAlign="center">
-        <mat-grid-list fxLayout="row" cols="{{columnas.length+1}}" fxLayoutrowHeight="60px"
+<mat-card [style.background-color]="bgColor" style="padding: 5px;border-radius: 20px;">
+    <mat-card-content fxLayout="column" fxLayoutAlign="center" [style.background-color]="headerColor"
+        [style.color]="fontHeaderColor" style="border-radius: 20px;height: 150px;">
+        <div style="font-size: 1.2em;text-align: center;padding-top: 12px;"></div>
+        <div style="font-size: 1.2em;text-align: center;padding-top: 12px;">{{label}}</div>
+        <mat-grid-list fxLayout="row" cols="{{columnas.length+1}}" fxLayoutrowHeight="50px" rowHeight="50px"
             [style.background-color]="headerColor" [style.color]="fontHeaderColor"
             style="padding: 10px; margin: top 30px; border-radius: 4px;" fxFlex="100">
             <mat-grid-tile>
-                <mat-label-content fxLayoutAlign="end center" style="padding-left: 5px;">
-                    <mat-icon matPrefix style="font-size: 80px;padding: 2px;height: 80px;width: 80px;" flex="30">
-                        {{icono}}</mat-icon>
-                </mat-label-content>
+                <mat-icon matPrefix style="font-size: 60px;padding: 2px;height: 60px;width: 60px;" flex="30">
+                    {{icono}}</mat-icon>
             </mat-grid-tile>
             <mat-grid-tile *ngFor="let columna of columnas">
                 <p>{{columna}}</p>
@@ -15,19 +16,13 @@
         </mat-grid-list>
     </mat-card-content>
     <mat-card-content fxLayout="row" fxLayoutAlign="center">
-
         <mat-grid-list fxLayout="row" cols="{{columnas.length+1}}" rowHeight="60px" [style.color]="fontColor"
-            style="padding: 10px; margin: top 30px;" fxFlex="100">
+            style="padding: 4px; font-size: 12px;" fxFlex="100">
             <div *ngFor="let item of data">
                 <mat-grid-tile>
-                    <div fxLayout="row" fxLayoutAlign="space-around center" fxFill>
-                        <mat-label-content fxLayoutAlign="end center" style="padding-left: 16px;" flex="50">
-                            <mat-icon matPrefix style="font-size: 30px;padding: 2px;height: 30px;width: 30px;"
-                                flex="30">{{icono}}</mat-icon>
-                        </mat-label-content>
-                    </div>
+                    <mat-icon matPrefix style="font-size: 30px;" flex="30">
+                        {{icono}}</mat-icon>
                 </mat-grid-tile>
-
                 <mat-grid-tile *ngFor="let key of objectKeys(item)">
                     <div fxLayout="row" fxLayoutAlign="space-around center" fxFill>
                         <mat-label-content fxLayoutAlign="end center" style="padding-left: 16px;" flex="50">
