@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ToolsService } from '../core/services/tools.service';
 import { EsterilizacionesService } from '../esterilizaciones/esterilizaciones.service';
 import { ChartOptions, ChartOptionsPieDonut } from '../core/components/piechart/piechart.type';
-
+import {ElementRef} from '@angular/core';
 import { jsPDF } from "jspdf";
 
 import { PacienteService } from '../core/services/paciente.service';
 import * as moment from 'moment';
+
+
+import { AbstractControl, FormControl } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-principal',
@@ -15,7 +19,27 @@ import * as moment from 'moment';
 })
 export class PrincipalComponent implements OnInit {
 
+  public disabled = false;
+  public color: ThemePalette = 'primary';
+  public touchUi = false;
+  public test = "";
+
+  colorCtr: AbstractControl = new FormControl(null);
+
+  public options = [
+    { value: true, label: 'True' },
+    { value: false, label: 'False' },
+  ];
+
+  public listColors = ['primary', 'accent', 'warn'];
+  
+
+
   public dateValue; 
+  public primaryColor: string;
+  public secondaryColor: string;
+  public warnColor: string;
+  
   public happyBirthdayList: [];
   public chartOptions: Partial<ChartOptions> = {
     chart: {
@@ -146,7 +170,8 @@ export class PrincipalComponent implements OnInit {
 
 
   constructor(public esterilizacionesService: EsterilizacionesService, public toolsService: ToolsService,
-    public pacienteService: PacienteService) {
+    public pacienteService: PacienteService,
+    private elementRef: ElementRef) {
 
     console.log("creando pdf!!!");
     // Default export is a4 paper, portrait, using millimeters for units
@@ -255,6 +280,14 @@ export class PrincipalComponent implements OnInit {
 
   setDate (newFecha) {
     console.log(newFecha);
+  }
+
+  changeTheme(){
+    console.log("change");
+    console.log(this.primaryColor);
+    document.documentElement.style.setProperty('--primaryColor', this.primaryColor);
+    document.documentElement.style.setProperty('--secondaryColor', this.secondaryColor);
+    document.documentElement.style.setProperty('--warnColor', this.warnColor);
   }
 
 }

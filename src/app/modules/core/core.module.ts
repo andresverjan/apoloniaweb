@@ -78,12 +78,14 @@ import { EgresosComponent } from "../egresos/egresos.component";
 import { EgresosPagadosComponent } from "../egresos/egresos-pagados/egresos-pagados.component";
 import { ConfigEgresosComponent } from "../egresos/config-egresos/config-egresos.component";
 import { NumericComponent } from './components/numeric/numeric.component';
-import {ListadoComponent} from './components/listado/listado.component';
-//import { OwlMomentDateTimeModule, OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS } from 'ng-pick-datetime-moment';
+import { ListadoComponent } from './components/listado/listado.component';
 import {  BasiccardComponent } from './components/basiccard/basiccard.component';
 import { PieChartComponent } from './components/piechart/piechart.component';
-
+import { GcolorpickerComponent } from './components/gcolorpicker/gcolorpicker.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+import { ColorpickerComponent } from "./components/colorpicker/colorpicker.component";
+
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -148,7 +150,9 @@ FullCalendarModule.registerPlugins([
     BasiccardComponent,
     PieChartComponent,
     ListadoComponent,
-    BasiccardComponent
+    BasiccardComponent,
+    ColorpickerComponent,
+    GcolorpickerComponent
   ],
 
   imports: [
@@ -176,6 +180,7 @@ FullCalendarModule.registerPlugins([
     MatDatepickerModule,
     MatInputModule,
     MatSliderModule,
+    NgxMatColorPickerModule,
   ],
 
   exports: [
@@ -188,6 +193,7 @@ FullCalendarModule.registerPlugins([
   ],
 
   providers: [ServicesService,  
+    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
     /*{ provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } },*/],
   bootstrap: [DatetimeComponent], //componente
   entryComponents: [ModalComponent, LoadingComponent, DialogOverviewExample],

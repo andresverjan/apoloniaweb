@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+@import './variables.scss';
 @include mat-core();
 
 $mat-myapp-primary: (
@@ -7,8 +8,8 @@ $mat-myapp-primary: (
   200 : #a893ba,
   300 : #85689e,
   400 : #6b4789,
-  500 : #512774,
-  600 : #4a236c,
+  500 : var(--primaryColor),
+  600 : var(--primaryColor),
   700 : #401d61,
   800 : #371757,
   900 : #270e44,
@@ -74,7 +75,7 @@ $mat-red: (
   200: #ef9a9a,
   300: #e57373,
   400: #ef5350,
-  500: #f44336,
+  500: var(--warnColor),
   600: #e53935,
   700: #d32f2f,
   800: #c62828,

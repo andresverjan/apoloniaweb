@@ -3,8 +3,13 @@
 
 <div class="container" style="overflow: hidden">
 
-    <app-datetime label="Datetime PRUEBA" required=false (valor)="setDate($event)"></app-datetime>
-
+    <mat-card>
+        <mat-label>Configuracion de Colores</mat-label>
+        <app-colorpicker label="Color Primario" (valSelected)="primaryColor=$event" fxFlex="30" ></app-colorpicker>
+        <app-colorpicker label="Color Secundario" (valSelected)="secondaryColor=$event"fxFlex="30"></app-colorpicker>
+        <app-colorpicker label="Color Warn" (valSelected)="warnColor=$event" fxFlex="30"></app-colorpicker>
+        <button (click)="changeTheme()">Save</button>
+    </mat-card>
 
     <mat-card>
         <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden; box-shadow: none;">

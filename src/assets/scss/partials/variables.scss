@@ -1,9 +1,15 @@
 
-$cprimary: #512774;
-$csecondary: #b47dff;
+:root {
+  --primaryColor: #512774;
+  --secondaryColor: #b47dff;
+  --warnColor : #f44336,
+}
+
+$cprimary: var(--primaryColor);
+$csecondary: var(--secondaryColor);
 
 $primary-color-dark:   #512774;
-$primary-color:        #512774;
+$primary-color:       var(--primaryColor);
 $primary-color-light:  #DCEDC8;
 $primary-color-text:   #212121;
 $accent-color:         #448AFF;
