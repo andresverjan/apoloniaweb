@@ -38,6 +38,7 @@ export class PrincipalComponent implements OnInit {
   public dateValue; 
   public primaryColor: string;
   public secondaryColor: string;
+  public accentColor: string;
   public warnColor: string;
   
   public happyBirthdayList: [];
@@ -287,6 +288,8 @@ export class PrincipalComponent implements OnInit {
     console.log(this.primaryColor);
     document.documentElement.style.setProperty('--primaryColor', this.primaryColor);
     document.documentElement.style.setProperty('--secondaryColor', this.secondaryColor);
+    document.documentElement.style.setProperty('--accentColor', this.accentColor);
+    
     document.documentElement.style.setProperty('--warnColor', this.warnColor);
   }
 

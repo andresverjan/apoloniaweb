@@ -7,6 +7,7 @@
         <mat-label>Configuracion de Colores</mat-label>
         <app-colorpicker label="Color Primario" (valSelected)="primaryColor=$event" fxFlex="30" ></app-colorpicker>
         <app-colorpicker label="Color Secundario" (valSelected)="secondaryColor=$event"fxFlex="30"></app-colorpicker>
+        <app-colorpicker label="Color Accent" (valSelected)="accentColor=$event" fxFlex="30"></app-colorpicker>
         <app-colorpicker label="Color Warn" (valSelected)="warnColor=$event" fxFlex="30"></app-colorpicker>
         <button (click)="changeTheme()">Save</button>
     </mat-card>
