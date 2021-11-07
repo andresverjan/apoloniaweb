@@ -81,7 +81,7 @@ import { NumericComponent } from './components/numeric/numeric.component';
 import { ListadoComponent } from './components/listado/listado.component';
 import {  BasiccardComponent } from './components/basiccard/basiccard.component';
 import { PieChartComponent } from './components/piechart/piechart.component';
-import { GcolorpickerComponent } from './components/gcolorpicker/gcolorpicker.component';
+import { GcolorpickerComponent } from './components/Gcolorpicker/gcolorpicker.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { ColorpickerComponent } from "./components/colorpicker/colorpicker.component";
