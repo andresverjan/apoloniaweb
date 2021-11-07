@@ -1,8 +1,13 @@
+
+$primary: var(--cprimary);
+$secondary: var(--secondary-color);
+
 .grid-container {
     margin: 20px;
 }
 
 .dashboard-card {
+    background-color: var(--primary);
     position: absolute;
     top: 15px;
     left: 15px;

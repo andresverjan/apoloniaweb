@@ -11,15 +11,11 @@ import { MaterialModule } from "./modules/core/material.module";
 import { LayoutModule } from "@angular/cdk/layout";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialLoginModule } from "angularx-social-login";
-/*import {
-	IgxTimePickerModule,
-	IgxInputGroupModule,
-	IgxIconModule
- } from "igniteui-angular";
-import { TimepickerDropdownComponent } from "./timepicker-dropdown/timepicker-dropdown.component";*/
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NgxMatNativeDateModule,  } from "@angular-material-components/datetime-picker";
 import { MatNativeDateModule } from "@angular/material/core"; 
+
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,7 +29,8 @@ import { MatNativeDateModule } from "@angular/material/core";
     FlexLayoutModule,
     SocialLoginModule,
     MatNativeDateModule  ,
-    NgxMatNativeDateModule
+    NgxMatNativeDateModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },

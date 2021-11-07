@@ -1,0 +1,14 @@
+<div [formGroup]="form">
+  <mat-form-field *ngIf="campo.visible" fxFlex="100">
+    <mat-icon matPrefix>edit</mat-icon>
+    <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
+    <input matInput [ngxMatColorPicker]="pickerT" [(formControl)]="colorCtr" [disabled]="disabled"
+      id="{{ campo.nombre }}"
+      [formControlName]="campo.nombre" (click)="pickerT.open()" (colorChange)="runOnChange()" />
+    <ngx-mat-color-toggle matSuffix [for]="pickerT"></ngx-mat-color-toggle>
+    <ngx-mat-color-picker #pickerT [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.maxlength">Error Maxima Longitud</mat-hint>
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.minlength">Error Longitud Minima</mat-hint>
+    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.required">Requerido</mat-hint>
+  </mat-form-field>
+</div>
