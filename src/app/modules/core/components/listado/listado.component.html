@@ -1,4 +1,4 @@
-<mat-card [style.background-color]="bgColor" style="padding: 5px;border-radius: 20px;">
+<mat-card [style.background-color]="bgColor" style="padding: 5px;border-radius: 20px;" *ngIf="isVisible">    
     <mat-card-content fxLayout="column" fxLayoutAlign="center" [style.background-color]="headerColor"
         [style.color]="fontHeaderColor" style="border-radius: 20px;height: 150px;">
         <div style="font-size: 1.2em;text-align: center;padding-top: 12px;"></div>

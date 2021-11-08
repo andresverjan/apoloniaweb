@@ -1,0 +1,13 @@
+<div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="95">
+  <mat-form-field>
+    <label>{{label}}</label>
+    <input matInput [ngxMatColorPicker]="pickerT" [(formControl)]="colorCtr" [disabled]="disabled"
+      (click)="pickerT.open()" (colorChange)="runOnChange()" />
+    <ngx-mat-color-toggle matSuffix [for]="pickerT"></ngx-mat-color-toggle>
+    <ngx-mat-color-picker #pickerT [touchUi]="touchUi" [color]="color">
+      <ng-template>
+        <span>OK</span>
+      </ng-template>
+    </ngx-mat-color-picker>
+  </mat-form-field>
+</div>

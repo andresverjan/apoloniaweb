@@ -229,6 +229,11 @@ export class GenericComponent implements OnInit {
   }
 
   setDate(value: any, item: any) {
+    console.log(value);
+    this.genericForm.controls[item.nombre].setValue(value);
+  }
+  
+  setColor(value: any, item: any) {
     this.genericForm.controls[item.nombre].setValue(value);
   }
 

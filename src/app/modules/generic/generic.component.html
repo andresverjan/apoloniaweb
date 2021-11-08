@@ -29,7 +29,7 @@
     >
       <mat-toolbar color="primary">
         <mat-icon matPrefix>account_balance</mat-icon>
-        <span>{{ etiquetaNombreModulo }}</span>
+        <span>{{ application.nombre  }}</span>
         <span class="example-spacer"></span>
 
         <button
@@ -140,6 +140,20 @@
                           [formControlName]="item.nombre"
                         ></textarea>
                       </div>
+
+                      <div *ngSwitchCase="8" fxFlex="100">
+                        <app-gcolorpicker
+                          [form]="genericForm"
+                          [campo]="item"
+                          (valor)="setColor($event, item)"
+                        ></app-gcolorpicker>
+                        <textarea
+                          matInput
+                          hidden
+                          [formControlName]="item.nombre"
+                        ></textarea>
+                      </div>
+
                     </div>
                   </div>
                 </mat-grid-tile>

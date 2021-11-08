@@ -20,9 +20,9 @@ export class ListadoComponent implements OnInit {
   @Input() default: string;
   @Input() icono: string ="person_add";
   @Input() columnas: string[];
-  
   @Output() mostrar = new EventEmitter<string>();
 
+  public isVisible : boolean = true;
   
   constructor(public dialog:MatDialog) {    
     console.log(this.columnas);
@@ -30,6 +30,11 @@ export class ListadoComponent implements OnInit {
 
   Mostrar(res:string) {
      this.mostrar.emit(res);
+  }
+
+  close(){
+    console.log("cerrar");
+    this.isVisible= !this.isVisible;
   }
 
   ngOnInit() {
