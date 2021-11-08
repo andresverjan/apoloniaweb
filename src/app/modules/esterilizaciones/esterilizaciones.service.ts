@@ -73,12 +73,9 @@ export class EsterilizacionesService {
     const { sterilization, devices } = obj;
     console.log(obj);
 
-
-
-
     let body = {
       query: `mutation{
-        saveSterilizations(          
+        saveSterilizations(
           esterilizacion :{
             sterilization : {
               T27Fecha: "${sterilization.T27Fecha}",
@@ -91,16 +88,16 @@ export class EsterilizacionesService {
               presion: ${sterilization.presion},
               observ: "${sterilization.observ}",
             }
-        devices : [
-          ${devices.map((item) => {
-            return `{
-                id: ${item.id}
-                tipoEmpaque: ${item.tipoEmpaque}
-                cantidad: ${item.cantidad}
-                }`;
-          })}
-          ]
-        }
+            devices : [
+              ${devices.map((item: any) => {
+                return `{
+                    id: ${item.id}
+                    tipoEmpaque: ${item.tiposEmpaqueEsterilizacionId}
+                    cantidad: ${item.cantidad}
+                    }`;
+              })}
+            ]
+          }
         ){
             id
           }
@@ -113,31 +110,42 @@ export class EsterilizacionesService {
   }
 
   updateEsteriliz(obj: any): Observable<any> {
-    const { steril } = obj;
+    const { steril, devices } = obj;
     let body = {
       query: `mutation {
-        updateSterilizations (esterilizacion: {
-          id:       ${steril.id},
-          T27Fecha: "${steril.T27Fecha}",
-          sede: ${steril.sede.replace(/'/g, '')},
-          motivo: ${steril.motivo.replace(/'/g, '')},
-          tipo: ${steril.tipo.replace(/'/g, '')},
-          esporas:"${steril.esporas.replace(/'/g, '')}",
-          dispMed:${steril.dispMed.replace(/'/g, '')},
-          tipEmp:${steril.tipEmp.replace(/'/g, '')},
-          timeMin:${steril.timeMin},
-          temper:${steril.temper},
-          presion:${steril.presion},
-          observ:"${steril.observ}",
-          cantidad:${steril.cant}
-        }){
+        updateSterilizations(
+          esterilizacion: {
+            sterilization: {
+              id:       ${steril.id},
+              T27Fecha: "${steril.T27Fecha}",
+              sede: ${steril.sede.replace(/'/g, '')},
+              motivo: ${steril.motivo.replace(/'/g, '')},
+              tipo: ${steril.tipo.replace(/'/g, '')},
+              esporas:"${steril.esporas.replace(/'/g, '')}",
+              timeMin:${steril.timeMin},
+              temper:${steril.temper},
+              presion:${steril.presion},
+              observ:"${steril.observ}"
+            }
+            devices: [
+              ${devices.map((item: any) => {
+                return `{
+                    id: ${item.id}
+                    tipoEmpaque: ${item.tiposEmpaqueEsterilizacionId}
+                    cantidad: ${item.cantidad}
+                    }`;
+              })}
+            ]
+          }
+        ){
           id
         }
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(environment.apiUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    /*let headers = new HttpHeaders().set("Content-Type", "application/json");
+    return this.http.post(environment.apiUrl, body, { headers: headers });*/
   }
 
   getDispAvails(objeTosend: any): Observable<any> {
@@ -145,16 +153,22 @@ export class EsterilizacionesService {
       query: `{ dispositivos(esterilizacionId: ${objeTosend}) { id nombre } }`
     }
 
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(environment.apiUrl, body, { headers: headers })
+    return this.httpService.callApi(body);
+    /*let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(environment.apiUrl, body, { headers: headers })*/
   }
 
   getAssignedDevices(objeTosend: any): Observable<any> {
     let body = {
-      query: `{ devicesByEsterilizationId(id: ${objeTosend}) { id nombre } }`
+      query: `{ devicesByEsterilizationId(id: ${objeTosend}) {
+        id
+        nombre
+        cantidad
+        tiposEmpaqueEsterilizacionId } }`
     }
 
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(environment.apiUrl, body, { headers: headers })
+    return this.httpService.callApi(body);
+    /*let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(environment.apiUrl, body, { headers: headers })*/
   }
 }

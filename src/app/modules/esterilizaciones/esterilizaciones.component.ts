@@ -1,8 +1,8 @@
 import {
   Component, ViewChild, EventEmitter, Input, OnInit, Output, TemplateRef
 } from '@angular/core';
-import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Observable } from 'rxjs';
+/*import { DataSource } from '@angular/cdk/collections';
+import { BehaviorSubject, Observable } from 'rxjs';*/
 import { MatDialog } from "@angular/material/dialog";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -12,15 +12,12 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { PageEvent } from "@angular/material/paginator";
 import * as moment from 'moment';
 
-export interface Devices {
+/*export interface Devices {
   position: number;
   name: string;
   packing: number;
   amount: number;
-}
-
-
-
+}*/
 @Component({
   selector: 'app-esterilizaciones',
   templateUrl: './esterilizaciones.component.html',
@@ -60,9 +57,8 @@ export class EsterilizacionesComponent implements OnInit {
   public dispMedics: any = [];
   public disp_Avails: Array<Multilist> = [];
   public tipEmpac: any = [];
-  //  displayColumns = ['Dispositivo', 'Cantidad', 'Tipo Empaque'];
-  displayedColumns: string[] = ['posicion', 'Dispositivo', 'Cantidad', 'Tipo Empaque'];
-  dataSource = new DeviceDataSource();
+  /*displayedColumns: string[] = ['posicion', 'Dispositivo', 'Cantidad', 'Tipo Empaque'];
+  dataSource = new DeviceDataSource();*/
 
   public totalRegistros = 0;
   public pageSize = 10;
@@ -96,7 +92,7 @@ export class EsterilizacionesComponent implements OnInit {
     this.findBy();
   }
 
-  adicionar() {
+  async adicionar() {
     this.showContent = false;
     this.esterilForm.reset();
     this.lShowPanelDatos = true;
@@ -104,10 +100,13 @@ export class EsterilizacionesComponent implements OnInit {
     this.showBtnEliminar = false;
     this.showBtnActualizar = false;
     this.showForm = true;
+    this.listadoAdd = [];
+    await this.fetchMedicalDisp(0);
   }
 
   cancelar() {
     this.showContent = true;
+    this.esterilForm.reset();
     this.showForm = false;
     this.showListado = true;
   }
@@ -160,12 +159,9 @@ export class EsterilizacionesComponent implements OnInit {
     this.esterilForm.controls["motivo"].setValue("'" + esterilizacion.motivo + "'");
     this.esterilForm.controls["tipo"].setValue("'" + esterilizacion.tipo + "'");
     this.esterilForm.controls["esporas"].setValue(esterilizacion.esporas);
-    this.esterilForm.controls["dispMed"].setValue("'" + esterilizacion.dispMed + "'");
-    this.esterilForm.controls["tipEmp"].setValue("'" + esterilizacion.tipEmp + "'");
     this.esterilForm.controls["timeMin"].setValue(esterilizacion.timeMin);
     this.esterilForm.controls["temper"].setValue(esterilizacion.temper);
     this.esterilForm.controls["presion"].setValue(esterilizacion.presion);
-    this.esterilForm.controls["cant"].setValue(esterilizacion.cantidad);
     this.esterilForm.controls["observ"].setValue(esterilizacion.observ);
 
     await this.fetchMedicalDisp(esterilizacion.id);
@@ -181,14 +177,12 @@ export class EsterilizacionesComponent implements OnInit {
         motivo: this.esterilForm.controls["motivo"].value,
         tipo: this.esterilForm.controls["tipo"].value,
         esporas: this.esterilForm.controls["esporas"].value,
-        dispMed: this.esterilForm.controls["dispMed"].value,
-        tipEmp: this.esterilForm.controls["tipEmp"].value,
         timeMin: this.esterilForm.controls["timeMin"].value,
         temper: this.esterilForm.controls["temper"].value,
         presion: this.esterilForm.controls["presion"].value,
-        cant: this.esterilForm.controls["cant"].value,
         observ: this.esterilForm.controls["observ"].value
-      }
+      },
+      devices: this.listadoAdd
     };
     this.esterilizacionesService.updateEsteriliz(obj).subscribe((res) => res);
     this.findBy();
@@ -403,7 +397,7 @@ export class EsterilizacionesComponent implements OnInit {
       });
       this.sedes = listado.map((val) => {
         return {
-          value: "'" + val.id + "'",//
+          value: "'" + val.id + "'",
           nombre: val.nombre
         }
       });
@@ -447,7 +441,7 @@ export class EsterilizacionesComponent implements OnInit {
     this.openDialogWithTemplateRef(this.myDialog);
   }
 
-  closeDialog() {    
+  closeDialog() {
     this.dialogRef.close();
   }
 
@@ -455,11 +449,10 @@ export class EsterilizacionesComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  selectTipoEmpaque (selectedTipoEmpaque, device) {
-    console.log("SELECTED" );
-    console.log(selectedTipoEmpaque);
-    console.log(device);
-    device.tipEmpaque = selectedTipoEmpaque.value;
+  selectTipoEmpaque(selectedTipoEmpaque: any, device: any) {
+    console.log("SELECTED:-->>", selectedTipoEmpaque);
+    console.log("SELECTED TRAE COMPLETO:-->", device);
+    device.tiposEmpaqueEsterilizacionId = selectedTipoEmpaque.value;
   }
 
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
@@ -476,6 +469,7 @@ export class EsterilizacionesComponent implements OnInit {
     this.IsWaiting = true;
     this.esterilizacionesService.getAssignedDevices(obj).subscribe((res) => {
       this.listadoAdd = res.data.devicesByEsterilizationId;
+      console.log("LISTADO ESTERILIZA ASIGNADAS: ", this.listadoAdd);
       this.IsWaiting = false;
       this.showBtnActualizar = true;
     });
@@ -485,7 +479,7 @@ export class EsterilizacionesComponent implements OnInit {
     this.IsWaiting = true;
     this.esterilizacionesService.getDispAvails(obj).subscribe((res) => {
       this.disp_Avails = res.data.dispositivos;
-      console.log("LISTADO ESTERILIZA disponible", this.disp_Avails);
+      console.log("LISTADO ESTERILIZA DISPONIBLE: ", this.disp_Avails);
       this.IsWaiting = false;
     });
   };
@@ -493,27 +487,26 @@ export class EsterilizacionesComponent implements OnInit {
   multiListChange(data) {
     this.listadoAdd = data;
     this.listadoAdd = this.listadoAdd.map((val) => {
-      val.tipoEmpaque = 1;
-      val.cantidad = 1;
+      "'" + val.tiposEmpaqueEsterilizacionId + "'";
       return val;
     });
-    console.log(this.listadoAdd);
+    console.log("LISTADO ESTERILIZA RECIENTE: ->", this.listadoAdd);
   }
 }
 
-const ELEMENT_DATA: Devices[] = [];
-
+/** Connect function called by the table to retrieve one stream containing the data to render. */
+/** Stream of data that is provided to the table. */
+/*const ELEMENT_DATA: Devices[] = [];
 export class DeviceDataSource extends DataSource<Devices> {
-  /** Stream of data that is provided to the table. */
+
   data = new BehaviorSubject<Devices[]>(ELEMENT_DATA);
 
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Devices[]> {
     return this.data;
   }
 
   disconnect() { }
-}
+}*/
 
 interface SelItem {
   value: string;
@@ -523,6 +516,6 @@ interface SelItem {
 interface Multilist {
   id: number;
   nombre: string;
-  tipoEmpaque: number;
+  tiposEmpaqueEsterilizacionId: number;
   cantidad: number;
 }
