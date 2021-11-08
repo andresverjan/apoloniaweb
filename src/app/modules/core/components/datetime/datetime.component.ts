@@ -61,7 +61,7 @@ export class DatetimeComponent {
 
   ngOnInit(): void { }
 
-  onDateChange(event: MatDatepickerInputEvent<Date>) {
+  onDateChange(event: any) {
     this.dateValue = moment(event.value).format();
     this.onChange(event.value);
     this.valor.emit(this.dateValue);

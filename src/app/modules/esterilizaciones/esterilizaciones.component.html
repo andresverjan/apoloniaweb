@@ -28,16 +28,6 @@
       </mat-card-title>
       <mat-card-content fxLayout="column" fxLayoutAlign="center">
         <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-
-          <!--mat-form-field-- fxFlex="100">
-            <input
-              matInput
-              id="filterbyDisponible"
-              placeholder="Disponible"
-              [(ngModel)]="filter.disponible"
-              (keyup)="findBy()"
-            />
-          </!--mat-form-field-->
           <div fxLayout="row" fxLayoutAlign="center" fxFlex="50">
             <app-select label="Disponible" [data]="disponibleOptions" icono="attach_money"
               (valSelected)="onDisponibleSelected($event)" fxFlex>
@@ -121,12 +111,7 @@
             <mat-grid-tile fxFlex>
               <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="50">
                 <mat-icon matPrefix>alarm</mat-icon>
-                <!--<input #dpInput matInput placeholder="Date Time:" id="T27Fecha" formControlName="T27Fecha"
-                  [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" (dateTimeChange)="onDateChange($event)"
-                  [(value)]="dateValue" style="margin-left: 0px">
-                <owl-date-time [pickerType]="'timer'" [hour12Timer]=true #dt1></owl-date-time>-->
                 <app-datetime label="Date Time:" required=false (valor)="onDateChange($event)"></app-datetime>
-                <!--<owl-date-time #defaultValue></owl-date-time>-->
               </div>
             </mat-grid-tile>
             <mat-grid-tile fxFlex>
@@ -171,18 +156,8 @@
               <mat-grid-tile  fxFlex  style="overflow-x: hidden">
                 <div>
                   <mat-icon>web</mat-icon>
-                  <!--br /-->
                   <div>{{ dev.nombre }}</div>
-                  <!--<div>{{ dev.id }}</div>
-                  <div>{{ dev.cantidad }}</div>
-                  <div>{{ dev.tipEmpaque }}</div>-->
                 </div>
-                <!--<mat-card fxFlex="100" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
-                  <mat-card-content fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
-
-                  </mat-card-content>
-                </mat-card>-->
-
               </mat-grid-tile>
               <mat-grid-tile  fxFlex  style="overflow-x: hidden">
                 <div >
@@ -216,34 +191,6 @@
               </mat-grid-tile>
             </mat-grid-list>
 
-            <!--<div class="container" style="overflow: hidden">
-
-              </div>
-              <table cdk-table [dataSource]="dataSource">
-              <ng-container cdkColumnDef="position">
-                <th cdk-header-cell *cdkHeaderCellDef> No. </th>
-                <td cdk-cell *cdkCellDef="let element"> {{element.position}} </td>
-              </ng-container>
-
-              <ng-container cdkColumnDef="name">
-                <th cdk-header-cell *cdkHeaderCellDef> Name </th>
-                <td cdk-cell *cdkCellDef="let element"> {{element.name}} </td>
-              </ng-container>
-
-              <ng-container cdkColumnDef="packing">
-                <th cdk-header-cell *cdkHeaderCellDef> Weight </th>
-                <td cdk-cell *cdkCellDef="let element"> {{element.packing}} </td>
-              </ng-container>
-
-
-              <ng-container cdkColumnDef="amount">
-                <th cdk-header-cell *cdkHeaderCellDef> Symbol </th>
-                <td cdk-cell *cdkCellDef="let element"> {{element.amount}} </td>
-              </ng-container>
-
-              <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
-              <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
-            </table>-->
           </mat-card-content>
         </mat-card-content>
       </mat-card>
@@ -254,7 +201,7 @@
     <mat-card class="cardcontent">
       <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
         <button mat-raised-button (click)="guardar()" color="primary" fxLayout="row" fxLayout.xs="column"
-          *ngIf="!showBtnActualizar" fxLayoutAlign="center" fxFlex="80" [disabled]="!esterilForm.valid">
+          *ngIf="!showBtnActualizar" fxLayoutAlign="center" fxFlex="80" [disabled]="(!esterilForm.valid || listadoAdd.length==0)">
           <mat-icon>person_add</mat-icon>
           Guardar
         </button>
@@ -265,11 +212,6 @@
           <mat-icon>person_add</mat-icon>
           Actualizar
         </button>
-        <!--<button mat-raised-button fxLayout="row" color="warn" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80"
-          (click)="eliminar()" *ngIf="showBtnEliminar">
-          <mat-icon>more_vert</mat-icon>
-          Eliminar
-        </button>-->
         <button mat-raised-button color="warn" (click)="cancelar()" fxLayout="row" fxLayout.xs="column"
           fxLayoutAlign="center" fxFlex="80">
           <mat-icon>cancel</mat-icon>

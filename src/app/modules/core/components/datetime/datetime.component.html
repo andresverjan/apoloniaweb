@@ -15,7 +15,7 @@
         [touchUi]="parms.touchUi" [color]="parms.color" [enableMeridian]="parms.enableMeridian"
         [disableMinute]="parms.disableMinute" [hideTime]="parms.hideTime" fxFlex="100">
         <ng-template>
-          <span>OK</span>
+          <span (click)="onDateChange($event)">OK</span>
         </ng-template>
       </ngx-mat-datetime-picker>
     </div>
