@@ -91,8 +91,8 @@ export class EsterilizacionesService {
             devices : [
               ${devices.map((item: any) => {
                 return `{
-                    id: ${item.id}
-                    tipoEmpaque: ${item.tiposEmpaqueEsterilizacionId}
+                  id: ${item.id}
+                  tiposEmpaqueEsterilizacionId: ${item.tiposEmpaqueEsterilizacionId.replace(/'/g, '')}
                     cantidad: ${item.cantidad}
                     }`;
               })}
@@ -129,9 +129,11 @@ export class EsterilizacionesService {
             }
             devices: [
               ${devices.map((item: any) => {
+                console.log(item);
+                console.log(item.tiposEmpaqueEsterilizacionId);
                 return `{
-                    id: ${item.id}
-                    tipoEmpaque: ${item.tiposEmpaqueEsterilizacionId}
+                    id: ${Number.parseInt(item.id)}
+                    tiposEmpaqueEsterilizacionId: ${item.tiposEmpaqueEsterilizacionId.replace(/'/g, '')}
                     cantidad: ${item.cantidad}
                     }`;
               })}
@@ -144,18 +146,13 @@ export class EsterilizacionesService {
     };
 
     return this.httpService.callApi(body);
-    /*let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(environment.apiUrl, body, { headers: headers });*/
   }
 
   getDispAvails(objeTosend: any): Observable<any> {
     let body = {
       query: `{ dispositivos(esterilizacionId: ${objeTosend}) { id nombre } }`
     }
-
     return this.httpService.callApi(body);
-    /*let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(environment.apiUrl, body, { headers: headers })*/
   }
 
   getAssignedDevices(objeTosend: any): Observable<any> {
@@ -168,7 +165,5 @@ export class EsterilizacionesService {
     }
 
     return this.httpService.callApi(body);
-    /*let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(environment.apiUrl, body, { headers: headers })*/
   }
 }

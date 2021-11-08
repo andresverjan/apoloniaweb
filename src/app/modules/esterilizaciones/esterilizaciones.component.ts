@@ -15,7 +15,7 @@ import * as moment from 'moment';
   templateUrl: './esterilizaciones.component.html',
   styleUrls: ['./esterilizaciones.component.scss']
 })
-export class EsterilizacionesComponent implements OnInit {  
+export class EsterilizacionesComponent implements OnInit {
   @ViewChild("myDialog") myDialog: TemplateRef<any>;
 
   public dateValue: string = null;
@@ -103,6 +103,30 @@ export class EsterilizacionesComponent implements OnInit {
 
   guardar() {
     if (this.esterilForm.valid) {
+
+      let cantidadValid = false;
+      let tipoEmpaqueValid = false;
+      let r = this.listadoAdd.forEach((res) => {
+        res.cantidad = res.cantidad ? res.cantidad : 0;
+        if (res.cantidad) {
+          cantidadValid = true;
+        }
+        if (res.tiposEmpaqueEsterilizacionId) {
+          tipoEmpaqueValid = true;
+        }
+      });
+
+      if (!tipoEmpaqueValid) {
+        Swal.fire("Error", "Tipo Empaque es requerido.", "error");
+        return;
+      }
+
+      if (!cantidadValid) {
+        Swal.fire("Error", "Cantidad es requerida.", "error");
+        return;
+      }
+
+
       const obj = {
         sterilization: {
           T27Fecha: this.esterilForm.controls["T27Fecha"].value,
@@ -143,7 +167,6 @@ export class EsterilizacionesComponent implements OnInit {
     this.showBtnAdicionar = false;
     this.showBtnEliminar = true;
     this.esterilizacion = esterilizacion;
-
     this.esterilForm.controls["T27Fecha"].setValue(esterilizacion.T27Fecha);
     this.esterilForm.controls["sede"].setValue("'" + esterilizacion.sede + "'");
     this.esterilForm.controls["motivo"].setValue("'" + esterilizacion.motivo + "'");
@@ -159,6 +182,31 @@ export class EsterilizacionesComponent implements OnInit {
   }
 
   actionActualizar() {
+
+    let cantidadValid = false;
+    let tipoEmpaqueValid = false;
+    let r = this.listadoAdd.forEach((res) => {
+      res.cantidad = res.cantidad ? res.cantidad : 0;
+      if (res.cantidad) {
+        cantidadValid = true;
+      }
+      if (res.tiposEmpaqueEsterilizacionId) {
+        tipoEmpaqueValid = true;
+      }
+    });
+
+    if (!tipoEmpaqueValid) {
+      Swal.fire("Error", "Tipo Empaque es requerido.", "error");
+      return;
+    }
+
+    if (!cantidadValid) {
+      Swal.fire("Error", "Cantidad es requerida.", "error");
+      return;
+    }
+
+    console.log(cantidadValid);
+
     const obj = {
       steril: {
         id: parseInt(this.esterilizacion.id),
@@ -363,7 +411,7 @@ export class EsterilizacionesComponent implements OnInit {
       });
       this.tipEmpac = listado.map((val) => {
         return {
-          value: val.id,
+          value: "'" + val.id + "'",
           nombre: val.nombre
         }
       });
@@ -450,6 +498,10 @@ export class EsterilizacionesComponent implements OnInit {
     this.IsWaiting = true;
     this.esterilizacionesService.getAssignedDevices(obj).subscribe((res) => {
       this.listadoAdd = res.data.devicesByEsterilizationId;
+      this.listadoAdd = this.listadoAdd.map((val) => {
+        val.tiposEmpaqueEsterilizacionId = "'" + val.tiposEmpaqueEsterilizacionId + "'";
+        return val;
+      });
       this.IsWaiting = false;
       this.showBtnActualizar = true;
     });
@@ -464,11 +516,18 @@ export class EsterilizacionesComponent implements OnInit {
   };
 
   multiListChange(data) {
+    console.log(data);
+    console.log(this.listadoAdd);
     this.listadoAdd = data;
-    this.listadoAdd = this.listadoAdd.map((val) => {
-      "'" + val.tiposEmpaqueEsterilizacionId + "'";
+    this.listadoAdd = data.map((val) => {
+      val.cantidad = val.cantidad ? val.cantidad : 1;
       return val;
     });
+  }
+  
+  removeDevice(dev){
+    this.listadoAdd = this.listadoAdd.filter((opt) => dev.id != opt.id);
+    this.disp_Avails.push(dev);
   }
 }
 
@@ -480,6 +539,6 @@ interface SelItem {
 interface Multilist {
   id: number;
   nombre: string;
-  tiposEmpaqueEsterilizacionId: number;
+  tiposEmpaqueEsterilizacionId: any;
   cantidad: number;
 }
