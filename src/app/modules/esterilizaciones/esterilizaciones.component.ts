@@ -103,13 +103,15 @@ export class EsterilizacionesComponent implements OnInit {
 
   guardar() {
     if (this.esterilForm.valid) {
-
       let cantidadValid = false;
       let tipoEmpaqueValid = false;
       let r = this.listadoAdd.forEach((res) => {
         res.cantidad = res.cantidad ? res.cantidad : 0;
         if (res.cantidad) {
           cantidadValid = true;
+        }
+        if(res.tiposEmpaqueEsterilizacionId == undefined) {
+          tipoEmpaqueValid = false;
         }
         if (res.tiposEmpaqueEsterilizacionId) {
           tipoEmpaqueValid = true;
@@ -125,7 +127,6 @@ export class EsterilizacionesComponent implements OnInit {
         Swal.fire("Error", "Cantidad es requerida.", "error");
         return;
       }
-
 
       const obj = {
         sterilization: {
@@ -186,9 +187,12 @@ export class EsterilizacionesComponent implements OnInit {
     let cantidadValid = false;
     let tipoEmpaqueValid = false;
     let r = this.listadoAdd.forEach((res) => {
-      res.cantidad = res.cantidad ? res.cantidad : 0;
+      res.cantidad = res.cantidad ? res.cantidad : 0;      
       if (res.cantidad) {
         cantidadValid = true;
+      }
+      if(res.tiposEmpaqueEsterilizacionId == undefined) {
+        tipoEmpaqueValid = false;
       }
       if (res.tiposEmpaqueEsterilizacionId) {
         tipoEmpaqueValid = true;
