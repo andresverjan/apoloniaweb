@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { LoginService } from "./login.service";
+import { EmpresaService } from "../core/services/empresa.service";
 import { Router } from "@angular/router";
 import Swal from "sweetalert2";
 
@@ -21,7 +22,9 @@ export class LoginAdminComponent implements OnInit {
   public WRONG_AUTENTICATION = "Autenticación Incorrecta";
 
   userKey: string = "USUARIO";
-  constructor(private loginService: LoginService, private router: Router) {
+  constructor( private loginService: LoginService, 
+               private empresaService: EmpresaService,
+               private router: Router) {
     this.urlLogo = "../../../assets/small.png";
   }
 
@@ -39,15 +42,32 @@ export class LoginAdminComponent implements OnInit {
   }
 
   login() {
+    
     this.loginService.loginWeb(this.userForm.value).subscribe((response) => {
       this.IsWait = false;
       this.userData = response;
+      console.log(this.userData.data);
       if (this.userData.data.login !== null) {
         localStorage.setItem(
           this.userKey,
           JSON.stringify(this.userData.data.login)
         );
-        this.router.navigate(["/dashboard"]);
+
+        let empresaIdTmp = this.userData.data.login.EMPRESA_ID;
+        console.log(empresaIdTmp);
+        this.empresaService.getEmpresaById(empresaIdTmp).subscribe((res)=> {
+          console.log("Empresa ID PACIENTE ID");
+          console.log(res);
+          let empresaConfig = res.data.getEmpresaById;
+          console.log(empresaConfig);
+          document.documentElement.style.setProperty('--primaryColor', empresaConfig.primaryColor);
+          document.documentElement.style.setProperty('--secondaryColor', empresaConfig.secondaryColor);
+          document.documentElement.style.setProperty('--accentColor', empresaConfig.accentColor);    
+          document.documentElement.style.setProperty('--warnColor', empresaConfig.warnColor);
+
+          this.router.navigate(["/dashboard"]);
+        });
+        
       } else {
         this.showMsgBadLogin(this.WRONG_AUTENTICATION, "Autenticación");
       }
