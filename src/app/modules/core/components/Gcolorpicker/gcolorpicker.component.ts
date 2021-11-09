@@ -37,13 +37,13 @@ export class GcolorpickerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("INIT");
-    console.log(this.form.controls[this.campo.nombre].value);
-    const temp = this.hexToRgb(this.form.controls[this.campo.nombre].value);
-    let col = new Color(temp.r, temp.g, temp.b);
-    this.colorCtr.setValue(col);
-    console.log(this.colorCtr);
-
+    if ( this.form.controls[this.campo.nombre].value != null &&
+      this.form.controls[this.campo.nombre].value!= "" && 
+      this.form.controls[this.campo.nombre].value.toString().startsWith('#')){
+      const temp = this.hexToRgb(this.form.controls[this.campo.nombre].value);
+      let col = new Color(temp.r, temp.g, temp.b);
+      this.colorCtr.setValue(col);
+    }
   }
 
   constructor(){
