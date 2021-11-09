@@ -38,11 +38,13 @@ export class HistoriaClinicaComponent implements OnInit {
   }
 
   onPatientSelected(selected: any) {
-    this.paciente = {
+    console.log(selected);
+    /*this.paciente = {
       Cedula: selected.Cedula,
       Nombres: selected.Nombres,
       Apellidos: selected.Apellidos
-    };
+    };*/
+    this.paciente = selected;
     this.HCForm.controls["Apellidos"].setValue(selected.Apellidos);
     this.Cedula = selected.Cedula;
     this.IsWaitings = true;

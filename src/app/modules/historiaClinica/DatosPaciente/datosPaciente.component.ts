@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef, Input } from "@angular/core";
 import { TableService } from "../../core/services/table.service";
 import { ColumnaService } from "../../core/services/columna.service";
 import { TipoCampoService } from "../../tipo-campo/tipo-campo.service";
@@ -11,6 +11,8 @@ import { OdontologosService } from "../../core/services/odontologos.service";
   styleUrls: ["./datosPaciente.component.scss"],
 })
 export class DatosPacienteComponent implements OnInit {
+  @Input() Paciente: any;
+  
   public IsWaiting: boolean;
   public showListado: boolean = true;
   public showContent: boolean = true;
@@ -21,5 +23,8 @@ export class DatosPacienteComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("parametros de entrada!!!");
+    console.log(this.Paciente);
+  }
 }
