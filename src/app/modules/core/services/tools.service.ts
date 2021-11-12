@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable, BehaviorSubject } from "rxjs";
-
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-
 import { LoadingComponent } from "../loading/loading.component";
 import * as Globals from "../globals";
 import { ModalComponent } from "../modal/modal.component";
 import { Router } from "@angular/router";
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 
 @Injectable({
   providedIn: "root",
@@ -58,7 +58,7 @@ export class ToolsService {
 
     const msgDialogRef = this.dialog.open(ModalComponent, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe((result) => {});
+    msgDialogRef.afterClosed().subscribe((result) => { });
   }
 
   showDialogLogin(component) {
@@ -69,7 +69,7 @@ export class ToolsService {
 
     const msgDialogRef = this.dialog.open(component, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe((result) => {});
+    msgDialogRef.afterClosed().subscribe((result) => { });
   }
 
   showBuscadorModal(component: any, tipoFiltro: any) {
@@ -83,7 +83,7 @@ export class ToolsService {
 
     const msgDialogRef = this.dialog.open(component, dialogConfig);
 
-    msgDialogRef.afterClosed().subscribe((result) => {});
+    msgDialogRef.afterClosed().subscribe((result) => { });
   }
 
   showLoading() {
@@ -265,4 +265,35 @@ export class ToolsService {
   getUserFromLocalStorage(): any {
     return JSON.parse(localStorage.getItem(this.userKey));
   }
+
+  exportHtmlToPdf(elementId: string, pathFile: string) {
+    var element = document.getElementById(elementId);
+    html2canvas(element, {
+      logging: false
+    }).then(function (canvas) {
+      var pdf = new jsPDF('p', 'mm', 'a4');//A4 paper, portrait
+      var ctx = canvas.getContext('2d'),
+        a4w = 190, a4h = 257,//A4 size, 210mm x 297mm, 10 mm margin on each side, display area 190x277
+        imgHeight = Math.floor(a4h * canvas.width / a4w),//Convert pixel height of one page image to A4 display scale
+        renderedHeight = 0;
+      while (renderedHeight < canvas.height) {
+        var page = document.createElement("canvas");
+        page.width = canvas.width;
+        page.height = Math.min(imgHeight, canvas.height - renderedHeight);//Maybe less than one page
+        //Trim the specified area with getImageData and draw it into the canvas object created earlier
+        page.getContext('2d').putImageData(ctx.getImageData(0, renderedHeight, canvas.width, Math.min(imgHeight, canvas.height - renderedHeight)), 0, 0);
+        //Add an image to the page with a 10 mm / 20 mm margin
+        pdf.addImage(page.toDataURL('image/jpeg', 1.0), 'JPEG', 10, 20, a4w, Math.min(a4h, a4w * page.height / page.width));
+        //Add header logo
+        //pdf.addImage(imgDataPDF, 'PNG', 5, 3, 20, 30);
+        renderedHeight += imgHeight;
+        if (renderedHeight < canvas.height)
+          pdf.addPage();//Add an empty page if there is more to follow
+        //delete page;
+      }
+      pdf.save(pathFile);
+    });
+  }
+
+
 }
