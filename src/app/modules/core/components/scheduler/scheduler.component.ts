@@ -62,7 +62,7 @@ export class SchedulerComponent implements OnInit, OnChanges {
     handleWindowResize: true,
     selectMirror: true,
     dayMaxEvents: true,
-
+    //timeZone: 'America/Bogota',
     locale: esLocale,
     dayMaxEventRows: true,
     expandRows: true,

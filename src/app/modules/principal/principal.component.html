@@ -49,7 +49,10 @@
             <h1 class="mat-h1">Bienvenido, {{USUARIO.USUARIO_NOMBRE}}</h1>
             <mat-card fxLayout="row" fxLayoutAlign="space-around"
                 style="background-color:transparent; padding:5px;box-shadow: none;">
-                <app-basiccard bgColor="purple" fontColor="white" label="Citas del Dia" valor="{{totalCitasDelDia}}"
+
+                <app-basiccard bgColor="green" fontColor="white" label="Citas del Dia" valor="{{totalCitasDelDia}}"
+                    icono="calendar_today" fxFlex=30 [onClickFunction]="runOnClick"></app-basiccard>
+                <app-basiccard bgColor="purple" fontColor="white" label="Citas Confirmadas" valor="{{totalCitasConfirmadas}}"
                     icono="calendar_today" fxFlex=30 [onClickFunction]="runOnClick"></app-basiccard>
                 <app-basiccard bgColor="#090979" fontColor="white" label="Citas Atendidas"
                     valor="{{totalCitasAtendidas}}" icono="task_alt" fxFlex=30>
@@ -60,19 +63,14 @@
                 <app-basiccard bgColor="blue" fontColor="white" label="Total Pacientes"
                     valor="{{totalPacientesClinica}}" icono="toc" fxFlex=30>
                 </app-basiccard>
-
-                <app-basiccard bgColor="blue" fontColor="white" label="Total Egresos del Dia"
-                    valor="{{totalPacientesClinica}}" icono="toc" fxFlex=30>
-                </app-basiccard>
             </mat-card>
 
+                    
             <mat-card fxLayout="row" fxLayoutAlign="space-around"
                 style="background-color:transparent; padding:15px;box-shadow: none;">
-                <app-piechart label="Clientes por mes" fxFlex=50 [chartOptions]='chartOptions'
+                <app-piechart label="Citas Atendias Por Mes Año Actual" fxFlex=50 [chartOptions]='chartOptions'
                     labels='chartOptions.labels'> </app-piechart>
-                <app-piechart label="Citas Options 1" fxFlex=50 [chartOptions]='chartOptions1'
-                    labels='chartOptions1.labels'></app-piechart>
-                <app-piechart label="Citas segun sexo" fxFlex=50 [chartOptions]='chartOptions2'
+                <app-piechart label="Pacientes Por SEXO" fxFlex=50 [chartOptions]='chartOptionsPacientesSexo'
                     labels='chartOptions2.labels'> </app-piechart>
             </mat-card>
 
