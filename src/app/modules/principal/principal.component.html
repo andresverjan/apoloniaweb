@@ -64,14 +64,13 @@
                     valor="{{totalPacientesClinica}}" icono="toc" fxFlex=30>
                 </app-basiccard>
             </mat-card>
-
                     
             <mat-card fxLayout="row" fxLayoutAlign="space-around"
                 style="background-color:transparent; padding:15px;box-shadow: none;">
-                <app-piechart label="Citas Atendias Por Mes Año Actual" fxFlex=50 [chartOptions]='chartOptions'
-                    labels='chartOptions.labels'> </app-piechart>
+                <app-piechart label="Citas Atendias Por Mes Año Actual" fxFlex=50 [chartOptions]='chartOptionsCitasMes'
+                    labels='chartOptions.labels' *ngIf="chartOptionsCitasMes?.series?.length>0" > </app-piechart>
                 <app-piechart label="Pacientes Por SEXO" fxFlex=50 [chartOptions]='chartOptionsPacientesSexo'
-                    labels='chartOptions2.labels'> </app-piechart>
+                    labels='chartOptions2.labels' *ngIf="chartOptionsPacientesSexo?.series?.length>0"> </app-piechart>
             </mat-card>
 
             <mat-card fxLayout="row" fxLayoutAlign="space-around"

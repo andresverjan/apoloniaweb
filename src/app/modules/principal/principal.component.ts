@@ -41,7 +41,6 @@ export class PrincipalComponent implements OnInit {
 
   public listColors = ['primary', 'accent', 'warn'];
 
-
   public dateValue;
   public primaryColor: string;
   public secondaryColor: string;
@@ -65,61 +64,8 @@ export class PrincipalComponent implements OnInit {
   ];
 
   public happyBirthdayList: [];
-  public chartOptions: Partial<ChartOptions> = {
-    chart: {
-      height: 250,
-      type: "bar"
-    },
-    series: [
-      {
-        name: "My-series",
-        data: []
-      }
-    ],
-    //labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
-    xaxis: {
-      categories: []
-    },
-    title: {
-      text: "Aplonia Chart"
-    },
-    colors: [
-      '#E91E63',
-      '#F44336',
-      '#9C27B0',
-      '#00FF00',
-      '#29b6f6',
-      '#388e3c',
-      '#ffeb3b',
-      '#e65100',
-      '#bdbdbd',
-      '#1a237e',
-      '#f50057',
-    ]
-  };
-
-  public chartOptionsPacientesSexo: Partial<ChartOptionsPieDonut> = {
-    chart: {
-      height: 250,
-      type: "pie"
-    },
-    series: [],
-    labels: [],
-    xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
-    },
-    title: {
-      text: "Aplonia Chart"
-    },
-    colors: [
-      '#090979',
-      '#800080',
-      '#e65100',
-      '#bdbdbd',
-      '#1a237e',
-      '#f50057',
-    ]
-  };
+  public chartOptionsCitasMes: Partial<ChartOptions>;
+  public chartOptionsPacientesSexo: Partial<ChartOptionsPieDonut>;
 
   public USUARIO: any = {};
   public totalEsterilizaciones: number = 0;
@@ -341,14 +287,40 @@ export class PrincipalComponent implements OnInit {
         obj.data.push(res.count);
         obj.categories.push(shortName);
       });
+            
+       this.chartOptionsCitasMes= {
+        chart: {
+          height: 250,
+          type: "bar"
+        },
+        series: [
+          {
+            name: "Pacientes",
+            data: obj.data
+          }
+        ],
+        labels: obj.categories,
+        xaxis: {
+          categories: []
+        },
+        title: {
+          text: "Aplonia Chart"
+        },
+        colors: [
+          '#E91E63',
+          '#F44336',
+          '#9C27B0',
+          '#00FF00',
+          '#29b6f6',
+          '#388e3c',
+          '#ffeb3b',
+          '#e65100',
+          '#bdbdbd',
+          '#1a237e',
+          '#f50057',
+        ]
+      };
 
-      this.chartOptions.series = [{
-        name: "Pacientes",
-        data: obj.data
-      }
-      ];
-      this.chartOptions.labels = obj.categories
-      //this.chartOptions.xaxis.categories = obj.categories;
       console.log(obj);
     });
   }
