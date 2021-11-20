@@ -75,9 +75,15 @@
 
             <mat-card fxLayout="row" fxLayoutAlign="space-around"
                 style="background-color:transparent; padding:5px;box-shadow: none;">
+                                
                 <app-listado bgColor="white" headerColor="#512774" fontHeaderColor="white" fontColor="black"
-                    icono="person" size="roboto font-size:14;" label="Proximas Citas" [data]="lista"
-                    [columnas]="titulos" fxFlex="40">
+                    icono="person" size="roboto font-size:14;" label="Proximas Citas - Confirmadas" [data]="listCitasConfirmadas"
+                    [columnas]="listCitasConfirmadasTitulos" fxFlex="40">
+                </app-listado>
+
+                <app-listado bgColor="white" headerColor="#512774" fontHeaderColor="white" fontColor="black"
+                    icono="person" size="roboto font-size:14;" label="Citas - Canceladas" [data]="listCitasCanceladas"
+                    [columnas]="listCitasCanceladasTitulos" fxFlex="40">
                 </app-listado>
 
                 <app-listado bgColor="white" headerColor="red" fontHeaderColor="white" fontColor="black" icono="cake"

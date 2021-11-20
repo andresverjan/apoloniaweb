@@ -171,8 +171,6 @@ export class CitaService {
           Nombres
           Apellidos
           start
-          end
-          odontologoId
         }
       }`,
     };

@@ -12,6 +12,7 @@ import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
+import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 
 export interface PeriodicElement {
   name: string;
@@ -85,6 +86,8 @@ export class PrincipalComponent implements OnInit {
 
   titulos = ['Nombre', 'Apellido', 'HoraCita', 't'];
   titulos2 = ['Nombre', 'Apellido', 'SEXO', 'EDAD'];
+  listCitasConfirmadasTitulos= [];
+  listCitasCanceladasTitulos = [];
   titulosCumple = ['Nombres', 'Apellidos', 'Fecha'];
 
   lista2 = [
@@ -137,6 +140,7 @@ export class PrincipalComponent implements OnInit {
     },
   ];
   totalCitasConfirmadas: any;
+  
 
 
 
@@ -155,6 +159,8 @@ export class PrincipalComponent implements OnInit {
     this.fetchListCitasCanceladas();
     this.getNumPacBySex();
     this.getNumCitasAtendidasbyMonthThisYear();
+
+    this.fetchListCitasConfirmadas();
 
   }
 
@@ -233,13 +239,25 @@ export class PrincipalComponent implements OnInit {
   }
 
   /*
-   ** Listar Las citas Que han sido confirmadas, Status = 1
+   ** Listar Las citas Que han sido confirmadas, Status = 2
    */
   fetchListCitasConfirmadas() {
-    let statusCita = 1;
+    let statusCita = 2;
     this.citaService.citasByToday(statusCita).subscribe((res) => {
-      console.log(res.data.citasByToday);
+      console.log(res.data.citasByToday);      
       this.listCitasConfirmadas = res.data.citasByToday;
+      if (this.listCitasConfirmadas.length>0){            
+          Object.keys(this.listCitasConfirmadas[0]).map((key) => {
+            if(key =='start'){
+              this.listCitasConfirmadasTitulos.push('Hora Inicio');  
+            } else if(key =='end'){
+              this.listCitasConfirmadasTitulos.push('Hora Fin');
+            }else{
+              this.listCitasConfirmadasTitulos.push(key);
+            }
+         });
+      }
+      console.log(this.listCitasConfirmadas);
     });
   }
 
@@ -251,6 +269,17 @@ export class PrincipalComponent implements OnInit {
     this.citaService.citasByToday(statusCita).subscribe((res) => {
       console.log(res.data.citasByToday);
       this.listCitasCanceladas = res.data.citasByToday;
+      if (this.listCitasCanceladas.length>0){            
+        Object.keys(this.listCitasCanceladas[0]).map((key) => {
+          if(key =='start'){
+            this.listCitasCanceladasTitulos.push('Hora Inicio');  
+          } else if(key =='end'){
+            this.listCitasCanceladasTitulos.push('Hora Fin');
+          }else{
+            this.listCitasCanceladasTitulos.push(key);
+          }
+       });
+    }
     });
   }
 
