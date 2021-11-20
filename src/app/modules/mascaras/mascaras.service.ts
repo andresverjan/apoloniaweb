@@ -3,6 +3,7 @@ import * as Globals from "../../modules/core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "../core/services/tools.service";
+import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
@@ -10,9 +11,30 @@ import { ToolsService } from "../core/services/tools.service";
 export class MascarasService {
   serverUrl: string;
 
-  constructor(private http: HttpClient, private toolService: ToolsService) {
+  constructor(private http: HttpClient, private toolService: ToolsService , private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
+
+  getMascaras():  Observable<any> {
+    let body = {
+      query: `{
+        mascaras {
+          id
+          nombre
+          descripcion
+          active
+          createdBy
+        }
+      }
+      `,
+    };
+    return this.httpService.callApi(body);
+  }
+
+
+
+
+
 
   getAll(objeTosend?: any): Observable<any> {
     let filtro = "";

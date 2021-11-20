@@ -127,4 +127,20 @@ export class PacienteService {
     return this.httpService.callApi(body);
   }
 
+  getPacienteSexo(): Observable<any> {
+    let body = {
+      query: `
+      {
+        getPacienteSexo {
+          Sexo
+          consult
+        }
+      }`,
+    };
+    return this.httpService.callApi(body);
+  }
+
+  
+
+
 }
