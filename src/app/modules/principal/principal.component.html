@@ -47,9 +47,18 @@
         <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden; box-shadow: none;"
         id="htmlData3">
             <h1 class="mat-h1">Bienvenido, {{USUARIO.USUARIO_NOMBRE}}</h1>
+
             <mat-card fxLayout="row" fxLayoutAlign="space-around"
                 style="background-color:transparent; padding:5px;box-shadow: none;">
 
+                <app-basiccard  *ngFor="let componente of ListComponentesTipo1"
+                bgColor="{{componente.color1}}" fontColor="white" label="{{componente.titulo}}" valor="{{componente.data}}"
+                    icono="{{componente.icono}}" fxFlex=30 [onClickFunction]="runOnClick"></app-basiccard>
+                
+            </mat-card>
+            
+            <!--<mat-card fxLayout="row" fxLayoutAlign="space-around"
+                style="background-color:transparent; padding:5px;box-shadow: none;">
                 <app-basiccard bgColor="green" fontColor="white" label="Citas del Dia" valor="{{totalCitasDelDia}}"
                     icono="calendar_today" fxFlex=30 [onClickFunction]="runOnClick"></app-basiccard>
                 <app-basiccard bgColor="purple" fontColor="white" label="Citas Confirmadas" valor="{{totalCitasConfirmadas}}"
@@ -63,7 +72,7 @@
                 <app-basiccard bgColor="blue" fontColor="white" label="Total Pacientes"
                     valor="{{totalPacientesClinica}}" icono="toc" fxFlex=30>
                 </app-basiccard>
-            </mat-card>
+            </mat-card>-->
                     
             <mat-card fxLayout="row" fxLayoutAlign="space-around"
                 style="background-color:transparent; padding:15px;box-shadow: none;">
