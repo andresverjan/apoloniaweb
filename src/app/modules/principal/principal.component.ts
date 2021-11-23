@@ -6,12 +6,14 @@ import { ElementRef } from '@angular/core';
 import { MascarasService } from '../mascaras/mascaras.service';
 import { PacienteService } from '../core/services/paciente.service';
 import { CitaService } from '../citas/citas.service';
+import { ConfigDashBoardService } from '../core/services/ConfigDashBoardService.service';
 
 import * as moment from 'moment';
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
+import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 
 export interface PeriodicElement {
   name: string;
@@ -26,30 +28,16 @@ export interface PeriodicElement {
   styleUrls: ['./principal.component.scss']
 })
 export class PrincipalComponent implements OnInit {
-
-  public disabled = false;
+  
   public color: ThemePalette = 'primary';
-  public touchUi = false;
-  public test = "";
-
-  colorCtr: AbstractControl = new FormControl(null);
-
-  public options = [
-    { value: true, label: 'True' },
-    { value: false, label: 'False' },
-  ];
+  colorCtr: AbstractControl = new FormControl(null);  
 
   public listColors = ['primary', 'accent', 'warn'];
-
-
-  public dateValue;
+  
   public primaryColor: string;
   public secondaryColor: string;
   public accentColor: string;
   public warnColor: string;
-
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-
 
   public dataSource: PeriodicElement[] = [
     { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
@@ -64,62 +52,12 @@ export class PrincipalComponent implements OnInit {
     { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
   ];
 
-  public happyBirthdayList: [];
-  public chartOptions: Partial<ChartOptions> = {
-    chart: {
-      height: 250,
-      type: "bar"
-    },
-    series: [
-      {
-        name: "My-series",
-        data: []
-      }
-    ],
-    //labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
-    xaxis: {
-      categories: []
-    },
-    title: {
-      text: "Aplonia Chart"
-    },
-    colors: [
-      '#E91E63',
-      '#F44336',
-      '#9C27B0',
-      '#00FF00',
-      '#29b6f6',
-      '#388e3c',
-      '#ffeb3b',
-      '#e65100',
-      '#bdbdbd',
-      '#1a237e',
-      '#f50057',
-    ]
-  };
+  public ListComponentesTipo1: Array<any> = [];
+  public ListComponentesTipo2: Array<any> = [];
+  public ListComponentesTipo3: Array<any> = [];
 
-  public chartOptionsPacientesSexo: Partial<ChartOptionsPieDonut> = {
-    chart: {
-      height: 250,
-      type: "pie"
-    },
-    series: [],
-    labels: [],
-    xaxis: {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
-    },
-    title: {
-      text: "Aplonia Chart"
-    },
-    colors: [
-      '#090979',
-      '#800080',
-      '#e65100',
-      '#bdbdbd',
-      '#1a237e',
-      '#f50057',
-    ]
-  };
+  public chartOptionsCitasMes: Partial<ChartOptions>;
+  public chartOptionsPacientesSexo: Partial<ChartOptionsPieDonut>;
 
   public USUARIO: any = {};
   public totalEsterilizaciones: number = 0;
@@ -128,18 +66,12 @@ export class PrincipalComponent implements OnInit {
   public totalCitasCanceladas: number = 0;
   public totalPacientesClinica: number = 0;
 
-  public listCitasConfirmadas: Array<any> = [];
-  public listCitasCanceladas: Array<any> = [];
-  public listCitasTerminadas: Array<any> = [];
 
   public getNumPacientesBySexo = {
     series: [],
     labels: []
   };
 
-  titulos = ['Nombre', 'Apellido', 'HoraCita', 't'];
-  titulos2 = ['Nombre', 'Apellido', 'SEXO', 'EDAD'];
-  titulosCumple = ['Nombres', 'Apellidos', 'Fecha'];
 
   lista2 = [
     {
@@ -192,40 +124,257 @@ export class PrincipalComponent implements OnInit {
   ];
   totalCitasConfirmadas: any;
 
-
-
   constructor(public esterilizacionesService: EsterilizacionesService, public toolsService: ToolsService,
     public pacienteService: PacienteService,
     private mascarasService: MascarasService,
     private citaService: CitaService,
+    private configDashBoardService: ConfigDashBoardService,
     private elementRef: ElementRef) {
 
-    this.citasDelDia();
-    this.citasDelDiaConfirmadas();
-    this.citasAtendidas();
-    this.citasCanceladas();    
-    this.totalPacientes();
-    this.fetchPacientesCumpleaños();
-    this.fetchListCitasCanceladas();
+    this.fetchListadoComponentesTipo1();
+    this.fetchListadoComponentesTipo2();
+
     this.getNumPacBySex();
     this.getNumCitasAtendidasbyMonthThisYear();
 
   }
 
+  fetchListadoComponentesTipo1() {
+    let componenteTipoId = 1;
+    this.configDashBoardService.getDashBoardItemsByTipo(componenteTipoId).subscribe((res) => {
+      this.ListComponentesTipo1 = res.data.getDashBoardItemsByTipo;
 
-  fetchPacientesCumpleaños() {
+      let _$this = this;
+      this.ListComponentesTipo1.forEach(function (element: any) {
+        switch (element.codigo) {
+          case "NUM_PACIENTES": {
+            _$this.totalPacientes(element);
+            break;
+          }
+          case "NUM_CITAS": {
+            _$this.citasDelDia(element);
+            break;
+          }
+          case "NUM_CITAS_CONFIRMADAS": {
+            _$this.citasDelDiaConfirmadas(element);
+            break;
+          }
+          case "NUM_CITAS_CANCELADAS": {
+            _$this.citasCanceladas(element);
+            break;
+          }
+          case "NUM_CITAS_ATENDIDAS": {
+            _$this.citasAtendidas(element);
+            break;
+          }
+        }
+      });
+    });
+  }
+
+  fetchListadoComponentesTipo2() {
+    let componenteTipoId = 2;
+    this.configDashBoardService.getDashBoardItemsByTipo(componenteTipoId).subscribe((res) => {
+      this.ListComponentesTipo2 = res.data.getDashBoardItemsByTipo;
+      let _$this = this;
+      this.ListComponentesTipo2.forEach(function (element: any) {
+        switch (element.codigo) {
+          case "LISTADO_CITAS_CANCELADAS": {
+            _$this.fetchListCitasCanceladas(element);
+            break;
+          }
+          case "LISTADO_CITAS_CONFIRMADAS": {
+            _$this.fetchListCitasConfirmadas(element);
+            break;
+          }
+          case "LISTADO_CUMPLEAÑOS": {
+            _$this.fetchPacientesCumpleaños(element);
+            break;
+          }
+          case "LISTADO_PROXIMAS_CITAS": {
+            _$this.fetchPacientesCumpleaños(element);
+            break;
+          }
+        }
+      });
+    });
+  }
+
+
+
+
+
+
+
+  /*
+  * ________________________________________
+   * Metodos Relacionados con los listado.
+   * ________________________________________
+  */
+
+  /*
+   ** Listar Las citas Que han sido confirmadas, Status = 2
+   */
+  fetchListCitasConfirmadas(elementInput: any) {
+    let statusCita = 2;
+    elementInput.hide = true;
+    this.citaService.citasByToday(statusCita).subscribe((res) => {
+      let listCitasConfirmadas: Array<any> = [];
+      let listCitasConfirmadasTitulos: Array<any> = [];
+      listCitasConfirmadas = res.data.citasByToday;
+      if (listCitasConfirmadas.length > 0) {
+        elementInput.hide = false;
+        Object.keys(listCitasConfirmadas[0]).map((key) => {
+          if (key == 'start') {
+            listCitasConfirmadasTitulos.push('Hora Inicio');
+          } else if (key == 'end') {
+            listCitasConfirmadasTitulos.push('Hora Fin');
+          } else {
+            listCitasConfirmadasTitulos.push(key);
+          }
+        });
+        elementInput.data = listCitasConfirmadas;
+        elementInput.columnas = listCitasConfirmadasTitulos;
+      } else {
+        console.log("xi no tiene items lo borro CONFIRMADAS!! " + elementInput.codigo);
+        this.ListComponentesTipo2 = this.ListComponentesTipo2.filter((opt) => elementInput.codigo != opt.codigo);
+        console.log(this.ListComponentesTipo2);
+      }
+    });
+  }
+
+  /*
+     ** Listar Las citas Que han sido Canceldas, Status = 6
+     */
+  fetchListCitasCanceladas(elementInput: any) {
+    console.log("list Citas Canceladas....");
+    let statusCita = 6;
+    elementInput.hide = true;
+    this.citaService.citasByToday(statusCita).subscribe((res) => {
+      let listCitasCanceladasTitulos: Array<any> = [];
+      let listCitasCanceladas: Array<any> = [];
+      listCitasCanceladas = res.data.citasByToday;
+      if (listCitasCanceladas.length > 0) {
+        Object.keys(listCitasCanceladas[0]).map((key) => {
+          if (key == 'start') {
+            listCitasCanceladasTitulos.push('Hora Inicio');
+          } else if (key == 'end') {
+            listCitasCanceladasTitulos.push('Hora Fin');
+          } else {
+            listCitasCanceladasTitulos.push(key);
+          }
+        });
+        elementInput.hide = false;
+        elementInput.columnas = listCitasCanceladasTitulos;
+        elementInput.data = listCitasCanceladas;
+      } else {
+        console.log("xi no tiene items lo borro!! " + elementInput.codigo);
+        this.ListComponentesTipo2 = this.ListComponentesTipo2.filter((opt) => elementInput.codigo != opt.codigo);
+        console.log(this.ListComponentesTipo2);
+      }
+    });
+  }
+
+  fetchPacientesCumpleaños(elementInput: any) {
+    elementInput.hide = true;
     this.pacienteService.getHappyBirthdayList().subscribe((res) => {
       const list = res.data.getHappyBirthdayList;
-      this.happyBirthdayList = list.map((res) => {
+      let titulos: Array<any> = [];
+      let happyBirthdayList: Array<any> = [];
+      happyBirthdayList = list.map((res) => {
         if (res.FechaNacimiento) {
           res.FechaNacimiento = moment(new Date(res.FechaNacimiento)).format("YYYY-MM-DD");
         }
         return res;
-      })
-      console.log(this.happyBirthdayList);
-    });
+      });
+      if (happyBirthdayList.length > 0) {
+        elementInput.hide = false;
+        Object.keys(happyBirthdayList[0]).map((key) => {
+          titulos.push(key);
+        });
+        elementInput.data = happyBirthdayList;
+        elementInput.columnas = titulos;
+      } else {
+        this.ListComponentesTipo2 = this.ListComponentesTipo2.filter((opt) => elementInput.codigo != opt.codigo);
+      }
 
+    });
   }
+
+  /*
+   ** Listar Las citas Que han sido Termiandas, Status = 3
+   */
+  fetchListCitasTerminadas(elementInput: any) {
+    let statusCita = 3;
+    this.citaService.citasByToday(statusCita).subscribe((res) => {
+      //this.listCitasTerminadas = res.data.citasByToday;
+    });
+  }
+
+  /* ________________________________________
+   * FIN Metodos Listado.
+   * ________________________________________*/
+
+
+
+
+
+  /*
+  ** Cantidad de citas Atentidas por mes durante el año.
+  */
+  getNumCitasAtendidasbyMonthThisYear() {
+    this.citaService.getNumCitasAtendidasbyMonthThisYear().subscribe((res) => {
+      let list = res.data.getNumCitasAtendidasbyMonthThisYear;
+      let monthNum = 9;
+      var shortName = moment.monthsShort(monthNum - 1);
+
+      let obj = {
+        data: [],
+        categories: []
+      };
+      list.map((res) => {
+        let monthNum = res.MONTH;
+        let shortName = moment.monthsShort(monthNum - 1);
+        obj.data.push(res.count);
+        obj.categories.push(shortName);
+      });
+
+      this.chartOptionsCitasMes = {
+        chart: {
+          height: 250,
+          type: "bar"
+        },
+        series: [
+          {
+            name: "Pacientes",
+            data: obj.data
+          }
+        ],
+        labels: obj.categories,
+        xaxis: {
+          categories: []
+        },
+        title: {
+          text: "Aplonia Chart"
+        },
+        colors: [
+          '#E91E63',
+          '#F44336',
+          '#9C27B0',
+          '#00FF00',
+          '#29b6f6',
+          '#388e3c',
+          '#ffeb3b',
+          '#e65100',
+          '#bdbdbd',
+          '#1a237e',
+          '#f50057',
+        ]
+      };
+
+    });
+  }
+
 
   getNumPacBySex() {
     this.pacienteService.getPacienteSexo().subscribe((res) => {
@@ -276,126 +425,72 @@ export class PrincipalComponent implements OnInit {
     });
   }
 
+
+
+
+
+
+
+
   /*
-  ** cantidad total de pacientes del sistema
+  * ________________________________________
+   *  Metodos Relacionados con los contadores o Cantidad
+   * ________________________________________
   */
-  totalPacientes() {
+   /** cantidad total de pacientes del sistema*/
+   totalPacientes(elementInput: any) {
     this.pacienteService.getNumPacientes().subscribe((res) => {
       const list = res.data.getNumPacientes;
+      elementInput.data = [];
+      elementInput.data = list.count;
       this.totalPacientesClinica = list.count;
     });
   }
-
-  /*
-   ** Listar Las citas Que han sido confirmadas, Status = 1
-   */
-  fetchListCitasConfirmadas() {
-    let statusCita = 1;
-    this.citaService.citasByToday(statusCita).subscribe((res) => {
-      console.log(res.data.citasByToday);
-      this.listCitasConfirmadas = res.data.citasByToday;
-    });
-  }
-
-  /*
-     ** Listar Las citas Que han sido Canceldas, Status = 6
-     */
-  fetchListCitasCanceladas() {
-    let statusCita = 6;
-    this.citaService.citasByToday(statusCita).subscribe((res) => {
-      console.log(res.data.citasByToday);
-      this.listCitasCanceladas = res.data.citasByToday;
-    });
-  }
-
-  /*
-   ** Listar Las citas Que han sido Termiandas, Status = 3
-   */
-  fetchListCitasTerminadas() {
-    let statusCita = 3;
-    this.citaService.citasByToday(statusCita).subscribe((res) => {
-      console.log(res.data.citasByToday);
-      this.listCitasTerminadas = res.data.citasByToday;
-    });
-  }
-
-  /*
-  ** Cantidad de citas Atentidas por mes durante el año.
-  */
-  getNumCitasAtendidasbyMonthThisYear() {
-    this.citaService.getNumCitasAtendidasbyMonthThisYear().subscribe((res) => {
-      console.log(res.data.getNumCitasAtendidasbyMonthThisYear);
-      let list = res.data.getNumCitasAtendidasbyMonthThisYear;
-      let monthNum = 9;
-      var shortName = moment.monthsShort(monthNum - 1);
-      console.log(shortName);
-
-      let obj = {
-        data: [],
-        categories: []
-      };
-      list.map((res) => {
-        console.log(res);
-        let monthNum = res.MONTH;
-        let shortName = moment.monthsShort(monthNum - 1);
-        obj.data.push(res.count);
-        obj.categories.push(shortName);
-      });
-
-      this.chartOptions.series = [{
-        name: "Pacientes",
-        data: obj.data
-      }
-      ];
-      this.chartOptions.labels = obj.categories
-      //this.chartOptions.xaxis.categories = obj.categories;
-      console.log(obj);
-    });
-  }
-
-
-  citasDelDia() {
+  citasDelDia(elementInput: any) {
     this.totalCitasDelDia = 13;
     let statusCita = 99;
-    this.citaService.citasByTodayCount(statusCita).subscribe((res) => {      
+    this.citaService.citasByTodayCount(statusCita).subscribe((res) => {
       let list = res.data.citasByToday;
-      console.log("Total De citas del dia" + list.length);
-      console.log(list);
       this.totalCitasDelDia = list.length;
+      elementInput.data = this.totalCitasDelDia;
     });
   }
-  citasDelDiaConfirmadas() {
+  citasDelDiaConfirmadas(elementInput: any) {
     let statusCita = 2;
-    this.citaService.citasByTodayCount(statusCita).subscribe((res) => {      
+    this.citaService.citasByTodayCount(statusCita).subscribe((res) => {
       let list = res.data.citasByToday;
-      console.log("Total De citas Confirmadas" + list.length);
-      console.log(list);
       this.totalCitasConfirmadas = list.length;
+      elementInput.data = this.totalCitasConfirmadas;
     });
-  }  
-  citasAtendidas() {
-    this.totalCitasAtendidas = 3;        
-    let statusCita = 3;    
-    this.citaService.citasByTodayCount(statusCita).subscribe((res) => {      
+  }
+  citasAtendidas(elementInput: any) {
+    this.totalCitasAtendidas = 3;
+    let statusCita = 3;
+    this.citaService.citasByTodayCount(statusCita).subscribe((res) => {
       let list = res.data.citasByToday;
-      console.log("Citas Atendidas Today COUNT " + list.length);
-      console.log(list);
       this.totalCitasAtendidas = list.length;
+      elementInput.data = this.totalCitasAtendidas;
     });
   }
-  citasCanceladas() {
-    let statusCita = 6;    
-    this.citaService.citasByTodayCount(statusCita).subscribe((res) => {      
+  citasCanceladas(elementInput: any) {
+    let statusCita = 6;
+    this.citaService.citasByTodayCount(statusCita).subscribe((res) => {
       let list = res.data.citasByToday;
-      console.log("Citas CANCELADAS COUNT " + list.length);
-      console.log(list);
       this.totalCitasCanceladas = list.length;
+      elementInput.data = this.totalCitasCanceladas;
     });
   }
+  /* ________________________________________
+   * FIN Metodos contadores o Cantidad.
+   * ________________________________________*/
 
 
-  runOnClick = (args: any): void => {
-    console.log("imprimo desddf eel componente Hijo ");
+
+
+
+
+
+  runOnClick = (args: any): void => {    
     console.log(args);
   }
 
