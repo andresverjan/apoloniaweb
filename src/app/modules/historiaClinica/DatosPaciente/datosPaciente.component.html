@@ -1,3 +1,109 @@
-<div>
-  <h1>Hola desde Datos Paciente</h1>
+<mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+</mat-card-actions>
+<mat-progress-bar mode="indeterminate" *ngIf="isWaiting"></mat-progress-bar>
+<div class="container" style="overflow: hidden">
+  <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
+    <mat-card-content class="window-dashboard-card-content contentprincipal">
+      <mat-toolbar color="primary">
+        <mat-icon matPrefix>account_balance</mat-icon>
+        <label>Datos del Paciente</label>
+        <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-toolbar>
+      <mat-card-header>
+        <mat-card-title> </mat-card-title>
+      </mat-card-header>
+      <form [formGroup]="pacienteForm" autocomplete="off" novalidate>
+        <mat-card class="cardcontent">
+          <!--<mat-card-title fxLayoutAlign="center">
+            <label>{{etiquetas.DatosBasicos}}</label>
+          </mat-card-title>-->
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+            <!--<app-avatar width=190 [(url)]=picurl [editmode]=true marginInput="auto"
+              style="margin-top: 5px; margin-bottom: 10px;"></app-avatar>-->
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Tipo Documento</mat-label>
+                <input matInput formControlName="TipoDoc" id="TipoDoc" placeholder="TipoDoc" required>
+              </mat-form-field>
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Cédula</mat-label>
+                <input matInput formControlName="Cedula" id="Cedula" placeholder="Cedula" required>
+              </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Nombres</mat-label>
+                <input matInput formControlName="Nombres" id="Nombres" placeholder="Nombres" required>
+              </mat-form-field>
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Apellidos</mat-label>
+                <input matInput formControlName="Apellidos" id="Apellidos" placeholder="Apellidos" required>
+              </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>E-mail</mat-label>
+                <input matInput formControlName="Mail" id="Mail" placeholder="E-Mail" required>
+              </mat-form-field>
+
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Dirección</mat-label>
+                <input matInput formControlName="Direccion" id="Direccion" placeholder="Direccion" required>
+              </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>EPS</mat-label>
+                <input matInput formControlName="Eps" id="Eps" placeholder="EPS" required>
+              </mat-form-field>
+
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Nacionaliad</mat-label>
+                <input matInput formControlName="Nacionaliad" id="Nacionaliad" placeholder="Nacionaliad" required>
+              </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Ocupación</mat-label>
+                <input matInput formControlName="Ocupacion" id="Ocupacion" placeholder="Ocupacion" required>
+              </mat-form-field>
+
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Telefono Casa</mat-label>
+                <input matInput formControlName="TelCasa" id="TelCasa" placeholder="TelCasa" required>
+              </mat-form-field>
+
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Telefono Oficina</mat-label>
+                <input matInput formControlName="TelOficina" id="TelOficina" placeholder="TelCasa" required>
+              </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex=100>
+              <mat-form-field fxLayout="column" fxFlex>
+                <mat-label>Fecha Nacimiento</mat-label>
+                <input matInput formControlName="FechaNacimiento" id="FechaNacimiento" placeholder="FechaNacimiento" required>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+
+          <!--<mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button (click)="update()" color="primary" fxLayout="row" fxLayout.xs="column"
+              fxLayoutAlign="center" fxFlex="80">
+              <mat-icon>loop</mat-icon>
+              Actualizar
+            </button>
+          </mat-card-actions>-->
+        </mat-card>
+      </form>
+
+    </mat-card-content>
+  </mat-card-content>
 </div>
