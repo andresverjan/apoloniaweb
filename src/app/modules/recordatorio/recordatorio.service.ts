@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as Globals from "../core/globals";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
@@ -10,27 +11,30 @@ export class RecordatorioService {
   serverUrl: string;
   SERVER_RECURSO_LOGIN_ADMIN = "";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
-
-  listUsers(objeTosend?): Observable<any> {
-    /*let filter = "";
+//List
+  list(objeTosend?): Observable<any> {
+    let filter = "";
     if (objeTosend != null) {
       filter = `( filter: {`;
-      filter += objeTosend.name != "" ? `name: "${objeTosend.name}` : "";
-      filter += objeTosend.rol_id != "" ? `rol_id: "${objeTosend.rol_id}"` : "";
-      filter +=
-        objeTosend.lastName != "" ? `lastName: "${objeTosend.lastName}"` : "";
+      filter += objeTosend.NOMBRE != "" ? `NOMBRE: "${objeTosend.NOMBRE}` : "";
       filter += `} )`;
     }
-
+  
     let body = {
-      query: `{users ${filter} {_id,name,lastName,urlPhoto,email,phoneNumber,rol_id}}`,
-    };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });*/
-    return this.getAll(objeTosend);
+      query: `{
+        recordatorios ${filter} {    
+         id
+         NOMBRE
+         NOTA    
+         EMPRESA_ID    
+       }
+     }
+     `
+    }
+    return this.httpService.callApi(body);
   }
 
   getAll(objeTosend: any): Observable<any> {
@@ -106,5 +110,23 @@ export class RecordatorioService {
     };
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
+  }
+
+
+
+  recordatoriosBack(): Observable<any>{
+    let body = {
+      query: `{
+        recordatorios{    
+         id
+         NOMBRE
+         NOTA    
+         EMPRESA_ID    
+       }
+     }
+     `
+    }
+    return this.httpService.callApi(body);
+
   }
 }

@@ -11,10 +11,10 @@ import { RolService } from "../roles/roles.service";
   styleUrls: ["./recordatorio.component.scss"],
 })
 export class RecordatorioComponent implements OnInit {
-  listadoUsers = [];
-  public userForm: FormGroup;
+  listado = [];
+  public lForm: FormGroup;
   public etiquetaNombreModulo = "Usuarios";
-  public etiquetaListado = "Listado de Usuarios";
+  public etiquetaListado = "Configuración de Recordatorios";
   public IsWait: Boolean = false;
   public lShowPanelListado: Boolean = true;
   public lShowPanelDatos: Boolean = false;
@@ -34,55 +34,37 @@ export class RecordatorioComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerDatos();
-    this.listRoles();
-    this.userForm = new FormGroup({
+    
+    this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
-      name: new FormControl("", [
+      NOMBRE: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      lastName: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      email: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      phoneNumber: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      urlPhoto: new FormControl("", [Validators.maxLength(500)]),
-      rol_id: new FormControl("", [
+      NOTA: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
     });
+
   }
 
-  listRoles() {
-    this.rolService.getAll(null).subscribe(res =>{
-      res.data.roles.forEach(rol => {
-        this.roles.push({value: rol.id, nombre: rol.nombre});
-      });
-    });
-  }
+ 
 
   procesarRolAdd(rolSelected: any ){
-    this.userForm.controls['rol_id'].setValue(rolSelected.value);
+    this.lForm.controls['rol_id'].setValue(rolSelected.value);
   }
 
   procesarRol(rolSelected: any ){
-    this.userForm.controls['rol_id'].setValue(rolSelected.value);
+    this.lForm.controls['rol_id'].setValue(rolSelected.value);
     this.filter.rol_id = rolSelected.value;
     this.obtenerDatos(this.filter);
   }
 
   obtenerDatos(obj?) {
     this.IsWait = true;
-    this.lService.listUsers(obj).subscribe((response) => {
-      this.listadoUsers = response.data.users;
+    this.lService.list(obj).subscribe((response) => {
+      this.listado = response.data.recordatorios;
       this.IsWait = false;
     });
   }
@@ -90,17 +72,17 @@ export class RecordatorioComponent implements OnInit {
   cancelar() {
     this.lShowPanelListado = true;
     this.lShowPanelDatos = false;
-    this.userForm.reset();
+    this.lForm.reset();
   }
 
   guardar() {
     this.IsWait = true;
 
-    this.lService.createUsers(this.userForm.value).subscribe((reponse) => {
+    this.lService.createUsers(this.lForm.value).subscribe((reponse) => {
       this.IsWait = false;
       Swal.fire('Usuario', 'Agregado correctamente.', 'success');
       this.obtenerDatos();
-      this.userForm.reset();
+      this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
     });
@@ -109,7 +91,7 @@ export class RecordatorioComponent implements OnInit {
   adicionar() {
     this.lShowPanelListado = false;
     this.lShowPanelDatos = true;
-    this.userForm.reset();
+    this.lForm.reset();
     this.lShowBtnActualizar = false;
     this.lShowBtnEliminar = false;
     this.lShowBtnAdicionar = true;
@@ -118,11 +100,11 @@ export class RecordatorioComponent implements OnInit {
   actualizar() {
     this.IsWait = true;
 
-    this.lService.updateUsers(this.userForm.value).subscribe((reponse) => {
+    this.lService.updateUsers(this.lForm.value).subscribe((reponse) => {
       this.IsWait = false;
       Swal.fire('Usuarios', 'Actualizado correctamente.', 'success');
       this.obtenerDatos();
-      this.userForm.reset();
+      this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
     });
@@ -134,11 +116,13 @@ export class RecordatorioComponent implements OnInit {
     this.lShowBtnActualizar = true;
     this.lShowBtnEliminar = true;
     this.lShowBtnAdicionar = false;
-    this.userForm.patchValue(dataInput);
+    console.log(dataInput);
+    this.lForm.patchValue(dataInput);
+    
   }
 
   eliminar() {
-    let usuario = this.userForm.value;
+    let usuario = this.lForm.value;
     let _id = usuario._id;
 
     this.IsWait = true;
@@ -149,7 +133,7 @@ export class RecordatorioComponent implements OnInit {
       Swal.fire('Usuario', 'Eliminado correctamente.', 'success');
 
       this.obtenerDatos();
-      this.userForm.reset();
+      this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
     });
@@ -162,4 +146,10 @@ export class RecordatorioComponent implements OnInit {
     }
     this.IsWait = true;
   }
+
+  show(){
+   
+  }
+
+
 }
