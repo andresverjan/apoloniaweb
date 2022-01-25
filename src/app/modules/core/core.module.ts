@@ -32,6 +32,9 @@ import { LoginAdminComponent } from "../login-admin/login-admin.component";
 import { AdditionComponent } from "../addition/addition.component";
 import { OrdersComponent } from "../orders/orders.component";
 import { ApplicationsComponent } from "../applications/applications.component";
+import { RecordatorioComponent } from "../recordatorio/recordatorio.component";
+
+
 import {
   BuscadormodalComponent,
   DialogOverviewExample,
@@ -152,7 +155,8 @@ FullCalendarModule.registerPlugins([
     ListadoComponent,
     BasiccardComponent,
     ColorpickerComponent,
-    GcolorpickerComponent
+    GcolorpickerComponent,
+    RecordatorioComponent
   ],
 
   imports: [

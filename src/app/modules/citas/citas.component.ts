@@ -14,6 +14,7 @@ import { ToolsService } from "../core/services/tools.service";
 import Swal from "sweetalert2";
 import { MatMenuTrigger } from "@angular/material/menu";
 import { MatDialog } from "@angular/material/dialog";
+import * as moment from "moment";
 
 @Component({
   selector: "app-citas",
@@ -163,7 +164,7 @@ export class CitasComponent implements OnInit {
     this.dialogRef = this.dialog.open(templateRef, {
       disableClose: true,
     });
-    this.dialogRef.afterClosed().subscribe(() => {});
+    this.dialogRef.afterClosed().subscribe(() => { });
   }
 
   closeDialog() {
@@ -199,20 +200,19 @@ export class CitasComponent implements OnInit {
       const { id: odontologoId } = this.odontologo;
       const { id: pacienteId } = this.paciente;
       const { id: servicioId } = this.servicio;
+  
+      let fechaI = this.selectInfo.start.toString();
+      let fechaF = this.addHoursAndMinutes(this.selectInfo.start, this.duracion.value).toString();
+            
+      fechaI =  moment(fechaI).utcOffset(-5, false).format('YYYY-MM-DDTHH:mm:ss');
+      fechaF =  moment(fechaF).utcOffset(-5, false).format('YYYY-MM-DDTHH:mm:ss');
+      console.log(fechaI);
+      console.log(fechaF);
 
       let nuevaCita: NuevaCita = {
         title: this.observaciones,
-        start: this._toolService
-          .setTime(this.selectInfo.start.toISOString())
-          .toString(),
-        end: this._toolService
-          .setTime(
-            this.addHoursAndMinutes(
-              this.selectInfo.start,
-              this.duracion.value
-            ).toISOString()
-          )
-          .toString(),
+        start: fechaI,
+        end: fechaF,
         odontologoId,
         horaIngreso: "",
         horaSalida: "",
@@ -328,18 +328,17 @@ export class CitasComponent implements OnInit {
           this.statusCita = this.statusCitas.filter(
             (x) => x.id === cita.status
           );
-
+          console.log("ImPRiMO LAS CItAS");
           this.citasAgendadas.push({
             id: cita.id.toString(),
             title: cita.title,
-            start: cita.start,
-            end: cita.end,
+            start: moment(cita.start).utcOffset(-5, false).format('YYYY-MM-DDTHH:mm:ss'),
+            end: moment(cita.end).utcOffset(-5, false).format('YYYY-MM-DDTHH:mm:ss'),
             backgroundColor: this.statusCita[0].color,
             borderColor: this.statusCita[0].borderColor,
             textColor: this.statusCita[0].textColor,
           });
         });
-
         this.calendar = {
           events: this.citasAgendadas,
         };
@@ -425,13 +424,11 @@ export class CitasComponent implements OnInit {
           break;
 
         case 4:
-          this.citaSeleccionada.horaIngreso = `${
-            time.getHours().toString().length > 1
-              ? time.getHours().toString()
-              : "0" + time.getHours().toString()
-          }:${
-            time.getMinutes() > 10 ? time.getMinutes() : "0" + time.getMinutes()
-          } `;
+          this.citaSeleccionada.horaIngreso = `${time.getHours().toString().length > 1
+            ? time.getHours().toString()
+            : "0" + time.getHours().toString()
+            }:${time.getMinutes() > 10 ? time.getMinutes() : "0" + time.getMinutes()
+            } `;
 
           this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
             this.fetchCitasByOdontologoId(this.odontologo);
@@ -445,13 +442,11 @@ export class CitasComponent implements OnInit {
           break;
 
         case 5:
-          this.citaSeleccionada.horaSalida = `${
-            time.getHours().toString().length > 1
-              ? time.getHours().toString()
-              : "0" + time.getHours().toString()
-          }:${
-            time.getMinutes() > 10 ? time.getMinutes() : "0" + time.getMinutes()
-          } `;
+          this.citaSeleccionada.horaSalida = `${time.getHours().toString().length > 1
+            ? time.getHours().toString()
+            : "0" + time.getHours().toString()
+            }:${time.getMinutes() > 10 ? time.getMinutes() : "0" + time.getMinutes()
+            } `;
 
           this._citaService.updateCita(this.citaSeleccionada).subscribe(() => {
             this.fetchCitasByOdontologoId(this.odontologo);
