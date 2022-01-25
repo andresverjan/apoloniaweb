@@ -2,7 +2,7 @@
   <mat-form-field fxFlex=100>
     <mat-icon matPrefix>edit</mat-icon>
     <label>{{ label.toString().toUpperCase() }}</label>
-    <input #dpInput matInput id="{{ nombre }}" 
+    <input #dpInput matInput id="{{ label }}"
       [matDatepicker]="picker" (dateChange)="onDateChange($event)" [(value)]="dateValue" style="margin-left: -28px"
       (click)="picker.open()" />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
