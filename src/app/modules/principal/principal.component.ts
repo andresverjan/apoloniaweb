@@ -217,14 +217,6 @@ export class PrincipalComponent implements OnInit {
     this.fetchPacientesCumpleaños();
 
 
-    this.mascarasService.getMascaras().subscribe((response) => {
-      console.log("**************************");
-      console.log(response);
-      console.log("**************************");
-      this.arrayListado = response.data.mascaras;
-      console.log(this.arrayListado);
-    });
-
 
   }
 
