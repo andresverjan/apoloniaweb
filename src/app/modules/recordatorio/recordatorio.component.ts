@@ -25,9 +25,7 @@ export class RecordatorioComponent implements OnInit {
   public roles: any = [];
 
   public filter = {
-    name: "",
-    lastName: "",
-    rol_id: ""
+    NOMBRE: ""
   };
 
   constructor(private lService: RecordatorioService,  private rolService: RolService) {}
@@ -37,6 +35,7 @@ export class RecordatorioComponent implements OnInit {
     
     this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
+      id: new FormControl("", [Validators.required, Validators.maxLength(50)]),
       NOMBRE: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
@@ -45,6 +44,10 @@ export class RecordatorioComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50),
       ]),
+      EMPRESA_ID: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50)
+      ])
     });
 
   }
@@ -57,7 +60,7 @@ export class RecordatorioComponent implements OnInit {
 
   procesarRol(rolSelected: any ){
     this.lForm.controls['rol_id'].setValue(rolSelected.value);
-    this.filter.rol_id = rolSelected.value;
+    // this.filter.rol_id = rolSelected.value;
     this.obtenerDatos(this.filter);
   }
 
@@ -139,7 +142,7 @@ export class RecordatorioComponent implements OnInit {
     });
   }
   findBy() {
-    if (this.filter.name.length > 1 || this.filter.lastName.length > 1) {
+    if (this.filter.NOMBRE.length > 1) {
       this.obtenerDatos(this.filter);
     } else {
       this.obtenerDatos();

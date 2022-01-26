@@ -47,6 +47,10 @@
                             <mat-icon matPrefix>edit</mat-icon>
                             <input matInput formControlName="NOTA" id="NOTA" placeholder="Nota" />
                         </mat-form-field>
+                        <mat-form-field fxFlex>
+                            <mat-icon matPrefix>edit</mat-icon>
+                            <input matInput formControlName="EMPRESA_ID" id="EMPRESA_ID" placeholder="Id de la Empresa" />
+                        </mat-form-field>
                     </div>
                     <!-- Date -->
                     <!-- <app-datepicker
@@ -64,9 +68,12 @@
                             <mat-datepicker #picker1></mat-datepicker>
                           </mat-form-field>
 
+                          <app-datetime label="Fecha Ingreso:" requerido=true> </app-datetime>
+        <app-datepicker label="Fecha Ingreso:"> </app-datepicker>
+
                 </mat-card-content>
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                    <button mat-raised-button (click)="guardar()" color="primary" [disabled]="!lForm.valid" *ngIf="lShowBtnAdicionar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
+                    <button mat-raised-button (click)="guardar()" color="primary"  *ngIf="lShowBtnAdicionar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
                         <mat-icon>person_add</mat-icon>
                         Adicionar
                     </button>
@@ -101,21 +108,27 @@
             </mat-card-title>
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
                 <!-- <app-select label="Rol" [data]=roles icono="local_police" (valSelected)="procesarRol($event)"  fxFlex="50" ></app-select> -->
-                <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                <!-- TODO: Esperando que el backend reciba filtro para implementar el input -->
+                <!-- <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                     <mat-icon matPrefix>search</mat-icon>
                     <mat-form-field fxFlex="100">
-                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.name" (keyup)="findBy()" />
+                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.NOMBRE" (keyup)="findBy()" />
                     </mat-form-field>
-                    </div>
+                    </div> -->
             </mat-card-content>
         </mat-card>
-
+        <mat-paginator [length]="listado.length" [pageSizeOptions]="[3, 5, 10]" aria-label="Select page">
+        </mat-paginator>
         <!--CARD: USERS -->
         <mat-grid-list cols="3" rowHeight="400px">
             <mat-grid-tile *ngFor="let item of listado" style="overflow-x: hidden">
                 <mat-card class="dashboard-card" (click)="verDetalle(item)">
-                    <mat-card-content class="dashboard-card-content ">
-                        <h5>{{ item.NOMBRE }}</h5>
+                    <mat-card-content  class="cardContent">
+                        <mat-icon >alarm</mat-icon>
+                        <h5>Id: {{item.id}}</h5>
+                        <h5>Nombre: {{ item.NOMBRE }}</h5>
+                        <h5>{{item.NOTA}}</h5>
+                        <h5>Id empresa: {{item.EMPRESA_ID}}</h5>
                     </mat-card-content>
                 </mat-card>
             </mat-grid-tile>

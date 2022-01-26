@@ -19,7 +19,7 @@ export class RecordatorioService {
     let filter = "";
     if (objeTosend != null) {
       filter = `( filter: {`;
-      filter += objeTosend.NOMBRE != "" ? `NOMBRE: "${objeTosend.NOMBRE}` : "";
+      filter += objeTosend.NOMBRE != "" ? `NOMBRE: "${objeTosend.NOMBRE}"` : "";
       filter += `} )`;
     }
   
