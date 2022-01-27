@@ -1,16 +1,14 @@
-<div [formGroup]="form">
-  <mat-form-field *ngIf="campo.visible" fxFlex=100>
+<div>
+  <mat-form-field fxFlex=100>
     <mat-icon matPrefix>edit</mat-icon>
-    <label>{{ campo.nombreUi.toString().toUpperCase() }}</label>
-    <input #dpInput matInput *ngIf="campo.visible" id="{{ campo.nombre }}" [formControlName]="campo.nombre"
+    <label>{{ label.toString().toUpperCase() }}</label>
+    <input #dpInput matInput id="{{ label }}"
       [matDatepicker]="picker" (dateChange)="onDateChange($event)" [(value)]="dateValue" style="margin-left: -28px"
       (click)="picker.open()" />
-
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
-
-    <mat-hint style="color: red" *ngIf="form.controls[campo.nombre].errors?.required">
+    <!--<mat-hint style="color: red" *ngIf="form.controls[nombre].errors?.required">
       error-required
-    </mat-hint>
+    </mat-hint>-->
   </mat-form-field>
 </div>

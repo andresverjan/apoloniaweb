@@ -1,46 +1,12 @@
 <mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
 </mat-card-actions>
 
-<div class="container" style="overflow: hidden">
-    <mat-card id="htmlPDF" *ngIf=false>
-        <table mat-table [dataSource]="dataSource" fxFlex="100">
-            <!-- Position Column -->
-            <ng-container matColumnDef="position">
-                <th mat-header-cell *matHeaderCellDef> No. </th>
-                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-            </ng-container>
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-
-            <!-- Weight Column -->
-            <ng-container matColumnDef="weight">
-                <th mat-header-cell *matHeaderCellDef> Weight </th>
-                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-            </ng-container>
-
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="symbol">
-                <th mat-header-cell *matHeaderCellDef> Symbol </th>
-                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+<div class="container">
+    <mat-card>
+        <app-datetime label="Fecha Ingreso:" requerido=true> </app-datetime>
+        <app-datepicker label="Fecha Ingreso:"> </app-datepicker>
     </mat-card>
-    <mat-card *ngIf=false>
-        <mat-label>Configuracion de Colores</mat-label>
-        <app-colorpicker label="Color Primario" (valSelected)="primaryColor=$event" fxFlex="30"></app-colorpicker>
-        <app-colorpicker label="Color Secundario" (valSelected)="secondaryColor=$event" fxFlex="30"></app-colorpicker>
-        <app-colorpicker label="Color Accent" (valSelected)="accentColor=$event" fxFlex="30"></app-colorpicker>
-        <app-colorpicker label="Color Warn" (valSelected)="warnColor=$event" fxFlex="30"></app-colorpicker>
-        <button (click)="changeTheme()">Save</button>
-    </mat-card>
-
+ 
     <mat-card>
         <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden; box-shadow: none;"
             id="htmlData3">
