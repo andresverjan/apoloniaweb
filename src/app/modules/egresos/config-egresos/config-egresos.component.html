@@ -40,13 +40,9 @@
 
       <mat-toolbar>
         <mat-toolbar-row style="background-color: white;">
-          <mat-icon (click)="exportCsv(dataSource)" title="Export as CSV">save_alt</mat-icon>
-          <span class="example-spacer"></span>
-
           <mat-paginator [length]="totalRegistros" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
           (page)="handlePageChange($event)">
         </mat-paginator>   
-
 
         <button (click)="showList()"  mat-icon-button color="secondary">
           <mat-icon>view_list</mat-icon>
