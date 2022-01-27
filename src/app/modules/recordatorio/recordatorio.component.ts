@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { RecordatorioService } from "./recordatorio.service";
 import { RolService } from "../roles/roles.service";
+import { PageEvent } from "@angular/material/paginator";
 
 
 @Component({
@@ -12,6 +13,10 @@ import { RolService } from "../roles/roles.service";
 })
 export class RecordatorioComponent implements OnInit {
   listado = [];
+  public queryOptions: any = {};
+  public pageNumber: number = 1;
+  public pageSizeOptions = [5, 10, 20, 30];
+  public pageSize = 10;
   public lForm: FormGroup;
   public etiquetaNombreModulo = "Usuarios";
   public etiquetaListado = "Configuración de Recordatorios";
@@ -28,11 +33,11 @@ export class RecordatorioComponent implements OnInit {
     NOMBRE: ""
   };
 
-  constructor(private lService: RecordatorioService,  private rolService: RolService) {}
+  constructor(private lService: RecordatorioService, private rolService: RolService) { }
 
   ngOnInit() {
-    this.obtenerDatos();
-    
+    this.findBy();
+
     this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
       id: new FormControl("", [Validators.required, Validators.maxLength(50)]),
@@ -52,13 +57,13 @@ export class RecordatorioComponent implements OnInit {
 
   }
 
- 
 
-  procesarRolAdd(rolSelected: any ){
+
+  procesarRolAdd(rolSelected: any) {
     this.lForm.controls['rol_id'].setValue(rolSelected.value);
   }
 
-  procesarRol(rolSelected: any ){
+  procesarRol(rolSelected: any) {
     this.lForm.controls['rol_id'].setValue(rolSelected.value);
     // this.filter.rol_id = rolSelected.value;
     this.obtenerDatos(this.filter);
@@ -67,7 +72,7 @@ export class RecordatorioComponent implements OnInit {
   obtenerDatos(obj?) {
     this.IsWait = true;
     this.lService.list(obj).subscribe((response) => {
-      this.listado = response.data.recordatorios;
+      this.listado = response.data.recordatorios.lista;
       this.IsWait = false;
     });
   }
@@ -121,7 +126,7 @@ export class RecordatorioComponent implements OnInit {
     this.lShowBtnAdicionar = false;
     console.log(dataInput);
     this.lForm.patchValue(dataInput);
-    
+
   }
 
   eliminar() {
@@ -141,18 +146,22 @@ export class RecordatorioComponent implements OnInit {
       this.lShowPanelListado = true;
     });
   }
+  handlePageChange(e: PageEvent) {
+    this.pageNumber = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+    this.findBy();
+  }
+
   findBy() {
-    if (this.filter.NOMBRE.length > 1) {
-      this.obtenerDatos(this.filter);
-    } else {
-      this.obtenerDatos();
+    this.queryOptions = {
+      pagina: this.pageNumber,
+      limite: this.pageSize
+
     }
+    if (this.filter.NOMBRE.length > 0) {
+      this.queryOptions = { ...this.queryOptions, filter: this.filter }
+    }
+    this.obtenerDatos(this.queryOptions);
     this.IsWait = true;
   }
-
-  show(){
-   
-  }
-
-
 }

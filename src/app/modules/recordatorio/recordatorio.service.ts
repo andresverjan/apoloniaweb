@@ -14,23 +14,40 @@ export class RecordatorioService {
   constructor(private http: HttpClient, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
-//List
+  //List
   list(objeTosend?): Observable<any> {
+    let params = "";
+    let pagination = `
+    pagination: {
+      pagina: ${objeTosend.pagina}
+      limite: ${objeTosend.limite}
+    }`;
     let filter = "";
-    if (objeTosend != null) {
-      filter = `( filter: {`;
-      filter += objeTosend.NOMBRE != "" ? `NOMBRE: "${objeTosend.NOMBRE}"` : "";
-      filter += `} )`;
+    if (objeTosend.filter != null) {
+      filter = `filter: {`;
+      filter += objeTosend.filter.NOMBRE != "" ? `NOMBRE: "${objeTosend.filter.NOMBRE}"` : "";
+      filter += `}`;
     }
-  
+    params = `(${pagination}, ${filter} )`;
+
+
     let body = {
       query: `{
-        recordatorios ${filter} {    
-         id
-         NOMBRE
-         NOTA    
-         EMPRESA_ID    
-       }
+        recordatorios ${params} {    
+          lista {
+            id
+            NOMBRE
+            NOTA
+            DESCRIPCION
+            FECHAHORARECORDAR
+            ACTIVO
+            REPETIRDIARIO
+            REPETIRMENSUAL
+            EMPRESA_ID
+            createdAt
+            updatedAt
+          }
+         }
      }
      `
     }
@@ -114,7 +131,7 @@ export class RecordatorioService {
 
 
 
-  recordatoriosBack(): Observable<any>{
+  recordatoriosBack(): Observable<any> {
     let body = {
       query: `{
         recordatorios{    
