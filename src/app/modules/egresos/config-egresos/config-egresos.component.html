@@ -40,6 +40,8 @@
 
       <mat-toolbar>
         <mat-toolbar-row style="background-color: white;">
+          <span class="example-spacer"></span>
+
           <mat-paginator [length]="totalRegistros" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
           (page)="handlePageChange($event)">
         </mat-paginator>   
