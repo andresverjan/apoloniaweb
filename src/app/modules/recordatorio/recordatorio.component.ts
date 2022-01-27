@@ -3,17 +3,23 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { RecordatorioService } from "./recordatorio.service";
 import { RolService } from "../roles/roles.service";
+import { PageEvent } from "@angular/material/paginator";
+
 
 @Component({
   selector: "app-recordatorio",
   templateUrl: "./recordatorio.component.html",
-  styleUrls: ["./recordatorio.scss"],
+  styleUrls: ["./recordatorio.component.scss"],
 })
 export class RecordatorioComponent implements OnInit {
-  listadoUsers = [];
-  public userForm: FormGroup;
+  listado = [];
+  public queryOptions: any = {};
+  public pageNumber: number = 1;
+  public pageSizeOptions = [5, 10, 20, 30];
+  public pageSize = 10;
+  public lForm: FormGroup;
   public etiquetaNombreModulo = "Usuarios";
-  public etiquetaListado = "Listado de Usuarios";
+  public etiquetaListado = "Configuración de Recordatorios";
   public IsWait: Boolean = false;
   public lShowPanelListado: Boolean = true;
   public lShowPanelDatos: Boolean = false;
@@ -24,64 +30,49 @@ export class RecordatorioComponent implements OnInit {
   public roles: any = [];
 
   public filter = {
-    name: "",
-    lastName: "",
-    rol_id: ""
+    NOMBRE: ""
   };
 
-  constructor(private lService: RecordatorioService,  private rolService: RolService) {}
+  constructor(private lService: RecordatorioService, private rolService: RolService) { }
 
   ngOnInit() {
-    this.obtenerDatos();
-    this.listRoles();
-    this.userForm = new FormGroup({
+    this.findBy();
+
+    this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
-      name: new FormControl("", [
+      id: new FormControl("", [Validators.required, Validators.maxLength(50)]),
+      NOMBRE: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      lastName: new FormControl("", [
+      NOTA: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
-      email: new FormControl("", [
+      EMPRESA_ID: new FormControl("", [
         Validators.required,
-        Validators.maxLength(50),
-      ]),
-      phoneNumber: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
-      urlPhoto: new FormControl("", [Validators.maxLength(500)]),
-      rol_id: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50),
-      ]),
+        Validators.maxLength(50)
+      ])
     });
+
   }
 
-  listRoles() {
-    this.rolService.getAll(null).subscribe(res =>{
-      res.data.roles.forEach(rol => {
-        this.roles.push({value: rol.id, nombre: rol.nombre});
-      });
-    });
+
+
+  procesarAdd(rolSelected: any) {
+    this.lForm.controls['rol_id'].setValue(rolSelected.value);
   }
 
-  procesarRolAdd(rolSelected: any ){
-    this.userForm.controls['rol_id'].setValue(rolSelected.value);
-  }
-
-  procesarRol(rolSelected: any ){
-    this.userForm.controls['rol_id'].setValue(rolSelected.value);
-    this.filter.rol_id = rolSelected.value;
+  procesarRol(rolSelected: any) {
+    this.lForm.controls['rol_id'].setValue(rolSelected.value);
+    // this.filter.rol_id = rolSelected.value;
     this.obtenerDatos(this.filter);
   }
 
   obtenerDatos(obj?) {
     this.IsWait = true;
-    this.lService.listUsers(obj).subscribe((response) => {
-      this.listadoUsers = response.data.users;
+    this.lService.list(obj).subscribe((response) => {
+      this.listado = response.data.recordatorios.lista;
       this.IsWait = false;
     });
   }
@@ -89,17 +80,17 @@ export class RecordatorioComponent implements OnInit {
   cancelar() {
     this.lShowPanelListado = true;
     this.lShowPanelDatos = false;
-    this.userForm.reset();
+    this.lForm.reset();
   }
 
   guardar() {
     this.IsWait = true;
 
-    this.lService.createUsers(this.userForm.value).subscribe((reponse) => {
+    this.lService.createUsers(this.lForm.value).subscribe((reponse) => {
       this.IsWait = false;
       Swal.fire('Usuario', 'Agregado correctamente.', 'success');
       this.obtenerDatos();
-      this.userForm.reset();
+      this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
     });
@@ -108,7 +99,7 @@ export class RecordatorioComponent implements OnInit {
   adicionar() {
     this.lShowPanelListado = false;
     this.lShowPanelDatos = true;
-    this.userForm.reset();
+    this.lForm.reset();
     this.lShowBtnActualizar = false;
     this.lShowBtnEliminar = false;
     this.lShowBtnAdicionar = true;
@@ -117,11 +108,11 @@ export class RecordatorioComponent implements OnInit {
   actualizar() {
     this.IsWait = true;
 
-    this.lService.updateUsers(this.userForm.value).subscribe((reponse) => {
+    this.lService.updateUsers(this.lForm.value).subscribe((reponse) => {
       this.IsWait = false;
       Swal.fire('Usuarios', 'Actualizado correctamente.', 'success');
       this.obtenerDatos();
-      this.userForm.reset();
+      this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
     });
@@ -133,11 +124,11 @@ export class RecordatorioComponent implements OnInit {
     this.lShowBtnActualizar = true;
     this.lShowBtnEliminar = true;
     this.lShowBtnAdicionar = false;
-    this.userForm.patchValue(dataInput);
+    this.lForm.patchValue(dataInput);
   }
 
   eliminar() {
-    let usuario = this.userForm.value;
+    let usuario = this.lForm.value;
     let _id = usuario._id;
 
     this.IsWait = true;
@@ -148,17 +139,27 @@ export class RecordatorioComponent implements OnInit {
       Swal.fire('Usuario', 'Eliminado correctamente.', 'success');
 
       this.obtenerDatos();
-      this.userForm.reset();
+      this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
     });
   }
+  handlePageChange(e: PageEvent) {
+    this.pageNumber = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+    this.findBy();
+  }
+
   findBy() {
-    if (this.filter.name.length > 1 || this.filter.lastName.length > 1) {
-      this.obtenerDatos(this.filter);
-    } else {
-      this.obtenerDatos();
+    this.queryOptions = {
+      pagina: this.pageNumber,
+      limite: this.pageSize
+
     }
+    if (this.filter.NOMBRE.length > 0) {
+      this.queryOptions = { ...this.queryOptions, filter: this.filter }
+    }
+    this.obtenerDatos(this.queryOptions);
     this.IsWait = true;
   }
 }
