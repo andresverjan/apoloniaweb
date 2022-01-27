@@ -128,22 +128,4 @@ export class RecordatorioService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
-
-
-
-  recordatoriosBack(): Observable<any> {
-    let body = {
-      query: `{
-        recordatorios{    
-         id
-         NOMBRE
-         NOTA    
-         EMPRESA_ID    
-       }
-     }
-     `
-    }
-    return this.httpService.callApi(body);
-
-  }
 }

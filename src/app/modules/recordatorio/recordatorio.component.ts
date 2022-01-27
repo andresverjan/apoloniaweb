@@ -59,7 +59,7 @@ export class RecordatorioComponent implements OnInit {
 
 
 
-  procesarRolAdd(rolSelected: any) {
+  procesarAdd(rolSelected: any) {
     this.lForm.controls['rol_id'].setValue(rolSelected.value);
   }
 
@@ -124,9 +124,7 @@ export class RecordatorioComponent implements OnInit {
     this.lShowBtnActualizar = true;
     this.lShowBtnEliminar = true;
     this.lShowBtnAdicionar = false;
-    console.log(dataInput);
     this.lForm.patchValue(dataInput);
-
   }
 
   eliminar() {
