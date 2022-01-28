@@ -40,7 +40,10 @@ export class RecordatorioComponent implements OnInit {
 
     this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
-      id: new FormControl("", [Validators.required, Validators.maxLength(50)]),
+      id: new FormControl("", [
+        Validators.required, 
+        Validators.maxLength(50)
+       ]),
       NOMBRE: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
@@ -49,10 +52,29 @@ export class RecordatorioComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50),
       ]),
+      DESCRIPCION: new FormControl("",[
+        Validators.required,
+        Validators.maxLength(50)
+      ]),
+      FECHAHORARECORDAR: new FormControl("",[
+        Validators.required,
+        Validators.maxLength(50)
+      ]),
+      ACTIVO: new FormControl(Boolean, [
+        Validators.required
+      ]),
+      REPETIRDIARIO: new FormControl("",[
+      Validators.required,
+      Validators.maxLength(50)
+      ]),
+      REPETIRMENSUAL: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50)
+      ]),
       EMPRESA_ID: new FormControl("", [
         Validators.required,
         Validators.maxLength(50)
-      ])
+      ]),
     });
 
   }
@@ -128,15 +150,15 @@ export class RecordatorioComponent implements OnInit {
   }
 
   eliminar() {
-    let usuario = this.lForm.value;
-    let _id = usuario._id;
+    let item = this.lForm.value;
+    console.log(item);
 
     this.IsWait = true;
 
-    this.lService.deleteUsers(_id).subscribe((reponse) => {
+    this.lService.deleteUsers(item.id).subscribe((reponse) => {
       this.IsWait = false;
 
-      Swal.fire('Usuario', 'Eliminado correctamente.', 'success');
+      Swal.fire('Recordatorio', 'Eliminado correctamente.', 'success');
 
       this.obtenerDatos();
       this.lForm.reset();

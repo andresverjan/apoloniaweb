@@ -19,17 +19,17 @@ export class RecordatorioService {
     let params = "";
     let pagination = `
     pagination: {
-      pagina: ${objeTosend.pagina}
-      limite: ${objeTosend.limite}
+      pagina: ${objeTosend?.pagina != "" && objeTosend?.pagina != undefined ? `${objeTosend?.pagina}` : 1}
+      limite:  ${objeTosend?.limite != "" && objeTosend?.limite != undefined ? `${objeTosend?.limite}` : 5}
     }`;
     let filter = "";
-    if (objeTosend.filter != null) {
-      filter = `filter: {`;
+    if (objeTosend?.filter != null) {
+      filter = `,filter: {`;
       filter += objeTosend.filter.NOMBRE != "" ? `NOMBRE: "${objeTosend.filter.NOMBRE}"` : "";
       filter += `}`;
     }
-    params = `(${pagination}, ${filter} )`;
-
+    params = `(${pagination} ${filter} )`;
+    
 
     let body = {
       query: `{
@@ -114,18 +114,15 @@ export class RecordatorioService {
     let headers = new HttpHeaders().set("Content-Type", "application/json");
     return this.http.post(this.serverUrl, body, { headers: headers });
   }
-
+  
   deleteUsers(id): Observable<any> {
     let body = {
       query: `
-        mutation {
-          deleteUser(user: {_id: "${id}"}) {
-            _id
-          }
-        }
-        `,
+      mutation {
+        deleteRecordatorios(recordatorio: {id: ${id}}) 
+      }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    console.log(body);
+    return this.httpService.callApi(body);
   }
 }
