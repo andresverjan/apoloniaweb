@@ -76,43 +76,46 @@ export class RecordatorioService {
     let body = {
       query: `
       mutation {
-        createUser (user: {
-            name: "${objeTosend.name}"
-            lastName: "${objeTosend.lastName}",
-            email: "${objeTosend.email}",
-            phoneNumber: "${objeTosend.phoneNumber}",
-            rol_id: "${objeTosend.rol_id}",
-            urlPhoto: "${objeTosend.urlPhoto}",
-        }) {
-           name
+        saveRecordatorios(recordatorio: {
+          NOTA: "${objeTosend.NOTA}", 
+          NOMBRE: "${objeTosend.NOMBRE}", 
+          DESCRIPCION: "${objeTosend.DESCRIPCION}", 
+          FECHAHORARECORDAR: "${objeTosend.FECHAHORARECORDAR}", 
+          ACTIVO: "${objeTosend.ACTIVO}",
+          REPETIRDIARIO: "${objeTosend.REPETIRDIARIO}", 
+          REPETIRMENSUAL: "${objeTosend.REPETIRMENSUAL}", 
+          EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
+          id
+          NOTA
         }
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   updateUsers(objeTosend): Observable<any> {
+    console.log(objeTosend);
     let body = {
       query: `
       mutation {
-        updateUser (user: {
-          _id: "${objeTosend._id}",
-           name: "${objeTosend.name}",
-            lastName: "${objeTosend.lastName}",
-            email: "${objeTosend.email}",
-            phoneNumber: "${objeTosend.phoneNumber}",
-            rol_id: "${objeTosend.rol_id}",
-            urlPhoto: "${objeTosend.urlPhoto}",
-        }) {
-           name
+        updateRecordatorios(recordatorio: {
+          id: ${objeTosend.id}, 
+          NOTA: "${objeTosend.NOTA}", 
+          NOMBRE: "${objeTosend.NOMBRE}", 
+          DESCRIPCION: "${objeTosend.DESCRIPCION}", 
+          FECHAHORARECORDAR: "${objeTosend.FECHAHORARECORDAR}", 
+          ACTIVO: "${objeTosend.ACTIVO}",
+          REPETIRDIARIO: "${objeTosend.REPETIRDIARIO}", 
+          REPETIRMENSUAL: "${objeTosend.REPETIRMENSUAL}", 
+          EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
+          id
+          NOTA
         }
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
   
   deleteUsers(id): Observable<any> {

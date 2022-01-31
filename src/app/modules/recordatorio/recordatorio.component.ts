@@ -4,12 +4,35 @@ import { Component, OnInit } from "@angular/core";
 import { RecordatorioService } from "./recordatorio.service";
 import { RolService } from "../roles/roles.service";
 import { PageEvent } from "@angular/material/paginator";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { MatDatepickerInputEvent } from "@angular/material/datepicker";
+import * as moment from "moment";
 
-
+const DATE_FORMATS = {
+  parse: {
+    dateInput: ["YYYY-MM-DD"],
+  },
+  display: {
+    dateInput: "YYYY-MM-DD",
+    monthYearLabel: "MMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY",
+  },
+};
 @Component({
   selector: "app-recordatorio",
   templateUrl: "./recordatorio.component.html",
   styleUrls: ["./recordatorio.component.scss"],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
+  ]
 })
 export class RecordatorioComponent implements OnInit {
   listado = [];
@@ -60,8 +83,9 @@ export class RecordatorioComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50)
       ]),
-      ACTIVO: new FormControl(Boolean, [
-        Validators.required
+      ACTIVO: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50)
       ]),
       REPETIRDIARIO: new FormControl("",[
       Validators.required,
@@ -111,7 +135,7 @@ export class RecordatorioComponent implements OnInit {
     this.lService.createUsers(this.lForm.value).subscribe((reponse) => {
       this.IsWait = false;
       Swal.fire('Usuario', 'Agregado correctamente.', 'success');
-      this.obtenerDatos();
+      this.findBy();
       this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
@@ -130,13 +154,13 @@ export class RecordatorioComponent implements OnInit {
   actualizar() {
     this.IsWait = true;
 
-    this.lService.updateUsers(this.lForm.value).subscribe((reponse) => {
+    this.lService.updateUsers(this.lForm.value).subscribe(() => {
       this.IsWait = false;
       Swal.fire('Usuarios', 'Actualizado correctamente.', 'success');
-      this.obtenerDatos();
       this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
+      this.findBy();
     });
   }
 
@@ -151,15 +175,10 @@ export class RecordatorioComponent implements OnInit {
 
   eliminar() {
     let item = this.lForm.value;
-    console.log(item);
-
     this.IsWait = true;
-
     this.lService.deleteUsers(item.id).subscribe((reponse) => {
       this.IsWait = false;
-
       Swal.fire('Recordatorio', 'Eliminado correctamente.', 'success');
-
       this.obtenerDatos();
       this.lForm.reset();
       this.lShowPanelDatos = false;
@@ -183,5 +202,11 @@ export class RecordatorioComponent implements OnInit {
     }
     this.obtenerDatos(this.queryOptions);
     this.IsWait = true;
+  }
+
+  onDateChangeRecordatorio(event: MatDatepickerInputEvent<Date>) {
+    const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
+    this.lForm.controls["FECHAHORARECORDAR"].setValue(dateValue);
+     this.findBy();
   }
 }
