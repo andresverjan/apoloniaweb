@@ -41,7 +41,7 @@ export class RecordatorioComponent implements OnInit {
   public pageSizeOptions = [5, 10, 20, 30];
   public pageSize = 10;
   public lForm: FormGroup;
-  public etiquetaNombreModulo = "Usuarios";
+  public etiquetaNombreModulo = "Recordatorios";
   public etiquetaListado = "Configuración de Recordatorios";
   public IsWait: Boolean = false;
   public lShowPanelListado: Boolean = true;
@@ -49,6 +49,7 @@ export class RecordatorioComponent implements OnInit {
   public lShowBtnAdicionar: Boolean = true;
   public lShowBtnActualizar: Boolean = true;
   public lShowBtnEliminar: Boolean = true;
+  public totalRecordatorios = 0;
 
   public roles: any = [];
 
@@ -63,37 +64,29 @@ export class RecordatorioComponent implements OnInit {
 
     this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
-      id: new FormControl("", [
-        Validators.required, 
-        Validators.maxLength(50)
-       ]),
       NOMBRE: new FormControl("", [
         Validators.required,
-        Validators.maxLength(50),
+        Validators.maxLength(50)
       ]),
       NOTA: new FormControl("", [
         Validators.required,
-        Validators.maxLength(50),
+        Validators.maxLength(50)
       ]),
       DESCRIPCION: new FormControl("",[
         Validators.required,
         Validators.maxLength(50)
       ]),
       FECHAHORARECORDAR: new FormControl("",[
-        Validators.required,
-        Validators.maxLength(50)
+        
       ]),
-      ACTIVO: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50)
+      ACTIVO: new FormControl(true, [
+        
       ]),
-      REPETIRDIARIO: new FormControl("",[
-      Validators.required,
-      Validators.maxLength(50)
+      REPETIRDIARIO: new FormControl(false,[
+      Validators.required
       ]),
-      REPETIRMENSUAL: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50)
+      REPETIRMENSUAL: new FormControl(false, [
+        Validators.required
       ]),
       EMPRESA_ID: new FormControl("", [
         Validators.required,
@@ -105,21 +98,15 @@ export class RecordatorioComponent implements OnInit {
 
 
 
-  procesarAdd(rolSelected: any) {
-    this.lForm.controls['rol_id'].setValue(rolSelected.value);
-  }
-
-  procesarRol(rolSelected: any) {
-    this.lForm.controls['rol_id'].setValue(rolSelected.value);
-    // this.filter.rol_id = rolSelected.value;
-    this.obtenerDatos(this.filter);
-  }
+  
 
   obtenerDatos(obj?) {
     this.IsWait = true;
     this.lService.list(obj).subscribe((response) => {
       this.listado = response.data.recordatorios.lista;
       this.IsWait = false;
+      const {totalRecordatorios}= response.data.recordatorios;
+      this.totalRecordatorios = totalRecordatorios;
     });
   }
 
@@ -131,8 +118,10 @@ export class RecordatorioComponent implements OnInit {
 
   guardar() {
     this.IsWait = true;
-
+    console.log("Antes"+this.lForm.value);
     this.lService.createUsers(this.lForm.value).subscribe((reponse) => {
+      console.log("Despues"+ this.lForm.value);
+      console.log(reponse);
       this.IsWait = false;
       Swal.fire('Usuario', 'Agregado correctamente.', 'success');
       this.findBy();
@@ -143,6 +132,7 @@ export class RecordatorioComponent implements OnInit {
   }
 
   adicionar() {
+    console.log(this.lForm.value)
     this.lShowPanelListado = false;
     this.lShowPanelDatos = true;
     this.lForm.reset();
@@ -155,6 +145,7 @@ export class RecordatorioComponent implements OnInit {
     this.IsWait = true;
 
     this.lService.updateUsers(this.lForm.value).subscribe(() => {
+      console.log(this.lForm.value)
       this.IsWait = false;
       Swal.fire('Usuarios', 'Actualizado correctamente.', 'success');
       this.lForm.reset();
@@ -206,7 +197,13 @@ export class RecordatorioComponent implements OnInit {
 
   onDateChangeRecordatorio(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
+    console.log(dateValue)
     this.lForm.controls["FECHAHORARECORDAR"].setValue(dateValue);
      this.findBy();
+  }
+
+  pruebaOnDate(valor){
+    console.log("fecha:"+  valor);
+    // this.lForm.controls['FECHAHORARECORDAR'].setValue(valor);
   }
 }

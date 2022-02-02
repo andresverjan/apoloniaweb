@@ -49,10 +49,12 @@
                             <mat-icon matPrefix>edit</mat-icon>
                             <input matInput formControlName="NOTA" id="NOTA" placeholder="Nota" />
                         </mat-form-field>
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="id" id="id" placeholder="Id" />
-                        </mat-form-field>
+
+                        <section class="example-section">
+                            <mat-slide-toggle class="example-margin" color="primary" formControlName="ACTIVO" [checked]="lForm.controls['ACTIVO']">
+                                Activo
+                            </mat-slide-toggle>
+                        </section>
 
                     </div>
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
@@ -61,20 +63,18 @@
                             <input matInput formControlName="DESCRIPCION" id="DESCRIPCION" placeholder="Descripcion" />
                         </mat-form-field>
                         <!-- Fecha Hora Recordar -->
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="ACTIVO" id="ACTIVO" placeholder="Activo" />
-                        </mat-form-field>
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="REPETIRDIARIO" id="REPETIRDIARIO"
-                                placeholder="Repetir Diario" />
-                        </mat-form-field>
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="REPETIRMENSUAL" id="REPETIRMENSUAL"
-                                placeholder="Repetir Mensual" />
-                        </mat-form-field>
+                        <section class="example-section">
+                            <mat-slide-toggle class="example-margin" color="primary" formControlName="REPETIRDIARIO" [checked]="lForm.controls['REPETIRDIARIO']">
+                                Repetir Diario
+                            </mat-slide-toggle>
+                        </section>
+                        <section class="example-section">
+                            <mat-slide-toggle class="example-margin" color="primary" formControlName="REPETIRMENSUAL" [checked]="lForm.controls['REPETIRMENSUAL']">
+                                Repetir Mensual
+                            </mat-slide-toggle>
+                        </section>
+                        
+                        
                         <mat-form-field fxFlex>
                             <mat-icon matPrefix>edit</mat-icon>
                             <input matInput formControlName="EMPRESA_ID" id="EMPRESA_ID"
@@ -82,10 +82,10 @@
                         </mat-form-field>
                     </div>
                     <!-- FECHA PENDIENTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE -->
-                         <!-- <app-datetime label="Fecha Ingreso:" requerido=true (dateChange)="onDateChangeTest($event)" (dateValue)="lForm.controls.FECHAHORARECORDAR" [value]="lForm.controls['FECHAHORARECORDAR'].value"> </app-datetime> --> -->
-                            <!--  -->
-                            <!-- <app-datepicker label="Fecha Ingreso:"> </app-datepicker> -->
-                            <div>
+                    <!-- <app-datetime label="Fecha Ingreso:" requerido=true (valor)="pruebaOnDate($event)" [dateControl]="lForm.controls['FECHAHORARECORDAR']"> </app-datetime>  -->
+
+                    <!-- <app-datepicker label="Fecha Ingreso:"> </app-datepicker> -->
+                    <!-- <div>
                                 <mat-form-field>
                                     <input matInput [matDatepicker]="pickerFechaRecordatorio"
                                 (dateChange)="onDateChangeRecordatorio($event)"
@@ -94,7 +94,7 @@
                             <mat-datepicker #pickerFechaRecordatorio></mat-datepicker>
                                 </mat-form-field>
                             </div> -->
-    
+
                     <!-- <app-datepicker
                           [form]="genericForm"
                           [campo]="item"
@@ -162,10 +162,10 @@
             </mat-card-content>
         </mat-card>
         <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" aria-label="Select page"
-            (page)="handlePageChange($event)">
+            (page)="handlePageChange($event)" [length]="totalRecordatorios">
         </mat-paginator>
         <!--CARD: USERS -->
-        <mat-grid-list cols="3" rowHeight="400px">
+        <mat-grid-list cols="3" rowHeight="200px">
             <mat-grid-tile *ngFor="let item of listado" style="overflow-x: hidden">
                 <mat-card class="cardR" (click)="verDetalle(item)">
                     <mat-card-content class="dashboard-card-content">

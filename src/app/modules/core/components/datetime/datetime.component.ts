@@ -29,6 +29,7 @@ import {APP_DATETIME_FORMATS} from "src/app/modules/core/components/datepicker/f
 })
 export class DatetimeComponent {
     private onChange = (value : any) => {};
+    @Input() dateControl: any;
     @Input()label : any;
     @Input()dateValue : string = null;
     @Input()requerido : boolean = false;
@@ -51,7 +52,9 @@ export class DatetimeComponent {
     constructor(private cdr : ChangeDetectorRef) {}
     ngOnInit(): void {}
     onDateChange(event : any) {
-        console.log("onDateChange");        
+        console.log("onDateChange"); 
+        console.log(event);
+        console.log(event.value);       
         this.dateValue = moment(event.value).format();
         this.onChange(event.value);
         console.log(this.dateValue);
@@ -63,7 +66,9 @@ export class DatetimeComponent {
     }
 
     onDateChangeTest(event : any) {
-        console.log("onDateChangeTest");        
+        console.log("onDateChangeTest");
+        console.log(event);
+        console.log(event.value);        
         this.dateValue = moment(event.value).format();
         this.onChange(event.value);
         console.log(this.dateValue);
