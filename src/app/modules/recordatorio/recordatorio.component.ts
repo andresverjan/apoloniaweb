@@ -64,6 +64,7 @@ export class RecordatorioComponent implements OnInit {
 
     this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
+      id: new FormControl(""),
       NOMBRE: new FormControl("", [
         Validators.required,
         Validators.maxLength(50)
@@ -74,14 +75,10 @@ export class RecordatorioComponent implements OnInit {
       ]),
       DESCRIPCION: new FormControl("",[
         Validators.required,
-        Validators.maxLength(50)
+        Validators.maxLength(100)
       ]),
-      FECHAHORARECORDAR: new FormControl("",[
-        
-      ]),
-      ACTIVO: new FormControl(true, [
-        
-      ]),
+      FECHAHORARECORDAR: new FormControl("",),
+      ACTIVO: new FormControl(true, []),
       REPETIRDIARIO: new FormControl(false,[
       Validators.required
       ]),
@@ -105,8 +102,7 @@ export class RecordatorioComponent implements OnInit {
     this.lService.list(obj).subscribe((response) => {
       this.listado = response.data.recordatorios.lista;
       this.IsWait = false;
-      const {totalRecordatorios}= response.data.recordatorios;
-      this.totalRecordatorios = totalRecordatorios;
+      
     });
   }
 
@@ -118,6 +114,7 @@ export class RecordatorioComponent implements OnInit {
 
   guardar() {
     this.IsWait = true;
+    console.log("ENTRO EN GUARDARRRRRRRRRRRRRR")
     console.log("Antes"+this.lForm.value);
     this.lService.createUsers(this.lForm.value).subscribe((reponse) => {
       console.log("Despues"+ this.lForm.value);

@@ -119,6 +119,7 @@ export class RecordatorioService {
   }
   
   deleteUsers(id): Observable<any> {
+    console.log(id)
     let body = {
       query: `
       mutation {
