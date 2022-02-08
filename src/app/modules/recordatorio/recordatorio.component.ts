@@ -65,26 +65,24 @@ export class RecordatorioComponent implements OnInit {
     this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
       id: new FormControl(""),
-      NOMBRE: new FormControl("", [
+      nombre: new FormControl("", [
         Validators.required,
         Validators.maxLength(50)
       ]),
-      NOTA: new FormControl("", [
+      repetir: new FormControl("", [
         Validators.required,
         Validators.maxLength(50)
       ]),
-      DESCRIPCION: new FormControl("",[
+      observaciones: new FormControl("",[
         Validators.required,
         Validators.maxLength(100)
       ]),
-      FECHAHORARECORDAR: new FormControl("",),
-      ACTIVO: new FormControl(true, []),
-      REPETIRDIARIO: new FormControl(false,[
-      Validators.required
-      ]),
-      REPETIRMENSUAL: new FormControl(false, [
-        Validators.required
-      ]),
+      active: new FormControl(true, []),
+      fechaRecordatorio: new FormControl("",),
+      repetirCadaTimes: new FormControl("",),      
+      repetirCada: new FormControl("",),      
+      endsNever: new FormControl("",),      
+      endsAfter: new FormControl("",),
       EMPRESA_ID: new FormControl("", [
         Validators.required,
         Validators.maxLength(50)
