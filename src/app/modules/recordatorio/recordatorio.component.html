@@ -43,15 +43,11 @@
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex>
                             <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="NOMBRE" id="NOMBRE" placeholder="Nombre recordatorio" />
+                            <input matInput formControlName="nombre" id="nombre" placeholder="Nombre recordatorio" />
                         </mat-form-field>
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="NOTA" id="NOTA" placeholder="Nota" />
-                        </mat-form-field>
-
                         <section class="example-section">
-                            <mat-slide-toggle class="example-margin" color="primary" formControlName="ACTIVO" [checked]="lForm.controls['ACTIVO']">
+                            <mat-slide-toggle class="example-margin" color="primary" formControlName="active"
+                                [checked]="lForm.controls['active']">
                                 Activo
                             </mat-slide-toggle>
                         </section>
@@ -60,59 +56,42 @@
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex>
                             <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="DESCRIPCION" id="DESCRIPCION" placeholder="Descripcion" />
+                            <input matInput formControlName="observaciones" id="observaciones"
+                                placeholder="Observaciones" />
                         </mat-form-field>
-                        <!-- Fecha Hora Recordar -->
                         <section class="example-section">
-                            <mat-slide-toggle class="example-margin" color="primary" formControlName="REPETIRDIARIO" [checked]="lForm.controls['REPETIRDIARIO']">
-                                Repetir Diario
+                            <mat-slide-toggle class="example-margin" color="primary" formControlName="repetir">
+                                Repetir
                             </mat-slide-toggle>
                         </section>
-                        <section class="example-section">
-                            <mat-slide-toggle class="example-margin" color="primary" formControlName="REPETIRMENSUAL" [checked]="lForm.controls['REPETIRMENSUAL']">
-                                Repetir Mensual
-                            </mat-slide-toggle>
-                        </section>
-                        
-                        
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="EMPRESA_ID" id="EMPRESA_ID"
-                                placeholder="Id de la Empresa" />
-                        </mat-form-field>
                     </div>
-                    <!-- FECHA PENDIENTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE -->
-                     <app-datetime label="Fecha Ingreso:" requerido=true (valor)="pruebaOnDate($event)" [dateControl]="lForm.controls['FECHAHORARECORDAR']"> </app-datetime>  -->
 
                     <!-- <app-datepicker label="Fecha Ingreso:"> </app-datepicker> -->
-                    <!-- <div>
-                                <mat-form-field>
-                                    <input matInput [matDatepicker]="pickerFechaRecordatorio"
-                                (dateChange)="onDateChangeRecordatorio($event)"
-                                [value]="lForm.controls['FECHAHORARECORDAR'].value" readonly />
-                            <mat-datepicker-toggle matSuffix [for]="pickerFechaRecordatorio"></mat-datepicker-toggle>
-                            <mat-datepicker #pickerFechaRecordatorio></mat-datepicker>
-                                </mat-form-field>
-                            </div> -->
+                </mat-card-content>
 
-                    <!-- <app-datepicker
-                          [form]="genericForm"
-                          [campo]="item"
-                          (valor)="setDate($event, item)"
-                        ></app-datepicker> -->
+                <mat-card-content *ngIf="lForm.controls['repetir'].value">
+                    <app-datetime label="Fecha Ingreso:" requerido=true (valor)="pruebaOnDate($event)"
+                        [dateControl]="lForm.controls['fechaRecordatorio']"> </app-datetime>
 
-                    <!-- ------------ -->
-                    <!-- <mat-form-field fxFlex="100">
-                        <mat-label>Fecha Inicio</mat-label>
-                        <input matInput [matDatepicker]="picker1" (dateChange)="onDateChangeInicial($event)"
-                            (focus)="picker1.open()" [value]="filter['T17FechaIni']" readonly />
-                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1></mat-datepicker>
-                    </mat-form-field> -->
-                    <!--  -->
-                    <!--  -->
+                    <mat-label>Repetir cada: </mat-label>
+
+                    <mat-form-field appearance="fill">
+                        <mat-select>
+                            <mat-option value="repSelected">{{repSelected}}</mat-option>
+                            <mat-option [value]="option" *ngFor="let option of repCada">{{ option }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-select [(value)]="repSelected" formControlName="repetirCadaTimes">
+                            <mat-option></mat-option>
+                            <mat-option [value]="option2.value" *ngFor="let option2 of repCadaTime">{{ option2.viewValue}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
                 </mat-card-content>
+
+
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
                     <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar"
                         fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
@@ -155,7 +134,7 @@
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                     <mat-icon matPrefix>search</mat-icon>
                     <mat-form-field fxFlex="100">
-                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.NOMBRE"
+                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.nombre"
                             (keyup)="findBy()" />
                     </mat-form-field>
                 </div>
@@ -175,7 +154,7 @@
                         <h5></h5>
                         <div class="cssRow">
                             <span class="cssRow">
-                                Nombre: {{item.NOMBRE}}
+                                Nombre: {{item.nombre}}
                             </span>
                         </div>
                         <h5></h5>
@@ -186,7 +165,7 @@
                         </div>
                         <div class="cssRow">
                             <span class="cssRow">
-                                Recordatorio Fecha: <b>{{item.FECHAHORARECORDAR}}</b>
+                                Recordatorio Fecha: <b>{{item.fechaRecordatorio}}</b>
                             </span>
                         </div>
                     </mat-card-content>

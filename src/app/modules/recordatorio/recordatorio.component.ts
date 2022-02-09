@@ -8,6 +8,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/materia
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import * as moment from "moment";
+import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 
 const DATE_FORMATS = {
   parse: {
@@ -20,6 +21,11 @@ const DATE_FORMATS = {
     monthYearA11yLabel: "MMMM YYYY",
   },
 };
+interface Select {
+  value: number;
+  viewValue: string;
+
+}
 @Component({
   selector: "app-recordatorio",
   templateUrl: "./recordatorio.component.html",
@@ -50,18 +56,24 @@ export class RecordatorioComponent implements OnInit {
   public lShowBtnActualizar: Boolean = true;
   public lShowBtnEliminar: Boolean = true;
   public totalRecordatorios = 0;
-
+  public repCada: Array<any> = [1, 5, 10, 15 ];
+  public repCadaTime : Array<Select> = [
+  {value: 0, viewValue: 'Días'}, 
+  {value: 1, viewValue: 'Meses'},
+  {value: 2, viewValue:  'Años'}
+  ];
+  repSelected = this.repCadaTime[2].viewValue;
   public roles: any = [];
 
   public filter = {
-    NOMBRE: ""
+    nombre: ""
   };
 
   constructor(private lService: RecordatorioService, private rolService: RolService) { }
 
   ngOnInit() {
     this.findBy();
-
+    
     this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
       id: new FormControl(""),
@@ -91,9 +103,6 @@ export class RecordatorioComponent implements OnInit {
 
   }
 
-
-
-  
 
   obtenerDatos(obj?) {
     this.IsWait = true;
@@ -183,7 +192,7 @@ export class RecordatorioComponent implements OnInit {
       limite: this.pageSize
 
     }
-    if (this.filter.NOMBRE.length > 0) {
+    if (this.filter.nombre.length > 0) {
       this.queryOptions = { ...this.queryOptions, filter: this.filter }
     }
     this.obtenerDatos(this.queryOptions);
@@ -193,7 +202,7 @@ export class RecordatorioComponent implements OnInit {
   onDateChangeRecordatorio(event: MatDatepickerInputEvent<Date>) {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     console.log(dateValue)
-    this.lForm.controls["FECHAHORARECORDAR"].setValue(dateValue);
+    this.lForm.controls["fechaRecordatorio"].setValue(dateValue);
      this.findBy();
   }
 

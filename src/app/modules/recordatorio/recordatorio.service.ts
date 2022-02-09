@@ -25,7 +25,7 @@ export class RecordatorioService {
     let filter = "";
     if (objeTosend?.filter != null) {
       filter = `,filter: {`;
-      filter += objeTosend.filter.NOMBRE != "" ? `NOMBRE: "${objeTosend.filter.NOMBRE}"` : "";
+      filter += objeTosend.filter.nombre != "" ? `nombre: "${objeTosend.filter.nombre}"` : "";
       filter += `}`;
     }
     params = `(${pagination} ${filter} )`;
@@ -36,16 +36,20 @@ export class RecordatorioService {
         recordatorios ${params} {    
           lista {
             id
-            NOMBRE
-            NOTA
-            DESCRIPCION
-            FECHAHORARECORDAR
-            ACTIVO
-            REPETIRDIARIO
-            REPETIRMENSUAL
-            EMPRESA_ID
+            nombre
+            repetir
+            observaciones
+            active
+            fechaRecordatorio
+            repetirCadaTimes
+            repetirCada
+            endsNever
+            endsOn
+            endsAfter
+            createdBy
             createdAt
             updatedAt
+            EMPRESA_ID
           }
          }
      }
@@ -54,39 +58,38 @@ export class RecordatorioService {
     return this.httpService.callApi(body);
   }
 
-  getAll(objeTosend: any): Observable<any> {
-    let filter = "";
-    if (objeTosend != null) {
-      filter = `( filter: {`;
-      filter += objeTosend.name != "" ? `name: "${objeTosend.name}` : "";
-      filter += objeTosend.rol_id != "" ? `rol_id: "${objeTosend.rol_id}"` : "";
-      filter +=
-        objeTosend.lastName != "" ? `lastName: "${objeTosend.lastName}"` : "";
-      filter += `} )`;
-    }
+  // getAll(objeTosend: any): Observable<any> {
+  //   let filter = "";
+  //   if (objeTosend != null) {
+  //     filter = `( filter: {`;
+  //     filter += objeTosend.name != "" ? `name: "${objeTosend.name}` : "";
+  //     filter += objeTosend.rol_id != "" ? `rol_id: "${objeTosend.rol_id}"` : "";
+  //     filter +=
+  //       objeTosend.lastName != "" ? `lastName: "${objeTosend.lastName}"` : "";
+  //     filter += `} )`;
+  //   }
 
-    let body = {
-      query: `{users ${filter} {_id,name,lastName,urlPhoto,email,phoneNumber,rol_id}}`,
-    };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
-  }
+  //   let body = {
+  //     query: `{users ${filter} {_id,name,lastName,urlPhoto,email,phoneNumber,rol_id}}`,
+  //   };
+  //   let headers = new HttpHeaders().set("Content-Type", "application/json");
+  //   return this.http.post(this.serverUrl, body, { headers: headers });
+  // }
 
   createUsers(objeTosend): Observable<any> {
     let body = {
       query: `
       mutation {
         saveRecordatorios(recordatorio: {
-          NOTA: "${objeTosend.NOTA}", 
-          NOMBRE: "${objeTosend.NOMBRE}", 
-          DESCRIPCION: "${objeTosend.DESCRIPCION}", 
-          FECHAHORARECORDAR: "${objeTosend.FECHAHORARECORDAR}", 
-          ACTIVO: "${objeTosend.ACTIVO}",
-          REPETIRDIARIO: "${objeTosend.REPETIRDIARIO}", 
-          REPETIRMENSUAL: "${objeTosend.REPETIRMENSUAL}", 
+          nombre: "${objeTosend.nombre}", 
+          repetir: ${objeTosend.repetir},
+          observaciones: "${objeTosend.observaciones}", 
+          fechaRecordatorio: "${objeTosend.fechaRecordatorio}", 
+          active: ${objeTosend.active},
+          repetirCadaTimes: ${objeTosend.repetirCadaTimes}, 
+          repetirCada: ${objeTosend.repetirCada}, 
           EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
           id
-          NOTA
         }
       }
       `,
@@ -100,17 +103,16 @@ export class RecordatorioService {
       query: `
       mutation {
         updateRecordatorios(recordatorio: {
-          id: ${objeTosend.id}, 
-          NOTA: "${objeTosend.NOTA}", 
-          NOMBRE: "${objeTosend.NOMBRE}", 
-          DESCRIPCION: "${objeTosend.DESCRIPCION}", 
-          FECHAHORARECORDAR: "${objeTosend.FECHAHORARECORDAR}", 
-          ACTIVO: "${objeTosend.ACTIVO}",
-          REPETIRDIARIO: "${objeTosend.REPETIRDIARIO}", 
-          REPETIRMENSUAL: "${objeTosend.REPETIRMENSUAL}", 
+          id: ${objeTosend.id},  
+          nombre: "${objeTosend.nombre}", 
+          observaciones: "${objeTosend.observaciones}", 
+          fechaRecordatorio: "${objeTosend.fechaRecordatorio}", 
+          active: ${objeTosend.active},
+          repetirCadaTimes: ${objeTosend.repetirCadaTimes}, 
+          repetirCada: ${objeTosend.repetirCada}, 
           EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
           id
-          NOTA
+          
         }
       }
       `,
