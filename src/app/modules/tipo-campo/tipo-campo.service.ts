@@ -2,16 +2,14 @@ import { Injectable } from "@angular/core";
 import * as Globals from "../../modules/core/globals";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { ToolsService } from "../core/services/tools.service";
+import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
 })
 export class TipoCampoService {
-  serverUrl: string;
 
-  constructor(private http: HttpClient) {
-    this.serverUrl = Globals.SERVER;
+  constructor(private http: HttpClient,  private httpService: HttpService ) {
   }
 
   getAll(objeTosend?): Observable<any> {
@@ -36,7 +34,8 @@ export class TipoCampoService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 }
