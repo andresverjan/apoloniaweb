@@ -40,6 +40,7 @@ interface Select {
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
   ]
 })
+
 export class RecordatorioComponent implements OnInit {
   listado = [];
   public queryOptions: any = {};
@@ -56,13 +57,14 @@ export class RecordatorioComponent implements OnInit {
   public lShowBtnActualizar: Boolean = true;
   public lShowBtnEliminar: Boolean = true;
   public totalRecordatorios = 0;
-  public repCada: Array<any> = [1, 5, 10, 15 ];
-  public repCadaTime : Array<Select> = [
-  {value: 0, viewValue: 'Días'}, 
-  {value: 1, viewValue: 'Meses'},
-  {value: 2, viewValue:  'Años'}
+  public repCada: Array<any> = [1, 5, 10, 15];
+  public repCadaTime: Array<any> = [
+    { value: '0', nombre: 'Días' },
+    { value: '1', nombre: 'Meses' },
+    { value: '2', nombre: 'Años' }
   ];
-  repSelected = this.repCadaTime[2].viewValue;
+
+  repSelected = this.repCadaTime[1].viewValue;
   public roles: any = [];
 
   public filter = {
@@ -73,7 +75,7 @@ export class RecordatorioComponent implements OnInit {
 
   ngOnInit() {
     this.findBy();
-    
+
     this.lForm = new FormGroup({
       _id: new FormControl("", [Validators.maxLength(50)]),
       id: new FormControl(""),
@@ -83,33 +85,54 @@ export class RecordatorioComponent implements OnInit {
       ]),
       repetir: new FormControl("", [
         Validators.required,
-        Validators.maxLength(50)
       ]),
-      observaciones: new FormControl("",[
+      observaciones: new FormControl("", [
         Validators.required,
         Validators.maxLength(100)
       ]),
-      active: new FormControl(true, []),
-      fechaRecordatorio: new FormControl("",),
-      repetirCadaTimes: new FormControl("",),      
-      repetirCada: new FormControl("",),      
-      endsNever: new FormControl("",),      
-      endsAfter: new FormControl("",),
+      active: new FormControl(true), //True o String
+      fechaRecordatorio: new FormControl(""),
+      repetirCadaTimes: new FormControl(""),
+      repetirCada: new FormControl(""),
+      endsNever: new FormControl(""),
+      endsOn: new FormControl(""),
+      endsAfter: new FormControl(""),
       EMPRESA_ID: new FormControl("", [
         Validators.required,
         Validators.maxLength(50)
       ]),
+      chooseEnd: new FormControl(""),
     });
 
   }
+  onClickRadioButton(event) {
+    console.log(this.lForm.controls['chooseEnd'].value);
+    this.lForm.controls['endsNever'].setValue(false);
+    this.lForm.controls['endsOn'].setValue(new Date().toString());
+    this.lForm.controls['endsAfter'].setValue(0);
+    switch (this.lForm.controls['chooseEnd'].value) {
+      case 'endsNever': {
+        this.lForm.controls['endsNever'].setValue(true);
+      } break;
+      case 'endsOn': {
+        this.lForm.controls['endsOn'].setValue(new Date().toString());
+      } break;
+      case 'endsAfter': {
+        this.lForm.controls['endsAfter'].setValue(1);
+      } break;
 
+    }
+    console.log(this.lForm.controls['endsNever'].value)
+    console.log(this.lForm.controls['endsOn'].value)
+    console.log(this.lForm.controls['endsAfter'].value)
+  }
 
   obtenerDatos(obj?) {
     this.IsWait = true;
     this.lService.list(obj).subscribe((response) => {
       this.listado = response.data.recordatorios.lista;
       this.IsWait = false;
-      
+
     });
   }
 
@@ -122,9 +145,9 @@ export class RecordatorioComponent implements OnInit {
   guardar() {
     this.IsWait = true;
     console.log("ENTRO EN GUARDARRRRRRRRRRRRRR")
-    console.log("Antes"+this.lForm.value);
+    console.log("Antes" + this.lForm.value);
     this.lService.createUsers(this.lForm.value).subscribe((reponse) => {
-      console.log("Despues"+ this.lForm.value);
+      console.log("Despues" + this.lForm.value);
       console.log(reponse);
       this.IsWait = false;
       Swal.fire('Usuario', 'Agregado correctamente.', 'success');
@@ -166,6 +189,16 @@ export class RecordatorioComponent implements OnInit {
     this.lShowBtnEliminar = true;
     this.lShowBtnAdicionar = false;
     this.lForm.patchValue(dataInput);
+    console.log(dataInput);
+
+    if(this.lForm.controls['endsNever'].value == true){
+      this.lForm.controls['chooseEnd'].setValue('endsNever');
+    }
+     else if(this.lForm.controls['endsAfter'].value >= 1){
+      this.lForm.controls['chooseEnd'].setValue('endsAfter');
+    }else{
+      this.lForm.controls['chooseEnd'].setValue('endsOn');
+    }
   }
 
   eliminar() {
@@ -203,11 +236,25 @@ export class RecordatorioComponent implements OnInit {
     const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
     console.log(dateValue)
     this.lForm.controls["fechaRecordatorio"].setValue(dateValue);
-     this.findBy();
+    this.findBy();
   }
 
-  pruebaOnDate(valor){
-    console.log("fecha:"+  valor);
+  pruebaOnDate(valor) {
+    console.log("fecha:" + valor);
     // this.lForm.controls['FECHAHORARECORDAR'].setValue(valor);
   }
+  onDisponibleSelected(lSelected: any) {
+    console.log(lSelected);
+    this.lForm.controls['repetirCadaTimes'].setValue(lSelected.value);
+    console.log(this.lForm.controls['repetirCadaTimes'].value)
+    // this.filter.disponible = lSelected.value;
+    // this.findBy();
+  }
+
+  onDisponibleToggle(selected: any) {
+    console.log(selected);
+    this.lForm.controls['repetir'].setValue(selected.value);
+    console.log(this.lForm.controls['repetir'].value)
+  }
 }
+

@@ -87,7 +87,10 @@ export class RecordatorioService {
           fechaRecordatorio: "${objeTosend.fechaRecordatorio}", 
           active: ${objeTosend.active},
           repetirCadaTimes: ${objeTosend.repetirCadaTimes}, 
-          repetirCada: ${objeTosend.repetirCada}, 
+          repetirCada: ${objeTosend.repetirCada},
+          endsNever: ${objeTosend.endsNever},
+          endsOn: ${objeTosend.endsOn},
+          endsAfter: ${objeTosend.endsAfter}, 
           EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
           id
         }
@@ -105,11 +108,15 @@ export class RecordatorioService {
         updateRecordatorios(recordatorio: {
           id: ${objeTosend.id},  
           nombre: "${objeTosend.nombre}", 
+          repetir: ${objeTosend.repetir},
           observaciones: "${objeTosend.observaciones}", 
           fechaRecordatorio: "${objeTosend.fechaRecordatorio}", 
           active: ${objeTosend.active},
           repetirCadaTimes: ${objeTosend.repetirCadaTimes}, 
-          repetirCada: ${objeTosend.repetirCada}, 
+          repetirCada: ${objeTosend.repetirCada},
+          endsNever: ${objeTosend.endsNever},
+          endsOn: "${objeTosend.endsOn}",
+          endsAfter: ${objeTosend.endsAfter}, 
           EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
           id
           

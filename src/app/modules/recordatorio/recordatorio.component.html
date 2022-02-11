@@ -46,23 +46,25 @@
                             <input matInput formControlName="nombre" id="nombre" placeholder="Nombre recordatorio" />
                         </mat-form-field>
                         <section class="example-section">
-                            <mat-slide-toggle class="example-margin" color="primary" formControlName="active"
-                                [checked]="lForm.controls['active']">
+                            <mat-slide-toggle class="example-margin" color="primary" formControlName="active">
                                 Activo
                             </mat-slide-toggle>
+                            <textarea matInput hidden formControlName="active"></textarea>
                         </section>
+
 
                     </div>
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex>
                             <mat-icon matPrefix>edit</mat-icon>
                             <input matInput formControlName="observaciones" id="observaciones"
-                                placeholder="Observaciones" />
+                                placeholder="Observaciones"/>
                         </mat-form-field>
                         <section class="example-section">
                             <mat-slide-toggle class="example-margin" color="primary" formControlName="repetir">
                                 Repetir
                             </mat-slide-toggle>
+                            <textarea matInput hidden formControlName="repetir"></textarea>
                         </section>
                     </div>
 
@@ -74,22 +76,56 @@
                         [dateControl]="lForm.controls['fechaRecordatorio']"> </app-datetime>
 
                     <mat-label>Repetir cada: </mat-label>
-
+                    <!-- Pendiente arreglar los valor de default y conectar los controles -->
                     <mat-form-field appearance="fill">
                         <mat-select>
-                            <mat-option value="repSelected">{{repSelected}}</mat-option>
                             <mat-option [value]="option" *ngFor="let option of repCada">{{ option }}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field appearance="fill">
-                        <mat-select [(value)]="repSelected" formControlName="repetirCadaTimes">
-                            <mat-option></mat-option>
-                            <mat-option [value]="option2.value" *ngFor="let option2 of repCadaTime">{{ option2.viewValue}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                        
+                    >
+                    {{this.lForm.controls['repetirCadaTimes'].value}}
+                     <app-select label="Disponible" [data]="repCadaTime" icono="attach_money"
+                        (valSelected)="onDisponibleSelected($event)" fxFlex default="{{lForm.controls['repetirCadaTimes'].value}}"> 
+                    </app-select> 
 
+                <!-- {{egresoForm.controls['repetirCadaTimes'].value}}
+                    <app-select [data]="repCadaTime" ></app-select> -->
+                    <!-- Conectar los controles del formulario -->
+                    <section class="example-section">
+                        {{lForm.controls['chooseEnd'].value}}
+                        <label class="example-margin">Finaliza:</label>
+                        <mat-radio-group formControlName="chooseEnd" (change)="onClickRadioButton($event)">
+                            <div>
+                                <mat-radio-button class="example-margin" color="primary" value="endsNever" >Nunca</mat-radio-button>
+
+                            </div>
+                            <div>
+                                <mat-radio-button class="example-margin" color="primary" value="endsOn">El</mat-radio-button>
+                            </div>
+                            <div>
+                                <mat-radio-button class="example-margin" color="primary" value="endsAfter">Después de </mat-radio-button>
+                                
+                            </div>
+                            
+                            
+                        </mat-radio-group>
+
+                    </section>
                 </mat-card-content>
+                <!-- Arreglar ultimo card de Fecha -->
+                <mat-card-content *ngIf="lForm.controls['endsNever'].value == false && lForm.controls['endsAfter'].value == 0">
+                    <app-datetime label="Fecha Ingreso:" requerido=true (valor)="pruebaOnDate($event)"
+                        [dateControl]="lForm.controls['endsOn']"> </app-datetime>
+                </mat-card-content>
+                <mat-card-content *ngIf="lForm.controls['endsAfter'].value > 0">
+                    <mat-form-field fxFlex>
+                        <mat-icon matPrefix>edit</mat-icon>
+                        <input matInput formControlName="endsAfter" id="endsAfter"
+                            placeholder="Ocurrencias"/>
+                    </mat-form-field>
+            </mat-card-content>
 
 
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
