@@ -58,24 +58,6 @@ export class RecordatorioService {
     return this.httpService.callApi(body);
   }
 
-  // getAll(objeTosend: any): Observable<any> {
-  //   let filter = "";
-  //   if (objeTosend != null) {
-  //     filter = `( filter: {`;
-  //     filter += objeTosend.name != "" ? `name: "${objeTosend.name}` : "";
-  //     filter += objeTosend.rol_id != "" ? `rol_id: "${objeTosend.rol_id}"` : "";
-  //     filter +=
-  //       objeTosend.lastName != "" ? `lastName: "${objeTosend.lastName}"` : "";
-  //     filter += `} )`;
-  //   }
-
-  //   let body = {
-  //     query: `{users ${filter} {_id,name,lastName,urlPhoto,email,phoneNumber,rol_id}}`,
-  //   };
-  //   let headers = new HttpHeaders().set("Content-Type", "application/json");
-  //   return this.http.post(this.serverUrl, body, { headers: headers });
-  // }
-
   createUsers(objeTosend): Observable<any> {
     let body = {
       query: `
@@ -89,7 +71,7 @@ export class RecordatorioService {
           repetirCadaTimes: ${objeTosend.repetirCadaTimes}, 
           repetirCada: ${objeTosend.repetirCada},
           endsNever: ${objeTosend.endsNever},
-          endsOn: ${objeTosend.endsOn},
+          endsOn: "${objeTosend.endsOn}",
           endsAfter: ${objeTosend.endsAfter}, 
           EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
           id

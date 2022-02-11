@@ -57,14 +57,19 @@ export class RecordatorioComponent implements OnInit {
   public lShowBtnActualizar: Boolean = true;
   public lShowBtnEliminar: Boolean = true;
   public totalRecordatorios = 0;
-  public repCada: Array<any> = [1, 5, 10, 15];
+  public repCada: Array<any> = [
+    { value: '0', nombre: '1' }, 
+    { value: '1', nombre: '5' },
+    { value: '2', nombre: '10' }, 
+    { value: '3', nombre: '15' }
+  ];
+
   public repCadaTime: Array<any> = [
     { value: '0', nombre: 'Días' },
     { value: '1', nombre: 'Meses' },
     { value: '2', nombre: 'Años' }
   ];
 
-  repSelected = this.repCadaTime[1].viewValue;
   public roles: any = [];
 
   public filter = {
@@ -174,7 +179,7 @@ export class RecordatorioComponent implements OnInit {
     this.lService.updateUsers(this.lForm.value).subscribe(() => {
       console.log(this.lForm.value)
       this.IsWait = false;
-      Swal.fire('Usuarios', 'Actualizado correctamente.', 'success');
+      Swal.fire('Recordatorio', 'Actualizado correctamente.', 'success');
       this.lForm.reset();
       this.lShowPanelDatos = false;
       this.lShowPanelListado = true;
@@ -241,14 +246,23 @@ export class RecordatorioComponent implements OnInit {
 
   pruebaOnDate(valor) {
     console.log("fecha:" + valor);
-    // this.lForm.controls['FECHAHORARECORDAR'].setValue(valor);
+    this.lForm.controls['fechaRecordatorio'].setValue(valor);
+  }
+
+  endsOnDate(valor){
+    console.log("fecha:" + valor);
+    this.lForm.controls['endsOn'].setValue(valor.value);
   }
   onDisponibleSelected(lSelected: any) {
-    console.log(lSelected);
+    console.log('REPETIR CADATIMES'+lSelected.value);
     this.lForm.controls['repetirCadaTimes'].setValue(lSelected.value);
     console.log(this.lForm.controls['repetirCadaTimes'].value)
-    // this.filter.disponible = lSelected.value;
-    // this.findBy();
+  }
+
+  onDisponibleSelected2(valor: any){
+    console.log('REPETIR CADA'+valor.value);
+    this.lForm.controls['repetirCada'].setValue(valor.value);
+    console.log(this.lForm.controls['reptirCada'].value);
   }
 
   onDisponibleToggle(selected: any) {
