@@ -4,11 +4,6 @@ import { Component, OnInit } from "@angular/core";
 import { RecordatorioService } from "./recordatorio.service";
 import { RolService } from "../roles/roles.service";
 import { PageEvent } from "@angular/material/paginator";
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
-import { MomentDateAdapter } from "@angular/material-moment-adapter";
-import { MatDatepickerInputEvent } from "@angular/material/datepicker";
-import * as moment from "moment";
-import { MatSlideToggleChange } from "@angular/material/slide-toggle";
 
 const DATE_FORMATS = {
   parse: {
@@ -30,19 +25,13 @@ interface Select {
   selector: "app-recordatorio",
   templateUrl: "./recordatorio.component.html",
   styleUrls: ["./recordatorio.component.scss"],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE],
-    },
 
-    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
-  ]
 })
 
 export class RecordatorioComponent implements OnInit {
   listado = [];
+  public radioButtonFlag = false;
+  public endsOn = false;
   public queryOptions: any = {};
   public pageNumber: number = 1;
   public pageSizeOptions = [5, 10, 20, 30];
@@ -58,9 +47,9 @@ export class RecordatorioComponent implements OnInit {
   public lShowBtnEliminar: Boolean = true;
   public totalRecordatorios = 0;
   public repCada: Array<any> = [
-    { value: '0', nombre: '1' }, 
+    { value: '0', nombre: '1' },
     { value: '1', nombre: '5' },
-    { value: '2', nombre: '10' }, 
+    { value: '2', nombre: '10' },
     { value: '3', nombre: '15' }
   ];
 
@@ -70,8 +59,7 @@ export class RecordatorioComponent implements OnInit {
     { value: '2', nombre: 'Años' }
   ];
 
-  public roles: any = [];
-
+  public minDate = new Date();
   public filter = {
     nombre: ""
   };
@@ -88,56 +76,58 @@ export class RecordatorioComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50)
       ]),
-      repetir: new FormControl("", [
-        Validators.required,
-      ]),
+      repetir: new FormControl(""),
       observaciones: new FormControl("", [
         Validators.required,
         Validators.maxLength(100)
       ]),
-      active: new FormControl(true), //True o String
-      fechaRecordatorio: new FormControl(""),
+      active: new FormControl(true, [
+        Validators.required
+      ]),
+      fechaRecordatorio: new FormControl("", [
+        Validators.required
+      ]),
       repetirCadaTimes: new FormControl(""),
       repetirCada: new FormControl(""),
       endsNever: new FormControl(""),
       endsOn: new FormControl(""),
       endsAfter: new FormControl(""),
-      EMPRESA_ID: new FormControl("", [
-        Validators.required,
-        Validators.maxLength(50)
-      ]),
+      EMPRESA_ID: new FormControl(""),
       chooseEnd: new FormControl(""),
     });
 
   }
   onClickRadioButton(event) {
-    console.log(this.lForm.controls['chooseEnd'].value);
     this.lForm.controls['endsNever'].setValue(false);
     this.lForm.controls['endsOn'].setValue(new Date().toString());
     this.lForm.controls['endsAfter'].setValue(0);
+
     switch (this.lForm.controls['chooseEnd'].value) {
       case 'endsNever': {
         this.lForm.controls['endsNever'].setValue(true);
+        this.endsOn = false;
+        this.radioButtonFlag = false;
       } break;
       case 'endsOn': {
         this.lForm.controls['endsOn'].setValue(new Date().toString());
+        this.radioButtonFlag = false;
+        this.endsOn = true;
       } break;
       case 'endsAfter': {
         this.lForm.controls['endsAfter'].setValue(1);
+        this.endsOn = false;
+        this.radioButtonFlag = true;
       } break;
-
     }
-    console.log(this.lForm.controls['endsNever'].value)
-    console.log(this.lForm.controls['endsOn'].value)
-    console.log(this.lForm.controls['endsAfter'].value)
   }
 
   obtenerDatos(obj?) {
     this.IsWait = true;
     this.lService.list(obj).subscribe((response) => {
-      this.listado = response.data.recordatorios.lista;
+      const { totalRegistros, lista } = response.data.recordatorios;
+      this.totalRecordatorios = totalRegistros;
+      this.listado = lista;
       this.IsWait = false;
-
     });
   }
 
@@ -149,11 +139,7 @@ export class RecordatorioComponent implements OnInit {
 
   guardar() {
     this.IsWait = true;
-    console.log("ENTRO EN GUARDARRRRRRRRRRRRRR")
-    console.log("Antes" + this.lForm.value);
     this.lService.createUsers(this.lForm.value).subscribe((reponse) => {
-      console.log("Despues" + this.lForm.value);
-      console.log(reponse);
       this.IsWait = false;
       Swal.fire('Usuario', 'Agregado correctamente.', 'success');
       this.findBy();
@@ -164,7 +150,6 @@ export class RecordatorioComponent implements OnInit {
   }
 
   adicionar() {
-    console.log(this.lForm.value)
     this.lShowPanelListado = false;
     this.lShowPanelDatos = true;
     this.lForm.reset();
@@ -175,9 +160,7 @@ export class RecordatorioComponent implements OnInit {
 
   actualizar() {
     this.IsWait = true;
-
     this.lService.updateUsers(this.lForm.value).subscribe(() => {
-      console.log(this.lForm.value)
       this.IsWait = false;
       Swal.fire('Recordatorio', 'Actualizado correctamente.', 'success');
       this.lForm.reset();
@@ -194,15 +177,17 @@ export class RecordatorioComponent implements OnInit {
     this.lShowBtnEliminar = true;
     this.lShowBtnAdicionar = false;
     this.lForm.patchValue(dataInput);
-    console.log(dataInput);
+    this.lForm.controls['endsOn'].setValue(new Date(dataInput.endsOn));
 
-    if(this.lForm.controls['endsNever'].value == true){
+    if (this.lForm.controls['endsNever'].value == true) {
       this.lForm.controls['chooseEnd'].setValue('endsNever');
     }
-     else if(this.lForm.controls['endsAfter'].value >= 1){
+    else if (this.lForm.controls['endsAfter'].value >= 1) {
       this.lForm.controls['chooseEnd'].setValue('endsAfter');
-    }else{
+      this.radioButtonFlag = true;
+    } else {
       this.lForm.controls['chooseEnd'].setValue('endsOn');
+      this.endsOn = true;
     }
   }
 
@@ -218,6 +203,7 @@ export class RecordatorioComponent implements OnInit {
       this.lShowPanelListado = true;
     });
   }
+
   handlePageChange(e: PageEvent) {
     this.pageNumber = e.pageIndex + 1;
     this.pageSize = e.pageSize;
@@ -228,7 +214,6 @@ export class RecordatorioComponent implements OnInit {
     this.queryOptions = {
       pagina: this.pageNumber,
       limite: this.pageSize
-
     }
     if (this.filter.nombre.length > 0) {
       this.queryOptions = { ...this.queryOptions, filter: this.filter }
@@ -237,38 +222,18 @@ export class RecordatorioComponent implements OnInit {
     this.IsWait = true;
   }
 
-  onDateChangeRecordatorio(event: MatDatepickerInputEvent<Date>) {
-    const dateValue = moment(new Date(event.value)).format("YYYY-MM-DD");
-    console.log(dateValue)
-    this.lForm.controls["fechaRecordatorio"].setValue(dateValue);
-    this.findBy();
-  }
-
-  pruebaOnDate(valor) {
-    console.log("fecha:" + valor);
+  OnDate(valor) {
     this.lForm.controls['fechaRecordatorio'].setValue(valor);
   }
 
-  endsOnDate(valor){
-    console.log("fecha:" + valor);
+  endsOnDate(valor) {
     this.lForm.controls['endsOn'].setValue(valor.value);
   }
   onDisponibleSelected(lSelected: any) {
-    console.log('REPETIR CADATIMES'+lSelected.value);
     this.lForm.controls['repetirCadaTimes'].setValue(lSelected.value);
-    console.log(this.lForm.controls['repetirCadaTimes'].value)
   }
 
-  onDisponibleSelected2(valor: any){
-    console.log('REPETIR CADA'+valor.value);
+  onDisponibleSelected2(valor: any) {
     this.lForm.controls['repetirCada'].setValue(valor.value);
-    console.log(this.lForm.controls['reptirCada'].value);
-  }
-
-  onDisponibleToggle(selected: any) {
-    console.log(selected);
-    this.lForm.controls['repetir'].setValue(selected.value);
-    console.log(this.lForm.controls['repetir'].value)
   }
 }
-

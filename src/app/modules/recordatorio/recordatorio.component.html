@@ -1,5 +1,4 @@
 <!--CONTENIDO DE ACTIONS-->
-
 <mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
     <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
         fxFlex="22">
@@ -17,7 +16,7 @@
 <div class="container" style="overflow: hidden">
     <mat-card-content class="window-dashboard-card-content contentprincipal" *ngIf="lShowPanelDatos">
         <mat-toolbar color="primary">
-            <mat-icon matPrefix>people</mat-icon>
+            <mat-icon matPrefix>event_available</mat-icon>
             <span>{{ etiquetaNombreModulo }}</span>
             <span class="example-spacer"></span>
 
@@ -66,8 +65,8 @@
                         </mat-form-field>
                     </div>
                     
-                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
-                            <app-datetime fxFlex label="Fecha Ingreso:" requerido=true (valor)="pruebaOnDate($event)"
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                            <app-datetime fxFlex label="Fecha Recordatorio:" requerido=true (valor)="OnDate($event)" 
                             [dateControl]="lForm.controls['fechaRecordatorio']"> </app-datetime>
                             <textarea matInput hidden formControlName="fechaRecordatorio"></textarea>
                     </div>
@@ -88,7 +87,7 @@
                             <label>Finaliza:</label>
                             <mat-radio-group formControlName="chooseEnd" (change)="onClickRadioButton($event)">
                                 <div>
-                                    <mat-radio-button  color="primary" value="endsNever">Nunca</mat-radio-button>
+                                    <mat-radio-button  color="primary" value="endsNever" >Nunca</mat-radio-button>
                                 </div>
                                 <br>
                                 <div>
@@ -100,25 +99,31 @@
                                 </div>
                             </mat-radio-group>
                         </section>
+                    </div> 
 
-                        <app-datetime fxFlex label="Fecha Ingreso:" requerido=true (valor)="endsOnDate($event)"
-                            [dateControl]="lForm.controls['endsOn']" class="example-form"> </app-datetime>
-                             <textarea matInput hidden formControlName="endsOn"></textarea> 
-                        <mat-form-field fxFlex class="example-form2">
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
+                        <mat-form-field fxFlex  class="example-item">
+                            <mat-label>Fecha finalización</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="endsOn" [min]="minDate" [disabled]="!endsOn">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        
+                        <mat-form-field fxFlex class="example-item2">
                             <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="endsAfter" id="endsAfter" type="number"
+                            <input matInput formControlName="endsAfter" id="endsAfter" type="number" [readonly]="!radioButtonFlag" 
                                 placeholder="Numero de ocurrencias"/>
                         </mat-form-field>
-                    </div> 
+                    </div>
                 </mat-card-content>                
                     
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                    <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar"
+                    <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar" [disabled]="!lForm.valid"
                         fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
                         <mat-icon>person_add</mat-icon>
                         Adicionar
                     </button>
-                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center"
+                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center" 
                         fxFlex="80" *ngIf="lShowBtnActualizar" (click)="actualizar()">
                         <mat-icon>mode_edit</mat-icon>
                         Actualizar
@@ -137,6 +142,7 @@
             </mat-card>
         </form>
     </mat-card-content>
+
     <!--CARD: USERS -->
 
     <mat-card-content class="window-dashboard-card-content" *ngIf="lShowPanelListado" style="overflow-block: hidden">
@@ -178,11 +184,6 @@
                             </span>
                         </div>
                         <h5></h5>
-                        <div class="cssRow">
-                            <span class="cssRow">
-                                Id: {{item.id}}
-                            </span>
-                        </div>
                         <div class="cssRow">
                             <span class="cssRow">
                                 Recordatorio Fecha: <b>{{item.fechaRecordatorio}}</b>

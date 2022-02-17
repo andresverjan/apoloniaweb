@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import * as Globals from "../core/globals";
-import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { HttpService } from "../core/services/HttpService";
 
@@ -14,7 +14,7 @@ export class RecordatorioService {
   constructor(private http: HttpClient, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
-  //List
+
   list(objeTosend?): Observable<any> {
     let params = "";
     let pagination = `
@@ -29,7 +29,7 @@ export class RecordatorioService {
       filter += `}`;
     }
     params = `(${pagination} ${filter} )`;
-    
+
 
     let body = {
       query: `{
@@ -50,8 +50,9 @@ export class RecordatorioService {
             createdAt
             updatedAt
             EMPRESA_ID
-          }
-         }
+          } 
+          totalRegistros
+        }
      }
      `
     }
@@ -71,7 +72,7 @@ export class RecordatorioService {
           repetirCadaTimes: ${objeTosend.repetirCadaTimes}, 
           repetirCada: ${objeTosend.repetirCada},
           endsNever: ${objeTosend.endsNever},
-          endsOn: "${objeTosend.endsOn}",
+          endsOn: "${objeTosend.endsOn || 0}",
           endsAfter: ${objeTosend.endsAfter}, 
           EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
           id
@@ -97,7 +98,7 @@ export class RecordatorioService {
           repetirCadaTimes: ${objeTosend.repetirCadaTimes}, 
           repetirCada: ${objeTosend.repetirCada},
           endsNever: ${objeTosend.endsNever},
-          endsOn: "${objeTosend.endsOn}",
+          endsOn: "${objeTosend.endsOn || 0}",
           endsAfter: ${objeTosend.endsAfter}, 
           EMPRESA_ID: ${objeTosend.EMPRESA_ID}}) {
           id
@@ -108,7 +109,7 @@ export class RecordatorioService {
     };
     return this.httpService.callApi(body);
   }
-  
+
   deleteUsers(id): Observable<any> {
     console.log(id)
     let body = {
@@ -117,7 +118,6 @@ export class RecordatorioService {
         deleteRecordatorios(recordatorio: {id: ${id}}) 
       }`,
     };
-    console.log(body);
     return this.httpService.callApi(body);
   }
 }
