@@ -1,5 +1,4 @@
 <!--CONTENIDO DE ACTIONS-->
-
 <mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
     <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
         fxFlex="22">
@@ -17,7 +16,7 @@
 <div class="container" style="overflow: hidden">
     <mat-card-content class="window-dashboard-card-content contentprincipal" *ngIf="lShowPanelDatos">
         <mat-toolbar color="primary">
-            <mat-icon matPrefix>people</mat-icon>
+            <mat-icon matPrefix>event_available</mat-icon>
             <span>{{ etiquetaNombreModulo }}</span>
             <span class="example-spacer"></span>
 
@@ -43,45 +42,89 @@
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex>
                             <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="NOMBRE" id="NOMBRE" placeholder="Nombre recordatorio" />
+                            <input matInput formControlName="nombre" id="nombre" placeholder="Nombre recordatorio" />
                         </mat-form-field>
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="NOTA" id="NOTA" placeholder="Nota" />
-                        </mat-form-field>
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="EMPRESA_ID" id="EMPRESA_ID"
-                                placeholder="Id de la Empresa" />
+                        <mat-form-field fxFlex="30">
+                            <mat-slide-toggle color="primary" formControlName="active">
+                                Activo
+                            </mat-slide-toggle>
+                            <textarea matInput hidden formControlName="active"></textarea>
                         </mat-form-field>
                     </div>
-                    <!-- <app-datepicker
-                          [form]="genericForm"
-                          [campo]="item"
-                          (valor)="setDate($event, item)"
-                        ></app-datepicker> -->
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                        <mat-form-field fxFlex>
+                            <mat-icon matPrefix>edit</mat-icon>
+                            <input matInput formControlName="observaciones" id="observaciones"
+                                placeholder="Observaciones"/>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="30">
+                            <mat-slide-toggle  color="primary" formControlName="repetir">
+                                Repetir
+                            </mat-slide-toggle>
+                            <textarea matInput hidden formControlName="repetir"></textarea>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                            <app-datetime fxFlex label="Fecha Recordatorio:" requerido=true (valor)="OnDate($event)" 
+                            [dateControl]="lForm.controls['fechaRecordatorio']"> </app-datetime>
+                            <textarea matInput hidden formControlName="fechaRecordatorio"></textarea>
+                    </div>
+                
+                    <div  fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
+                            <mat-label>Repetir cada: </mat-label>
+                            <app-select [data]="repCada" icono="edit"
+                                (valSelected)="onDisponibleSelected2($event)" fxFlex default="{{lForm.controls['repetirCada'].value}}"> 
+                            </app-select>
+                        
+                            <app-select [data]="repCadaTime" icono="edit"
+                                (valSelected)="onDisponibleSelected($event)" fxFlex default="{{lForm.controls['repetirCadaTimes'].value}}"> 
+                            </app-select> 
+                    </div>
+                   
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
+                        <section fxFlex>
+                            <label>Finaliza:</label>
+                            <mat-radio-group formControlName="chooseEnd" (change)="onClickRadioButton($event)">
+                                <div>
+                                    <mat-radio-button  color="primary" value="endsNever" >Nunca</mat-radio-button>
+                                </div>
+                                <br>
+                                <div>
+                                    <mat-radio-button  color="primary" value="endsOn">El</mat-radio-button>
+                                </div>
+                                <br>
+                                <div>
+                                    <mat-radio-button  color="primary" value="endsAfter">Después de </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+                        </section>
+                    </div> 
 
-                    <!-- ------------ -->
-                    <mat-form-field fxFlex="100">
-                        <mat-label>Fecha Inicio</mat-label>
-                        <input matInput [matDatepicker]="picker1" (dateChange)="onDateChangeInicial($event)"
-                            (focus)="picker1.open()" [value]="filter['T17FechaIni']" readonly />
-                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1></mat-datepicker>
-                    </mat-form-field>
-
-                    <app-datetime label="Fecha Ingreso:" requerido=true> </app-datetime>
-                    <app-datepicker label="Fecha Ingreso:"> </app-datepicker>
-
-                </mat-card-content>
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
+                        <mat-form-field fxFlex  class="example-item">
+                            <mat-label>Fecha finalización</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="endsOn" [min]="minDate" [disabled]="!endsOn">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        
+                        <mat-form-field fxFlex class="example-item2">
+                            <mat-icon matPrefix>edit</mat-icon>
+                            <input matInput formControlName="endsAfter" id="endsAfter" type="number" [readonly]="!radioButtonFlag" 
+                                placeholder="Numero de ocurrencias"/>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>                
+                    
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                    <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar"
+                    <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar" [disabled]="!lForm.valid"
                         fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
                         <mat-icon>person_add</mat-icon>
                         Adicionar
                     </button>
-                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center"
-                        fxFlex="80" [disabled]="!lForm.valid" *ngIf="lShowBtnActualizar" (click)="actualizar()">
+                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center" 
+                        fxFlex="80" *ngIf="lShowBtnActualizar" (click)="actualizar()">
                         <mat-icon>mode_edit</mat-icon>
                         Actualizar
                     </button>
@@ -99,6 +142,7 @@
             </mat-card>
         </form>
     </mat-card-content>
+
     <!--CARD: USERS -->
 
     <mat-card-content class="window-dashboard-card-content" *ngIf="lShowPanelListado" style="overflow-block: hidden">
@@ -116,17 +160,17 @@
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                     <mat-icon matPrefix>search</mat-icon>
                     <mat-form-field fxFlex="100">
-                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.NOMBRE"
+                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.nombre"
                             (keyup)="findBy()" />
                     </mat-form-field>
                 </div>
             </mat-card-content>
         </mat-card>
         <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" aria-label="Select page"
-            (page)="handlePageChange($event)">
+            (page)="handlePageChange($event)" [length]="totalRecordatorios">
         </mat-paginator>
         <!--CARD: USERS -->
-        <mat-grid-list cols="3" rowHeight="400px">
+        <mat-grid-list cols="3" rowHeight="200px">
             <mat-grid-tile *ngFor="let item of listado" style="overflow-x: hidden">
                 <mat-card class="cardR" (click)="verDetalle(item)">
                     <mat-card-content class="dashboard-card-content">
@@ -136,18 +180,13 @@
                         <h5></h5>
                         <div class="cssRow">
                             <span class="cssRow">
-                                Nombre: {{item.NOMBRE}}
+                                Nombre: {{item.nombre}}
                             </span>
                         </div>
                         <h5></h5>
                         <div class="cssRow">
                             <span class="cssRow">
-                                Id: {{item.id}}
-                            </span>
-                        </div>
-                        <div class="cssRow">
-                            <span class="cssRow">
-                                Recordatorio Fecha: <b>{{item.FECHAHORARECORDAR}}</b>
+                                Recordatorio Fecha: <b>{{item.fechaRecordatorio}}</b>
                             </span>
                         </div>
                     </mat-card-content>

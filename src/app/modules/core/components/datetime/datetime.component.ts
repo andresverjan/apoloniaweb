@@ -29,6 +29,7 @@ import {APP_DATETIME_FORMATS} from "src/app/modules/core/components/datepicker/f
 })
 export class DatetimeComponent {
     private onChange = (value : any) => {};
+    @Input() dateControl: any;
     @Input()label : any;
     @Input()dateValue : string = null;
     @Input()requerido : boolean = false;
@@ -50,11 +51,9 @@ export class DatetimeComponent {
 
     constructor(private cdr : ChangeDetectorRef) {}
     ngOnInit(): void {}
-    onDateChange(event : any) {
-        console.log("onDateChange");        
+    onDateChange(event : any) {     
         this.dateValue = moment(event.value).format();
         this.onChange(event.value);
-        console.log(this.dateValue);
         this.valor.emit(this.dateValue);
     }
 
@@ -62,11 +61,9 @@ export class DatetimeComponent {
         console.log("entro a changeInput");
     }
 
-    onDateChangeTest(event : any) {
-        console.log("onDateChangeTest");        
+    onDateChangeTest(event : any) {   
         this.dateValue = moment(event.value).format();
         this.onChange(event.value);
-        console.log(this.dateValue);
         this.valor.emit(this.dateValue);
         if(this.requerido == true && this.dateValue!= ''){
             console.log("Son requeridos...");

@@ -26,7 +26,23 @@
 }
 
 .cardR{
-  width: auto;
-  height: auto;
-  
+  width: 300px;
+  height: 150px;
+}
+
+
+.example-item {
+  position: relative;
+  bottom: 100px; left: 110px;
+  min-width: 50px;
+  max-width: 200px;
+  width: 70%;
+}
+
+.example-item2 {
+  position: relative;
+  bottom: 50px; right: 1050px;
+  min-width: 50px;
+  max-width: 200px;
+  width: 70%;
 }

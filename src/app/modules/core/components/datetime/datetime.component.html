@@ -7,6 +7,8 @@
       (dateTimeChange)="onDateChange($event)" [(value)]="dateValue" style="margin-left: -25px"
       (keypress)="changeInput()"
       readOnly=true
+      (change)="changeInput()"
+      [formControl]="dateControl"
       (click)="picker.open()"/>
 
     <div style="float: right;margin-top: -40px;">
