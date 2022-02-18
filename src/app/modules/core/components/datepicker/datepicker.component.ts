@@ -29,7 +29,7 @@ import { AppDateAdapter, APP_DATE_FORMATS } from 'src/app/modules/core/component
 export class DatepickerComponent {
 
   private onChange = (value : any) => {};
-  @Input()label : any;
+  @Input()label : string =  "";
   @Input()dateValue : string = null;
   @Input()requerido : boolean = false;
   @Output()valor = new EventEmitter<string>();

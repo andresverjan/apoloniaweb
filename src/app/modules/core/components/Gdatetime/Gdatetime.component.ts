@@ -40,7 +40,7 @@ export class GDatetimeComponent {
 
   @Input() campo: any;
   @Input() form: any;
-  @Input() dateValue: string = null;
+  @Input() dateValue: string = "";
   @Output() valor = new EventEmitter<string>();
 
   public parms: any = {
