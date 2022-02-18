@@ -51,13 +51,9 @@ export class DatetimeComponent {
 
     constructor(private cdr : ChangeDetectorRef) {}
     ngOnInit(): void {}
-    onDateChange(event : any) {
-        console.log("onDateChange"); 
-        console.log(event);
-        console.log(event.value);       
+    onDateChange(event : any) {     
         this.dateValue = moment(event.value).format();
         this.onChange(event.value);
-        console.log(this.dateValue);
         this.valor.emit(this.dateValue);
     }
 
@@ -65,13 +61,9 @@ export class DatetimeComponent {
         console.log("entro a changeInput");
     }
 
-    onDateChangeTest(event : any) {
-        console.log("onDateChangeTest");
-        console.log(event);
-        console.log(event.value);        
+    onDateChangeTest(event : any) {   
         this.dateValue = moment(event.value).format();
         this.onChange(event.value);
-        console.log(this.dateValue);
         this.valor.emit(this.dateValue);
         if(this.requerido == true && this.dateValue!= ''){
             console.log("Son requeridos...");
