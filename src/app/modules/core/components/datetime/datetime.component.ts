@@ -71,7 +71,6 @@ export class DatetimeComponent {
         console.log("onDateChange");        
         this.dateValue = moment(event.value).format();
         this.onChange(event.value);
-        console.log(this.dateValue);
         this.valor.emit(this.dateValue);
     }
 
