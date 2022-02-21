@@ -88,6 +88,7 @@ import { GcolorpickerComponent } from './components/Gcolorpicker/gcolorpicker.co
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { ColorpickerComponent } from "./components/colorpicker/colorpicker.component";
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from "@angular-material-components/datetime-picker";
 
 
 FullCalendarModule.registerPlugins([
@@ -185,6 +186,8 @@ FullCalendarModule.registerPlugins([
     MatInputModule,
     MatSliderModule,
     NgxMatColorPickerModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule
   ],
 
   exports: [

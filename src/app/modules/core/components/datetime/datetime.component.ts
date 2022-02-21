@@ -33,6 +33,7 @@ export class DatetimeComponent {
     @Input()label : any;
     @Input()dateValue : string = null;
     @Input()requerido : boolean = false;
+    @Input()minDate  = new Date();
     @Output()valor = new EventEmitter<string>();
 
     public parms : any = {
@@ -52,9 +53,11 @@ export class DatetimeComponent {
     constructor(private cdr : ChangeDetectorRef) {}
     ngOnInit(): void {}
     onDateChange(event : any) {     
-        this.dateValue = moment(event.value).format();
+        this.dateValue = moment(event.value).format("YYYY-MM-DD hh:mm A");
         this.onChange(event.value);
         this.valor.emit(this.dateValue);
+        console.log('DATE VALUE' + this.dateValue);
+        console.log('VALOR' + this.valor);
     }
 
     changeInput(){
@@ -65,7 +68,7 @@ export class DatetimeComponent {
         this.dateValue = moment(event.value).format();
         this.onChange(event.value);
         this.valor.emit(this.dateValue);
-        if(this.requerido == true && this.dateValue!= ''){
+        if(this.requerido == true && this.dateValue != ''){
             console.log("Son requeridos...");
         }
     }
