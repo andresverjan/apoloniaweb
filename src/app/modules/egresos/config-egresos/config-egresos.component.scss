@@ -3,4 +3,41 @@
   color: #fff;
 }
 
+.tabla-prueba{
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+  border: 1px solid black;
+  list-style: none;
+  display: flex;
+}
+
+.tabla-2{
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+  border: 1px solid black;
+  list-style: none;
+  display: flex;
+}
+
+.firma{
+  display: inline-block;
+  margin-left: 700px;
+  margin-top: -250px;
+  
+}
+
+.colums{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+    grid-template-rows: 200px;
+    gap: 1em;
+}
+
+.modo-pagar{
+  margin-top: 70px;
+}
+
  

@@ -7,6 +7,7 @@ import * as Globals from "../globals";
 import { ModalComponent } from "../modal/modal.component";
 import { Router } from "@angular/router";
 import { jsPDF } from "jspdf";
+import { ClaseMonedaLiteral } from "../../core/services/dist/numberToWord"
 import html2canvas from 'html2canvas';
 
 @Injectable({
@@ -87,7 +88,7 @@ export class ToolsService {
   }
 
   showLoading() {
-    const dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig(); 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "300px";
@@ -265,15 +266,15 @@ export class ToolsService {
   getUserFromLocalStorage(): any {
     return JSON.parse(localStorage.getItem(this.userKey));
   }
-
+  
   exportHtmlToPdf(elementId: string, pathFile: string) {
     var element = document.getElementById(elementId);
     html2canvas(element, {
       logging: false
     }).then(function (canvas) {
-      var pdf = new jsPDF('p', 'mm', 'a4');//A4 paper, portrait
+      var pdf = new jsPDF('l', 'mm', 'a4');//A4 paper, portrait
       var ctx = canvas.getContext('2d'),
-        a4w = 190, a4h = 257,//A4 size, 210mm x 297mm, 10 mm margin on each side, display area 190x277
+        a4w = 270, a4h = 257,//A4 size, 210mm x 297mm, 10 mm margin on each side, display area 190x277
         imgHeight = Math.floor(a4h * canvas.width / a4w),//Convert pixel height of one page image to A4 display scale
         renderedHeight = 0;
       while (renderedHeight < canvas.height) {
@@ -295,5 +296,33 @@ export class ToolsService {
     });
   }
 
+  exportHtmlToPdfOriginal(elementId: string, pathFile: string) {
+    var element = document.getElementById(elementId);
+    html2canvas(element, {
+      logging: false
+    }).then(function (canvas) {
+      var pdf = new jsPDF('p', 'mm', 'a4');//A4 paper, portrait
+      var ctx = canvas.getContext('2d'),
+        a4w = 190, a4h = 277,//A4 size, 210mm x 297mm, 10 mm margin on each side, display area 190x277
+        imgHeight = Math.floor(a4h * canvas.width / a4w),//Convert pixel height of one page image to A4 display scale
+        renderedHeight = 0;
+      while (renderedHeight < canvas.height) {
+        var page = document.createElement("canvas");
+        page.width = canvas.width;
+        page.height = Math.min(imgHeight, canvas.height - renderedHeight);//Maybe less than one page
+        //Trim the specified area with getImageData and draw it into the canvas object created earlier
+        page.getContext('2d').putImageData(ctx.getImageData(0, renderedHeight, canvas.width, Math.min(imgHeight, canvas.height - renderedHeight)), 0, 0);
+        //Add an image to the page with a 10 mm / 20 mm margin
+        pdf.addImage(page.toDataURL('image/jpeg', 1.0), 'JPEG', 10, 20, a4w, Math.min(a4h, a4w * page.height / page.width));
+        //Add header logo
+        //pdf.addImage(imgDataPDF, 'PNG', 5, 3, 20, 30);
+        renderedHeight += imgHeight;
+        if (renderedHeight < canvas.height)
+          pdf.addPage();//Add an empty page if there is more to follow
+        //delete page;
+      }
+      pdf.save(pathFile);
+    });
+  }
 
 }

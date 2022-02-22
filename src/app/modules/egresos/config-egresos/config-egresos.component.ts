@@ -78,7 +78,7 @@ export class ConfigEgresosComponent implements OnInit {
     },
   };
   public tiposEgresos;
-
+  public  displayedColumns2: string[] = [];
   public  displayedColumns: string[] = [];
   public showListItems = false;
   public showCardsItems = true;
@@ -93,7 +93,7 @@ export class ConfigEgresosComponent implements OnInit {
     public genericService: GenericService
   ) {
     
-
+    this.displayedColumns2  = ['nombre', 'T17Soporte', 'T17Observacion', 'T17Valor', 'T17Total'];
     this.displayedColumns  = ['nombre', 'T17Fecha', 'T17Total'];
 
 
@@ -223,6 +223,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   verDetalle(input: any) {
+    console.log(this.egresoForm)
     this.isUpdating = true;
     this.showListado = false;
     this.showPanelDatos = true;
@@ -230,23 +231,24 @@ export class ConfigEgresosComponent implements OnInit {
     this.showBtnAdicionar = false;
     this.showBtnEliminar = true;
     this.egresoForm.reset();
+    
     const proveedor = this.proveedores.filter(
-      (p) => p.Nit === input["T17Proveedor"]
-    )[0];
+      (p) => p.Nit === input["T17Proveedor"] )[0];
+
     this.egresoForm.patchValue(input);
     this.egresoForm.controls["T17Proveedor"].setValue(proveedor);
+
     const formaPago = this.formasPagos.filter(
-      (fp) => fp.nombre === input["T17FormaPago"]
-    )[0];
+      (fp) => fp.nombre === input["T17FormaPago"])[0];
     this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
 
     const tipoEgreso = this.tiposEgresos.filter(
       (te) => te.id === parseInt(input["T17Clasificacion"])
     )[0];
-
     this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
 
     this.patchParametrosForm();
+    console.log()
   }
   eliminar() {
     Swal.fire({
@@ -389,9 +391,10 @@ export class ConfigEgresosComponent implements OnInit {
           .subscribe(() => {
             this.fetchParamsByGroupContaConfigEmpresa();
           });
-      }
-    });
+        }
+      });
   }
+
   fetchParamsByGroupContaConfig() {
     this.configParametrosService
       .configByParamGroup("CONTA_CONFIG")
@@ -503,6 +506,16 @@ showCards(){
   this.showCardsItems = true;
   console.log(this.showListItems);
   console.log(this.showCardsItems);
+}
+
+
+downloadPdf() {
+  var pathFile = 'reporte eventos.pdf'
+      this.toolService.exportHtmlToPdf('elementId', pathFile);
+}
+
+generarRecibo(){
+
 }
 
 }
