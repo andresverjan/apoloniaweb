@@ -37,7 +37,7 @@ export class DatetimeComponent {
     @Input()  label : any;
     @Input()  dateValue : string = null;
     @Input()  requerido : boolean = false;
-    @Input()  datecontrol : FormControl;
+    @Input()  dateControl : FormControl;
     @Input()  datecontrolChange = new EventEmitter<FormControl>();
 
     @Output() valor = new EventEmitter<string>();
