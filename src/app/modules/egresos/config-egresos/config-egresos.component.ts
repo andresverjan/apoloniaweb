@@ -18,6 +18,7 @@ import { FormasPagosService } from "../../core/services/formaspagos.service";
 import { ProveedoresService } from "../../core/services/proveedores.service";
 import { ToolsService } from "../../core/services/tools.service";
 import { GenericService } from "../../generic/generic.service";
+import { ClaseMonedaLiteral } from "../../core/services/numberToWord"
 
 const DATE_FORMATS = {
   parse: {
@@ -84,6 +85,7 @@ export class ConfigEgresosComponent implements OnInit {
   public showCardsItems = true;
 
   constructor(
+    public numeroLetra: ClaseMonedaLiteral,
     public dialog: MatDialog,
     public _egresosService: EgresosService,
     public configParametrosService: ConfigParametrosService,
@@ -133,6 +135,7 @@ export class ConfigEgresosComponent implements OnInit {
       });
     });
   }
+
   ngOnInit() {
     this.findBy();
     this.fetchParamsByGroupContaConfig();
@@ -140,6 +143,9 @@ export class ConfigEgresosComponent implements OnInit {
     this.fetchFormasPagos();
     this.fetchProveedores();
     this.fetchTiposEgresos();
+    let prue = 400;
+    let  prueba = this.numeroLetra.numeroALetras(prue )
+    console.log(prueba)
   
   }
   onPorveedorSelected(selected) {
