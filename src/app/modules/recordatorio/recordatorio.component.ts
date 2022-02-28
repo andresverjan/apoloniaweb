@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { RecordatorioService } from "./recordatorio.service";
 import { RolService } from "../roles/roles.service";
 import { PageEvent } from "@angular/material/paginator";
@@ -63,6 +63,8 @@ export class RecordatorioComponent implements OnInit {
   public filter = {
     nombre: ""
   };
+
+  // @Output() valDate = new EventEmitter<string>();
 
   constructor(private lService: RecordatorioService, private rolService: RolService) { }
 
@@ -223,7 +225,10 @@ export class RecordatorioComponent implements OnInit {
   }
 
   OnDate(valor) {
+    console.log('VALORRRRR ' + valor);
     this.lForm.controls['fechaRecordatorio'].setValue(valor);
+    // this.valDate.emit(this.lForm.controls['fechaRecordatorio'].value);
+    console.log('CONTROLES ' + this.lForm.controls['fechaRecordatorio'].value);
   }
 
   endsOnDate(valor) {

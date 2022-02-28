@@ -30,23 +30,28 @@
     </mat-hint>
   </mat-form-field>
 </div> -->
-
+<!-- [(ngModel)]="dateControl.value" -->
+<!-- [formControl]="dateControl" -->
+<!-- [(ngModel)]="dateValue" -->
+<!-- (valDate)=" dateControl = $event" -->
 <div>
+  <mat-label>Date Value: {{dateValue}}</mat-label>
+      <mat-label>Date COntrol: {{dateControl.value}}</mat-label>
   <mat-form-field fxFlex="100">
-    <input matInput [ngxMatDatetimePicker]="picker" [formControl]="dateControl"
-       [min]="minDate" [disabled]="parms.disabled" [(value)]="dateValue">
+    <input matInput [ngxMatDatetimePicker]="picker"   [(formControl)]="dateControl" 
+       [min]="minDate" [disabled]="parms.disabled" displayFormat>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <ngx-mat-datetime-picker #picker [showSpinners]="parms.showSpinners" [showSeconds]="parms.showSeconds"
        [stepHour]="parms.stepHour" [stepMinute]="parms.stepMinute" [stepSecond]="parms.stepSecond"
        [touchUi]="parms.touchUi" [color]="parms.color" [enableMeridian]="parms.enableMeridian" 
        [disableMinute]="parms.disableMinute" [hideTime]="parms.hideTime">
-
+      
         <ng-template>
-        <button mat-icon-button matSuffix (click)="onDateChange($event);">
+        <button mat-icon-button matSuffix (click)="cambioFecha2($event)">
            <label>Aceptar</label>
         </button>
       </ng-template>
     </ngx-mat-datetime-picker>
  </mat-form-field>
-
+<!-- (click)="onDateChange($event);" -->
 </div>

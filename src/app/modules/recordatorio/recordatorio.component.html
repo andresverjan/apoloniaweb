@@ -64,12 +64,15 @@
                             <textarea matInput hidden formControlName="repetir"></textarea>
                         </mat-form-field>
                     </div>
-                    
+                    <!-- (valor)="OnDate($event)" -->
+                    <!-- [dateValue]="lForm.controls['fechaRecordatorio'].value" -->
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                            <app-datetime fxFlex label="Fecha Recordatorio:" requerido=true (valor)="OnDate($event)" 
-                            [dateControl]="lForm.controls['fechaRecordatorio']"> </app-datetime>
-                            <textarea matInput hidden formControlName="fechaRecordatorio"></textarea>
+                            <app-datetime fxFlex label="Fecha Recordatorio:" requerido=true  (valor)="OnDate($event)"
+                            [dateControl]="lForm.controls['fechaRecordatorio']">  </app-datetime>
+                            <!-- <textarea matInput hidden formControlName="fechaRecordatorio"></textarea> -->
+                            
                     </div>
+                    <div>{{lForm.controls['fechaRecordatorio'].value}}</div>
                 
                     <div  fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
                             <mat-label>Repetir cada: </mat-label>

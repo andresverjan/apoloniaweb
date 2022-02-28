@@ -10,6 +10,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/material-moment-adapter";
 import * as moment from "moment";
 import {APP_DATETIME_FORMATS} from "src/app/modules/core/components/datepicker/format-datepicker";
+import { FormControl } from "@angular/forms";
 
 @Component({
     selector: "app-datetime",
@@ -29,11 +30,12 @@ import {APP_DATETIME_FORMATS} from "src/app/modules/core/components/datepicker/f
 })
 export class DatetimeComponent {
     private onChange = (value : any) => {};
-    @Input() dateControl: any;
+    @Input() dateControl = new FormControl('');
     @Input()label : any;
     @Input()dateValue : string = null;
     @Input()requerido : boolean = false;
     @Input()minDate  = new Date();
+    @Input() date:  any;
     @Output()valor = new EventEmitter<string>();
 
     public parms : any = {
@@ -52,17 +54,27 @@ export class DatetimeComponent {
 
     constructor(private cdr : ChangeDetectorRef) {}
     ngOnInit(): void {}
-    onDateChange(event : any) {     
+    onDateChange(event : any) {    
         this.dateValue = moment(event.value).format("YYYY-MM-DD hh:mm A");
         this.onChange(event.value);
         this.valor.emit(this.dateValue);
-        console.log('DATE VALUE' + this.dateValue);
-        console.log('VALOR' + this.valor);
+        console.log('DATE VALUE DESPUES ' + this.dateValue);
+        console.log('VALOR ' + this.valor);
+        console.log(this.dateControl.value);
     }
 
     changeInput(){
         console.log("entro a changeInput");
     }
+
+    // onDateChange2(event){
+    //     console.log("EVENTO CONTROL: "+ event)
+    //     this.dateControl = moment(event.value).format("YYYY-MM-DD hh:mm A");
+    //     this.onChange(event.value);
+    //     this.valor.emit(this.dateControl);
+    //     console.log("DATE CONTROL: "+ this.dateControl);
+
+    // }
 
     onDateChangeTest(event : any) {   
         this.dateValue = moment(event.value).format();
@@ -71,5 +83,23 @@ export class DatetimeComponent {
         if(this.requerido == true && this.dateValue != ''){
             console.log("Son requeridos...");
         }
+    }
+
+    cambioFecha(val){
+        console.log("ENTROO");
+        this.date = this.dateValue;
+        console.log(this.date);
+    }
+
+    cambioFecha2(val){
+        console.log("ENTROO");
+        console.log("DATE CONTROL " + this.dateControl.value)
+        this.date = moment(this.dateControl.value).format("YYYY-MM-DD hh:mm A");
+        
+        this.valor.emit(this.date);
+        console.log("valor:");
+        console.log(this.valor);
+        console.log("date");
+        console.log(this.date);
     }
 }
