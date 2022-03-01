@@ -19,6 +19,7 @@ import { ProveedoresService } from "../../core/services/proveedores.service";
 import { ToolsService } from "../../core/services/tools.service";
 import { GenericService } from "../../generic/generic.service";
 import { ClaseMonedaLiteral } from "../../core/services/numberToWord"
+import { Input } from "hammerjs";
 
 const DATE_FORMATS = {
   parse: {
@@ -143,11 +144,8 @@ export class ConfigEgresosComponent implements OnInit {
     this.fetchFormasPagos();
     this.fetchProveedores();
     this.fetchTiposEgresos();
-    let prue = 400;
-    let  prueba = this.numeroLetra.numeroALetras(prue )
-    console.log(prueba)
-  
   }
+
   onPorveedorSelected(selected) {
     this.IsWaiting = true;
     this.egresoForm.controls["T17Proveedor"].setValue(selected);
@@ -227,7 +225,7 @@ export class ConfigEgresosComponent implements OnInit {
 
     this.egresoForm.controls["T17Total"].setValue(isNaN(total) ? 0 : total);
   }
-
+  
   verDetalle(input: any) {
     console.log(this.egresoForm)
     this.isUpdating = true;
@@ -240,24 +238,29 @@ export class ConfigEgresosComponent implements OnInit {
     
     const proveedor = this.proveedores.filter(
       (p) => p.Nit === input["T17Proveedor"] )[0];
-
+      
     this.egresoForm.patchValue(input);
     this.egresoForm.controls["T17Proveedor"].setValue(proveedor);
 
     const formaPago = this.formasPagos.filter(
       (fp) => fp.nombre === input["T17FormaPago"])[0];
-    this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
+      this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
+      
+      const tipoEgreso = this.tiposEgresos.filter(
+        (te) => te.id === parseInt(input["T17Clasificacion"])
+        )[0];
+        this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
+        
+        console.log(this.egresoForm.controls.T17Valor.value)
+        let prue = this.egresoForm.controls.T17Valor.value;
+        let prueba = this.numeroLetra.numeroALetras(prue)
+        console.log(prueba)
 
-    const tipoEgreso = this.tiposEgresos.filter(
-      (te) => te.id === parseInt(input["T17Clasificacion"])
-    )[0];
-    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
+        this.patchParametrosForm();
+      }
 
-    this.patchParametrosForm();
-    console.log()
-  }
-  eliminar() {
-    Swal.fire({
+      eliminar() {
+        Swal.fire({
       title: "¿Seguro que desea eliminar este egreso?",
       showDenyButton: true,
       confirmButtonText: "Eliminar",
