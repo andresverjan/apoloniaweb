@@ -48,6 +48,7 @@ const DATE_FORMATS = {
 })
 export class ConfigEgresosComponent implements OnInit {
   public IsWaiting: boolean;
+  public total2Letras = '';
   public etiquetaNombreModulo = "Egresos";
   public etiquetaListado = "Listado de Egresos";
   public showListado: boolean = true;
@@ -84,6 +85,10 @@ export class ConfigEgresosComponent implements OnInit {
   public  displayedColumns: string[] = [];
   public showListItems = false;
   public showCardsItems = true;
+  public currency = {
+    letrasMonedaPlural : 'Pesos Colombianos',
+    letrasMonedaSingular: 'Peso Colombiano'
+  }
 
   constructor(
     public numeroLetra: ClaseMonedaLiteral,
@@ -120,6 +125,7 @@ export class ConfigEgresosComponent implements OnInit {
       T17RF: new FormControl(0),
       T17Observacion: new FormControl("", [Validators.required]),
       T17Clasificacion: new FormControl("", [Validators.required]),
+      TotalLetras: new FormControl("")
     });
   }
 
@@ -250,12 +256,9 @@ export class ConfigEgresosComponent implements OnInit {
         (te) => te.id === parseInt(input["T17Clasificacion"])
         )[0];
         this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
-        
-        console.log(this.egresoForm.controls.T17Valor.value)
-        let prue = this.egresoForm.controls.T17Valor.value;
-        let prueba = this.numeroLetra.numeroALetras(prue)
-        console.log(prueba)
-
+  
+        this.total2Letras = this.numeroLetra.numeroALetras(this.egresoForm.controls.T17Valor.value, this.currency);
+        this.egresoForm.controls["TotalLetras"].setValue(this.total2Letras);
         this.patchParametrosForm();
       }
 

@@ -13,6 +13,7 @@
 }
 
 .tabla-2{
+  
   margin-left: auto;
   margin-right: auto;
   width: 600px;
@@ -21,23 +22,30 @@
   display: flex;
 }
 
-.firma{
-  display: inline-block;
-  margin-left: 700px;
-  margin-top: -250px;
-  
-}
+
 
 .colums{
+  margin-bottom: 100px;
+  margin-top: 30px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    
-    grid-template-rows: 200px;
-    gap: 1em;
+    grid-template-columns: repeat(3, 300px);
+  }
+
+.cc-nit{
+  justify-self: end;
 }
 
+.firma-sello{
+  grid-column-start: 3;
+}
+  
 .modo-pagar{
   margin-top: 70px;
 }
+
+.tabla-1{
+  margin-top: 15px;
+}
+
 
  

@@ -133,19 +133,19 @@ Millones(num) {
     return strMillones + ' ' + strMiles;
 }// Millones()
 
-numeroALetras(num) {
+numeroALetras(num, currency?) {
        console.log('numero'+num);
-    // console.log('currency'+ currency)
-    // currency = currency || {};
+       console.log('currency'+ currency)
+       currency = currency || {};
     const data = {
         numero: num,
         enteros: Math.floor(num),
         centavos: (((Math.round(num * 100)) - (Math.floor(num) * 100))),
         letrasCentavos: '',
-        // letrasMonedaPlural: currency.plural || 'PESOS CHILENOS', // 'PESOS', 'Dólares', 'Bolívares', 'etcs'
-        // letrasMonedaSingular: currency.singular || 'PESO CHILENO', // 'PESO', 'Dólar', 'Bolivar', 'etc'
-        // letrasMonedaCentavoPlural: currency.centPlural || 'CHIQUI PESOS CHILENOS',
-        // letrasMonedaCentavoSingular: currency.centSingular || 'CHIQUI PESO CHILENO'
+        letrasMonedaPlural: currency.plural || 'PESOS COLOMBIANOS', // 'PESOS', 'Dólares', 'Bolívares', 'etcs'
+        letrasMonedaSingular: currency.singular || 'PESO COLOMBIANO', // 'PESO', 'Dólar', 'Bolivar', 'etc'
+        letrasMonedaCentavoPlural: currency.centPlural || 'PESOS COLOMBIANOS',
+        letrasMonedaCentavoSingular: currency.centSingular || 'PESO COLOMBIANO'
     };
 
     if (data.centavos > 0) {
