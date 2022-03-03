@@ -29,15 +29,15 @@ export class VentasService {
       if ((objeTosend.filter.fechini != undefined && objeTosend.filter.fechini != null &&
         objeTosend.filter.fechend != undefined && objeTosend.filter.fechend != null)) {
         if (objeTosend.filter.disponible) {
-          filter += `filter: {disponible: "${objeTosend.filter.disponible}",`;
+          filter += `filter: {estado: "${objeTosend.filter.estado}",`;
           filter += ` fechini: "${objeTosend.filter.fechini}", fechend: "${objeTosend.filter.fechend}"}`;
         }
         else {
           filter += `filter: { fechini: "${objeTosend.filter.fechini}", fechend: "${objeTosend.filter.fechend}"}`;
         }
       }
-      else if (objeTosend.filter.disponible) {
-        filter += `filter: { disponible: "${objeTosend.filter.disponible}"}`;
+      else if (objeTosend.filter.estado) {
+        filter += `filter: { estado: "${objeTosend.filter.estado}"}`;
       }
     }
     console.log("FILTER-->>:", filter)
@@ -45,19 +45,17 @@ export class VentasService {
     console.log("params:", params)
     let body = {
       query: `{
-        esterilizaciones ${params}{
+        ventas ${params}{
           totalRegistros
-          list{ id
-                disponible
-          		  T27Fecha
-                sede
-                motivo
-                tipo
-                esporas
-                timeMin
-                temper
-                presion
-                observ
+          sales{ id
+                 fecha_venta
+                 forma_pago
+                 usuario_id
+                 punto_id
+                 ciudad_id
+                 iva
+                 valor_total_venta
+                 estado
           }
 
         }
@@ -69,32 +67,28 @@ export class VentasService {
     return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 
-  saveSterilizations(obj: any): Observable<any> {
-    const { sterilization, devices } = obj;
+  saveVentas(obj: any): Observable<any> {
+    const { sale, products } = obj;
     console.log(obj);
 
     let body = {
       query: `mutation{
-        saveSterilizations(
-          esterilizacion :{
-            sterilization : {
-              T27Fecha: "${sterilization.T27Fecha}",
-              sede: ${sterilization.sede.replace(/'/g, '')},
-              motivo: ${sterilization.motivo.replace(/'/g, '')},
-              tipo: ${sterilization.tipo.replace(/'/g, '')},
-              esporas: "${sterilization.esporas.replace(/'/g, '')}",
-              timeMin: ${sterilization.timeMin},
-              temper: ${sterilization.temper},
-              presion: ${sterilization.presion},
-              observ: "${sterilization.observ}",
+        saveVenta(
+          venta :{
+            sale : {
+              fecha_venta: "${sale.fecha_venta}",
+              forma_pago: ${sale.forma_pago.replace(/'/g, '')},
+              punto_id: ${sale.punto_id.replace(/'/g, '')},
+              ciudad_id: ${sale.ciudad_id.replace(/'/g, '')},
+              iva: "${sale.iva.replace(/'/g, '')}",
+              valor_total_venta: ${sale.valor_total_venta}
             }
-            devices : [
-              ${devices.map((item: any) => {
+            products : [
+              ${products.map((item: any) => {
                 return `{
                   id: ${item.id}
-                  tiposEmpaqueEsterilizacionId: ${item.tiposEmpaqueEsterilizacionId.replace(/'/g, '')}
-                    cantidad: ${item.cantidad}
-                    }`;
+                  cantidad: ${item.cantidad}
+                }`;
               })}
             ]
           }
@@ -109,33 +103,28 @@ export class VentasService {
     //return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 
-  updateEsteriliz(obj: any): Observable<any> {
-    const { steril, devices } = obj;
+  updateVenta(obj: any): Observable<any> {
+    const { sale, products } = obj;
     let body = {
       query: `mutation {
-        updateSterilizations(
-          esterilizacion: {
-            sterilization: {
-              id:       ${steril.id},
-              T27Fecha: "${steril.T27Fecha}",
-              sede: ${steril.sede.replace(/'/g, '')},
-              motivo: ${steril.motivo.replace(/'/g, '')},
-              tipo: ${steril.tipo.replace(/'/g, '')},
-              esporas:"${steril.esporas.replace(/'/g, '')}",
-              timeMin:${steril.timeMin},
-              temper:${steril.temper},
-              presion:${steril.presion},
-              observ:"${steril.observ}"
+        updateVenta(
+          venta: {
+            sale: {
+              id:       ${sale.id},
+              fecha_venta: "${sale.fecha_venta}",
+              forma_pago: ${sale.forma_pago.replace(/'/g, '')},
+              punto_id: ${sale.punto_id.replace(/'/g, '')},
+              ciudad_id: ${sale.ciudad_id.replace(/'/g, '')},
+              iva: "${sale.iva.replace(/'/g, '')}",
+              valor_total_venta: ${sale.valor_total_venta}
             }
-            devices: [
-              ${devices.map((item: any) => {
+            products: [
+              ${products.map((item: any) => {
                 console.log(item);
-                console.log(item.tiposEmpaqueEsterilizacionId);
                 return `{
                     id: ${Number.parseInt(item.id)}
-                    tiposEmpaqueEsterilizacionId: ${item.tiposEmpaqueEsterilizacionId.replace(/'/g, '')}
                     cantidad: ${item.cantidad}
-                    }`;
+                }`;
               })}
             ]
           }
@@ -148,20 +137,20 @@ export class VentasService {
     return this.httpService.callApi(body);
   }
 
-  getDispAvails(objeTosend: any): Observable<any> {
+  getProductsDisp(objeTosend: any): Observable<any> {
     let body = {
-      query: `{ dispositivos(esterilizacionId: ${objeTosend}) { id nombre } }`
+      query: `{ productos(ventaId: ${objeTosend}) { id codigo nombre } }`
     }
     return this.httpService.callApi(body);
   }
 
-  getAssignedDevices(objeTosend: any): Observable<any> {
+  getAssignedProducts(objeTosend: any): Observable<any> {
     let body = {
-      query: `{ devicesByEsterilizationId(id: ${objeTosend}) {
+      query: `{ productosByVentaId(id: ${objeTosend}) {
         id
         nombre
-        cantidad
-        tiposEmpaqueEsterilizacionId } }`
+        valor
+        cantidad } }`
     }
 
     return this.httpService.callApi(body);
