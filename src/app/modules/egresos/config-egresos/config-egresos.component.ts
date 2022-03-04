@@ -19,7 +19,7 @@ import { ProveedoresService } from "../../core/services/proveedores.service";
 import { ToolsService } from "../../core/services/tools.service";
 import { GenericService } from "../../generic/generic.service";
 import { ClaseMonedaLiteral } from "../../core/services/numberToWord"
-import { Input } from "hammerjs";
+import { EmpresaService } from "../../core/services/empresa.service"
 
 const DATE_FORMATS = {
   parse: {
@@ -47,6 +47,8 @@ const DATE_FORMATS = {
   ],
 })
 export class ConfigEgresosComponent implements OnInit {
+  public empresaGetId = {};
+  public usuarioLogd = {};
   public IsWaiting: boolean;
   public total2Letras = '';
   public etiquetaNombreModulo = "Egresos";
@@ -91,6 +93,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   constructor(
+    public empresaId: EmpresaService,
     public numeroLetra: ClaseMonedaLiteral,
     public dialog: MatDialog,
     public _egresosService: EgresosService,
@@ -125,7 +128,8 @@ export class ConfigEgresosComponent implements OnInit {
       T17RF: new FormControl(0),
       T17Observacion: new FormControl("", [Validators.required]),
       T17Clasificacion: new FormControl("", [Validators.required]),
-      TotalLetras: new FormControl("")
+      TotalLetras: new FormControl(""),
+      UsuarioNombre: new FormControl("")
     });
   }
 
@@ -150,6 +154,7 @@ export class ConfigEgresosComponent implements OnInit {
     this.fetchFormasPagos();
     this.fetchProveedores();
     this.fetchTiposEgresos();
+  
   }
 
   onPorveedorSelected(selected) {
@@ -259,6 +264,13 @@ export class ConfigEgresosComponent implements OnInit {
   
         this.total2Letras = this.numeroLetra.numeroALetras(this.egresoForm.controls.T17Valor.value, this.currency);
         this.egresoForm.controls["TotalLetras"].setValue(this.total2Letras);
+
+        this.usuarioLogd = this.toolService.getUserFromLocalStorage();
+        console.log('usuario aqui',this.usuarioLogd);
+        this.egresoForm.controls["UsuarioNombre"].setValue(this.usuarioLogd);
+
+        this.empresaGetId = this.empresaId.getEmpresaById(this.egresoForm.controls["UsuarioNombre"].value.EMPRESA_ID)
+        console.log("empresa Id",this.empresaGetId)
         this.patchParametrosForm();
       }
 
