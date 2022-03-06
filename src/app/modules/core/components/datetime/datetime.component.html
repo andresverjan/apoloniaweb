@@ -1,5 +1,9 @@
 <div>
-  <mat-form-field fxFlex="65">
+  <mat-form-field fxFlex="70">
+    <mat-label>Fecha Seleccionada: </mat-label>
+    <input matInput readonly [value]="dateControl.value"> 
+   </mat-form-field>
+  <mat-form-field fxFlex="30">
     <input matInput [ngxMatDatetimePicker]="picker"   [(formControl)]="dateControl" 
        [min]="minDate" [disabled]="parms.disabled" displayFormat>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -16,8 +20,5 @@
     </ngx-mat-datetime-picker>
     
  </mat-form-field>
- <mat-form-field fxFlex="35">
-  <mat-label>Fecha Seleccionada: </mat-label>
-  <input matInput readonly [value]="dateControl.value"> 
- </mat-form-field>
+ 
 </div>
