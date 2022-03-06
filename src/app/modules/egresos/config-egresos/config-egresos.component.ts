@@ -79,6 +79,10 @@ export class ConfigEgresosComponent implements OnInit {
   };
   public tiposEgresos;
 
+  public  displayedColumns: string[] = [];
+  public showListItems = false;
+  public showCardsItems = true;
+
   constructor(
     public dialog: MatDialog,
     public _egresosService: EgresosService,
@@ -88,6 +92,12 @@ export class ConfigEgresosComponent implements OnInit {
     private toolService: ToolsService,
     public genericService: GenericService
   ) {
+    
+
+    this.displayedColumns  = ['nombre', 'T17Fecha', 'T17Total'];
+
+
+
     this.egresoForm = new FormGroup({
       nombre: new FormControl("", [Validators.required]),
       T17Factura: new FormControl("", [Validators.required]),
@@ -130,6 +140,7 @@ export class ConfigEgresosComponent implements OnInit {
     this.fetchFormasPagos();
     this.fetchProveedores();
     this.fetchTiposEgresos();
+  
   }
   onPorveedorSelected(selected) {
     this.IsWaiting = true;
@@ -479,4 +490,19 @@ export class ConfigEgresosComponent implements OnInit {
       this.IsWaiting = false;
     });
   }
+
+showList(){  
+  this.showListItems = true;
+  this.showCardsItems = false;
+  console.log(this.showListItems);
+  console.log(this.showCardsItems);
+}
+
+showCards(){
+  this.showListItems = false;
+  this.showCardsItems = true;
+  console.log(this.showListItems);
+  console.log(this.showCardsItems);
+}
+
 }

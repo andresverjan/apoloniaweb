@@ -10,7 +10,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/material-moment-adapter";
 import * as moment from "moment";
 import {APP_DATETIME_FORMATS} from "src/app/modules/core/components/datepicker/format-datepicker";
-import { FormControl } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
     selector: "app-datetime",
@@ -37,6 +37,23 @@ export class DatetimeComponent {
     @Input()minDate  = new Date();
     @Input() date:  any;
     @Output()valor = new EventEmitter<string>();
+
+    public lForm: FormGroup;
+    public myDatePicker;
+    
+    @Input()  label : any;
+    @Input()  dateValue : string = null;
+    @Input()  requerido : boolean = false;
+    @Input()  dateControl : FormControl;
+    @Input()  datecontrolChange = new EventEmitter<FormControl>();
+
+    @Output() valor = new EventEmitter<string>();
+
+    public tForm: FormGroup = new FormGroup({
+        date: new FormControl("", []),
+      });
+
+    public tFormControl = new FormControl('');
 
     public parms : any = {
         disabled: false,
