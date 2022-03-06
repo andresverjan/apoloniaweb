@@ -38,17 +38,6 @@ export class DatetimeComponent {
     @Input() date:  any;
     @Output()valor = new EventEmitter<string>();
 
-    public lForm: FormGroup;
-    public myDatePicker;
-    
-    @Input()  label : any;
-    @Input()  dateValue : string = null;
-    @Input()  requerido : boolean = false;
-    @Input()  dateControl : FormControl;
-    @Input()  datecontrolChange = new EventEmitter<FormControl>();
-
-    @Output() valor = new EventEmitter<string>();
-
     public tForm: FormGroup = new FormGroup({
         date: new FormControl("", []),
       });
