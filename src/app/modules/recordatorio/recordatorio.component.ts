@@ -225,10 +225,7 @@ export class RecordatorioComponent implements OnInit {
   }
 
   OnDate(valor) {
-    console.log('VALORRRRR ' + valor);
     this.lForm.controls['fechaRecordatorio'].setValue(valor);
-    // this.valDate.emit(this.lForm.controls['fechaRecordatorio'].value);
-    console.log('CONTROLES ' + this.lForm.controls['fechaRecordatorio'].value);
   }
 
   endsOnDate(valor) {

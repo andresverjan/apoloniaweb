@@ -54,52 +54,9 @@ export class DatetimeComponent {
 
     constructor(private cdr : ChangeDetectorRef) {}
     ngOnInit(): void {}
-    onDateChange(event : any) {    
-        this.dateValue = moment(event.value).format("YYYY-MM-DD hh:mm A");
-        this.onChange(event.value);
-        this.valor.emit(this.dateValue);
-        console.log('DATE VALUE DESPUES ' + this.dateValue);
-        console.log('VALOR ' + this.valor);
-        console.log(this.dateControl.value);
-    }
-
-    changeInput(){
-        console.log("entro a changeInput");
-    }
-
-    // onDateChange2(event){
-    //     console.log("EVENTO CONTROL: "+ event)
-    //     this.dateControl = moment(event.value).format("YYYY-MM-DD hh:mm A");
-    //     this.onChange(event.value);
-    //     this.valor.emit(this.dateControl);
-    //     console.log("DATE CONTROL: "+ this.dateControl);
-
-    // }
-
-    onDateChangeTest(event : any) {   
-        this.dateValue = moment(event.value).format();
-        this.onChange(event.value);
-        this.valor.emit(this.dateValue);
-        if(this.requerido == true && this.dateValue != ''){
-            console.log("Son requeridos...");
-        }
-    }
-
-    cambioFecha(val){
-        console.log("ENTROO");
-        this.date = this.dateValue;
-        console.log(this.date);
-    }
-
-    cambioFecha2(val){
-        console.log("ENTROO");
-        console.log("DATE CONTROL " + this.dateControl.value)
+    cambioFecha(){
         this.date = moment(this.dateControl.value).format("YYYY-MM-DD hh:mm A");
-        
+        this.dateControl.setValue(moment(this.dateControl.value).format("YYYY-MM-DD hh:mm A")) 
         this.valor.emit(this.date);
-        console.log("valor:");
-        console.log(this.valor);
-        console.log("date");
-        console.log(this.date);
     }
 }
