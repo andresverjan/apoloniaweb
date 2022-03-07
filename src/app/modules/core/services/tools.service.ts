@@ -7,7 +7,6 @@ import * as Globals from "../globals";
 import { ModalComponent } from "../modal/modal.component";
 import { Router } from "@angular/router";
 import { jsPDF } from "jspdf";
-import { ClaseMonedaLiteral } from "../../core/services/dist/numberToWord"
 import html2canvas from 'html2canvas';
 
 @Injectable({
