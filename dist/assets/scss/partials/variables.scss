@@ -1,0 +1,42 @@
+
+:root {
+  --primaryColor: #512774;
+  --secondaryColor: #b47dff;
+  --warnColor: #e53935;
+  --accentColor: #ffa700;
+}
+
+$cprimary: var(--primaryColor);
+$csecondary: var(--secondaryColor);
+
+$primary-color-dark:   #512774;
+$primary-color:       var(--primaryColor);
+$primary-color-light:  #DCEDC8;
+$primary-color-text:   #212121;
+$accent-color:         #448AFF;
+$primary-text-color:   #212121;
+$secondary-text-color: #757575;
+$divider-color:        #BDBDBD;
+
+$tema1: (
+  $cprimary: #c33764,
+  $csecondary: #1d2671,
+);
+
+$tema2: (
+  $cprimary: #43c6ac,
+  $csecondary: #191654,
+);
+
+$tema3: (
+  $cprimary: #b92b27,
+  $csecondary: #1565c0,
+);
+
+$tema4: (
+  $cprimary: #f12711,
+  $csecondary: #f5af19,
+);
+
+$color_fondo_item: #01579b;
+$color_hover_item: #e94d33;
