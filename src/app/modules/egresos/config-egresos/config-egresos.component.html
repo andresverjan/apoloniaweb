@@ -301,11 +301,6 @@
         <br>
 
         <span class="fecha">
-          {{egresoForm.controls["UsuarioNombre"].value.USUARIO_NOMBRE}}{{" "+ egresoForm.controls["UsuarioNombre"].value.USUARIO_APELLIDO}}
-        </span>
-        <br>
-
-        <span class="fecha">
           Username: {{egresoForm.controls["UsuarioNombre"].value.USUARIO_LOGIN}}
         </span>
         <br>
@@ -376,7 +371,8 @@
 
         <div class="colums">
           <span class="cssRow">
-            Elaboró:
+            Elaboró: {{egresoForm.controls["UsuarioNombre"].value.USUARIO_NOMBRE}}{{" "+ egresoForm.controls["UsuarioNombre"].value.USUARIO_APELLIDO}}
+
           </span>
           <span class="cc-nit">
             Recibí CC/Nit.
