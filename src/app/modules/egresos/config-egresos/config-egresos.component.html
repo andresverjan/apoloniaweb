@@ -295,12 +295,36 @@
   <div>
     <mat-card>
       <div id="elementId">
+
+        <div class="encabezado">
+          <span class="title-empresa">
+            <strong> {{egresoForm.controls["EmpresaNombre"].value.data.getEmpresaById.nombre}}</strong>
+          </span>
+          <br>
+
+          <span>
+            Cédula de Ciudadanía {{egresoForm.controls["UsuarioNombre"].value.CEDULA}}
+          </span>
+          <br>
+
+          <span>
+            {{egresoForm.controls["EmpresaNombre"].value.data.getEmpresaById.direccion}}
+          </span>
+          <br>
+
+          <span>
+            {{egresoForm.controls["EmpresaNombre"].value.data.getEmpresaById.telefono}}
+          </span>
+          <br>
+        </div>
+
         <span class="fecha">
-          {{egresoForm.controls["T17Fecha"].value}}
+          {{egresoForm.controls["EmpresaNombre"].value.data.getEmpresaById.ciudad+","}}{{"
+          "+egresoForm.controls["T17Fecha"].value}}
         </span>
         <br>
 
-        <span class="fecha">
+        <span>
           Username: {{egresoForm.controls["UsuarioNombre"].value.USUARIO_LOGIN}}
         </span>
         <br>
@@ -371,7 +395,8 @@
 
         <div class="colums">
           <span class="cssRow">
-            Elaboró: {{egresoForm.controls["UsuarioNombre"].value.USUARIO_NOMBRE}}{{" "+ egresoForm.controls["UsuarioNombre"].value.USUARIO_APELLIDO}}
+            Elaboró: {{egresoForm.controls["UsuarioNombre"].value.USUARIO_NOMBRE}}{{" "+
+            egresoForm.controls["UsuarioNombre"].value.USUARIO_APELLIDO}}
 
           </span>
           <span class="cc-nit">

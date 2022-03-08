@@ -47,6 +47,7 @@ const DATE_FORMATS = {
   ],
 })
 export class ConfigEgresosComponent implements OnInit {
+  public EMPRESA = {};
   public empresaGetId = {};
   public usuarioLogd = {};
   public IsWaiting: boolean;
@@ -93,7 +94,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   constructor(
-    public empresaId: EmpresaService,
+    public empresaService: EmpresaService,
     public numeroLetra: ClaseMonedaLiteral,
     public dialog: MatDialog,
     public _egresosService: EgresosService,
@@ -129,7 +130,8 @@ export class ConfigEgresosComponent implements OnInit {
       T17Observacion: new FormControl("", [Validators.required]),
       T17Clasificacion: new FormControl("", [Validators.required]),
       TotalLetras: new FormControl(""),
-      UsuarioNombre: new FormControl("")
+      UsuarioNombre: new FormControl(""), 
+      EmpresaNombre: new FormControl("")
     });
   }
 
@@ -269,8 +271,15 @@ export class ConfigEgresosComponent implements OnInit {
         console.log('usuario aqui',this.usuarioLogd);
         this.egresoForm.controls["UsuarioNombre"].setValue(this.usuarioLogd);
 
-        this.empresaGetId = this.empresaId.getEmpresaById(this.egresoForm.controls["UsuarioNombre"].value.EMPRESA_ID)
-        console.log("empresa Id",this.empresaGetId)
+        this.empresaService
+        .getEmpresaById(this.egresoForm.controls["UsuarioNombre"].value.EMPRESA_ID)
+        .subscribe((empresa)=>{
+          console.log(empresa);
+          this.EMPRESA = empresa;
+          this.egresoForm.controls["EmpresaNombre"].setValue(this.EMPRESA);
+        console.log(this.egresoForm.controls["EmpresaNombre"].value);  
+        });
+        
         this.patchParametrosForm();
       }
 

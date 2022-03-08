@@ -20,7 +20,7 @@ export class EmpresaService {
 
   getEmpresaById(objeTosend: any): Observable<any> {
     let filter = "";
-    console.log(objeTosend);
+    console.log("objtosend"+objeTosend);
     if (objeTosend) {
       filter = `(id: ${objeTosend})`;
     }
@@ -35,7 +35,12 @@ export class EmpresaService {
           secondaryColor
           accentColor
           warnColor
-          urlLogo    
+          urlLogo 
+          NIT
+          celular
+          direccion
+          ciudad
+          telefono   
         }
       }`,
     };
