@@ -1,0 +1,19 @@
+@import '../partials/variables.scss';
+
+$color-primary:  ($cprimary);
+$color-secondary: ($csecondary);
+
+/*Degradados APP*/
+.matToolbarCss {
+  background: $color-primary;
+  background: -webkit-linear-gradient(
+    to right,
+    $color-secondary,
+    $color-primary, 
+  );
+  background: linear-gradient(
+    to right,
+    $color-secondary,
+    $color-primary
+  );
+}

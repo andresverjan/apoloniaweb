@@ -1,0 +1,48 @@
+.div-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.div-container > * {
+  width: 100%;
+}
+
+.classImgProfile {
+  max-width: 150px;
+  border-radius: 150px;
+}
+
+
+
+::ng-deep.mat-form-field.mat-focused .mat-form-field-ripple{
+  /*background-color: rgb(57, 57, 57);*/
+  background-color: #4da937;
+}
+
+.icons{
+  display: flex;
+  justify-content: center;
+
+}
+
+.cardR{
+  width: 300px;
+  height: 150px;
+}
+
+
+.example-item {
+  position: relative;
+  bottom: 100px; left: 110px;
+  min-width: 50px;
+  max-width: 200px;
+  width: 70%;
+}
+
+.example-item2 {
+  position: relative;
+  bottom: 50px; right: 1050px;
+  min-width: 50px;
+  max-width: 200px;
+  width: 70%;
+}

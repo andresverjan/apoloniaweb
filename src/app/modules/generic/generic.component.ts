@@ -288,7 +288,15 @@ export class GenericComponent implements OnInit {
     this.isWaiting = true;
 
     const campos: Array<any> = [];
-
+        
+    //Adding this line to get only items for the company
+    if (this.USUARIO.ROL_ID != '1000'){
+      campos.push({
+        id: 0,
+        campo: "EMPRESA_ID",
+        valor: this.USUARIO.EMPRESA_ID,
+      });
+    }
     for (const value in this.filter) {
       campos.push({
         id: 0,

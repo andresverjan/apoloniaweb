@@ -1,30 +1,25 @@
 <div>
-  <mat-form-field fxFlex="100">
-    <mat-icon matPrefix>edit</mat-icon>
-    <label>{{ label.toUpperCase() }}</label>
-    <input matInput [ngxMatDatetimePicker]="picker" [min]="parms.minDate" [max]="parms.maxDate"
-      [disabled]="parms.disabled" id="{{ label }}"
-      (dateTimeChange)="onDateChange($event)" [(value)]="dateValue" style="margin-left: -25px"
-      (keypress)="changeInput()"
-      readOnly=true
-      (click)="picker.open()"/>
-
-    <div style="float: right;margin-top: -40px;">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <ngx-mat-datetime-picker #picker [showSpinners]="parms.showSpinners" [showSeconds]="parms.showSeconds"
-        [stepHour]="parms.stepHour" [stepMinute]="parms.stepMinute" [stepSecond]="parms.stepSecond"
-        [touchUi]="parms.touchUi" [color]="parms.color" [enableMeridian]="parms.enableMeridian"
-        [disableMinute]="parms.disableMinute" [hideTime]="parms.hideTime" fxFlex="100">
-        
-        <ng-template>
-          <button mat-icon-button matSuffix (click)="onDateChangeTest($event);">
-             <label>Aceptar</label>
-          </button>
-        </ng-template>
-      </ngx-mat-datetime-picker>
-    </div>
-    <!--<mat-hint style="color: red" *ngIf="showErrorRequired">
-      error-required
-    </mat-hint>-->
-  </mat-form-field>
+  <!-- <mat-form-field fxFlex="70">
+    <mat-label>Fecha Seleccionada: </mat-label>
+    <input matInput readonly [value]="dateControl.value"> 
+   </mat-form-field> -->
+  <mat-form-field fxFlex>
+    <input matInput [ngxMatDatetimePicker]="picker"   [(formControl)]="dateControl" 
+       [min]="minDate" [disabled]="parms.disabled" displayFormat [value]="dateControl.value" fxFlex="1" readonly>
+    <input matInput readonly [value]="dateControl.value" fxFlex="99">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <ngx-mat-datetime-picker #picker [showSpinners]="parms.showSpinners" [showSeconds]="parms.showSeconds"
+       [stepHour]="parms.stepHour" [stepMinute]="parms.stepMinute" [stepSecond]="parms.stepSecond"
+       [touchUi]="parms.touchUi" [color]="parms.color" [enableMeridian]="parms.enableMeridian" 
+       [disableMinute]="parms.disableMinute" [hideTime]="parms.hideTime">
+      
+      <ng-template>
+        <button mat-icon-button matSuffix (click)="cambioFecha($event)">
+           <label>Aceptar</label>
+        </button>
+      </ng-template>
+    </ngx-mat-datetime-picker>
+    
+ </mat-form-field>
+ 
 </div>

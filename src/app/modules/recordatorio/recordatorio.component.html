@@ -1,30 +1,34 @@
 <!--CONTENIDO DE ACTIONS-->
 <mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
-    <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="22">
+    <button mat-raised-button (click)="adicionar()" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+        fxFlex="22">
         <mat-icon>person_add</mat-icon>
         Adicion
     </button>
 </mat-card-actions>
 
 <!--PROGRESS-BAR -->
+
 <mat-progress-bar mode="indeterminate" *ngIf="IsWait"></mat-progress-bar>
 
 <!--CARD: DATOS USERS -->
+
 <div class="container" style="overflow: hidden">
     <mat-card-content class="window-dashboard-card-content contentprincipal" *ngIf="lShowPanelDatos">
         <mat-toolbar color="primary">
-            <mat-icon matPrefix>people</mat-icon>
+            <mat-icon matPrefix>event_available</mat-icon>
             <span>{{ etiquetaNombreModulo }}</span>
             <span class="example-spacer"></span>
 
-            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="cancelar()">
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+                (click)="cancelar()">
                 <mat-icon>close</mat-icon>
             </button>
         </mat-toolbar>
         <mat-card-header>
             <mat-card-title> </mat-card-title>
         </mat-card-header>
-        <form [formGroup]="userForm" autocomplete="off" novalidate>
+        <form [formGroup]="lForm" autocomplete="off" novalidate>
             <mat-card class="cardcontent">
                 <mat-card-title fxLayoutAlign="center">
                     <label>Datos de {{ etiquetaNombreModulo }}</label>
@@ -38,46 +42,102 @@
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex>
                             <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="name" id="name" placeholder="Nombre" />
+                            <input matInput formControlName="nombre" id="nombre" placeholder="Nombre recordatorio" />
                         </mat-form-field>
+                        <mat-form-field fxFlex="30">
+                            <mat-slide-toggle color="primary" formControlName="active">
+                                Activo
+                            </mat-slide-toggle>
+                            <textarea matInput hidden formControlName="active"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                         <mat-form-field fxFlex>
                             <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="lastName" id="lastName" placeholder="Apellido" />
+                            <input matInput formControlName="observaciones" id="observaciones"
+                                placeholder="Observaciones" />
                         </mat-form-field>
+                        <mat-form-field fxFlex="30">
+                            <mat-slide-toggle color="primary" formControlName="repetir">
+                                Repetir
+                            </mat-slide-toggle>
+                            <textarea matInput hidden formControlName="repetir"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                        <app-datetime fxFlex label="Fecha Recordatorio:" requerido=true (valor)="OnDate($event)"
+                            [dateControl]="lForm.controls['fechaRecordatorio']"> </app-datetime>
                     </div>
 
-                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>email</mat-icon>
-                            <input matInput formControlName="email" id="email" placeholder="Email" />
-                        </mat-form-field>
-                        <mat-form-field fxFlex>
-                            <mat-icon matPrefix>call</mat-icon>
-                            <input matInput formControlName="phoneNumber" id="phoneNumber" placeholder="Numero de Telefono" />
-                        </mat-form-field>
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center"
+                        *ngIf="lForm.controls['repetir'].value">
+                        <mat-label>Repetir cada: </mat-label>
+                        <app-select [data]="repCada" icono="edit" (valSelected)="onDisponibleSelected2($event)" fxFlex
+                            default="{{lForm.controls['repetirCada'].value}}">
+                        </app-select>
+
+                        <app-select [data]="repCadaTime" icono="edit" (valSelected)="onDisponibleSelected($event)"
+                            fxFlex default="{{lForm.controls['repetirCadaTimes'].value}}">
+                        </app-select>
                     </div>
-                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                        <app-select label="Rol" [data]=roles icono="local_police" (valSelected)="procesarRolAdd($event)" default="{{userForm.controls['rol_id'].value}}" fxFlex="50" ></app-select>
-                        <mat-form-field fxFlex>
+
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center"
+                        *ngIf="lForm.controls['repetir'].value">
+                        <section fxFlex>
+                            <label>Finaliza:</label>
+                            <mat-radio-group formControlName="chooseEnd" (change)="onClickRadioButton($event)">
+                                <div>
+                                    <mat-radio-button color="primary" value="endsNever">Nunca</mat-radio-button>
+                                </div>
+                                <br>
+                                <div>
+                                    <mat-radio-button color="primary" value="endsOn">El</mat-radio-button>
+                                </div>
+                                <br>
+                                <div>
+                                    <mat-radio-button color="primary" value="endsAfter">Después de </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+                        </section>
+                    </div>
+
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center"
+                        *ngIf="lForm.controls['repetir'].value">
+                        <mat-form-field fxFlex class="example-item">
+                            <mat-label>Fecha finalización</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="endsOn" [min]="minDate"
+                                [disabled]="!endsOn">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex class="example-item2">
                             <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="urlPhoto" id="urlPhoto" placeholder="url Photo" />
+                            <input matInput formControlName="endsAfter" id="endsAfter" type="number"
+                                [readonly]="!radioButtonFlag" placeholder="Numero de ocurrencias" />
                         </mat-form-field>
                     </div>
                 </mat-card-content>
+
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                    <button mat-raised-button (click)="guardar()" color="primary" [disabled]="!userForm.valid" *ngIf="lShowBtnAdicionar" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
+                    <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar"
+                        [disabled]="!lForm.valid" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                        fxFlex="80">
                         <mat-icon>person_add</mat-icon>
                         Adicionar
                     </button>
-                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80" [disabled]="!userForm.valid" *ngIf="lShowBtnActualizar" (click)="actualizar()">
+                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center"
+                        fxFlex="80" *ngIf="lShowBtnActualizar" (click)="actualizar()">
                         <mat-icon>mode_edit</mat-icon>
                         Actualizar
                     </button>
-                    <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80" (click)="eliminar()" *ngIf="lShowBtnEliminar">
+                    <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80"
+                        (click)="eliminar()" *ngIf="lShowBtnEliminar">
                         <mat-icon>more_vert</mat-icon>
                         Eliminar
                     </button>
-                    <button mat-raised-button (click)="cancelar()" color="warn" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
+                    <button mat-raised-button (click)="cancelar()" color="warn" fxLayout="row" fxLayout.xs="column"
+                        fxLayoutAlign="center" fxFlex="80">
                         <mat-icon>cancel</mat-icon>
                         Cancelar
                     </button>
@@ -85,11 +145,11 @@
             </mat-card>
         </form>
     </mat-card-content>
+
     <!--CARD: USERS -->
 
     <mat-card-content class="window-dashboard-card-content" *ngIf="lShowPanelListado" style="overflow-block: hidden">
         <mat-toolbar color="primary">
-            <mat-icon matPrefix>people</mat-icon>
             <span>{{ etiquetaListado }}</span>
             <span class="example-spacer"></span>
             <mat-icon>info</mat-icon>
@@ -100,35 +160,42 @@
                 <label>BUSCAR</label>
             </mat-card-title>
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
-                <app-select label="Rol" [data]=roles icono="local_police" (valSelected)="procesarRol($event)"  fxFlex="50" ></app-select>
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                     <mat-icon matPrefix>search</mat-icon>
-                    <mat-form-field fxFlex="50">
-                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.name" (keyup)="findBy()" />
-                    </mat-form-field>
-                    <mat-icon matPrefix>search</mat-icon>
-                    <mat-form-field fxFlex="45">
-                        <input matInput id="filterbyApellido" placeholder="Buscar por Apellido" [(ngModel)]="filter.lastName" (keyup)="findBy()" />
+                    <mat-form-field fxFlex="100">
+                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" [(ngModel)]="filter.nombre"
+                            (keyup)="findBy()" />
                     </mat-form-field>
                 </div>
             </mat-card-content>
         </mat-card>
-
+        <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" aria-label="Select page"
+            (page)="handlePageChange($event)" [length]="totalRecordatorios">
+        </mat-paginator>
         <!--CARD: USERS -->
-        <mat-grid-list cols="3" rowHeight="400px">
-            <mat-grid-tile *ngFor="let usuario of listadoUsers" style="overflow-x: hidden">
-                <mat-card class="dashboard-card" (click)="verDetalle(usuario)">
-                    <img mat-card-image src="{{ usuario.urlPhoto }}" alt="perfil " height="150px; " class="cssForCrudListImg " />
-                    <mat-card-content class="dashboard-card-content ">
-                        <h5>{{ usuario.name }}</h5>
-                        <div>{{ usuario.lastName }}</div>
-                        <br />
-                        <div>{{ usuario.email }}</div>
-                        <div>{{ usuario.phoneNumber }}</div>
-                        <div>{{ usuario.rol_id }}</div>
+        <mat-grid-list cols="3" rowHeight="200px">
+            <mat-grid-tile *ngFor="let item of listado" style="overflow-x: hidden">
+                <mat-card class="cardR" (click)="verDetalle(item)">
+                    <mat-card-content class="dashboard-card-content">
+                        <div class="icons">
+                            <mat-icon>alarm</mat-icon>
+                        </div>
+                        <h5></h5>
+                        <div class="cssRow">
+                            <span class="cssRow">
+                                Nombre: {{item.nombre}}
+                            </span>
+                        </div>
+                        <h5></h5>
+                        <div class="cssRow">
+                            <span class="cssRow">
+                                Recordatorio Fecha: <b>{{item.fechaRecordatorio}}</b>
+                            </span>
+                        </div>
                     </mat-card-content>
                 </mat-card>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>
+
 </div>

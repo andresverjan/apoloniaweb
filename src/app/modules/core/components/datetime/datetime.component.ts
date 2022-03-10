@@ -10,6 +10,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/material-moment-adapter";
 import * as moment from "moment";
 import {APP_DATETIME_FORMATS} from "src/app/modules/core/components/datepicker/format-datepicker";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
     selector: "app-datetime",
@@ -29,10 +30,19 @@ import {APP_DATETIME_FORMATS} from "src/app/modules/core/components/datepicker/f
 })
 export class DatetimeComponent {
     private onChange = (value : any) => {};
+    @Input() dateControl = new FormControl('');
     @Input()label : any;
     @Input()dateValue : string = null;
     @Input()requerido : boolean = false;
+    @Input()minDate  = new Date();
+    @Input() date:  any;
     @Output()valor = new EventEmitter<string>();
+
+    public tForm: FormGroup = new FormGroup({
+        date: new FormControl("", []),
+      });
+
+    public tFormControl = new FormControl('');
 
     public parms : any = {
         disabled: false,
@@ -50,26 +60,9 @@ export class DatetimeComponent {
 
     constructor(private cdr : ChangeDetectorRef) {}
     ngOnInit(): void {}
-    onDateChange(event : any) {
-        console.log("onDateChange");        
-        this.dateValue = moment(event.value).format();
-        this.onChange(event.value);
-        console.log(this.dateValue);
-        this.valor.emit(this.dateValue);
-    }
-
-    changeInput(){
-        console.log("entro a changeInput");
-    }
-
-    onDateChangeTest(event : any) {
-        console.log("onDateChangeTest");        
-        this.dateValue = moment(event.value).format();
-        this.onChange(event.value);
-        console.log(this.dateValue);
-        this.valor.emit(this.dateValue);
-        if(this.requerido == true && this.dateValue!= ''){
-            console.log("Son requeridos...");
-        }
+    cambioFecha(){
+        this.date = moment(this.dateControl.value).format("YYYY-MM-DD hh:mm A");
+        this.dateControl.setValue(moment(this.dateControl.value).format("YYYY-MM-DD hh:mm A")) 
+        this.valor.emit(this.date);
     }
 }

@@ -7,9 +7,10 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve -c=dev",
-    "start": "ng serve -c=production -o",
-    "start_dev": "ng serve -c=dev",
-    "build": "ng build -c=production",
+    "start": "ng serve --host 0.0.0.0 -c=production -o",
+    "dev": "ng serve -c=dev -o",
+    "start_dev": "ng serve -c=dev -o",
+    "build": "ng build --prod -c=production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -23,7 +24,7 @@
     "@angular/common": "^12.2.9",
     "@angular/compiler": "12.2.10",
     "@angular/compiler-cli": "12.2.10",
-    "@angular/core": "^12.1.2",
+    "@angular/core": "12.1.2",
     "@angular/flex-layout": "^12.0.0-beta.34",
     "@angular/forms": "^12.2.9",
     "@angular/material": "^12.2.9",
