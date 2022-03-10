@@ -294,7 +294,7 @@
   <!-- Desde aquí empieza el recibo -->
   <div>
     <mat-card>
-      <div id="elementId">
+      <div id="elementId" style="color: black;">
 
         <div class="encabezado">
           <span class="title-empresa">
@@ -328,6 +328,19 @@
           Username: {{egresoForm.controls["UsuarioNombre"].value.USUARIO_LOGIN}}
         </span>
         <br>
+
+        <div style="display:block; margin-bottom: -40px; margin-top: 10px;">
+          <p>
+            Pagado a: {{egresoForm.controls["T17Proveedor"].value.Nombre}}
+          </p>
+          <p style="margin-top: -14px; margin-left: 66px;">
+            Nit: {{egresoForm.controls["T17Proveedor"].value.Nit}} Dirección:
+            {{egresoForm.controls["T17Proveedor"].value.Direccion}} Telefono:
+            {{egresoForm.controls["T17Proveedor"].value.Telefono}}
+          </p>
+          <br>
+        </div>
+
 
         <div class="tabla-1">
           <div class="tabla-2">
@@ -375,11 +388,12 @@
           </li>
         </div>
 
+        <span class="formas-pago">
+          FP: {{egresoForm.controls["T17FormaPago"].value}}
+        </span>
+        
+
         <div class="modo-pagar">
-          <span class="cssRow">
-            FP: {{egresoForm.controls["T17FormaPago"].value}}
-          </span>
-          <br>
 
           <span class="cssRow">
             Valor Neto a Cancelar: ${{egresoForm.controls["T17Valor"].value}}

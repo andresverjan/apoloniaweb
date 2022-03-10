@@ -163,6 +163,7 @@ export class ConfigEgresosComponent implements OnInit {
     this.IsWaiting = true;
     this.egresoForm.controls["T17Proveedor"].setValue(selected);
     this.IsWaiting = false;
+    console.log("proveedor",selected)
   }
   onTipoEgresoSelected(selected) {
     this.IsWaiting = true;
@@ -278,8 +279,7 @@ export class ConfigEgresosComponent implements OnInit {
           this.EMPRESA = empresa;
           this.egresoForm.controls["EmpresaNombre"].setValue(this.EMPRESA);
         console.log(this.egresoForm.controls["EmpresaNombre"].value);  
-        });
-        
+        });        
         this.patchParametrosForm();
       }
 
