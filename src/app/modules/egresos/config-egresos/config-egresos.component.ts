@@ -18,7 +18,7 @@ import { FormasPagosService } from "../../core/services/formaspagos.service";
 import { ProveedoresService } from "../../core/services/proveedores.service";
 import { ToolsService } from "../../core/services/tools.service";
 import { GenericService } from "../../generic/generic.service";
-import { ClaseMonedaLiteral } from "../../core/services/numberToWord"
+import { NumberToWord } from "../../core/services/numberToWord"
 import { EmpresaService } from "../../core/services/empresa.service"
 
 const DATE_FORMATS = {
@@ -48,7 +48,6 @@ const DATE_FORMATS = {
 })
 export class ConfigEgresosComponent implements OnInit {
   public EMPRESA = {};
-  public empresaGetId = {};
   public usuarioLogd = {};
   public IsWaiting: boolean;
   public total2Letras = '';
@@ -95,7 +94,7 @@ export class ConfigEgresosComponent implements OnInit {
 
   constructor(
     public empresaService: EmpresaService,
-    public numeroLetra: ClaseMonedaLiteral,
+    public numeroLetra: NumberToWord,
     public dialog: MatDialog,
     public _egresosService: EgresosService,
     public configParametrosService: ConfigParametrosService,
@@ -105,7 +104,6 @@ export class ConfigEgresosComponent implements OnInit {
     public genericService: GenericService
   ) {
     
-    this.displayedColumns2  = ['nombre', 'T17Soporte', 'T17Observacion', 'T17Valor', 'T17Total'];
     this.displayedColumns  = ['nombre', 'T17Fecha', 'T17Total'];
 
 
@@ -163,7 +161,6 @@ export class ConfigEgresosComponent implements OnInit {
     this.IsWaiting = true;
     this.egresoForm.controls["T17Proveedor"].setValue(selected);
     this.IsWaiting = false;
-    console.log("proveedor",selected)
   }
   onTipoEgresoSelected(selected) {
     this.IsWaiting = true;
@@ -241,7 +238,6 @@ export class ConfigEgresosComponent implements OnInit {
   }
   
   verDetalle(input: any) {
-    console.log(this.egresoForm)
     this.isUpdating = true;
     this.showListado = false;
     this.showPanelDatos = true;
@@ -275,10 +271,8 @@ export class ConfigEgresosComponent implements OnInit {
         this.empresaService
         .getEmpresaById(this.egresoForm.controls["UsuarioNombre"].value.EMPRESA_ID)
         .subscribe((empresa)=>{
-          console.log(empresa);
           this.EMPRESA = empresa;
           this.egresoForm.controls["EmpresaNombre"].setValue(this.EMPRESA);
-        console.log(this.egresoForm.controls["EmpresaNombre"].value);  
         });        
         this.patchParametrosForm();
       }

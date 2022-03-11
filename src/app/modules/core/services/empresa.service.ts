@@ -20,7 +20,7 @@ export class EmpresaService {
 
   getEmpresaById(objeTosend: any): Observable<any> {
     let filter = "";
-    console.log("objtosend"+objeTosend);
+    console.log(objeTosend);
     if (objeTosend) {
       filter = `(id: ${objeTosend})`;
     }
