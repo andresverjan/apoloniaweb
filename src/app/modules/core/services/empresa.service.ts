@@ -35,7 +35,12 @@ export class EmpresaService {
           secondaryColor
           accentColor
           warnColor
-          urlLogo    
+          urlLogo 
+          NIT
+          celular
+          direccion
+          ciudad
+          telefono   
         }
       }`,
     };

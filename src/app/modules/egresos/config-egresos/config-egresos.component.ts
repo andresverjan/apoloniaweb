@@ -18,6 +18,8 @@ import { FormasPagosService } from "../../core/services/formaspagos.service";
 import { ProveedoresService } from "../../core/services/proveedores.service";
 import { ToolsService } from "../../core/services/tools.service";
 import { GenericService } from "../../generic/generic.service";
+import { NumberToWord } from "../../core/services/numberToWord"
+import { EmpresaService } from "../../core/services/empresa.service"
 
 const DATE_FORMATS = {
   parse: {
@@ -45,7 +47,10 @@ const DATE_FORMATS = {
   ],
 })
 export class ConfigEgresosComponent implements OnInit {
+  public EMPRESA = {};
+  public usuarioLogd = {};
   public IsWaiting: boolean;
+  public total2Letras = '';
   public etiquetaNombreModulo = "Egresos";
   public etiquetaListado = "Listado de Egresos";
   public showListado: boolean = true;
@@ -78,12 +83,18 @@ export class ConfigEgresosComponent implements OnInit {
     },
   };
   public tiposEgresos;
-
+  public  displayedColumns2: string[] = [];
   public  displayedColumns: string[] = [];
   public showListItems = false;
   public showCardsItems = true;
+  public currency = {
+    letrasMonedaPlural : 'Pesos Colombianos',
+    letrasMonedaSingular: 'Peso Colombiano'
+  }
 
   constructor(
+    public empresaService: EmpresaService,
+    public numeroLetra: NumberToWord,
     public dialog: MatDialog,
     public _egresosService: EgresosService,
     public configParametrosService: ConfigParametrosService,
@@ -93,7 +104,6 @@ export class ConfigEgresosComponent implements OnInit {
     public genericService: GenericService
   ) {
     
-
     this.displayedColumns  = ['nombre', 'T17Fecha', 'T17Total'];
 
 
@@ -117,6 +127,9 @@ export class ConfigEgresosComponent implements OnInit {
       T17RF: new FormControl(0),
       T17Observacion: new FormControl("", [Validators.required]),
       T17Clasificacion: new FormControl("", [Validators.required]),
+      TotalLetras: new FormControl(""),
+      UsuarioNombre: new FormControl(""), 
+      EmpresaNombre: new FormControl("")
     });
   }
 
@@ -133,6 +146,7 @@ export class ConfigEgresosComponent implements OnInit {
       });
     });
   }
+
   ngOnInit() {
     this.findBy();
     this.fetchParamsByGroupContaConfig();
@@ -142,6 +156,7 @@ export class ConfigEgresosComponent implements OnInit {
     this.fetchTiposEgresos();
   
   }
+
   onPorveedorSelected(selected) {
     this.IsWaiting = true;
     this.egresoForm.controls["T17Proveedor"].setValue(selected);
@@ -221,7 +236,7 @@ export class ConfigEgresosComponent implements OnInit {
 
     this.egresoForm.controls["T17Total"].setValue(isNaN(total) ? 0 : total);
   }
-
+  
   verDetalle(input: any) {
     this.isUpdating = true;
     this.showListado = false;
@@ -230,26 +245,40 @@ export class ConfigEgresosComponent implements OnInit {
     this.showBtnAdicionar = false;
     this.showBtnEliminar = true;
     this.egresoForm.reset();
+    
     const proveedor = this.proveedores.filter(
-      (p) => p.Nit === input["T17Proveedor"]
-    )[0];
+      (p) => p.Nit === input["T17Proveedor"] )[0];
+      
     this.egresoForm.patchValue(input);
     this.egresoForm.controls["T17Proveedor"].setValue(proveedor);
+
     const formaPago = this.formasPagos.filter(
-      (fp) => fp.nombre === input["T17FormaPago"]
-    )[0];
-    this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
+      (fp) => fp.nombre === input["T17FormaPago"])[0];
+      this.egresoForm.controls["T17FormaPago"].setValue(formaPago?.nombre);
+      
+      const tipoEgreso = this.tiposEgresos.filter(
+        (te) => te.id === parseInt(input["T17Clasificacion"])
+        )[0];
+        this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
+  
+        this.total2Letras = this.numeroLetra.numeroALetras(this.egresoForm.controls.T17Valor.value, this.currency);
+        this.egresoForm.controls["TotalLetras"].setValue(this.total2Letras);
 
-    const tipoEgreso = this.tiposEgresos.filter(
-      (te) => te.id === parseInt(input["T17Clasificacion"])
-    )[0];
+        this.usuarioLogd = this.toolService.getUserFromLocalStorage();
+        console.log('usuario aqui',this.usuarioLogd);
+        this.egresoForm.controls["UsuarioNombre"].setValue(this.usuarioLogd);
 
-    this.egresoForm.controls["T17Clasificacion"].setValue(tipoEgreso);
+        this.empresaService
+        .getEmpresaById(this.egresoForm.controls["UsuarioNombre"].value.EMPRESA_ID)
+        .subscribe((empresa)=>{
+          this.EMPRESA = empresa;
+          this.egresoForm.controls["EmpresaNombre"].setValue(this.EMPRESA);
+        });        
+        this.patchParametrosForm();
+      }
 
-    this.patchParametrosForm();
-  }
-  eliminar() {
-    Swal.fire({
+      eliminar() {
+        Swal.fire({
       title: "¿Seguro que desea eliminar este egreso?",
       showDenyButton: true,
       confirmButtonText: "Eliminar",
@@ -389,9 +418,10 @@ export class ConfigEgresosComponent implements OnInit {
           .subscribe(() => {
             this.fetchParamsByGroupContaConfigEmpresa();
           });
-      }
-    });
+        }
+      });
   }
+
   fetchParamsByGroupContaConfig() {
     this.configParametrosService
       .configByParamGroup("CONTA_CONFIG")
@@ -503,6 +533,16 @@ showCards(){
   this.showCardsItems = true;
   console.log(this.showListItems);
   console.log(this.showCardsItems);
+}
+
+
+downloadPdf() {
+  var pathFile = 'reporte eventos.pdf'
+      this.toolService.exportHtmlToPdf('elementId', pathFile);
+}
+
+generarRecibo(){
+
 }
 
 }
