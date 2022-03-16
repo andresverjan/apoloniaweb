@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { GenericService } from '../generic/generic.service';
 import { VentasService } from './ventas.service';
+import { ToolsService } from "../core/services/tools.service";
 
 @Component({
   selector: 'app-ventas',
@@ -19,9 +20,9 @@ export class VentasComponent implements OnInit {
   public dateValue: string = null;
   public dateValus: string = null;
   public idSterlz: number;
-  public listadoAdd: Array<Multilist> = [];
+  public productsAdd: Array<Multilist> = [];
 
-  public esterilForm: FormGroup;
+  public ventaForm: FormGroup;
   public mascaras = [];
   public showContent: boolean = true;
   public showListado: boolean = true;
@@ -37,10 +38,10 @@ export class VentasComponent implements OnInit {
   public etiquetaNombreModulo = "Ventas";
   public etiquetaListado = "Listado de Ventas";
   public filter: any = {};
-  public sterilizations: any = [];
-  public esterilizacion: any;
-  public motivosEsterilizacion: any = [];
-  public tiposEsterilizacion: any = [];
+  public sales: any = [];
+  public sale: any;
+  public motivosVenta: any = [];
+  public tiposVenta: any = [];
   public sedes: any = [];
   public dispMedics: any = [];
   public disp_Avails: Array<Multilist> = [];
@@ -51,6 +52,7 @@ export class VentasComponent implements OnInit {
   public pageSizeOptions = [5, 10, 20, 30];
   public pageNumber: number = 1;
   public queryOptions = {};
+  public USUARIO: any = {};
 
   public disponibleOptions:
     SelItem[] = [
@@ -65,7 +67,8 @@ export class VentasComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
     private genericService: GenericService,
-    private esterilizacionesService: VentasService) { }
+    private ventaService: VentasService,
+    public toolsService: ToolsService) { }
 
   onDisponibleSelected(lSelected: any) {
     this.filter.disponible = lSelected.value;
@@ -80,36 +83,36 @@ export class VentasComponent implements OnInit {
 
   async adicionar() {
     this.showContent = false;
-    this.esterilForm.reset();
+    this.ventaForm.reset();
     this.lShowPanelDatos = true;
     this.showListado = false;
     this.showBtnEliminar = false;
     this.showBtnActualizar = false;
     this.showForm = true;
-    this.listadoAdd = [];
-    await this.fetchMedicalDisp(0);
+    this.productsAdd = [];
+    await this.fetchProductsDisp(0);
   }
 
   cancelar() {
     this.showContent = true;
-    this.esterilForm.reset();
+    this.ventaForm.reset();
     this.showForm = false;
     this.showListado = true;
   }
 
   guardar() {
-    if (this.esterilForm.valid) {
+    if (this.ventaForm.valid) {
       let cantidadValid = false;
       let tipoEmpaqueValid = false;
-      let r = this.listadoAdd.forEach((res) => {
+      let r = this.productsAdd.forEach((res) => {
         res.cantidad = res.cantidad ? res.cantidad : 0;
         if (res.cantidad) {
           cantidadValid = true;
         }
-        if(res.tiposEmpaqueEsterilizacionId == undefined) {
+        if(res.tiposEmpaqueVentaId == undefined) {
           tipoEmpaqueValid = false;
         }
-        if (res.tiposEmpaqueEsterilizacionId) {
+        if (res.tiposEmpaqueVentaId) {
           tipoEmpaqueValid = true;
         }
       });
@@ -125,23 +128,23 @@ export class VentasComponent implements OnInit {
       }
 
       const obj = {
-        sterilization: {
-          T27Fecha: this.esterilForm.controls["T27Fecha"].value,
-          sede: this.esterilForm.controls["sede"].value,
-          motivo: this.esterilForm.controls["motivo"].value,
-          tipo: this.esterilForm.controls["tipo"].value,
-          esporas: this.esterilForm.controls["esporas"].value,
-          timeMin: this.esterilForm.controls["timeMin"].value,
-          temper: this.esterilForm.controls["temper"].value,
-          presion: this.esterilForm.controls["presion"].value,
-          observ: this.esterilForm.controls["observ"].value
+        venta: {
+          T27Fecha: this.ventaForm.controls["T27Fecha"].value,
+          sede: this.ventaForm.controls["sede"].value,
+          motivo: this.ventaForm.controls["motivo"].value,
+          tipo: this.ventaForm.controls["tipo"].value,
+          esporas: this.ventaForm.controls["esporas"].value,
+          timeMin: this.ventaForm.controls["timeMin"].value,
+          temper: this.ventaForm.controls["temper"].value,
+          presion: this.ventaForm.controls["presion"].value,
+          observ: this.ventaForm.controls["observ"].value
         },
-        devices: this.listadoAdd
+        products: this.productsAdd
       };
-      this.esterilizacionesService.saveSterilizations(obj).subscribe((res) => res);
+      this.ventaService.saveVentas(obj).subscribe((res) => res);
       this.showForm = false;
       this.lShowPanelDatos = false;
-      this.esterilForm.reset();
+      this.ventaForm.reset();
 
       Swal.fire(
         "Operación exitosa",
@@ -156,41 +159,40 @@ export class VentasComponent implements OnInit {
     }
   }
 
-  async actualizar(esterilizacion: any) {
+  async actualizar(venta: any) {
     this.showListado = false;
     this.showContent = false;
     this.showForm = true;
     this.showBtnActualizar = true;
     this.showBtnAdicionar = false;
     this.showBtnEliminar = true;
-    this.esterilizacion = esterilizacion;
-    this.esterilForm.controls["T27Fecha"].setValue(esterilizacion.T27Fecha);
-    this.esterilForm.controls["sede"].setValue("'" + esterilizacion.sede + "'");
-    this.esterilForm.controls["motivo"].setValue("'" + esterilizacion.motivo + "'");
-    this.esterilForm.controls["tipo"].setValue("'" + esterilizacion.tipo + "'");
-    this.esterilForm.controls["esporas"].setValue(esterilizacion.esporas);
-    this.esterilForm.controls["timeMin"].setValue(esterilizacion.timeMin);
-    this.esterilForm.controls["temper"].setValue(esterilizacion.temper);
-    this.esterilForm.controls["presion"].setValue(esterilizacion.presion);
-    this.esterilForm.controls["observ"].setValue(esterilizacion.observ);
+    this.sale = venta;
+    this.ventaForm.controls["T27Fecha"].setValue(venta.T27Fecha);
+    this.ventaForm.controls["sede"].setValue("'" + venta.sede + "'");
+    this.ventaForm.controls["motivo"].setValue("'" + venta.motivo + "'");
+    this.ventaForm.controls["tipo"].setValue("'" + venta.tipo + "'");
+    this.ventaForm.controls["esporas"].setValue(venta.esporas);
+    this.ventaForm.controls["timeMin"].setValue(venta.timeMin);
+    this.ventaForm.controls["temper"].setValue(venta.temper);
+    this.ventaForm.controls["presion"].setValue(venta.presion);
+    this.ventaForm.controls["observ"].setValue(venta.observ);
 
-    await this.fetchMedicalDisp(esterilizacion.id);
-    await this.fetchMedicalDispByEsterilizacion(esterilizacion.id);
+    await this.fetchProductsDisp(venta.id);
+    await this.fetchMedicalDispByVenta(venta.id);
   }
 
   actionActualizar() {
-
     let cantidadValid = false;
     let tipoEmpaqueValid = false;
-    let r = this.listadoAdd.forEach((res) => {
-      res.cantidad = res.cantidad ? res.cantidad : 0;      
+    let r = this.productsAdd.forEach((res) => {
+      res.cantidad = res.cantidad ? res.cantidad : 0;
       if (res.cantidad) {
         cantidadValid = true;
       }
-      if(res.tiposEmpaqueEsterilizacionId == undefined) {
+      if(res.tiposEmpaqueVentaId == undefined) {
         tipoEmpaqueValid = false;
       }
-      if (res.tiposEmpaqueEsterilizacionId) {
+      if (res.tiposEmpaqueVentaId) {
         tipoEmpaqueValid = true;
       }
     });
@@ -208,27 +210,28 @@ export class VentasComponent implements OnInit {
     console.log(cantidadValid);
 
     const obj = {
-      steril: {
-        id: parseInt(this.esterilizacion.id),
-        T27Fecha: this.esterilForm.controls["T27Fecha"].value,
-        sede: this.esterilForm.controls["sede"].value,
-        motivo: this.esterilForm.controls["motivo"].value,
-        tipo: this.esterilForm.controls["tipo"].value,
-        esporas: this.esterilForm.controls["esporas"].value,
-        timeMin: this.esterilForm.controls["timeMin"].value,
-        temper: this.esterilForm.controls["temper"].value,
-        presion: this.esterilForm.controls["presion"].value,
-        observ: this.esterilForm.controls["observ"].value
+      venta: {
+        id: parseInt(this.sale.id),
+        T27Fecha: this.ventaForm.controls["T27Fecha"].value,
+        sede: this.ventaForm.controls["sede"].value,
+        motivo: this.ventaForm.controls["motivo"].value,
+        tipo: this.ventaForm.controls["tipo"].value,
+        esporas: this.ventaForm.controls["esporas"].value,
+        timeMin: this.ventaForm.controls["timeMin"].value,
+        temper: this.ventaForm.controls["temper"].value,
+        presion: this.ventaForm.controls["presion"].value,
+        observ: this.ventaForm.controls["observ"].value,
+        idUsuario: this.USUARIO.USUARIO_LOGIN,
       },
-      devices: this.listadoAdd
+      devices: this.productsAdd
     };
-    this.esterilizacionesService.updateEsteriliz(obj).subscribe((res) => res);
+    this.ventaService.updateVenta(obj).subscribe((res) => res);
     this.findBy();
     Swal.fire("Actualización exitosa",
       "Esterilización agregada correctamente!.",
       "success"
     );
-    this.esterilForm.reset();
+    this.ventaForm.reset();
     this.showForm = false;
     this.showBtnActualizar = false;
     this.showBtnEliminar = false;
@@ -238,16 +241,18 @@ export class VentasComponent implements OnInit {
 
   ngOnInit(): void {
     this.idSterlz = 0;
-    this.fechMotivosEsterilizacion();
-    this.fechTiposEsterilizacion();
+    this.USUARIO = this.toolsService.getUserFromLocalStorage();
+
+    this.fechMotivosVenta();
+    this.fechTiposVenta();
     this.getSedes();
     this.getDispMedics();
     this.getEmpacTip();
 
-    this.fetchMedicalDisp(this.idSterlz);
-    this.fetchMedicalDispByEsterilizacion(this.idSterlz);
+    this.fetchProductsDisp(this.idSterlz);
+    this.fetchMedicalDispByVenta(this.idSterlz);
 
-    this.esterilForm = new FormGroup({
+    this.ventaForm = new FormGroup({
       T27Fecha: new FormControl("", [
         Validators.maxLength(50),
         Validators.required
@@ -315,15 +320,15 @@ export class VentasComponent implements OnInit {
 
   fetchSterilizations = (obj?: any) => {
     this.IsWaiting = true;
-    this.esterilizacionesService.getAll(obj).subscribe((res) => {
-      const { totalRegistros, list } = res.data.esterilizaciones;
-      this.sterilizations = list;
+    this.ventaService.getAll(obj).subscribe((res) => {
+      const { totalRegistros, list } = res.data.ventaes;
+      this.sales = list;
       this.totalRegistros = totalRegistros;
       this.IsWaiting = false;
     });
   };
 
-  fechMotivosEsterilizacion() {
+  fechMotivosVenta() {
     let obj = {
       applicationId: 31,
       campos: [],
@@ -337,7 +342,7 @@ export class VentasComponent implements OnInit {
       let listado = genericList.campos.map((val) => {
         return JSON.parse(val);
       });
-      this.motivosEsterilizacion = listado.map((val) => {
+      this.motivosVenta = listado.map((val) => {
         return {
           value: "'" + val.id + "'",
           nombre: val.nombre
@@ -347,7 +352,7 @@ export class VentasComponent implements OnInit {
     });
   }
 
-  fechTiposEsterilizacion() {
+  fechTiposVenta() {
     let obj = {
       applicationId: 35,
       campos: [],
@@ -361,7 +366,7 @@ export class VentasComponent implements OnInit {
       let listado = genericList.campos.map((val) => {
         return JSON.parse(val);
       });
-      this.tiposEsterilizacion = listado.map((val) => {
+      this.tiposVenta = listado.map((val) => {
         return {
           value: "'" + val.id + "'",
           nombre: val.nombre
@@ -444,12 +449,12 @@ export class VentasComponent implements OnInit {
   }
 
   selectField(rolSelected: any, campo: any) {
-    this.esterilForm.controls[campo].setValue(rolSelected.value);
+    this.ventaForm.controls[campo].setValue(rolSelected.value);
   }
 
   onDateChange(event: any) {
     console.log(event);
-    this.esterilForm.controls["T27Fecha"].setValue(event);
+    this.ventaForm.controls["T27Fecha"].setValue(event);
   }
 
   onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
@@ -480,12 +485,12 @@ export class VentasComponent implements OnInit {
   }
 
   selectTipoEmpaque(selectedTipoEmpaque: any, device: any) {
-    device.tiposEmpaqueEsterilizacionId = selectedTipoEmpaque.value;
+    device.tiposEmpaqueVentaId = selectedTipoEmpaque.value;
   }
 
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
-    console.log(this.esterilForm.valid);
-    console.log(this.esterilForm);
+    console.log(this.ventaForm.valid);
+    console.log(this.ventaForm);
     this.dialogRef = this.dialog.open(templateRef, {
       height: "536px",
       width: "572px",
@@ -494,12 +499,12 @@ export class VentasComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe((a) => { });
   }
 
-  async fetchMedicalDispByEsterilizacion(obj: any) {
+  async fetchMedicalDispByVenta(obj: any) {
     this.IsWaiting = true;
-    this.esterilizacionesService.getAssignedDevices(obj).subscribe((res) => {
-      this.listadoAdd = res.data.devicesByEsterilizationId;
-      this.listadoAdd = this.listadoAdd.map((val) => {
-        val.tiposEmpaqueEsterilizacionId = "'" + val.tiposEmpaqueEsterilizacionId + "'";
+    this.ventaService.getAssignedProducts(obj).subscribe((res) => {
+      this.productsAdd = res.data.devicesByEsterilizationId;
+      this.productsAdd = this.productsAdd.map((val) => {
+        val.tiposEmpaqueVentaId = "'" + val.tiposEmpaqueVentaId + "'";
         return val;
       });
       this.IsWaiting = false;
@@ -507,9 +512,9 @@ export class VentasComponent implements OnInit {
     });
   }
 
-  fetchMedicalDisp = (obj?: any) => {
+  fetchProductsDisp = (obj?: any) => {
     this.IsWaiting = true;
-    this.esterilizacionesService.getDispAvails(obj).subscribe((res) => {
+    this.ventaService.getProductsDisp(obj).subscribe((res) => {
       this.disp_Avails = res.data.dispositivos;
       this.IsWaiting = false;
     });
@@ -517,16 +522,16 @@ export class VentasComponent implements OnInit {
 
   multiListChange(data) {
     console.log(data);
-    console.log(this.listadoAdd);
-    this.listadoAdd = data;
-    this.listadoAdd = data.map((val) => {
+    console.log(this.productsAdd);
+    this.productsAdd = data;
+    this.productsAdd = data.map((val) => {
       val.cantidad = val.cantidad ? val.cantidad : 1;
       return val;
     });
   }
-  
+
   removeDevice(dev){
-    this.listadoAdd = this.listadoAdd.filter((opt) => dev.id != opt.id);
+    this.productsAdd = this.productsAdd.filter((opt) => dev.id != opt.id);
     this.disp_Avails.push(dev);
   }
 
@@ -540,6 +545,6 @@ interface SelItem {
 interface Multilist {
   id: number;
   nombre: string;
-  tiposEmpaqueEsterilizacionId: any;
+  tiposEmpaqueVentaId: any;
   cantidad: number;
 }

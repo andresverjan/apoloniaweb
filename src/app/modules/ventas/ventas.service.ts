@@ -140,19 +140,14 @@ export class VentasService {
   getProductsDisp(objeTosend: any): Observable<any> {
     let body = {
       query: `{ productos(ventaId: ${objeTosend}) { id codigo nombre } }`
-    }
+    };
     return this.httpService.callApi(body);
   }
 
   getAssignedProducts(objeTosend: any): Observable<any> {
     let body = {
-      query: `{ productosByVentaId(id: ${objeTosend}) {
-        id
-        nombre
-        valor
-        cantidad } }`
-    }
-
+      query: `{ productosByVentaId(id: ${objeTosend}) { id nombre valor cantidad } }`
+    };
     return this.httpService.callApi(body);
   }
 }
