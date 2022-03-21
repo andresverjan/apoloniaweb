@@ -1,0 +1,59 @@
+<mat-toolbar color="primary">
+    <mat-icon>menu</mat-icon>
+    <span>Giancarlo Learning</span>
+</mat-toolbar>
+<mat-card fxFill>
+    <mat-card-title fxLayoutAlign="center">
+        <mat-label>BUSCAR</mat-label>
+    </mat-card-title>
+    <mat-card-content fxLayout="column" fxLayoutAlign="center">
+        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+            <mat-icon>search</mat-icon>
+            <mat-form-field fxFlex="100">
+                <input matInput placeholder="Filtrar por nombre">
+            </mat-form-field>
+            
+        </div>
+    </mat-card-content>
+</mat-card>
+<mat-card-actions fxLayout="row" fxLayoutAlign="center" style="margin-right: 10px">
+    <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" color="primary">
+        <mat-icon>add</mat-icon>
+        Crear nueva carta
+    </button>
+</mat-card-actions>
+
+<mat-grid-list cols="4" rowHeight="200px">
+    <mat-card class="card">
+        <mat-card-title style="text-align: center;">
+            Información Persona
+        </mat-card-title>
+        <mat-card-content>
+            <div>
+                <span>
+                    Nombre: Juan Pelaez Tellez
+                </span>
+                <h5></h5>
+                <span>
+                    Email: juanchoP@gmail.com
+                </span>
+                <h5></h5>
+                <span>
+                    Fecha de Nacimiento: 04/09/1998
+                </span>
+                <h5></h5>
+                <div>
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                        <span>
+                            Sexo: Masculino
+                        </span>
+                    </div>
+                    <h5></h5>
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                        <mat-icon style="font-size: 100px;">perm_identity</mat-icon>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</mat-grid-list>

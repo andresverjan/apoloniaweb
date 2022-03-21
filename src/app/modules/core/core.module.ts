@@ -89,7 +89,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { ColorpickerComponent } from "./components/colorpicker/colorpicker.component";
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from "@angular-material-components/datetime-picker";
-
+import { GiancarloLearningComponent } from "../giancarlo-learning/giancarlo-learning.component";
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -157,7 +157,8 @@ FullCalendarModule.registerPlugins([
     BasiccardComponent,
     ColorpickerComponent,
     GcolorpickerComponent,
-    RecordatorioComponent
+    RecordatorioComponent,
+    GiancarloLearningComponent
   ],
 
   imports: [
