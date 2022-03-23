@@ -1,7 +1,10 @@
+<!-- TOOLBAR -->
 <mat-toolbar color="primary">
     <mat-icon>menu</mat-icon>
     <span>Giancarlo Learning</span>
 </mat-toolbar>
+
+<!-- FILTER -->
 <mat-card fxFill>
     <mat-card-title fxLayoutAlign="center">
         <mat-label>BUSCAR</mat-label>
@@ -16,36 +19,100 @@
         </div>
     </mat-card-content>
 </mat-card>
+
+<!-- BUTTON CREATE CARD -->
 <mat-card-actions fxLayout="row" fxLayoutAlign="center" style="margin-right: 10px">
-    <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" color="primary">
+    <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" color="primary"
+        (click)="onclick()">
         <mat-icon>add</mat-icon>
         Crear nueva carta
     </button>
 </mat-card-actions>
 
-<mat-grid-list cols="4" rowHeight="200px">
+
+<!-- CREACION CARTA  -->
+<form [formGroup]="Formulario">
+    <mat-card style="height: 430px; width: 1300px; margin: auto; color: aliceblue;" *ngIf="buttonFlag" >
+        <mat-card-title fxLayoutAlign="center">
+            <label style="color: black;">Creacion carta</label>
+        </mat-card-title>
+        <mat-card-content fxLayout="column" fxLayoutAlign="center">
+            <div>
+                <mat-form-field fxFlex=>
+                    <input matInput placeholder="Nombre" formControlName="nombre">
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Apellido" formControlName="apellido">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field fxFlex>
+                    <input matInput placeholder="Cedula" formControlName="cedula">
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <input matInput type="email" placeholder="Email" formControlName="email">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field fxFlex>
+                    <input matInput placeholder="Fecha de Nacimiento" formControlName="fechaNacimiento">
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Activo" formControlName="activo">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field fxFlex>
+                    <input matInput placeholder="Eliminado" formControlName="eliminado">
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Sexo" formControlName="sexo">
+                </mat-form-field>
+            </div>
+            <div >
+                <mat-form-field fxFlex>
+                    <input matInput type="number" placeholder="Edad" formControlName="edad">
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <input matInput placeholder="Mascota Favorita" formControlName="mascotaFavorita">
+                </mat-form-field>
+            </div>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                fxFlex="80" [disabled]="!Formulario.valid">Crear</button>
+                <button mat-raised-button color="warn" fxLayout="row" fxLayout.xs="column"
+                fxLayoutAlign="center" fxFlex="80">Cancelar</button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>
+
+
+<!-- LISTADO CARTAS -->
+
+<mat-grid-list cols="2" rowHeight="200px">
     <mat-card class="card">
-        <mat-card-title style="text-align: center;">
+        <mat-card-title  style="text-align: center;">
             Información Persona
         </mat-card-title>
         <mat-card-content>
             <div>
                 <span>
-                    Nombre: Juan Pelaez Tellez
+                    <b>Nombre:</b>Juan Pelaez Tellez
                 </span>
                 <h5></h5>
                 <span>
-                    Email: juanchoP@gmail.com
+                    <b>Email:</b> juanchoP@gmail.com
                 </span>
                 <h5></h5>
                 <span>
-                    Fecha de Nacimiento: 04/09/1998
+                    <b>Fecha de Nacimiento:</b> 04/09/1998
                 </span>
                 <h5></h5>
                 <div>
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                         <span>
-                            Sexo: Masculino
+                            <b>Sexo:</b> Masculino
                         </span>
                     </div>
                     <h5></h5>
