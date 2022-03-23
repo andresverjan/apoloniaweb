@@ -14,7 +14,7 @@ export const SERVER_DEV = "http://localhost:3000/api";
 export const SERVER_PROD = "https://apoloniaoe.herokuapp.com/api";
 export const SERVER_PROD_IP = "https://apoloniabackend.azurewebsites.net/api";
 
-export const SERVER = SERVER_PROD_IP;
+export const SERVER = SERVER_DEV;
 
 /*
  *  Definicion de constantes de providers Google facebook

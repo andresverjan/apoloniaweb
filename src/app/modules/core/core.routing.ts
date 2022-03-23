@@ -20,6 +20,8 @@ import { HistoriaClinicaComponent } from "../historiaClinica/historiaClinica.com
 import { EsterilizacionesComponent } from "../esterilizaciones/esterilizaciones.component";
 import { EgresosComponent } from "../egresos/egresos.component";
 import { RecordatorioComponent } from "../recordatorio/recordatorio.component";
+import { SaidLearningComponent } from "../said-learning/said-learning.component"
+
 
 export const routes: Routes = [
   {
@@ -111,6 +113,11 @@ export const routes: Routes = [
       {
         path: "recordatorio",
         component: RecordatorioComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: "said-training",
+        component: SaidLearningComponent,
         canActivate: [AuthGuardService],
       },
 
