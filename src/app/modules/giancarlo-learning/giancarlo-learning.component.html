@@ -32,7 +32,7 @@
 
 <!-- CREACION CARTA  -->
 <form [formGroup]="Formulario">
-    <mat-card style="height: 430px; width: 1300px; margin: auto; color: aliceblue;" *ngIf="buttonFlag" >
+    <mat-card style="height: 430px; width: 1300px; margin: auto;" *ngIf="buttonFlag" >
         <mat-card-title fxLayoutAlign="center">
             <label style="color: black;">Creacion carta</label>
         </mat-card-title>
@@ -79,9 +79,10 @@
             </div>
             <mat-card-actions>
                 <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
-                fxFlex="80" [disabled]="!Formulario.valid">Crear</button>
+                fxFlex="80" [disabled]="!Formulario.valid" (click)="crearUsuario()">Crear</button>
+
                 <button mat-raised-button color="warn" fxLayout="row" fxLayout.xs="column"
-                fxLayoutAlign="center" fxFlex="80">Cancelar</button>
+                fxLayoutAlign="center" fxFlex="80" (click)=" cancelar()">Cancelar</button>
             </mat-card-actions>
         </mat-card-content>
     </mat-card>
@@ -91,29 +92,30 @@
 <!-- LISTADO CARTAS -->
 
 <mat-grid-list cols="2" rowHeight="200px">
-    <mat-card class="card">
+    <mat-card class="card" *ngFor="let item of lista">
         <mat-card-title  style="text-align: center;">
             Información Persona
         </mat-card-title>
         <mat-card-content>
             <div>
                 <span>
-                    <b>Nombre:</b>Juan Pelaez Tellez
+                    <b>Nombre: </b>{{item.nombre}} {{item.apellido}}
                 </span>
                 <h5></h5>
                 <span>
-                    <b>Email:</b> juanchoP@gmail.com
+                    <b>Email: </b>{{item.email}}
                 </span>
                 <h5></h5>
                 <span>
-                    <b>Fecha de Nacimiento:</b> 04/09/1998
+                    <b>Fecha de Nacimiento: </b>{{item.fechaNacimiento}}
                 </span>
                 <h5></h5>
+                <span>
+                    <b>Sexo: </b>{{item.sexo}}
+                </span>
                 <div>
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                        <span>
-                            <b>Sexo:</b> Masculino
-                        </span>
+                        <button mat-raised-button style="height: 25px; width: 100px;" color="primary" (click)="verDetalle()">Editar</button>
                     </div>
                     <h5></h5>
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">

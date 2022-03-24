@@ -33,7 +33,31 @@ export class GiancarloLearningService{
             }`
         }
         let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.http.post('https://http://localhost:3000/api', body, { headers: headers});
+        return this.http.post('https://localhost:3000/api', body, { headers: headers});
     }
 
+
+    createUser(obj): Observable<any> {
+        let body = {
+            query: `
+            mutation {
+                createGiancarloLearning(tablaObject: {
+                    nombre: "${obj.nombre}",
+                    apellido: "${obj.apellido}",
+                    cedula: "${obj.cedula}",
+                    email: "${obj.email}",
+                    fechaNacimiento: "${obj.fechaNacimiento}",
+                    activo: ${obj.activo},
+                    eliminado: ${obj.eliminado},
+                    sexo: "${obj.sexo}",
+                    edad: ${obj.edad},
+                    mascotaFavorita: "${obj.mascotaFavorita}"}) {
+                        id
+                    }
+            }
+            `,
+        };
+        let headers = new HttpHeaders().set("Content-Type", "application/json");
+        return this.http.post('https://localhost:3000/api', body, { headers: headers});
+    }
 }
