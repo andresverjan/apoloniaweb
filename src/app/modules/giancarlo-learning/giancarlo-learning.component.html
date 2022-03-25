@@ -15,15 +15,10 @@
             <mat-form-field fxFlex="100">
                 <input matInput placeholder="Filtrar por nombre" (keyup)="findBy()" [(ngModel)]="filter.nombre">
             </mat-form-field>
-            
+
         </div>
     </mat-card-content>
 </mat-card>
-
-<!-- PAGINATOR -->
-<mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" aria-label="Select page"
-            (page)="handlePageChange($event)" [length]="totalUsers">
-</mat-paginator>
 
 <!-- BUTTON CREATE CARD -->
 <mat-card-actions fxLayout="row" fxLayoutAlign="center" style="margin-right: 10px">
@@ -34,12 +29,9 @@
     </button>
 </mat-card-actions>
 
-
-
-
 <!-- CREACION CARTA  -->
 <form [formGroup]="Formulario">
-    <mat-card style="height: 430px; width: 1300px; margin: auto;" *ngIf="buttonFlag" >
+    <mat-card style="height: 430px; width: 1300px; margin: auto;" *ngIf="buttonFlag">
         <mat-card-title fxLayoutAlign="center">
             <label style="color: black;">Creación carta</label>
         </mat-card-title>
@@ -52,7 +44,6 @@
                 <mat-form-field fxFlex="50">
                     <mat-icon matPrefix> border_color</mat-icon>
                     <input matInput placeholder="Apellido" formControlName="apellido">
-                    <!-- <mat-slide-toggle formControlName="activo">Activo</mat-slide-toggle> -->
                 </mat-form-field>
             </div>
             <div>
@@ -66,19 +57,16 @@
                 </mat-form-field>
             </div>
             <div>
-                <!-- (valor)="OnDate($event)" -->
-                <!-- <app-datetime fxFlex label="Fecha Recordatorio:" requerido=true (valor)="onDate($event)"
-                        [dateControl]="Formulario.controls['fechaNacimiento']"> </app-datetime> -->
                 <mat-form-field fxFlex>
                     <mat-icon matPrefix>event_note</mat-icon>
                     <input matInput placeholder="Fecha de Nacimiento" formControlName="fechaNacimiento">
                 </mat-form-field>
-                
+
                 <mat-form-field fxFlex="50">
                     <input matInput type="number" placeholder="Activo" formControlName="activo">
                 </mat-form-field>
             </div>
-            <div >
+            <div>
                 <mat-form-field fxFlex>
                     <mat-icon matPrefix>clear</mat-icon>
                     <input matInput type="number" placeholder="Eliminado" formControlName="eliminado">
@@ -94,28 +82,32 @@
                     <input matInput type="number" placeholder="Edad" formControlName="edad">
                 </mat-form-field>
                 <mat-form-field fxFlex="50">
-                    <i class='fas fa-dog fa-lg' matPrefix></i><br/>
+                    <i class='fas fa-dog fa-lg' matPrefix></i><br />
                     <input matInput placeholder="Mascota Favorita" formControlName="mascotaFavorita">
                 </mat-form-field>
             </div>
-            <div >
+            <div>
                 <mat-card-actions>
-                    <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" *ngIf="flag2"
-                    fxFlex="80"  (click)="crearUsuario()"> <mat-icon>person_add</mat-icon> Crear</button>
-                    <!-- [disabled]="!Formulario.valid" -->
-                    <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" *ngIf="flag"
-                    fxFlex="80" [disabled]="!Formulario.valid" (click)="actualizarUser()"> <mat-icon>mode_edit</mat-icon> Actualizar</button>
+                    <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                        *ngIf="flag2" fxFlex="80" (click)="crearUsuario()" [disabled]="!Formulario.valid">
+                        <mat-icon>person_add</mat-icon> Crear
+                    </button>
 
-                    <button mat-raised-button color="white" fxLayout="row" fxLayout.xs="column" *ngIf="flag" (click)="deleteUser()"
-                        fxLayoutAlign="center" fxFlex="60"><mat-icon>more_vert</mat-icon>Eliminar</button>
-                        
-                    <button mat-raised-button color="warn" fxLayout="row" fxLayout.xs="column"
-                    fxLayoutAlign="center" fxFlex="80" (click)=" cancelar()"><mat-icon>cancel</mat-icon>Cancelar</button>
+                    <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                        *ngIf="flag" fxFlex="80" [disabled]="!Formulario.valid" (click)="actualizarUser()">
+                        <mat-icon>mode_edit</mat-icon> Actualizar
+                    </button>
 
-                    <!-- <button mat-raised-button color="primary" fxLayout="row" fxLayout.xs="column" *ngIf="flag"
-                    fxLayoutAlign="center" fxFlex="60" >Editar</button> -->
+                    <button mat-raised-button color="white" fxLayout="row" fxLayout.xs="column" *ngIf="flag"
+                        (click)="deleteUser()" fxLayoutAlign="center" fxFlex="60">
+                        <mat-icon>more_vert</mat-icon>Eliminar
+                    </button>
 
-                    
+                    <button mat-raised-button color="warn" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                        fxFlex="80" (click)=" cancelar()">
+                        <mat-icon>cancel</mat-icon>Cancelar
+                    </button>
+
                 </mat-card-actions>
             </div>
         </mat-card-content>
@@ -125,10 +117,10 @@
 
 <!-- LISTADO CARTAS -->
 
-<mat-grid-list cols="3" rowHeight="400px">
+<mat-grid-list cols="3" rowHeight="400px" *ngIf="!buttonFlag">
     <mat-grid-tile *ngFor="let item of lista" style="overflow-x: hidden">
         <mat-card class="card" (click)="verDetalle(item)">
-            <mat-card-title  style="text-align: center;">
+            <mat-card-title style="text-align: center;">
                 <mat-icon style="font-size: 40px;">perm_identity</mat-icon> Información Usuario
             </mat-card-title>
             <mat-card-content>
@@ -148,11 +140,6 @@
                     <span>
                         <b>Sexo: </b>{{item.sexo}}
                     </span>
-                    <h5></h5>
-                    <div>
-                        <!-- style="height: 35px; width: 100px; margin-left: 350px;" color="primary" -->
-                       
-                    </div>
                 </div>
             </mat-card-content>
         </mat-card>

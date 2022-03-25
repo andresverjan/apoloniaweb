@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import * as Globals from "../core/globals";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient} from "@angular/common/http";
 import { Observable } from "rxjs";
 import { HttpService } from "../core/services/HttpService";
+import { ToolsService } from "../core/services/tools.service";
 
 @Injectable({
     providedIn: "root",
@@ -10,42 +11,39 @@ import { HttpService } from "../core/services/HttpService";
 
 export class GiancarloLearningService{
     serverUrl: string;
-    constructor(private http: HttpClient, private httpService: HttpService){
+    constructor(private http: HttpClient, private httpService: HttpService, private toolService: ToolsService ){
         this.serverUrl = Globals.SERVER;
     }
 
     list(obj?):  Observable<any>{
-        console.log("OBJ: " + obj);
-        let params = "";
-        let pagination = `
-        pagination: {
-        pagina: ${obj?.pagina != "" && obj?.pagina != undefined ? `${obj?.pagina}` : 1}
-        limite:  ${obj?.limite != "" && obj?.limite != undefined ? `${obj?.limite}` : 5}
-        }`;
         let filter = "";
-        if (obj?.filter != null) {
-        filter = `,filter: {`;
-        filter += obj.filter.nombre != "" ? `nombre: "${obj.filter.nombre}"` : "";
-        filter += `}`;
+        let params = "";
+        let ordenamiento = `order: {
+            nombre: "ASC"
+          }`;
+        if(obj){
+            filter = `filter: {
+                nombre: "${obj.nombre}",
+            }`;
         }
-        params = `(${pagination} ${filter} )`;
-            let body = {
-            query: `{
-                giancarloLearning{
-                    id
-                    nombre
-                    apellido
-                    cedula
-                    email
-                    fechaNacimiento
-                    activo
-                    eliminado
-                    sexo
-                    edad
-                    mascotaFavorita
-                  }
-            }`
-        }
+        params = this.toolService.getParams(filter, ordenamiento);
+        let body = {
+        query: `{
+            giancarloLearning ${params}{
+                id
+                nombre
+                apellido
+                cedula
+                email
+                fechaNacimiento
+                activo
+                eliminado
+                sexo
+                edad
+                mascotaFavorita
+                }
+        }`
+    }
         return this.httpService.callApi(body);
     }
 
@@ -102,11 +100,11 @@ export class GiancarloLearningService{
         let body = {
             query: `
             mutation {
-                deleteGiancarloLearning(tablaObject: {
-                    id: ${id}
-                })
-            }`
-        }
+                deleteGiancarloLearning(tablaObject: {id: ${id}}){
+                    id
+                }
+            }`,
+        };
         return this.httpService.callApi(body);
     }
 }

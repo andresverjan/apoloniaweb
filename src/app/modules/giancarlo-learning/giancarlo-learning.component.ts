@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PageEvent } from '@angular/material/paginator';
 import Swal from 'sweetalert2';
 import { GiancarloLearningService } from './giancarlo-learning.service';
 
@@ -28,14 +27,12 @@ export class GiancarloLearningComponent implements OnInit {
     edad: new FormControl(undefined,Validators.required),
     mascotaFavorita: new FormControl('',Validators.required)
   })
-  public queryOptions: any = {};
-  public pageNumber: number = 1;
-  public pageSizeOptions = [5, 10, 20, 30];
-  public pageSize = 10;
+
   public filter = {
     nombre: ""
   };
   public totalUsers = 0;
+  filtrar = undefined;
   constructor(private giancarloLearningService: GiancarloLearningService) { }
 
   ngOnInit(): void {
@@ -49,7 +46,7 @@ export class GiancarloLearningComponent implements OnInit {
   }
 
   getData(obj?){
-    console.log(obj);
+    console.log("OBJ: " + obj);
     this.giancarloLearningService.list(obj).subscribe((response) => {
       this.lista = response.data.giancarloLearning;
       this.totalUsers = response.data.giancarloLearning;
@@ -57,15 +54,10 @@ export class GiancarloLearningComponent implements OnInit {
   }
 
   findBy(){
-    this.queryOptions = {
-      pagina: this.pageNumber,
-      limite: this.pageSize
-    }
     if (this.filter.nombre.length > 0) {
-      this.queryOptions = { ...this.queryOptions, filter: this.filter }
+        this.filtrar = this.filter
     }
-    this.getData(this.queryOptions);
-    console.log("QUERY OPTIONS: " + this.queryOptions);
+    this.getData(this.filtrar);
   }
 
   cancelar(){
@@ -90,13 +82,6 @@ export class GiancarloLearningComponent implements OnInit {
     this.flag2 = false;
     this.Formulario.patchValue(dataInput);
   }
-
-  
-  handlePageChange(e: PageEvent) {
-    this.pageNumber = e.pageIndex + 1;
-    this.pageSize = e.pageSize;
-    this.findBy();
-  }
    
   deleteUser(){
     this.buttonFlag=true;
@@ -106,6 +91,7 @@ export class GiancarloLearningComponent implements OnInit {
       this.getData();
       this.Formulario.reset();
       this.buttonFlag=false;
+      
     })
   }
 
