@@ -9,13 +9,11 @@ import { saidLearningService } from "./said-learning.component.service";
   styleUrls: ["./said-learning.component.sass"],
 })
 export class SaidLearningComponent implements OnInit {
-  public radioButtonFlag = false;
+  showCard = true;
+  buttonFlag = false;
+  flag  = false;
+  flag2 = false;
   public IsWait: Boolean = false;
-  public lShowPanelListado: Boolean = true;
-  public lShowPanelDatos: Boolean = false;
-  public lShowBtnAdicionar: Boolean = true;
-  public lShowBtnActualizar: Boolean = true;
-  public lShowBtnEliminar: Boolean = true;
   mascota: any = [];
   public title = "Mascotas";
 
@@ -32,7 +30,9 @@ export class SaidLearningComponent implements OnInit {
     fechaNacimiento: new FormControl("", Validators.required),
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getData();
+  }
 
   getData(obj?) {
     this.saidLearning.getAll(obj).subscribe((response) => {
@@ -45,65 +45,56 @@ export class SaidLearningComponent implements OnInit {
   }
 
   verDetalle(dataInput: any) {
-    this.lShowPanelListado = false;
-    this.lShowPanelDatos = true;
-    this.lShowBtnActualizar = true;
-    this.lShowBtnEliminar = true;
-    this.lShowBtnAdicionar = false;
+    this.showCard = false;
+    this.buttonFlag = true;
+    this.flag = true;
+    this.flag2 = false;
     this.mascotaForm.patchValue(dataInput);
   }
 
   adicionar() {
-    this.lShowPanelListado = false;
-    this.lShowPanelDatos = true;
-    this.mascotaForm.reset();
-    this.lShowBtnActualizar = false;
-    this.lShowBtnEliminar = false;
-    this.lShowBtnAdicionar = true;
+    this.showCard = false;
+    this.buttonFlag=true;
+    this.flag=false;
+    this.flag2=true;
   }
 
   guardar() {
-    this.IsWait = true;
+    this.buttonFlag = true;
     this.saidLearning
       .createMascota(this.mascotaForm.value)
       .subscribe((reponse) => {
-        this.IsWait = false;
+        this.buttonFlag = false;
         Swal.fire("Mascota", "Agregada correctamente.", "success");
         // this.findBy();
         this.mascotaForm.reset();
-        this.lShowPanelDatos = false;
-        this.lShowPanelListado = true;
       });
   }
 
   actualizar() {
-    this.IsWait = true;
-    this.saidLearning.updateMascota(this.mascotaForm.value).subscribe(() => {
-      this.IsWait = false;
+    this.buttonFlag = true;
+    this.saidLearning.updateMascota(this.mascotaForm.value).subscribe((response) => {
+      this.buttonFlag = false;
       Swal.fire("Mascota", "Actualizada correctamente.", "success");
       this.mascotaForm.reset();
-      this.lShowPanelDatos = false;
-      this.lShowPanelListado = true;
       // this.findBy();
     });
   }
 
   eliminar() {
+    this.buttonFlag=true;
     let item = this.mascotaForm.value;
-    this.IsWait = true;
     this.saidLearning.deleteMascota(item.id).subscribe((reponse) => {
-      this.IsWait = false;
+      this.buttonFlag = false;
       Swal.fire("Mascota", "Eliminada correctamente.", "success");
       this.getData();
       this.mascotaForm.reset();
-      this.lShowPanelDatos = false;
-      this.lShowPanelListado = true;
     });
   }
 
   cancelar() {
-    this.lShowPanelListado = true;
-    this.lShowPanelDatos = false;
+    this.buttonFlag=false;
     this.mascotaForm.reset();
+    this.showCard=true
   }
 }
