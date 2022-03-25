@@ -1,1 +1,134 @@
-<p>said-learning works!</p>
+<div>
+    <mat-card>
+        <mat-card-content>
+            <mat-toolbar color="primary">
+                <mat-icon>menu</mat-icon>
+                <span>{{title}}</span>
+            </mat-toolbar>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="end center" style="margin-right: 10px">
+                <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="22">
+                    <mat-icon>person_add</mat-icon>
+                    Adicion
+                </button>
+            </mat-card-actions>
+
+            <mat-card fxFill>
+                <mat-card-title fxLayoutAlign="center">
+                    <label>BUSCAR</label>
+                </mat-card-title>
+                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                        <mat-icon matPrefix>search</mat-icon>
+                        <mat-form-field fxFlex="100">
+                            <input matInput id="filterbyNombre" placeholder="Buscar por nombre" />
+                            //[(ngModel)]="filter.nombre" (keyup)="findBy()"
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+
+                <!--INFO CARD -->
+                <div>
+                    <mat-card-content *ngIf="lShowBtnAdicionar">
+                        <mat-toolbar color="primary">
+                            <mat-icon matPrefix>event_available</mat-icon>
+                            <span>{{ title }}</span>
+                            <span class="example-spacer"></span>
+                
+                            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+                                (click)="cancelar()">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-toolbar>
+        
+                        <form [formGroup]="mascotaForm" autocomplete="off" novalidate>
+                            <mat-card class="cardcontent">
+                                <mat-card-title fxLayoutAlign="center">
+                                    <label>Datos de efefeafa</label>
+                                </mat-card-title>
+                                <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                                    <div *ngIf="false">
+                                        <mat-form-field>
+                                            <input matInput formControlName="id" id="id" placeholder="_" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                                        <mat-form-field fxFlex>
+                                            <mat-icon matPrefix>edit</mat-icon>
+                                            <input matInput formControlName="nombreAnimal" id="nombreAnimal" placeholder="Nombre del Animal" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                                        <mat-form-field fxFlex>
+                                            <mat-icon matPrefix>edit</mat-icon>
+                                            <input matInput formControlName="nombreDueno" id="nombreDueno"
+                                                placeholder="Nombre del Dueño" />
+                                        </mat-form-field>
+                                        <mat-form-field fxFlex="30">
+                                            <mat-icon matPrefix>edit</mat-icon>
+                                            <input matInput formControlName="Raza" id="Raza"
+                                                placeholder="Raza del Animal"/>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                                        <app-datetime fxFlex label="Fecha Nacimiento:" requerido=true (valor)="OnDate($event)"
+                                            [dateControl]="mascotaForm.controls['fechaNacimiento']"> </app-datetime>
+                                    </div>                                                                 
+                                </mat-card-content>
+                                <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                                    <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar"
+                                        [disabled]="!mascotaForm.valid" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                                        fxFlex="80">
+                                        <mat-icon>person_add</mat-icon>
+                                        Adicionar
+                                    </button>
+                                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center"
+                                        fxFlex="80" *ngIf="lShowBtnActualizar" (click)="actualizar()">
+                                        <mat-icon>mode_edit</mat-icon>
+                                        Actualizar
+                                    </button>
+                                    <button mat-raised-button fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80"
+                                        (click)="eliminar()" *ngIf="lShowBtnEliminar">
+                                        <mat-icon>more_vert</mat-icon>
+                                        Eliminar
+                                    </button>
+                                    <button mat-raised-button (click)="cancelar()" color="warn" fxLayout="row" fxLayout.xs="column"
+                                        fxLayoutAlign="center" fxFlex="80">
+                                        <mat-icon>cancel</mat-icon>
+                                        Cancelar
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </form>
+                </mat-card-content>
+            </div>
+                
+                
+                <!--CARD: USERS -->
+                <mat-grid-list cols="3" rowHeight="200px">
+                    <mat-grid-tile *ngFor="let item of mascota" style="overflow-x: hidden">
+                        <mat-card class="cardR" (click)="verDetalle(item)">
+                            <mat-card-content class="dashboard-card-content">
+                                <div class="icons">
+                                    <mat-icon>pets</mat-icon>
+                                </div>
+                                <h5></h5>
+                                <div class="cssRow">
+                                    <span class="cssRow">
+                                        Nombre Animal: {{item.nombreAnimal}}
+                                    </span>
+                                </div>
+                                <h5></h5>
+                                <div class="cssRow">
+                                    <span class="cssRow">
+                                        Nombre Dueño: <b>{{item.nombreDueno}}</b>
+                                    </span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </mat-card>
+
+        </mat-card-content>
+    </mat-card>
+</div>
