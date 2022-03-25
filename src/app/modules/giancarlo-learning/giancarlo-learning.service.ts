@@ -15,7 +15,21 @@ export class GiancarloLearningService{
     }
 
     list(obj?):  Observable<any>{
-        let body = {
+        console.log("OBJ: " + obj);
+        let params = "";
+        let pagination = `
+        pagination: {
+        pagina: ${obj?.pagina != "" && obj?.pagina != undefined ? `${obj?.pagina}` : 1}
+        limite:  ${obj?.limite != "" && obj?.limite != undefined ? `${obj?.limite}` : 5}
+        }`;
+        let filter = "";
+        if (obj?.filter != null) {
+        filter = `,filter: {`;
+        filter += obj.filter.nombre != "" ? `nombre: "${obj.filter.nombre}"` : "";
+        filter += `}`;
+        }
+        params = `(${pagination} ${filter} )`;
+            let body = {
             query: `{
                 giancarloLearning{
                     id
@@ -32,8 +46,7 @@ export class GiancarloLearningService{
                   }
             }`
         }
-        let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.http.post('https://localhost:3000/api', body, { headers: headers});
+        return this.httpService.callApi(body);
     }
 
 
@@ -57,7 +70,43 @@ export class GiancarloLearningService{
             }
             `,
         };
-        let headers = new HttpHeaders().set("Content-Type", "application/json");
-        return this.http.post('https://localhost:3000/api', body, { headers: headers});
+        return this.httpService.callApi(body);
+    }
+
+    updateUser(obj): Observable<any>{
+        let body = {
+            query:  `
+            mutation {
+                updateGiancarloLearning(tablaObject: {
+                    id: ${obj.id},
+                    nombre: "${obj.nombre}",
+                    apellido: "${obj.apellido}",
+                    cedula: "${obj.cedula}",
+                    email: "${obj.email}",
+                    fechaNacimiento: "${obj.fechaNacimiento}",
+                    activo: ${obj.activo},
+                    eliminado: ${obj.eliminado},
+                    sexo: "${obj.sexo}",
+                    edad: ${obj.edad},
+                    mascotaFavorita: "${obj.mascotaFavorita}"}) {
+                        id
+                    }
+            }
+            `,
+        };
+        return this.httpService.callApi(body);
+
+    }
+
+    deleteUser(id): Observable<any>{
+        let body = {
+            query: `
+            mutation {
+                deleteGiancarloLearning(tablaObject: {
+                    id: ${id}
+                })
+            }`
+        }
+        return this.httpService.callApi(body);
     }
 }

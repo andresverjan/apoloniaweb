@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 import Swal from 'sweetalert2';
 import { GiancarloLearningService } from './giancarlo-learning.service';
 
@@ -9,45 +10,11 @@ import { GiancarloLearningService } from './giancarlo-learning.service';
   styleUrls: ['./giancarlo-learning.component.scss']
 })
 export class GiancarloLearningComponent implements OnInit {
-  lista = [{
-    nombre: "Camilo",
-    apellido: "Gonzalez",
-    cedula: "23424",
-    email: "edcce@gmail.com",
-    fechaNacimiento: "4/5/2010",
-    activo: 1,
-    eliminado: 0,
-    sexo: "Maculino",
-    edad: 12,
-    mascotaFavorita: "Pez"
-  },
-  // {
-  //   nombre: "Sara",
-  //   apellido: "Rodriguez",
-  //   cedula: "2131321",
-  //   email: "cvdesesac.gmail.com",
-  //   fechaNacimiento: "2/4/2000",
-  //   activo: 0,
-  //   eliminado: 1,
-  //   sexo: "Femenino",
-  //   edad: 22,
-  //   mascotaFavorita: "Perro"
-  // },
-  // {
-  //   nombre: "Juan Carlos",
-  //   apellido: "Aguacatala",
-  //   cedula: "24354211",
-  //   email: "juancar.gmail.com",
-  //   fechaNacimiento: "13/2/1980",
-  //   activo: 1,
-  //   eliminado: 2,
-  //   sexo: "Masculino",
-  //   edad: 42,
-  //   mascotaFavorita: "Vaca"
+  lista=[];
 
-  // }
-  ];
   buttonFlag = false;
+  flag  = false;
+  flag2 = false;
   public Formulario = new FormGroup({
     id: new FormControl(''),
     nombre: new FormControl('',Validators.required),
@@ -61,20 +28,44 @@ export class GiancarloLearningComponent implements OnInit {
     edad: new FormControl(undefined,Validators.required),
     mascotaFavorita: new FormControl('',Validators.required)
   })
+  public queryOptions: any = {};
+  public pageNumber: number = 1;
+  public pageSizeOptions = [5, 10, 20, 30];
+  public pageSize = 10;
+  public filter = {
+    nombre: ""
+  };
+  public totalUsers = 0;
   constructor(private giancarloLearningService: GiancarloLearningService) { }
 
   ngOnInit(): void {
-    // this.getData();
+    this.findBy();
   }
 
   onclick(){
     this.buttonFlag=true;
+    this.flag=false;
+    this.flag2=true;
   }
 
   getData(obj?){
+    console.log(obj);
     this.giancarloLearningService.list(obj).subscribe((response) => {
-      this.lista = response.data.giancarloLearning
+      this.lista = response.data.giancarloLearning;
+      this.totalUsers = response.data.giancarloLearning;
     })
+  }
+
+  findBy(){
+    this.queryOptions = {
+      pagina: this.pageNumber,
+      limite: this.pageSize
+    }
+    if (this.filter.nombre.length > 0) {
+      this.queryOptions = { ...this.queryOptions, filter: this.filter }
+    }
+    this.getData(this.queryOptions);
+    console.log("QUERY OPTIONS: " + this.queryOptions);
   }
 
   cancelar(){
@@ -83,15 +74,48 @@ export class GiancarloLearningComponent implements OnInit {
   }
 
   crearUsuario(){
+    this.buttonFlag = true;
     this.giancarloLearningService.createUser(this.Formulario.value).subscribe((response) => {
+      this.buttonFlag = false;
       Swal.fire('Usuario', 'Creado correctamente', 'success');
-
+      this.Formulario.reset();
+      this.findBy();
+      console.log("ID: " + this.Formulario.controls['id'].value);
     })
   }
 
   verDetalle(dataInput: any){
     this.buttonFlag = true;
+    this.flag = true;
+    this.flag2 = false;
     this.Formulario.patchValue(dataInput);
   }
 
+  
+  handlePageChange(e: PageEvent) {
+    this.pageNumber = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+    this.findBy();
+  }
+   
+  deleteUser(){
+    this.buttonFlag=true;
+    let item = this.Formulario.value;
+    this.giancarloLearningService.deleteUser(item.id).subscribe((response)=>{
+      Swal.fire('Usuario', 'Usuario eliminado exitosamente', 'success');
+      this.getData();
+      this.Formulario.reset();
+      this.buttonFlag=false;
+    })
+  }
+
+  actualizarUser(){
+    this.buttonFlag=true;
+    this.giancarloLearningService.updateUser(this.Formulario.value).subscribe((response)=>{
+      this.buttonFlag=false;
+      Swal.fire('Usuario', 'Actualizado correctamente', 'success');
+      this.Formulario.reset();
+      this.findBy();
+    })
+  }
 }
