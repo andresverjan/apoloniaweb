@@ -13,25 +13,38 @@ export class SaidLearningComponent implements OnInit {
   buttonFlag = false;
   flag  = false;
   flag2 = false;
-  public IsWait: Boolean = false;
+  adicionarFlag=false;
   mascota: any = [];
   public title = "Mascotas";
+  public filter = {
+    nombreAnimal: ""
+  };
+  filtrar = undefined
 
   constructor(private saidLearning: saidLearningService) {}
 
   public mascotaForm = new FormGroup({
-    id: new FormControl("", Validators.required),
+    id: new FormControl(undefined),
     nombreAnimal: new FormControl("", Validators.required),
     nombreDueno: new FormControl("", Validators.required),
     Raza: new FormControl("", Validators.required),
     NumIdentificacion: new FormControl("", Validators.required),
     email: new FormControl("", Validators.required),
-    sectorVivienda: new FormControl("", Validators.required),
-    fechaNacimiento: new FormControl("", Validators.required),
+    sectorVivienda: new FormControl(undefined, Validators.required),
+    fechaNacimiento: new FormControl(Date, Validators.required),
+    activo: new FormControl(undefined, Validators.required),
+    eliminado: new FormControl(undefined, Validators.required),
   });
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  findBy(){
+    if(this.filter.nombreAnimal.length > 0){
+      this.filtrar = this.filter;
+    }
+    this.getData(this.filtrar);
   }
 
   getData(obj?) {
@@ -45,6 +58,7 @@ export class SaidLearningComponent implements OnInit {
   }
 
   verDetalle(dataInput: any) {
+    this.adicionarFlag = false;
     this.showCard = false;
     this.buttonFlag = true;
     this.flag = true;
@@ -53,6 +67,7 @@ export class SaidLearningComponent implements OnInit {
   }
 
   adicionar() {
+    this.adicionarFlag=true
     this.showCard = false;
     this.buttonFlag=true;
     this.flag=false;
@@ -66,9 +81,10 @@ export class SaidLearningComponent implements OnInit {
       .subscribe((reponse) => {
         this.buttonFlag = false;
         Swal.fire("Mascota", "Agregada correctamente.", "success");
-        // this.findBy();
+        this.getData();
         this.mascotaForm.reset();
       });
+      this.showCard=true;
   }
 
   actualizar() {
@@ -77,8 +93,10 @@ export class SaidLearningComponent implements OnInit {
       this.buttonFlag = false;
       Swal.fire("Mascota", "Actualizada correctamente.", "success");
       this.mascotaForm.reset();
-      // this.findBy();
+      this.getData();
+      console.log("Actualizar"+this.mascotaForm.controls.nombreAnimal.value)
     });
+    this.showCard=true
   }
 
   eliminar() {
@@ -87,7 +105,7 @@ export class SaidLearningComponent implements OnInit {
     this.saidLearning.deleteMascota(item.id).subscribe((reponse) => {
       this.buttonFlag = false;
       Swal.fire("Mascota", "Eliminada correctamente.", "success");
-      this.getData();
+      this.findBy()
       this.mascotaForm.reset();
     });
   }

@@ -20,7 +20,7 @@
                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                     <mat-icon matPrefix>search</mat-icon>
                     <mat-form-field fxFlex="100">
-                        <input matInput id="filterbyNombre" placeholder="Buscar por nombre" />
+                        <input matInput (keyup)="findBy()" [(ngModel)]="filter.nombreAnimal" placeholder="Buscar por nombre" />
                     </mat-form-field>
                 </div>
             </mat-card-content>
@@ -45,11 +45,7 @@
                                 <label>Datos de efefeafa</label>
                             </mat-card-title>
                             <mat-card-content fxLayout="column" fxLayoutAlign="center">
-                                <div *ngIf="false">
-                                    <mat-form-field>
-                                        <input matInput formControlName="id" id="id" placeholder="_" />
-                                    </mat-form-field>
-                                </div>
+                                
                                 <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                                     <mat-form-field fxFlex>
                                         <mat-icon matPrefix>edit</mat-icon>
@@ -82,9 +78,36 @@
                                         </mat-datepicker>
                                       </mat-form-field>
                                 </div>
+                                <mat-form-field fxFlex="30">
+                                    <mat-icon matPrefix>edit</mat-icon>
+                                    <input matInput formControlName="activo" id="activo"
+                                        placeholder="Activo" />
+                                </mat-form-field>
+                                <mat-form-field fxFlex="30">
+                                    <mat-icon matPrefix>edit</mat-icon>
+                                    <input matInput formControlName="eliminado" id="eliminado"
+                                        placeholder="eliminado" />
+                                </mat-form-field>
+                                <mat-form-field fxFlex="30">
+                                    <mat-icon matPrefix>edit</mat-icon>
+                                    <input type="number" matInput formControlName="sectorVivienda" id="sectorVivienda"
+                                        placeholder="sectorVivienda" />
+                                        
+                                </mat-form-field>
+                                <mat-form-field fxFlex="30">
+                                    <mat-icon matPrefix>edit</mat-icon>
+                                    <input matInput formControlName="email" id="email"
+                                        placeholder="email" />
+                                </mat-form-field>
+                                <mat-form-field fxFlex="30">
+                                    <mat-icon matPrefix>edit</mat-icon>
+                                    <input matInput formControlName="NumIdentificacion" id="NumIdentificacion"
+                                        placeholder="NumIdentificacion" />
+                                </mat-form-field>
+
                             </mat-card-content>
                             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                                <button mat-raised-button (click)="guardar()" color="primary" *ngIf="buttonFlag"
+                                <button mat-raised-button (click)="guardar()" color="primary" *ngIf="adicionarFlag"
                                     [disabled]="!mascotaForm.valid" fxLayout="row" fxLayout.xs="column"
                                     fxLayoutAlign="center" fxFlex="80">
                                     <mat-icon>person_add</mat-icon>
