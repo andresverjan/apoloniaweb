@@ -99,22 +99,19 @@
                                 </div>
                             </mat-radio-group>
                         </section>
-                    </div> 
-
-                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
-                        <mat-form-field fxFlex  class="example-item">
+                        <mat-form-field fxFlex  class="clase1">
                             <mat-label>Fecha finalización</mat-label>
-                            <input matInput [matDatepicker]="picker" formControlName="endsOn" [min]="minDate" [disabled]="!endsOn">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                                <input matInput [matDatepicker]="picker" formControlName="endsOn" [min]="minDate" [disabled]="!endsOn">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-                        
-                        <mat-form-field fxFlex class="example-item2">
+
+                        <mat-form-field fxFlex class="clase2">
                             <mat-icon matPrefix>edit</mat-icon>
                             <input matInput formControlName="endsAfter" id="endsAfter" type="number" [readonly]="!radioButtonFlag" 
                                 placeholder="Numero de ocurrencias"/>
                         </mat-form-field>
-                    </div>
+                    </div> 
                 </mat-card-content>                
                     
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">

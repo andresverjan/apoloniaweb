@@ -30,18 +30,19 @@
   height: 150px;
 }
 
-
-.example-item {
-  position: relative;
-  bottom: 100px; left: 110px;
+.clase1{
+  position: absolute;
+  left: 125px;
+  top: 390px;
   min-width: 50px;
   max-width: 200px;
   width: 70%;
 }
 
-.example-item2 {
-  position: relative;
-  bottom: 50px; right: 1050px;
+.clase2{
+  position: absolute;
+  left: 125px;
+  top: 450px;
   min-width: 50px;
   max-width: 200px;
   width: 70%;
