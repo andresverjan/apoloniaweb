@@ -3,4 +3,70 @@
   color: #fff;
 }
 
+.encabezado{
+  margin-bottom: 10px;
+}
+
+.fecha{
+  margin-top: 10px;
+}
+
+.title-empresa{
+  font-size: 18px;
+}
+
+.tabla-prueba{
+  margin-left: auto;
+  margin-right: auto;
+  width: 976px;
+  border: 1px solid black;
+  list-style: none;
+  display: flex;
+}
+
+.tabla-2{
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 976px;
+  border: 1px solid black;
+  list-style: none;
+  display: flex;
+  border-bottom-width: 0px;
+}
+
+
+
+.colums{
+  margin-bottom: 100px;
+  margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+  }
+
+.cc-nit{
+  justify-self: end;
+}
+
+.firma-sello{
+  grid-column-start: 3;
+}
+  
+.modo-pagar{
+  margin-top: 69px;
+}
+
+.tabla-1{
+  margin-top: 15px;
+  
+}
+
+.formas-pago{
+  margin-top: 13px;
+    float: left;
+}
+
+
+
+
  
