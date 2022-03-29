@@ -101,13 +101,14 @@ export class SaidLearningComponent implements OnInit {
 
   eliminar() {
     this.buttonFlag=true;
-    let item = this.mascotaForm.value;
-    this.saidLearning.deleteMascota(item.id).subscribe((reponse) => {
+    // let item = this.mascotaForm.value;
+    this.saidLearning.deleteMascota(this.mascotaForm.value.id).subscribe((reponse) => { 
       this.buttonFlag = false;
       Swal.fire("Mascota", "Eliminada correctamente.", "success");
       this.findBy()
       this.mascotaForm.reset();
     });
+    this.showCard=true
   }
 
   cancelar() {

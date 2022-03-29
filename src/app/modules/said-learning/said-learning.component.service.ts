@@ -97,7 +97,7 @@ export class saidLearningService {
     let body = {
       query: `
         mutation {
-          deleteSaid (saidLearning: {id: ${mascotaId.id}}){
+          deleteSaid (saidLearning: {id: ${mascotaId}}){
             id
           }
         }
