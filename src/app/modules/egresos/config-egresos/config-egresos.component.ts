@@ -47,6 +47,8 @@ const DATE_FORMATS = {
   ],
 })
 export class ConfigEgresosComponent implements OnInit {
+  public showPdf = false;
+  public showForm = true;
   public EMPRESA = {};
   public usuarioLogd = {};
   public IsWaiting: boolean;
@@ -244,6 +246,7 @@ export class ConfigEgresosComponent implements OnInit {
     this.showBtnActualizar = true;
     this.showBtnAdicionar = false;
     this.showBtnEliminar = true;
+    this.showForm = true;
     this.egresoForm.reset();
     
     const proveedor = this.proveedores.filter(
@@ -302,6 +305,7 @@ export class ConfigEgresosComponent implements OnInit {
   }
 
   cancelar() {
+    this.showPdf = false;
     const proveedor = this.egresoForm.controls["T17Proveedor"].value;
     this.egresoForm.controls["T17Proveedor"].setValue(proveedor?.Nit);
     const formaPago = this.egresoForm.controls["T17FormaPago"].value;
@@ -371,7 +375,9 @@ export class ConfigEgresosComponent implements OnInit {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.IsWaiting = true;
+        // this.IsWaiting = true;
+        this.showPdf = true;
+        this.showForm = false;
         this.egresoForm.controls["T17ICA"].setValue(
           parseFloat(this.egresoForm.controls["T17ICA"].value)
         );
@@ -437,6 +443,7 @@ export class ConfigEgresosComponent implements OnInit {
       });
   }
   onClickAdicionar() {
+    this.showForm = true;
     this.showPanelDatos = true;
     this.showListado = false;
     this.showBtnActualizar = false;

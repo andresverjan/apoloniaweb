@@ -103,7 +103,7 @@
 
               <h5 class="cssRow">
               </h5>
-              <div class="cssRow" style="margin-top: 25px;float: right;">
+              <div class="cssRow" style="margin-top: 15px;float: right;">
                 Total:
                 <strong>
                   {{ formatCurrency(egreso.T17Total) }}
@@ -136,7 +136,7 @@
     <mat-card-header>
       <mat-card-title></mat-card-title>
     </mat-card-header>
-    <mat-card class="cardcontent">
+    <mat-card class="cardcontent" *ngIf="showForm">
       <mat-card-content fxLayout="column" fxLayoutAlign="center">
         <div fxLayout="column" fxLayoutAlign="space-between " fxFlex="100">
           <form [formGroup]="egresoForm" autocomplete="off" novalidate>
@@ -292,7 +292,7 @@
   </mat-card-content>
 
   <!-- Desde aquí empieza el recibo -->
-  <div>
+  <div *ngIf="showPdf">
     <mat-card>
       <div id="elementId" style="color: black;">
 
@@ -391,7 +391,6 @@
         <span class="formas-pago">
           FP: {{egresoForm.controls["T17FormaPago"].value}}
         </span>
-        
 
         <div class="modo-pagar">
 
@@ -436,8 +435,14 @@
       </div>
     </mat-card>
 
-    <button mat-raised-button color="success" fxLayout="row" fxLayout.xs="column" (click)="downloadPdf()">
-      <mat-icon>download</mat-icon>
-      descargar
-    </button>
+    <div class="boton-pdf">
+      <button mat-raised-button color="primary" style="margin-right: 5px;" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex (click)="downloadPdf()">
+        <mat-icon>download</mat-icon>
+        Descargar
+      </button>
+      <button mat-raised-button color="warn" style="margin-left: 5px;" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex (click)="cancelar()">
+        <mat-icon>close</mat-icon>
+        Cancelar
+      </button>
+    </div>
   </div>
