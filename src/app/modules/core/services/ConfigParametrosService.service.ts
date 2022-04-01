@@ -31,8 +31,9 @@ export class ConfigParametrosService {
             }
           }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   incrementCountConfigParamOnPayment(param): Observable<any> {
@@ -46,7 +47,8 @@ export class ConfigParametrosService {
               }
             `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 }

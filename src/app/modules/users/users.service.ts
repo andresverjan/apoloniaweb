@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import * as Globals from "../core/globals";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { HttpService } from "../core/services/HttpService";
+
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +12,7 @@ export class UsersService {
   serverUrl: string;
   SERVER_RECURSO_LOGIN_ADMIN = "";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
 
@@ -47,8 +49,9 @@ export class UsersService {
     let body = {
       query: `{users ${filter} {_id,name,lastName,urlPhoto,email,phoneNumber,rol_id}}`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   createUsers(objeTosend): Observable<any> {
@@ -68,8 +71,9 @@ export class UsersService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   updateUsers(objeTosend): Observable<any> {
@@ -90,8 +94,9 @@ export class UsersService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   deleteUsers(id): Observable<any> {
@@ -104,7 +109,8 @@ export class UsersService {
         }
         `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 }

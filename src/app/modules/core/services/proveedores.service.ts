@@ -3,13 +3,18 @@ import * as Globals from "../globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "./tools.service";
+import { HttpService } from "./HttpService";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProveedoresService {
   serverUrl: string;
-  constructor(private http: HttpClient, private toolService: ToolsService) {
+  constructor(
+    private http: HttpClient, 
+    private toolService: ToolsService,
+    private httpService: HttpService
+    ) {
     this.serverUrl = Globals.SERVER;
   }
 
@@ -50,7 +55,8 @@ export class ProveedoresService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 }

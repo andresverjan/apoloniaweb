@@ -117,7 +117,6 @@ export class EgresosService {
         },
         `;
     }else{
-      console.log("los datos de fechas son vacios... ");
       filtro =
         filtro +
         `filter: {

@@ -3,6 +3,7 @@ import * as Globals from "../../modules/core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "../core/services/tools.service";
+import { HttpService }  from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +11,7 @@ import { ToolsService } from "../core/services/tools.service";
 export class OrdersService {
   serverUrl: string;
 
-  constructor(private http: HttpClient, private toolsService: ToolsService) {
+  constructor(private http: HttpClient, private toolsService: ToolsService, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
 
@@ -30,9 +31,9 @@ export class OrdersService {
           }
       }`,
     };
-
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   preparedOrder(objeTosend): Observable<any> {
@@ -52,8 +53,9 @@ export class OrdersService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
   cancelOrder(objeTosend): Observable<any> {
     const _id = objeTosend;
@@ -72,8 +74,9 @@ export class OrdersService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   deliveredOrder(objeTosend): Observable<any> {
@@ -93,8 +96,9 @@ export class OrdersService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   fetchOrders(objeTosend): Observable<any> {
@@ -131,7 +135,8 @@ export class OrdersService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 }

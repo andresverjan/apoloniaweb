@@ -3,6 +3,7 @@ import * as Globals from "../../modules/core/globals";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "../core/services/tools.service";
+import { HttpService }  from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,7 @@ export class ProfileService {
   SERVER_RECURSO_ACTUALIZAR_PROFILE = "WsUsers/actualizar";
   SERVER_RECURSO_ACTUALIZAR_PROFILE_FOTO = "WsUsers/actualizarProfileFoto";
 
-  constructor(private http: HttpClient, private toolService: ToolsService) {
+  constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
   }
@@ -36,8 +37,9 @@ export class ProfileService {
     let body = {
       query: `{ getMyProfile ${params} { ${properties} }}`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   actualizarProfile(objeTosend): Observable<any> {
@@ -63,8 +65,9 @@ export class ProfileService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
   idiom(): Observable<any> {
     let body = {
@@ -76,8 +79,9 @@ export class ProfileService {
   }
 }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 
   updateProfile(objeTosend): Observable<any> {
@@ -100,7 +104,8 @@ export class ProfileService {
             }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 }

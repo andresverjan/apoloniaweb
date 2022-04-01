@@ -10,7 +10,7 @@ import { ToolsService } from "./tools.service";
 })
 export class OdontologosService {
   serverUrl: string;
-  constructor(private http: HttpClient, private toolService: ToolsService) {
+  constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {
     this.serverUrl = Globals.SERVER;
   }
 
@@ -54,7 +54,8 @@ export class OdontologosService {
             }
           }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+    //return this.http.post(this.serverUrl, body, { headers: headers });
   }
 }

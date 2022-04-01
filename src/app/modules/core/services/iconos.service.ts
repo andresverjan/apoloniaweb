@@ -16,7 +16,6 @@ export class IconosService {
 
   getAll(objeTosend?: any): Observable<any> {
     let filter = "";
-    //si trae filtro
     if (objeTosend) {
       filter = `(filter: {
         nombre: "${objeTosend.nombre}",
