@@ -91,8 +91,8 @@
                                 </div>
                                 <br>
                                 <div>
-                                    <mat-radio-button fxFlex="30" color="primary" value="endsOn">El</mat-radio-button>
-                                    <mat-form-field fxFlex="70" style="margin-top:-15px">
+                                    <mat-radio-button fxFlex="15" color="primary" value="endsOn">El</mat-radio-button>
+                                    <mat-form-field fxFlex="85" style="margin-top:-15px">
                                         <mat-label>Fecha finalización</mat-label>
                                             <input matInput [matDatepicker]="picker" formControlName="endsOn" [min]="minDate" [disabled]="!endsOn">
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -101,8 +101,8 @@
                                 </div>
                                 <br>
                                 <div>
-                                    <mat-radio-button fxFlex="30" color="primary" value="endsAfter">Después de </mat-radio-button>
-                                    <mat-form-field fxFlex="70" style="margin-top:-15px">
+                                    <mat-radio-button fxFlex="15" color="primary" value="endsAfter">Después de </mat-radio-button>
+                                    <mat-form-field fxFlex="85" style="margin-top:-15px">
                                         <mat-icon matPrefix>edit</mat-icon>
                                         <input matInput formControlName="endsAfter" id="endsAfter" type="number"
                                             [readonly]="!radioButtonFlag" placeholder="Numero de ocurrencias" />
