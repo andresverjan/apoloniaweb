@@ -9,10 +9,10 @@ import { HttpService }  from "../core/services/HttpService";
   providedIn: "root",
 })
 export class OrdersService {
-  serverUrl: string;
+    
 
   constructor(private http: HttpClient, private toolsService: ToolsService, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   acceptOrder(objeTosend): Observable<any> {

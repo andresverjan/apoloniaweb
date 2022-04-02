@@ -13,7 +13,7 @@ import html2canvas from 'html2canvas';
   providedIn: "root",
 })
 export class ToolsService {
-  serverUrl: string;
+    
   webRoot: string;
 
   public dialogRef: any;
@@ -31,7 +31,7 @@ export class ToolsService {
     private httpClient: HttpClient,
     private router: Router
   ) {
-    this.serverUrl = Globals.SERVER;
+      
     this.webRoot = this.serverUrl + Globals.SERVER_FOLDER_WEBROOT;
   }
 

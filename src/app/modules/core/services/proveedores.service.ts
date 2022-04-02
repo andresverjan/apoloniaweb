@@ -9,13 +9,13 @@ import { HttpService } from "./HttpService";
   providedIn: "root",
 })
 export class ProveedoresService {
-  serverUrl: string;
+    
   constructor(
     private http: HttpClient, 
     private toolService: ToolsService,
     private httpService: HttpService
     ) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   getAll(objeTosend?: any): Observable<any> {

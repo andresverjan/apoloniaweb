@@ -9,10 +9,10 @@ import { HttpService }  from "../../../core/services/HttpService";
   providedIn: "root",
 })
 export class EsterilizacionEvolucionesService {
-  serverUrl: string;
+    
 
   constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   getAll(objeTosend?: any): Observable<any> {

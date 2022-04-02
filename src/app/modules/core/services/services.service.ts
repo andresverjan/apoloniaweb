@@ -9,9 +9,9 @@ import * as Globals from '../globals';
 })
 export class ServicesService {
 
-  serverUrl: string;
+    
   constructor(private http:HttpClient) { 
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   cargarEtiquetas(id:string):Observable<any>{

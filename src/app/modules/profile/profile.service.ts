@@ -9,7 +9,7 @@ import { HttpService }  from "../core/services/HttpService";
   providedIn: "root",
 })
 export class ProfileService {
-  serverUrl: string;
+    
   public USUARIO;
   userKey: string = "USUARIO";
   SERVER_RECURSO_GET_PROFILE = "WsUsers/getMyProfile";
@@ -17,7 +17,7 @@ export class ProfileService {
   SERVER_RECURSO_ACTUALIZAR_PROFILE_FOTO = "WsUsers/actualizarProfileFoto";
 
   constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+      
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
   }
 

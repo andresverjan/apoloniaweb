@@ -10,10 +10,10 @@ import * as moment from "moment";
   providedIn: "root",
 })
 export class EgresosService {
-  serverUrl: string;
+    
 
   constructor(private httpService: HttpService, private toolService: ToolsService) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   getAll(egreso?: any): Observable<any> {

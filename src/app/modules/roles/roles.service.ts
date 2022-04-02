@@ -10,10 +10,10 @@ import { HttpService } from "../core/services/HttpService";
   providedIn: 'root'
 })
 export class RolService {
-  serverUrl: string;
+    
 
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   getAll(objeTosend: any): Observable<any> {

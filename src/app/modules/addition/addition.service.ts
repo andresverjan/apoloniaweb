@@ -7,10 +7,10 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class AdditionsService {
-  serverUrl: string;
+    
 
   constructor(private http: HttpClient) {
-    this.serverUrl = Globals.SERVER;
+      
   }
   
   ListAddition(objeTosend?): Observable<any> {

@@ -8,11 +8,11 @@ import { HttpService } from "../core/services/HttpService";
   providedIn: "root",
 })
 export class LoginService {
-  serverUrl: string;
+    
   SERVER_RECURSO_LOGIN_ADMIN = "";
 
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   loginWeb(objeTosend): Observable<any> {

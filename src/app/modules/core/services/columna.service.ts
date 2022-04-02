@@ -8,10 +8,8 @@ import { HttpService } from "./HttpService";
   providedIn: "root",
 })
 export class ColumnaService {
-  serverUrl: string;
 
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
   }
 
   /* ES Obligatorio Enviar objeTosend FILTER; REQUIERE EL NOMBRE DE LA TABLA*/

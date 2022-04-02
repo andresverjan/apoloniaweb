@@ -8,9 +8,9 @@ import { HttpService } from "./HttpService";
   providedIn: "root",
 })
 export class ConfigParametrosService {
-  serverUrl: string;
+    
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+  
   }
 
   configByParamGroup(grupoParametro: any): Observable<any> {
