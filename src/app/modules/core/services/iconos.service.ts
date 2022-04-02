@@ -8,10 +8,8 @@ import { HttpService } from "./HttpService";
   providedIn: "root",
 })
 export class IconosService {
-  serverUrl: string;
 
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
   }
 
   getAll(objeTosend?: any): Observable<any> {

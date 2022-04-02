@@ -32,8 +32,8 @@ export class OrdersService {
       }`,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   preparedOrder(objeTosend): Observable<any> {
@@ -54,8 +54,8 @@ export class OrdersService {
     };
 
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
   cancelOrder(objeTosend): Observable<any> {
     const _id = objeTosend;
@@ -75,8 +75,8 @@ export class OrdersService {
     };
 
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   deliveredOrder(objeTosend): Observable<any> {
@@ -97,8 +97,8 @@ export class OrdersService {
     };
 
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   fetchOrders(objeTosend): Observable<any> {
@@ -136,7 +136,7 @@ export class OrdersService {
     };
 
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 }

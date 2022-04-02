@@ -52,8 +52,8 @@ export class LaboratoriosService {
       `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
   
 }

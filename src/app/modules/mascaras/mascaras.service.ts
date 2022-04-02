@@ -9,10 +9,8 @@ import { HttpService } from "../core/services/HttpService";
   providedIn: "root",
 })
 export class MascarasService {
-  serverUrl: string;
 
   constructor(private http: HttpClient, private toolService: ToolsService , private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
   }
 
   getMascaras():  Observable<any> {
@@ -30,11 +28,6 @@ export class MascarasService {
     };
     return this.httpService.callApi(body);
   }
-
-
-
-
-
 
   getAll(objeTosend?: any): Observable<any> {
     let filtro = "";
@@ -71,7 +64,7 @@ export class MascarasService {
       `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 }

@@ -9,9 +9,9 @@ import { HttpService } from "./HttpService";
   providedIn: "root",
 })
 export class FormasPagosService {
-  serverUrl: string;
   constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+
+
   }
 
   getAll(objeTosend?: any): Observable<any> {
@@ -49,7 +49,7 @@ export class FormasPagosService {
       `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 }

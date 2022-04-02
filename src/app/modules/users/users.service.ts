@@ -50,8 +50,8 @@ export class UsersService {
       query: `{users ${filter} {_id,name,lastName,urlPhoto,email,phoneNumber,rol_id}}`,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   createUsers(objeTosend): Observable<any> {
@@ -72,8 +72,8 @@ export class UsersService {
       `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   updateUsers(objeTosend): Observable<any> {
@@ -95,8 +95,8 @@ export class UsersService {
       `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   deleteUsers(id): Observable<any> {
@@ -110,7 +110,7 @@ export class UsersService {
         `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 }

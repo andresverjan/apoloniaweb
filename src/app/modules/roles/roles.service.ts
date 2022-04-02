@@ -31,8 +31,8 @@ export class RolService {
         id nombre } }`
     }
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   permisosByRolId(rolName: number): Observable<any> {
@@ -41,8 +41,8 @@ export class RolService {
                 id nombre } }`
     }
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   permisosByRolName(rolName: any): Observable<any> {
@@ -54,8 +54,8 @@ export class RolService {
             nombre } } }`
     }
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   getPermisos(objeTosend: any): Observable<any> {
@@ -65,8 +65,8 @@ export class RolService {
     }
 
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   update(obj: any): Observable<any> {
@@ -90,7 +90,7 @@ export class RolService {
       }`,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 }

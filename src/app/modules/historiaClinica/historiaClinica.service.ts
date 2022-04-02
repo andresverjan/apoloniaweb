@@ -47,7 +47,7 @@ export class HistoriaClinicaService {
       `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+     
     //return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 }

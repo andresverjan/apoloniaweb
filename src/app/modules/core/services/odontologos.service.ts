@@ -9,9 +9,7 @@ import { ToolsService } from "./tools.service";
   providedIn: "root",
 })
 export class OdontologosService {
-  serverUrl: string;
   constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
   }
 
   getAll(objectToSend): Observable<any> {
@@ -55,7 +53,7 @@ export class OdontologosService {
           }`,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 }

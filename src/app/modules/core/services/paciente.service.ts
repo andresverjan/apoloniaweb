@@ -10,14 +10,11 @@ import { ToolsService } from "./tools.service";
   providedIn: "root",
 })
 export class PacienteService {
-  serverUrl: string;
   constructor(
     private http: HttpClient,
     private httpService: HttpService,
     private toolService: ToolsService
-  ) {
-    this.serverUrl = Globals.SERVER;
-  }
+  ) { }
 
   getAll(objeTosend: any): Observable<any> {
     let filtro = "";

@@ -38,8 +38,8 @@ export class ProfileService {
       query: `{ getMyProfile ${params} { ${properties} }}`,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   actualizarProfile(objeTosend): Observable<any> {
@@ -66,8 +66,8 @@ export class ProfileService {
       `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
   idiom(): Observable<any> {
     let body = {
@@ -80,8 +80,8 @@ export class ProfileService {
 }`,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 
   updateProfile(objeTosend): Observable<any> {
@@ -105,7 +105,7 @@ export class ProfileService {
       `,
     };
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
+     
+     
   }
 }

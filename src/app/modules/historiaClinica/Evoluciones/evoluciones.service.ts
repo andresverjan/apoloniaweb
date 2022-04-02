@@ -41,8 +41,7 @@ export class EvolucionesService {
       `,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(environment.apiUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   save(objeTosend): Observable<any> {
@@ -54,8 +53,6 @@ export class EvolucionesService {
     let eventosAdversos = objeTosend.EventosAdversos;
     let remision = objeTosend.remision;
     
-    console.log(paramTest);
-    console.log(paramTest.toString());
     let body = {
       query: `
           mutation {

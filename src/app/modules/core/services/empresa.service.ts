@@ -10,12 +10,10 @@ import { ToolsService } from "./tools.service";
   providedIn: "root",
 })
 export class EmpresaService {
-  serverUrl: string;
   constructor(
     private http: HttpClient,
     private httpService: HttpService
   ) {
-    this.serverUrl = Globals.SERVER;
   }
 
   getEmpresaById(objeTosend: any): Observable<any> {
