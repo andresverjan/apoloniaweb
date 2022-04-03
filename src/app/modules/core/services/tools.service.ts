@@ -31,8 +31,7 @@ export class ToolsService {
     private httpClient: HttpClient,
     private router: Router
   ) {
-      
-    this.webRoot = this.serverUrl + Globals.SERVER_FOLDER_WEBROOT;
+          
   }
 
   changeMessage(message: any) {
@@ -131,27 +130,9 @@ export class ToolsService {
           case "MISVIAJES":
             break;
         }
-        //this.llamarServicioEliminar(request);
       } else {
       }
     });
-  }
-
-  uploadData(objeTosend): Observable<any> {
-    let obj = [objeTosend];
-    let json = JSON.stringify(obj);
-
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.httpClient.post(this.serverUrl + "Homes/uploadBase64", json, {
-      headers: headers,
-    });
-  }
-
-  listarPaises(objeTosend?): Observable<any> {
-    const params = new HttpParams({
-      fromObject: objeTosend,
-    });
-    return this.httpClient.get(this.serverUrl + "Paises/listar", { params });
   }
 
   getWebRoot(): String {
@@ -164,15 +145,6 @@ export class ToolsService {
 
   getReloadLogout(): boolean {
     return this.isReloadLogout;
-  }
-
-  convertirseCapitan(objeTosend): Observable<any> {
-    const params = new HttpParams({
-      fromObject: objeTosend,
-    });
-    return this.httpClient.get<any>(this.serverUrl + "WsUsuarios/becaptain", {
-      params,
-    });
   }
 
   /**

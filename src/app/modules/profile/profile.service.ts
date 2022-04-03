@@ -8,16 +8,11 @@ import { HttpService }  from "../core/services/HttpService";
 @Injectable({
   providedIn: "root",
 })
-export class ProfileService {
-    
+export class ProfileService {    
   public USUARIO;
   userKey: string = "USUARIO";
-  SERVER_RECURSO_GET_PROFILE = "WsUsers/getMyProfile";
-  SERVER_RECURSO_ACTUALIZAR_PROFILE = "WsUsers/actualizar";
-  SERVER_RECURSO_ACTUALIZAR_PROFILE_FOTO = "WsUsers/actualizarProfileFoto";
 
   constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {
-      
     this.USUARIO = JSON.parse(localStorage.getItem(this.userKey));
   }
 
@@ -38,19 +33,7 @@ export class ProfileService {
       query: `{ getMyProfile ${params} { ${properties} }}`,
     };
     return this.httpService.callApi(body);
-     
-     
-  }
-
-  actualizarProfile(objeTosend): Observable<any> {
-    const params = new HttpParams({
-      fromObject: objeTosend,
-    });
-    return this.http.get(
-      this.serverUrl + this.SERVER_RECURSO_ACTUALIZAR_PROFILE,
-      { params }
-    );
-  }
+  }  
 
   updatePassword(objeTosend): Observable<any> {
     let body = {
@@ -66,22 +49,19 @@ export class ProfileService {
       `,
     };
     return this.httpService.callApi(body);
-     
-     
   }
+
   idiom(): Observable<any> {
     let body = {
       query: `
       {
-  idiomas{
-    id
-    NOMBRE_IDIOMA
-  }
-}`,
+        idiomas{
+          id
+          NOMBRE_IDIOMA
+        }
+      }`,
     };
     return this.httpService.callApi(body);
-     
-     
   }
 
   updateProfile(objeTosend): Observable<any> {
@@ -105,7 +85,5 @@ export class ProfileService {
       `,
     };
     return this.httpService.callApi(body);
-     
-     
   }
 }
