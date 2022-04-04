@@ -40,9 +40,9 @@ export class VentasService {
         filter += `filter: { estado: "${objeTosend.filter.estado}"}`;
       }
     }
-    console.log("FILTER-->>:", filter)
+
     params = this.toolService.getParams(filter, ordenamiento);
-    console.log("params:", params)
+
     let body = {
       query: `{
         ventas ${params}{
@@ -53,7 +53,6 @@ export class VentasService {
                  usuario_id
                  punto_id
                  ciudad_id
-                 iva
                  valor_total_venta
                  estado
           }
@@ -69,7 +68,6 @@ export class VentasService {
 
   saveVentas(obj: any): Observable<any> {
     const { sale, products } = obj;
-    console.log(obj);
 
     let body = {
       query: `mutation{
@@ -78,9 +76,11 @@ export class VentasService {
             sale : {
               fecha_venta: "${sale.fecha_venta}",
               forma_pago: ${sale.forma_pago.replace(/'/g, '')},
-              punto_id: ${sale.punto_id.replace(/'/g, '')},
-              ciudad_id: ${sale.ciudad_id.replace(/'/g, '')},
-              iva: "${sale.iva.replace(/'/g, '')}",
+              punto_id: ${sale.punto_id},
+              ciudad_id: ${sale.ciudad_id},
+              usuarioId: ${sale.usuarioId},
+              estado: "0",
+              empresa_id: ${sale.empresa_id},
               valor_total_venta: ${sale.valor_total_venta}
             }
             products : [
@@ -88,6 +88,7 @@ export class VentasService {
                 return `{
                   id: ${item.id}
                   cantidad: ${item.cantidad}
+                  sub_total: ${item.sub_total}
                 }`;
               })}
             ]
@@ -95,12 +96,10 @@ export class VentasService {
         ){
             id
           }
-        }`,
+        }`
     };
 
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 
   updateVenta(obj: any): Observable<any> {
@@ -110,20 +109,22 @@ export class VentasService {
         updateVenta(
           venta: {
             sale: {
-              id:       ${sale.id},
+              id:          ${sale.id},
               fecha_venta: "${sale.fecha_venta}",
               forma_pago: ${sale.forma_pago.replace(/'/g, '')},
-              punto_id: ${sale.punto_id.replace(/'/g, '')},
-              ciudad_id: ${sale.ciudad_id.replace(/'/g, '')},
-              iva: "${sale.iva.replace(/'/g, '')}",
+              punto_id: ${sale.punto_id},
+              ciudad_id: ${sale.ciudad_id},
+              usuarioId: ${sale.usuarioId},
+              estado: "0",
+              empresa_id: ${sale.empresa_id},
               valor_total_venta: ${sale.valor_total_venta}
             }
             products: [
               ${products.map((item: any) => {
-                console.log(item);
                 return `{
-                    id: ${Number.parseInt(item.id)}
+                    id: ${item.id}
                     cantidad: ${item.cantidad}
+                    sub_total: ${item.sub_total}
                 }`;
               })}
             ]
@@ -137,17 +138,4 @@ export class VentasService {
     return this.httpService.callApi(body);
   }
 
-  getProductsDisp(objeTosend: any): Observable<any> {
-    let body = {
-      query: `{ productos(ventaId: ${objeTosend}) { id codigo nombre } }`
-    };
-    return this.httpService.callApi(body);
-  }
-
-  getAssignedProducts(objeTosend: any): Observable<any> {
-    let body = {
-      query: `{ productosByVentaId(id: ${objeTosend}) { id nombre valor cantidad } }`
-    };
-    return this.httpService.callApi(body);
-  }
 }

@@ -1,1 +1,228 @@
-<p>ventas works!</p>
+<div class="container" style="overflow: hidden">
+  <mat-card-content class="window-dashboard-card-content contentprincipal">
+    <mat-card class="cardcontent">
+      <mat-card-title fxLayoutAlign="center">
+        <label>Registro {{ etiquetaNombreModulo }}</label>
+      </mat-card-title>
+      <mat-card [formGroup]="ventaForm" fxFill>
+        <mat-card-content fxLayout="column" fxLayoutAlign="center">
+          <mat-grid-list cols="1" rowHeight="70px" gutterSize="15px" style="margin-left: 15px; margin-right: 15px">
+            <mat-grid-tile fxFlex="100">
+              <app-buscadormodal [filters]="['codigo', 'nombre']"
+                [idsExcluir]="prodExcl"
+                (selected)="onProductSelected($event)"
+                [columnas]="{ codigo: 'Código', nombre: 'Nombre'}"
+                [resultInputText]="['Codigo', 'Nombre']" [service]="productService"
+                tituloBusqueda="Productos" [defaultObjValue]="product">
+              </app-buscadormodal>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+
+        <mat-card-content fxLayout="column" fxLayoutAlign="center" *ngIf="showForm">
+          <mat-grid-list cols="2" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
+            <mat-grid-tile fxFlex>
+              <div fxLayout="row" fxFlex>
+                <mat-form-field fxFlex="60">
+                  <mat-icon matPrefix>note</mat-icon>
+                  <input matInput formControlName="nombre" id="nombre" placeholder="Nombre Producto" matTooltipPosition="right"/>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+            <input #dpInput matInput formControlName="id" type="hidden" id="id"  readonly="true"/>
+            <input #dpInput matInput formControlName="codigo" type="hidden" id="codigo"  readonly="true"/>
+          </mat-grid-list>
+
+          <mat-grid-list cols="2" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
+            <mat-grid-tile fxFlex style="overflow-x: hidden">
+              <mat-form-field fxFlex>
+                <mat-icon matPrefix>attach_money</mat-icon>
+                <input #dpInput matInput formControlName="valor" type="number" matTooltip="Presione enter para guardar el valor"
+                  matTooltipPosition="right" id="valor" placeholder="Valor" readonly="true"/>
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile fxFlex style="overflow-x: hidden">
+              <div fxFlex="100">
+                <mat-label>Cantidad</mat-label>
+                <input #dpInput matInput type="number" formControlName="cantidad" min="0" id="cantidad" placeholder="Cantidad"
+                  [ngModelOptions]="{ standalone: true }" [(ngModel)]="product.cantidad"
+                  (input)="getSubTotalByUnits($event.target.value)" required />
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+
+          <mat-grid-list cols="2" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
+            <!--mat-grid-tile-- fxFlex style="overflow-x: hidden">
+              <mat-form-field fxFlex>
+                <mat-icon matPrefix>attach_money</mat-icon>
+                <input matInput formControlName="iva" matTooltip="Presione enter para guardar el valor"
+                  matTooltipPosition="right" id="iva" placeholder="Iva" readonly="true"/>
+              </mat-form-field>
+            </mat-grid-tile-->
+            <mat-grid-tile fxFlex style="overflow-x: hidden">
+              <mat-form-field fxFlex>
+                <mat-icon matPrefix>attach_money</mat-icon>
+                <input #dpInput matInput formControlName="subTotPdt" type="number" matTooltip="Presione enter para guardar el valor"
+                  matTooltipPosition="right" id="subTotPdt" placeholder="Subtotal Producto" readonly="true"/>
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile fxFlex style="overflow-x: hidden">
+              <button mat-raised-button color="primary" (click)="calculateTotal()"
+                fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="30">
+                <mat-icon>add_task</mat-icon>
+              </button>
+            </mat-grid-tile>
+          </mat-grid-list>
+
+          <mat-grid-list cols="2" rowHeight="70px" gutterSize="10px" style="margin-left: 15px; margin-right: 15px">
+            <mat-grid-tile fxFlex style="overflow-x: hidden">
+              <app-select label="Forma de Pago" [data]=formasPagos icono="local_police"
+                (valSelected)="selectField($event, 'forma_pago')" default="{{ventaForm.controls['forma_pago'].value}}"
+                fxFlex="50">
+              </app-select>
+            </mat-grid-tile>
+
+            <mat-grid-tile fxFlex style="overflow-x: hidden">
+              <mat-form-field fxFlex>
+                <mat-icon matPrefix>attach_money</mat-icon>
+                <input #dpInput matInput formControlName="total" type="number" matTooltip="Presione enter para guardar el valor"
+                  matTooltipPosition="right" id="total" placeholder="Total Venta" readonly="true"/>
+              </mat-form-field>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+
+
+
+          <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
+            <mat-grid-list *ngFor="let dev of productsAdd" cols="5" rowHeight="90px">
+              <mat-grid-tile fxFlex style="overflow-x: hidden">
+                <div fxFlex="100" style="margin-left: 15px;">
+                  <div>{{ dev.nombre }}</div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex style="overflow-x: hidden">
+                <div fxFlex="100" style="margin-left: 15px;">
+                  <div>{{ dev.cantidad }}</div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex style="overflow-x: hidden">
+                <div fxFlex="100" style="margin-left: 15px;">
+                  <div>{{ dev.valor }}</div>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile fxFlex style="overflow-x: hidden">
+                <div fxFlex="100" style="margin-left: 15px;">
+                  <div>{{ dev.valor * dev.cantidad }}</div>
+                </div>
+              </mat-grid-tile>
+
+              <mat-grid-tile fxFlex style="overflow-x: hidden">
+                <button mat-raised-button color="warn" (click)="removeProduct(dev)" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="30">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </mat-card-content>
+        </mat-card-content>
+      </mat-card>
+    </mat-card>
+
+    <mat-card class="cardcontent">
+      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <button mat-raised-button (click)="guardar()" color="primary" fxLayout="row"
+          fxLayout.xs="column"  fxLayoutAlign="center" fxFlex="80"
+          [disabled]="(productsAdd.length==0)">
+          <mat-icon>person_add</mat-icon>
+          Guardar
+        </button>
+        <!--button-- mat-raised-button (click)="actionActualizar()" color="primary" fxLayout="row" fxLayout.xs="column"
+          *ngIf="showBtnActualizar" fxLayoutAlign="center" fxFlex="80" [disabled]="!ventaForm.valid">
+          <mat-icon>person_add</mat-icon>
+          Actualizar
+        </!--button-->
+        <button mat-raised-button color="warn" (click)="cancelar()" fxLayout="row" fxLayout.xs="column"
+          fxLayoutAlign="center" fxFlex="80">
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-card-content>
+</div>
+
+<div class="container" style="overflow: hidden">
+  <ng-template #myDialog style="overflow: hidden">
+    <mat-dialog-content style="margin-left: -63px; margin-right: -63px; margin-top: -24px;
+        margin-bottom: -38px; width: 650px; overflow: hidden;">
+      <div class="container" style="overflow: hidden">
+        <mat-card-content class="window-dashboard-card-content contentprincipal" style="margin-bottom: 0px">
+          <mat-toolbar color="primary">
+            <mat-icon matPrefix>account_balance</mat-icon>
+            <label>Adicionar Productos</label>
+            <span class="example-spacer"></span>
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+              (click)="closeDialog()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-toolbar>
+          <mat-card class="cardcontent">
+            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+
+            </mat-card-content>
+
+            <mat-card-content class="window-dashboard-card-content" style="overflow-block: hidden">
+              <mat-grid-list *ngFor="let dev of productsAdd" cols="5" rowHeight="90px">
+                <mat-grid-tile fxFlex style="overflow-x: hidden">
+                  <div fxFlex="100" style="margin-left: 15px;">
+                    <mat-icon>web</mat-icon>
+                    <div>{{ dev.codigo }}</div>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile fxFlex style="overflow-x: hidden">
+                  <div>
+                    <mat-icon>web</mat-icon>
+                    <div>{{ dev.nombre }}</div>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile fxFlex style="overflow-x: hidden">
+                  <div>
+                    <mat-icon>web</mat-icon>
+                    <mat-label>Valor</mat-label>
+                    <div>{{ dev.valor }}</div>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile fxFlex style="overflow-x: hidden">
+                  <div fxFlex="100">
+                    <mat-label>Cantidad</mat-label>
+                    <input #dpInput matInput type="number" min="0" id="cant" placeholder="Cantidad"
+                      [ngModelOptions]="{ standalone: true }" [(ngModel)]="dev.cantidad" required />
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile fxFlex style="overflow-x: hidden">
+                  <button mat-raised-button color="warn" (click)="removeDevice(dev)" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="30">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </mat-card-content>
+
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+              <button mat-raised-button (click)="addDev()" color="primary" fxLayout="row" fxLayout.xs="column"
+                fxLayoutAlign="center" fxFlex>
+                <mat-icon>add_task</mat-icon>
+                Crear
+              </button>
+              <button mat-raised-button color="warn" (click)="closeDialog()" fxLayout="row" fxLayout.xs="column"
+                fxLayoutAlign="center" fxFlex>
+                <mat-icon>cancel</mat-icon>
+                Cancelar
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-card-content>
+      </div>
+    </mat-dialog-content>
+  </ng-template>
+</div>

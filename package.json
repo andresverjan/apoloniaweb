@@ -7,10 +7,10 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve -c=dev",
-    "start": "ng serve -c=production -o",
+    "start": "ng serve --host 0.0.0.0 -c=production -o",
     "dev": "ng serve -c=dev -o",
     "start_dev": "ng serve -c=dev -o",
-    "build": "ng build -c=production",
+    "build": "ng build --prod -c=production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

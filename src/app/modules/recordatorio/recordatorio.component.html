@@ -55,78 +55,78 @@
                         <mat-form-field fxFlex>
                             <mat-icon matPrefix>edit</mat-icon>
                             <input matInput formControlName="observaciones" id="observaciones"
-                                placeholder="Observaciones"/>
+                                placeholder="Observaciones" />
                         </mat-form-field>
                         <mat-form-field fxFlex="30">
-                            <mat-slide-toggle  color="primary" formControlName="repetir">
+                            <mat-slide-toggle color="primary" formControlName="repetir">
                                 Repetir
                             </mat-slide-toggle>
                             <textarea matInput hidden formControlName="repetir"></textarea>
                         </mat-form-field>
                     </div>
-                    
                     <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
-                            <app-datetime fxFlex label="Fecha Recordatorio:" requerido=true (valor)="OnDate($event)" 
+                        <app-datetime fxFlex label="Fecha Recordatorio:" requerido=true (valor)="OnDate($event)"
                             [dateControl]="lForm.controls['fechaRecordatorio']"> </app-datetime>
-                            <textarea matInput hidden formControlName="fechaRecordatorio"></textarea>
                     </div>
-                
-                    <div  fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
-                            <mat-label>Repetir cada: </mat-label>
-                            <app-select [data]="repCada" icono="edit"
-                                (valSelected)="onDisponibleSelected2($event)" fxFlex default="{{lForm.controls['repetirCada'].value}}"> 
-                            </app-select>
-                        
-                            <app-select [data]="repCadaTime" icono="edit"
-                                (valSelected)="onDisponibleSelected($event)" fxFlex default="{{lForm.controls['repetirCadaTimes'].value}}"> 
-                            </app-select> 
+
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center"
+                        *ngIf="lForm.controls['repetir'].value">
+                        <mat-label>Repetir cada: </mat-label>
+                        <app-select [data]="repCada" icono="edit" (valSelected)="onDisponibleSelected2($event)" fxFlex
+                            default="{{lForm.controls['repetirCada'].value}}">
+                        </app-select>
+
+                        <app-select [data]="repCadaTime" icono="edit" (valSelected)="onDisponibleSelected($event)"
+                            fxFlex default="{{lForm.controls['repetirCadaTimes'].value}}">
+                        </app-select>
                     </div>
-                   
-                    
-                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
+
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center"
+                        *ngIf="lForm.controls['repetir'].value">
                         <section fxFlex>
                             <label>Finaliza:</label>
                             <mat-radio-group formControlName="chooseEnd" (change)="onClickRadioButton($event)">
                                 <div>
-                                    <mat-radio-button  color="primary" value="endsNever" >Nunca</mat-radio-button>
+                                    <mat-radio-button color="primary" value="endsNever">Nunca</mat-radio-button>
                                 </div>
                                 <br>
                                 <div>
-                                    <mat-radio-button  color="primary" value="endsOn">El</mat-radio-button>
+                                    <mat-radio-button color="primary" value="endsOn">El</mat-radio-button>
                                 </div>
                                 <br>
                                 <div>
-                                    <mat-radio-button  color="primary" value="endsAfter">Después de </mat-radio-button>
+                                    <mat-radio-button color="primary" value="endsAfter">Después de </mat-radio-button>
                                 </div>
                             </mat-radio-group>
                         </section>
-                    </div> 
+                    </div>
 
-
-                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" *ngIf="lForm.controls['repetir'].value">
-                        <mat-form-field fxFlex  class="example-item">
+                    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center"
+                        *ngIf="lForm.controls['repetir'].value">
+                        <mat-form-field fxFlex class="example-item">
                             <mat-label>Fecha finalización</mat-label>
-                            <input matInput [matDatepicker]="picker" formControlName="endsOn" [min]="minDate" [disabled]="!endsOn">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                            <input matInput [matDatepicker]="picker" formControlName="endsOn" [min]="minDate"
+                                [disabled]="!endsOn">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-                        
+
                         <mat-form-field fxFlex class="example-item2">
                             <mat-icon matPrefix>edit</mat-icon>
-                            <input matInput formControlName="endsAfter" id="endsAfter" type="number" [readonly]="!radioButtonFlag" 
-                               [disabled]="!endsAfter"
-                                placeholder="Numero de ocurrencias"/>
+                            <input matInput formControlName="endsAfter" id="endsAfter" type="number"
+                                [readonly]="!radioButtonFlag" placeholder="Numero de ocurrencias" />
                         </mat-form-field>
                     </div>
-                </mat-card-content>                
-                    
+                </mat-card-content>
+
                 <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                    <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar" [disabled]="!lForm.valid"
-                        fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
+                    <button mat-raised-button (click)="guardar()" color="primary" *ngIf="lShowBtnAdicionar"
+                        [disabled]="!lForm.valid" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center"
+                        fxFlex="80">
                         <mat-icon>person_add</mat-icon>
                         Adicionar
                     </button>
-                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center" 
+                    <button mat-raised-button fxLayout="row" color="primary" fxLayout.xs="column" fxLayoutAlign="center"
                         fxFlex="80" *ngIf="lShowBtnActualizar" (click)="actualizar()">
                         <mat-icon>mode_edit</mat-icon>
                         Actualizar

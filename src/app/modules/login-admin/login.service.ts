@@ -31,7 +31,7 @@ export class LoginService {
           STATUS_ONLINE
           EMPRESA_ID
           IDIOMA_ID
-          ROL_ID
+          CEDULA
           PERMISOS {
             id
             nombre

@@ -32,6 +32,7 @@ export class BuscadormodalComponent implements OnInit {
   @Input() columnas: any; //Objeto que contiene columnas que quiere mostrar del listado, y el texto para cada columna. Ejemplo: { id: "Identificador" }
   @Input() resultInputText: []; //Array de String, con Indice o columnas que usara para armar el texto del resultado. normalmente es ['id', 'Nombre']  Quedaria : 1 - PRUEBA
   @Input() defaultObjValue: any; //Objeto Inicial, para setear valores iniciales al componente.
+  @Input() idsExcluir:[];
   @Output() selected: EventEmitter<any>; //objeto seleccionado.
 
   public itemBuscar: any;
@@ -63,6 +64,7 @@ export class BuscadormodalComponent implements OnInit {
           service: this.service,
           columnas: this.columnas,
           filters: this.filters,
+          idsExcluir: this.idsExcluir,
           tituloBusqueda: this.tituloBusqueda,
           isGenericService: this.isGenericService,
           objForGenericService: this.objForGenericService,
@@ -99,6 +101,7 @@ export class DialogOverviewExample {
   columnas: any;
   tituloBusqueda: any;
   filters: any;
+  idsExcluir: any;
   properties: any;
   tituloColumnas: any;
   isGenericService: boolean = false;
@@ -112,6 +115,7 @@ export class DialogOverviewExample {
     this.service = data.service;
     this.columnas = data.columnas;
     this.filters = data.filters;
+    this.idsExcluir = data.idsExcluir;
     this.tituloBusqueda = data.tituloBusqueda;
     this.properties = Object.keys(data.columnas);
     this.tituloColumnas = Object.values(data.columnas);
@@ -146,9 +150,9 @@ export class DialogOverviewExample {
   findBy() {
     this.loading = true;
     if(this.isGenericService){
-      if(this.filters){        
+      if(this.filters){
         let listadoTMP = Object.keys(this.filters).map((key)=> {
-          let valor = this.filters[key];          
+          let valor = this.filters[key];
           return {
             id : 0,
             campo : key,
@@ -160,7 +164,7 @@ export class DialogOverviewExample {
             return item;
           }
         });
-        this.objForGenericService.campos= listadoTMP;        
+        this.objForGenericService.campos= listadoTMP;
       }
       this.genericService.getAll(this.objForGenericService).subscribe((res) => {
         let genericList =  res.data.genericList[0];
@@ -175,6 +179,9 @@ export class DialogOverviewExample {
       this.service.getAll(this.filters).subscribe((res) => {
         this.dataSource = res.data[Object.keys(res.data)[0]];
         this.loading = false;
+        if (this.idsExcluir){
+          this.dataSource = this.dataSource.filter(d => !this.idsExcluir.includes(d.id)) as [any];
+        }
       });
     } else {
       this.service.getAll().subscribe((res) => {

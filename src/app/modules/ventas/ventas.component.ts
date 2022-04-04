@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import { GenericService } from '../generic/generic.service';
 import { VentasService } from './ventas.service';
 import { ToolsService } from "../core/services/tools.service";
+import { ProductService } from '../core/services/product.service';
+import { FormasPagosService } from "../core/services/formaspagos.service";
 
 @Component({
   selector: 'app-ventas',
@@ -19,8 +21,11 @@ export class VentasComponent implements OnInit {
 
   public dateValue: string = null;
   public dateValus: string = null;
-  public idSterlz: number;
-  public productsAdd: Array<Multilist> = [];
+  public idProd: number;
+  public codigo: string;
+  public productsAdd: Array<Product> = [];
+  public prodExcl: Array<number> = [];
+  public prodSave: Array<any> = [];
 
   public ventaForm: FormGroup;
   public mascaras = [];
@@ -40,11 +45,14 @@ export class VentasComponent implements OnInit {
   public filter: any = {};
   public sales: any = [];
   public sale: any;
-  public motivosVenta: any = [];
+  public puntosVenta: any = [];
   public tiposVenta: any = [];
-  public sedes: any = [];
-  public dispMedics: any = [];
-  public disp_Avails: Array<Multilist> = [];
+  public tiposPago: any = [];
+  public formasPagos = [];
+  public ciudades: any = [];
+  public product: Product;//any
+//  public dispMedics: any = [];
+//  public prod_avails: Array<Multilist> = [];
   public tipEmpac: any = [];
 
   public totalRegistros = 0;
@@ -54,24 +62,28 @@ export class VentasComponent implements OnInit {
   public queryOptions = {};
   public USUARIO: any = {};
 
-  public disponibleOptions:
+  public statusOptions:
     SelItem[] = [
       { 'value': '1', nombre: "Disponible" },
       { 'value': '0', nombre: "No Disponile" }
     ];
 
-  espora: SelItem[] = [
+  /*espora: SelItem[] = [
     { 'value': '1', 'nombre': 'SI' },
     { 'value': '0', 'nombre': 'NO' }
-  ];
+  ];*/
 
   constructor(public dialog: MatDialog,
     private genericService: GenericService,
     private ventaService: VentasService,
-    public toolsService: ToolsService) { }
+    public productService: ProductService,
+    public toolsService: ToolsService,
+    public formasPagosService: FormasPagosService) {
 
-  onDisponibleSelected(lSelected: any) {
-    this.filter.disponible = lSelected.value;
+    }
+
+  onEstadoSelected(lSelected: any) {
+    this.filter.estado = lSelected.value;
     this.findBy();
   }
 
@@ -90,7 +102,7 @@ export class VentasComponent implements OnInit {
     this.showBtnActualizar = false;
     this.showForm = true;
     this.productsAdd = [];
-    await this.fetchProductsDisp(0);
+//    await this.fetchProductsDisp(0);
   }
 
   cancelar() {
@@ -101,62 +113,51 @@ export class VentasComponent implements OnInit {
   }
 
   guardar() {
-    if (this.ventaForm.valid) {
-      let cantidadValid = false;
-      let tipoEmpaqueValid = false;
-      let r = this.productsAdd.forEach((res) => {
-        res.cantidad = res.cantidad ? res.cantidad : 0;
-        if (res.cantidad) {
-          cantidadValid = true;
+      this.prodSave = [];
+      let typePago = false;
+
+      if (this.ventaForm.controls["forma_pago"].value) {
+        typePago = true;
+      }
+
+      if (!typePago) {
+        Swal.fire("Error", "La forma de pago es requerida.", "error");
+        return;
+      }
+
+      this.productsAdd.forEach((res) => {
+        let prd = {
+          id: res.id,
+          cantidad: res.cantidad,
+          sub_total: res.valor * res.cantidad
         }
-        if(res.tiposEmpaqueVentaId == undefined) {
-          tipoEmpaqueValid = false;
-        }
-        if (res.tiposEmpaqueVentaId) {
-          tipoEmpaqueValid = true;
-        }
+        this.prodSave.push(prd);
       });
 
-      if (!tipoEmpaqueValid) {
-        Swal.fire("Error", "Tipo Empaque es requerido.", "error");
-        return;
-      }
-
-      if (!cantidadValid) {
-        Swal.fire("Error", "Cantidad es requerida.", "error");
-        return;
-      }
-
       const obj = {
-        venta: {
-          T27Fecha: this.ventaForm.controls["T27Fecha"].value,
-          sede: this.ventaForm.controls["sede"].value,
-          motivo: this.ventaForm.controls["motivo"].value,
-          tipo: this.ventaForm.controls["tipo"].value,
-          esporas: this.ventaForm.controls["esporas"].value,
-          timeMin: this.ventaForm.controls["timeMin"].value,
-          temper: this.ventaForm.controls["temper"].value,
-          presion: this.ventaForm.controls["presion"].value,
-          observ: this.ventaForm.controls["observ"].value
+        sale: {
+          fecha_venta: moment(new Date()).format().toString(),
+          forma_pago: this.ventaForm.controls["forma_pago"].value,
+          usuarioId: this.USUARIO.id,
+          punto_id: 1,
+          ciudad_id: 1,
+          empresa_id: 1,
+          valor_total_venta: this.ventaForm.controls["total"].value,
         },
-        products: this.productsAdd
+        products: this.prodSave
       };
+
       this.ventaService.saveVentas(obj).subscribe((res) => res);
       this.showForm = false;
       this.lShowPanelDatos = false;
       this.ventaForm.reset();
+      this.productsAdd = [];
 
       Swal.fire(
         "Operación exitosa",
-        "Aplicación guardada correctamente!.",
+        "Venta registrada correctamente!.",
         "success"
       );
-      this.findBy();
-      this.showListado = true;
-      this.showContent = true;
-    } else {
-      Swal.fire("Error", "Todos los campos deben ser requeridos.", "error");
-    }
   }
 
   async actualizar(venta: any) {
@@ -167,68 +168,40 @@ export class VentasComponent implements OnInit {
     this.showBtnAdicionar = false;
     this.showBtnEliminar = true;
     this.sale = venta;
-    this.ventaForm.controls["T27Fecha"].setValue(venta.T27Fecha);
-    this.ventaForm.controls["sede"].setValue("'" + venta.sede + "'");
-    this.ventaForm.controls["motivo"].setValue("'" + venta.motivo + "'");
-    this.ventaForm.controls["tipo"].setValue("'" + venta.tipo + "'");
-    this.ventaForm.controls["esporas"].setValue(venta.esporas);
-    this.ventaForm.controls["timeMin"].setValue(venta.timeMin);
-    this.ventaForm.controls["temper"].setValue(venta.temper);
-    this.ventaForm.controls["presion"].setValue(venta.presion);
-    this.ventaForm.controls["observ"].setValue(venta.observ);
-
-    await this.fetchProductsDisp(venta.id);
-    await this.fetchMedicalDispByVenta(venta.id);
+    this.ventaForm.controls["forma_pago"].setValue("'" + venta.forma_pago + "'");
+    this.ventaForm.controls["ciudad_id"].setValue("'" + venta.ciudad_id + "'");
+    this.ventaForm.controls["punto_id"].setValue("'" + venta.punto_id + "'");
   }
 
   actionActualizar() {
     let cantidadValid = false;
-    let tipoEmpaqueValid = false;
-    let r = this.productsAdd.forEach((res) => {
+    let total = 0;
+    this.productsAdd.forEach((res) => {
       res.cantidad = res.cantidad ? res.cantidad : 0;
       if (res.cantidad) {
         cantidadValid = true;
       }
-      if(res.tiposEmpaqueVentaId == undefined) {
-        tipoEmpaqueValid = false;
-      }
-      if (res.tiposEmpaqueVentaId) {
-        tipoEmpaqueValid = true;
-      }
+
+      total = res.valor * res.iva;
+
     });
 
-    if (!tipoEmpaqueValid) {
-      Swal.fire("Error", "Tipo Empaque es requerido.", "error");
-      return;
-    }
-
-    if (!cantidadValid) {
-      Swal.fire("Error", "Cantidad es requerida.", "error");
-      return;
-    }
-
-    console.log(cantidadValid);
-
     const obj = {
-      venta: {
+      sale: {
         id: parseInt(this.sale.id),
-        T27Fecha: this.ventaForm.controls["T27Fecha"].value,
-        sede: this.ventaForm.controls["sede"].value,
-        motivo: this.ventaForm.controls["motivo"].value,
-        tipo: this.ventaForm.controls["tipo"].value,
-        esporas: this.ventaForm.controls["esporas"].value,
-        timeMin: this.ventaForm.controls["timeMin"].value,
-        temper: this.ventaForm.controls["temper"].value,
-        presion: this.ventaForm.controls["presion"].value,
-        observ: this.ventaForm.controls["observ"].value,
-        idUsuario: this.USUARIO.USUARIO_LOGIN,
+        forma_pago: this.ventaForm.controls["forma_pago"].value,
+        ciudad_id: this.ventaForm.controls["ciudad_id"].value,
+        punto_id: this.ventaForm.controls["punto_id"].value,
+        usuarioId: this.USUARIO.USUARIO_LOGIN,
+        estado: '0',
+        valor_total_venta: total
       },
-      devices: this.productsAdd
+      products: this.productsAdd
     };
     this.ventaService.updateVenta(obj).subscribe((res) => res);
     this.findBy();
     Swal.fire("Actualización exitosa",
-      "Esterilización agregada correctamente!.",
+      "Venta actualizada correctamente!.",
       "success"
     );
     this.ventaForm.reset();
@@ -240,69 +213,82 @@ export class VentasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.idSterlz = 0;
+    this.product = {
+      id: 0,
+      codigo: "Código",
+      nombre: "Seleccione Producto",
+      cantidad: 0,
+      iva: 0,
+      valor: 0
+    };
+    this.idProd = 0;
     this.USUARIO = this.toolsService.getUserFromLocalStorage();
 
-    this.fechMotivosVenta();
-    this.fechTiposVenta();
-    this.getSedes();
-    this.getDispMedics();
-    this.getEmpacTip();
-
-    this.fetchProductsDisp(this.idSterlz);
-    this.fetchMedicalDispByVenta(this.idSterlz);
+    this.getCiudades();
+    this.fechPuntosVenta();
+    this.fetchFormasPagos();
+//    this.fetchProductsByVenta(this.idProd);
 
     this.ventaForm = new FormGroup({
-      T27Fecha: new FormControl("", [
-        Validators.maxLength(50),
-        Validators.required
+      id: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(10),
       ]),
 
-      sede: new FormControl("", [
+      codigo: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(10),
+      ]),
+
+      ciudad_id: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
 
-      motivo: new FormControl("", [
+      punto_id: new FormControl("", [
         Validators.maxLength(50),
         Validators.required,
       ]),
 
-      tipo: new FormControl("", [
+      forma_pago: new FormControl("", [
         Validators.required,
         Validators.maxLength(50),
       ]),
 
-      esporas: new FormControl("", [
+      nombre: new FormControl("", [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+
+      valor: new FormControl("", [
         Validators.maxLength(50),
         Validators.required,
       ]),
 
-      timeMin: new FormControl("", [
+      iva: new FormControl("", [
         Validators.maxLength(5),
         Validators.required,
       ]),
 
-      temper: new FormControl("", [
+      subTotPdt: new FormControl("", [
         Validators.maxLength(5),
         Validators.required,
       ]),
 
-      presion: new FormControl("", [
+      cantidad: new FormControl("", [
         Validators.maxLength(5),
         Validators.required,
       ]),
 
-      observ: new FormControl("", [
-        Validators.maxLength(255),
+      total: new FormControl("", [
+        Validators.maxLength(5),
         Validators.required,
       ])
     });
-    this.findBy();
   }
 
   findBy() {
-    if (this.filter.disponible || this.filter.fechini || this.filter.fechend) {
+    if (this.filter.estado || this.filter.fechini || this.filter.fechend) {
       this.queryOptions = {
         filter: this.filter,
         pagina: this.pageNumber,
@@ -314,117 +300,21 @@ export class VentasComponent implements OnInit {
         limite: this.pageSize,
       };
     }
-    this.fetchSterilizations(this.queryOptions);
+    this.fetchVentas(this.queryOptions);
     this.IsWaiting = true;
   }
 
-  fetchSterilizations = (obj?: any) => {
+  fetchVentas = (obj?: any) => {
     this.IsWaiting = true;
     this.ventaService.getAll(obj).subscribe((res) => {
-      const { totalRegistros, list } = res.data.ventaes;
+      const { totalRegistros, list } = res.data.ventas;
       this.sales = list;
       this.totalRegistros = totalRegistros;
       this.IsWaiting = false;
     });
   };
 
-  fechMotivosVenta() {
-    let obj = {
-      applicationId: 31,
-      campos: [],
-      limit: {
-        pagina: 1,
-        limite: 1000,
-      },
-    }
-    this.genericService.getAll(obj).subscribe((res) => {
-      let genericList = res.data.genericList[0];
-      let listado = genericList.campos.map((val) => {
-        return JSON.parse(val);
-      });
-      this.motivosVenta = listado.map((val) => {
-        return {
-          value: "'" + val.id + "'",
-          nombre: val.nombre
-        }
-      });
-      this.IsWaiting = false;
-    });
-  }
-
-  fechTiposVenta() {
-    let obj = {
-      applicationId: 35,
-      campos: [],
-      limit: {
-        pagina: 1,
-        limite: 1000,
-      },
-    }
-    this.genericService.getAll(obj).subscribe((res) => {
-      let genericList = res.data.genericList[0];
-      let listado = genericList.campos.map((val) => {
-        return JSON.parse(val);
-      });
-      this.tiposVenta = listado.map((val) => {
-        return {
-          value: "'" + val.id + "'",
-          nombre: val.nombre
-        }
-      });
-      this.IsWaiting = false;
-    });
-  }
-
-  getDispMedics() {
-    let obj = {
-      applicationId: 38,
-      campos: [],
-      limit: {
-        pagina: 1,
-        limite: 1000,
-      },
-    }
-    this.genericService.getAll(obj).subscribe((res) => {
-      let genericList = res.data.genericList[0];
-      let listado = genericList.campos.map((val) => {
-        return JSON.parse(val);
-      });
-      this.dispMedics = listado.map((val) => {
-        return {
-          value: "'" + val.id + "'",
-          nombre: val.nombre
-        }
-      });
-      this.IsWaiting = false;
-    });
-  }
-
-  getEmpacTip() {
-    let obj = {
-      applicationId: 37,
-      campos: [],
-      limit: {
-        pagina: 1,
-        limite: 1000,
-      },
-    }
-    this.genericService.getAll(obj).subscribe((res) => {
-      let genericList = res.data.genericList[0];
-      let listado = genericList.campos.map((val) => {
-        return JSON.parse(val);
-      });
-      this.tipEmpac = listado.map((val) => {
-        return {
-          value: "'" + val.id + "'",
-          nombre: val.nombre
-        }
-      });
-      this.IsWaiting = false;
-    });
-  }
-
-  getSedes() {
+  getCiudades() {
     let obj = {
       applicationId: 30,
       campos: [],
@@ -438,7 +328,7 @@ export class VentasComponent implements OnInit {
       let listado = genericList.campos.map((val) => {
         return JSON.parse(val);
       });
-      this.sedes = listado.map((val) => {
+      this.ciudades = listado.map((val) => {
         return {
           value: "'" + val.id + "'",
           nombre: val.nombre
@@ -448,28 +338,45 @@ export class VentasComponent implements OnInit {
     });
   }
 
+  fechPuntosVenta() {
+    let obj = {
+      applicationId: 31,
+      campos: [],
+      limit: {
+        pagina: 1,
+        limite: 1000,
+      },
+    }
+    this.genericService.getAll(obj).subscribe((res) => {
+      let genericList = res.data.genericList[0];
+      let listado = genericList.campos.map((val) => {
+        return JSON.parse(val);
+      });
+      this.puntosVenta = listado.map((val) => {
+        return {
+          value: "'" + val.id + "'",
+          nombre: val.nombre
+        }
+      });
+      this.IsWaiting = false;
+    });
+  }
+
+  fetchFormasPagos() {
+    this.formasPagosService.getAll().subscribe((res) => {
+      this.formasPagos = res.data.tipospagos.map((tp) => {
+        const obj = { value: "'" + tp.id + "'", nombre: tp.nombre };
+        return obj;
+      });
+    });
+  }
+
   selectField(rolSelected: any, campo: any) {
     this.ventaForm.controls[campo].setValue(rolSelected.value);
   }
 
-  onDateChange(event: any) {
-    console.log(event);
-    this.ventaForm.controls["T27Fecha"].setValue(event);
-  }
-
-  onDateChangeInicial(event: MatDatepickerInputEvent<Date>) {
-    this.dateValue = moment(new Date(event.value)).format().toString();
-    this.findBy();
-  }
-  onDateChangeFinal(event: MatDatepickerInputEvent<Date>) {
-    this.dateValus = moment(new Date(event.value)).format();
-    this.filter.fechend = moment(new Date(event.value).setDate(new Date(event.value).getDate() + 1)).format();
-    this.findBy();
-    this.filter.fechend = this.dateValus;
-  }
-
   setAttribute(selected: any) {
-    this.filter.disponible = selected;
+    this.filter.estado = selected;
   }
 
   async openModal() {
@@ -480,17 +387,7 @@ export class VentasComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  addDev() {
-    this.dialogRef.close();
-  }
-
-  selectTipoEmpaque(selectedTipoEmpaque: any, device: any) {
-    device.tiposEmpaqueVentaId = selectedTipoEmpaque.value;
-  }
-
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
-    console.log(this.ventaForm.valid);
-    console.log(this.ventaForm);
     this.dialogRef = this.dialog.open(templateRef, {
       height: "536px",
       width: "572px",
@@ -499,40 +396,60 @@ export class VentasComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe((a) => { });
   }
 
-  async fetchMedicalDispByVenta(obj: any) {
+  onProductSelected(selected: any) {
+    this.product = selected;
+    this.ventaForm.controls["id"].setValue(selected.id);
+    this.ventaForm.controls["codigo"].setValue(selected.codigo);
+    this.ventaForm.controls["valor"].setValue(selected.valor);
+    this.ventaForm.controls["iva"].setValue(selected.iva);
+    this.ventaForm.controls["nombre"].setValue(selected.nombre);
+    this.idProd = selected.id;
     this.IsWaiting = true;
-    this.ventaService.getAssignedProducts(obj).subscribe((res) => {
-      this.productsAdd = res.data.devicesByEsterilizationId;
-      this.productsAdd = this.productsAdd.map((val) => {
-        val.tiposEmpaqueVentaId = "'" + val.tiposEmpaqueVentaId + "'";
-        return val;
-      });
-      this.IsWaiting = false;
-      this.showBtnActualizar = true;
-    });
+    this.showForm = true;
   }
 
-  fetchProductsDisp = (obj?: any) => {
-    this.IsWaiting = true;
-    this.ventaService.getProductsDisp(obj).subscribe((res) => {
-      this.disp_Avails = res.data.dispositivos;
-      this.IsWaiting = false;
-    });
-  };
-
-  multiListChange(data) {
-    console.log(data);
-    console.log(this.productsAdd);
-    this.productsAdd = data;
-    this.productsAdd = data.map((val) => {
-      val.cantidad = val.cantidad ? val.cantidad : 1;
-      return val;
-    });
-  }
-
-  removeDevice(dev){
+  removeProduct(dev: any){
+    let total = 0;
+    this.prodExcl = [];
     this.productsAdd = this.productsAdd.filter((opt) => dev.id != opt.id);
-    this.disp_Avails.push(dev);
+
+    this.productsAdd.map((val) => {
+      total = total + val.valor * val.cantidad;
+      this.prodExcl.push(val.id);
+    });
+
+    this.ventaForm.controls["total"].setValue(isNaN(total) ? 0 : total);
+  }
+
+  calculateTotal() {
+    let total = 0;
+    this.prodExcl = [];
+    let cant = parseInt(this.ventaForm.controls["cantidad"].value) > 0 ? parseInt(this.ventaForm.controls["cantidad"].value) : 1
+    let obj = {
+      id: this.ventaForm.controls["id"].value,
+      codigo: this.ventaForm.controls["codigo"].value,
+      nombre: this.ventaForm.controls["nombre"].value,
+      cantidad: cant,
+      iva: 0,
+      valor: parseInt(this.ventaForm.controls["valor"].value)
+    }
+    this.productsAdd.push(obj);
+    this.productsAdd.map((val) => {
+      total = total + val.valor * val.cantidad;
+      this.prodExcl.push(val.id);
+    });
+
+    this.ventaForm.controls["total"].setValue(isNaN(total) ? 0 : total);
+    this.ventaForm.controls["valor"].setValue(0);
+    this.ventaForm.controls["cantidad"].setValue(0);
+    this.ventaForm.controls["nombre"].setValue("");
+    this.ventaForm.controls["subTotPdt"].setValue(0);
+  }
+
+  getSubTotalByUnits(selected: any){
+    const iva = parseFloat(this.ventaForm.controls["iva"].value);
+    const subTotal = parseInt(this.ventaForm.controls["valor"].value) * selected;
+    this.ventaForm.controls["subTotPdt"].setValue(isNaN(subTotal) ? 0 : subTotal);
   }
 
 }
@@ -542,9 +459,11 @@ interface SelItem {
   nombre: string;
 }
 
-interface Multilist {
+interface Product {
   id: number;
+  codigo: string;
   nombre: string;
-  tiposEmpaqueVentaId: any;
   cantidad: number;
+  iva: number;
+  valor: number;
 }
