@@ -9,10 +9,10 @@ import { HttpService } from "../core/services/HttpService";
   providedIn: "root",
 })
 export class GenericService {
-  serverUrl: string;
+    
 
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   getAll(obj): Observable<any> {

@@ -8,9 +8,9 @@ import { HttpService } from "./HttpService";
   providedIn: "root",
 })
 export class ConfigParametrosService {
-  serverUrl: string;
+    
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+  
   }
 
   configByParamGroup(grupoParametro: any): Observable<any> {
@@ -31,8 +31,9 @@ export class ConfigParametrosService {
             }
           }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 
   incrementCountConfigParamOnPayment(param): Observable<any> {
@@ -46,7 +47,8 @@ export class ConfigParametrosService {
               }
             `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 }

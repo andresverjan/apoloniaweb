@@ -9,7 +9,6 @@ import { PrincipalComponent } from "../principal/principal.component";
 import { ProfileComponent } from "../profile/profile.component";
 import { HomeComponent } from "../home/home.component";
 import { LoginAdminComponent } from "../login-admin/login-admin.component";
-import { AdditionComponent } from "../addition/addition.component";
 import { OrdersComponent } from "../orders/orders.component";
 import { ApplicationsComponent } from "../applications/applications.component";
 import { MascarasComponent } from "../mascaras/mascaras.component";
@@ -42,12 +41,7 @@ export const routes: Routes = [
         path: "home",
         component: HomeComponent,
         canActivate: [AuthGuardService],
-      },
-      {
-        path: "adiciones",
-        component: AdditionComponent,
-        canActivate: [AuthGuardService],
-      },
+      },      
       {
         path: "users",
         component: UsersComponent,

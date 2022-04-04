@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "../core/services/tools.service";
 import { environment } from "src/environments/environment";
+import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
 })
 export class HistoriaClinicaService {
 
-  constructor(private http: HttpClient, private toolService: ToolsService) {}
+  constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {}
 
   getAll(objeTosend?: any): Observable<any> {
     let filtro = "";
@@ -45,8 +46,8 @@ export class HistoriaClinicaService {
       }
       `,
     };
-
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(environment.apiUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+    //return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 }

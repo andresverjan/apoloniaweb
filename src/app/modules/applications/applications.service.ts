@@ -9,10 +9,8 @@ import { HttpService } from "../core/services/HttpService";
   providedIn: "root",
 })
 export class ApplicationService {
-  serverUrl: string;
 
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
   }
 
   saveApplication(obj: any): Observable<any> {
@@ -114,8 +112,7 @@ export class ApplicationService {
         deleteAppField(applicationId: ${applicationId})
       }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
   }
 
   getAll(objeTosend?: any): Observable<any> {
@@ -144,8 +141,6 @@ export class ApplicationService {
         }
       }`,
     };
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
-    //return this.http.post(this.serverUrl, body, { headers: headers });
     return this.httpService.callApi(body);
   }
 }

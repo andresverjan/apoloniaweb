@@ -3,15 +3,16 @@ import * as Globals from "../../modules/core/globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "../core/services/tools.service";
+import { HttpService }  from "../core/services/HttpService";
 
 @Injectable({
   providedIn: "root",
 })
 export class OrdersService {
-  serverUrl: string;
+    
 
-  constructor(private http: HttpClient, private toolsService: ToolsService) {
-    this.serverUrl = Globals.SERVER;
+  constructor(private http: HttpClient, private toolsService: ToolsService, private httpService: HttpService) {
+      
   }
 
   acceptOrder(objeTosend): Observable<any> {
@@ -30,9 +31,9 @@ export class OrdersService {
           }
       }`,
     };
-
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 
   preparedOrder(objeTosend): Observable<any> {
@@ -52,8 +53,9 @@ export class OrdersService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
   cancelOrder(objeTosend): Observable<any> {
     const _id = objeTosend;
@@ -72,8 +74,9 @@ export class OrdersService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 
   deliveredOrder(objeTosend): Observable<any> {
@@ -93,8 +96,9 @@ export class OrdersService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 
   fetchOrders(objeTosend): Observable<any> {
@@ -131,7 +135,8 @@ export class OrdersService {
       }`,
     };
 
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 }

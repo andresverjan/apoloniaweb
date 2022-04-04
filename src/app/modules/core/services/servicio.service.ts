@@ -8,9 +8,9 @@ import { HttpService } from "./HttpService";
   providedIn: "root",
 })
 export class ServicioService {
-  serverUrl: string;
+    
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   getAll(objeTosend: any): Observable<any> {
@@ -32,8 +32,9 @@ export class ServicioService {
             }
           }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
   getServicioById(objeTosend: any): Observable<any> {
     let filter = "";
@@ -56,7 +57,8 @@ export class ServicioService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 }

@@ -4,15 +4,16 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "../core/services/tools.service";
 import { stringify } from 'querystring';
+import { HttpService } from "../core/services/HttpService";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RolService {
-  serverUrl: string;
+    
 
-  constructor(private http: HttpClient) {
-    this.serverUrl = Globals.SERVER;
+  constructor(private http: HttpClient, private httpService: HttpService) {
+      
   }
 
   getAll(objeTosend: any): Observable<any> {
@@ -29,8 +30,9 @@ export class RolService {
       query: `{ roles ${filter}{
         id nombre } }`
     }
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(this.serverUrl, body, { headers: headers })
+    return this.httpService.callApi(body);
+     
+     
   }
 
   permisosByRolId(rolName: number): Observable<any> {
@@ -38,8 +40,9 @@ export class RolService {
       query: `{rolById(id: ${rolName}){
                 id nombre } }`
     }
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(this.serverUrl, body, { headers: headers })
+    return this.httpService.callApi(body);
+     
+     
   }
 
   permisosByRolName(rolName: any): Observable<any> {
@@ -50,8 +53,9 @@ export class RolService {
             id
             nombre } } }`
     }
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(this.serverUrl, body, { headers: headers })
+    return this.httpService.callApi(body);
+     
+     
   }
 
   getPermisos(objeTosend: any): Observable<any> {
@@ -60,8 +64,9 @@ export class RolService {
       query: `{ permisos(rol_id: ${objeTosend}) { id nombre } }`
     }
 
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(this.serverUrl, body, { headers: headers })
+    return this.httpService.callApi(body);
+     
+     
   }
 
   update(obj: any): Observable<any> {
@@ -84,7 +89,8 @@ export class RolService {
           }
       }`,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 }

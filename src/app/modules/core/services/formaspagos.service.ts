@@ -3,14 +3,15 @@ import * as Globals from "../globals";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ToolsService } from "./tools.service";
+import { HttpService } from "./HttpService";
 
 @Injectable({
   providedIn: "root",
 })
 export class FormasPagosService {
-  serverUrl: string;
-  constructor(private http: HttpClient, private toolService: ToolsService) {
-    this.serverUrl = Globals.SERVER;
+  constructor(private http: HttpClient, private toolService: ToolsService, private httpService: HttpService) {
+
+
   }
 
   getAll(objeTosend?: any): Observable<any> {
@@ -47,7 +48,8 @@ export class FormasPagosService {
       }
       `,
     };
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(this.serverUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+     
   }
 }

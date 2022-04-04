@@ -9,9 +9,9 @@ import { HttpService } from "../core/services/HttpService";
   providedIn: "root",
 })
 export class CitaService {
-  serverUrl: string;
+  
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+    
   }
 
   createCita(objeTosend): Observable<any> {

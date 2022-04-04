@@ -29,7 +29,6 @@ import { SelectComponent } from "./components/select/select.component";
 import { HomeComponent } from "../home/home.component";
 import { FooterTursitaComponent } from "../core/components/footer-tursita/footer-tursita.component";
 import { LoginAdminComponent } from "../login-admin/login-admin.component";
-import { AdditionComponent } from "../addition/addition.component";
 import { OrdersComponent } from "../orders/orders.component";
 import { ApplicationsComponent } from "../applications/applications.component";
 import { RecordatorioComponent } from "../recordatorio/recordatorio.component";
@@ -114,7 +113,6 @@ FullCalendarModule.registerPlugins([
     FooterTursitaComponent,
     LoginAdminComponent,
     UsersComponent,
-    AdditionComponent,
     ApplicationsComponent,
     OrdersComponent,
     MascarasComponent,

@@ -13,7 +13,8 @@ export class EsterilizacionesService {
 
   constructor(private http: HttpClient,
     private toolService: ToolsService,
-    private httpService: HttpService) { }
+    private httpService: HttpService
+    ) { }
 
   getAll(objeTosend?: any): Observable<any> {
     let params = "";
@@ -40,9 +41,7 @@ export class EsterilizacionesService {
         filter += `filter: { disponible: "${objeTosend.filter.disponible}"}`;
       }
     }
-    console.log("FILTER-->>:", filter)
     params = this.toolService.getParams(filter, ordenamiento);
-    console.log("params:", params)
     let body = {
       query: `{
         esterilizaciones ${params}{
@@ -64,14 +63,13 @@ export class EsterilizacionesService {
       }
       `,
     };
-
-    let headers = new HttpHeaders().set("Content-Type", "application/json");
-    return this.http.post(environment.apiUrl, body, { headers: headers });
+    return this.httpService.callApi(body);
+     
+    //return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 
   saveSterilizations(obj: any): Observable<any> {
     const { sterilization, devices } = obj;
-    console.log(obj);
 
     let body = {
       query: `mutation{
@@ -105,7 +103,7 @@ export class EsterilizacionesService {
     };
 
     return this.httpService.callApi(body);
-    //let headers = new HttpHeaders().set("Content-Type", "application/json");
+     
     //return this.http.post(environment.apiUrl, body, { headers: headers });
   }
 
@@ -129,8 +127,6 @@ export class EsterilizacionesService {
             }
             devices: [
               ${devices.map((item: any) => {
-                console.log(item);
-                console.log(item.tiposEmpaqueEsterilizacionId);
                 return `{
                     id: ${Number.parseInt(item.id)}
                     tiposEmpaqueEsterilizacionId: ${item.tiposEmpaqueEsterilizacionId.replace(/'/g, '')}

@@ -8,9 +8,9 @@ import { HttpService } from "./HttpService";
   providedIn: "root",
 })
 export class ConfigDashBoardService {
-  serverUrl: string;
+    
   constructor(private http: HttpClient, private httpService: HttpService) {
-    this.serverUrl = Globals.SERVER;
+      
   }
 
   getDashBoardItemsByTipo(id): Observable<any> {
