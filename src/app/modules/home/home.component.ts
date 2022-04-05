@@ -79,11 +79,11 @@ export class HomeComponent implements OnInit {
       id: Globals.DEFAULT_LANGUAGE,
     };
 
-    this.etiquetasService.loadEtiquetas(objEtiqueta).subscribe((res) => {
+    /*this.etiquetasService.loadEtiquetas(objEtiqueta).subscribe((res) => {
       this.etiquetas = res.data;
       localStorage.removeItem("ETIQUETAS");
       localStorage.setItem("ETIQUETAS", JSON.stringify(this.etiquetas));
-    });
+    });*/
   }
 
   cargarViajes() {
