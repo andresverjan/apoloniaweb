@@ -19,6 +19,7 @@ import { HistoriaClinicaComponent } from "../historiaClinica/historiaClinica.com
 import { EsterilizacionesComponent } from "../esterilizaciones/esterilizaciones.component";
 import { EgresosComponent } from "../egresos/egresos.component";
 import { RecordatorioComponent } from "../recordatorio/recordatorio.component";
+import { VentasComponent } from "../ventas/ventas.component";
 
 export const routes: Routes = [
   {
@@ -105,6 +106,11 @@ export const routes: Routes = [
       {
         path: "recordatorio",
         component: RecordatorioComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: "ventas",
+        component: VentasComponent,
         canActivate: [AuthGuardService],
       },
 
