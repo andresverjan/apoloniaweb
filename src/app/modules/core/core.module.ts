@@ -89,6 +89,7 @@ import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } fro
 import { ColorpickerComponent } from "./components/colorpicker/colorpicker.component";
 import { VentasComponent } from '../ventas/ventas.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from "@angular-material-components/datetime-picker";
+import { DienteComponent } from "../diente/diente.component";
 
 
 FullCalendarModule.registerPlugins([
@@ -157,7 +158,8 @@ FullCalendarModule.registerPlugins([
     ColorpickerComponent,
     GcolorpickerComponent,
     RecordatorioComponent,
-    VentasComponent
+    VentasComponent,
+    DienteComponent
   ],
 
   imports: [
