@@ -7,17 +7,16 @@ import * as Globals from '../globals';
   providedIn: 'root'
 })
 export class EtiquetasService {
-  serverUrl :string;
+  
 
   constructor(private http:HttpClient) { 
-      this.serverUrl= Globals.SERVER;
   }
   
-  loadEtiquetas(objeTosend): Observable<any> {
+  /*loadEtiquetas(objeTosend): Observable<any> {
       const params = new HttpParams({
         fromObject: objeTosend
       });
-      return this.http.get(this.serverUrl +'Etiquetas/listarByIdiomaNew', {params});
-    }; 
+      //return this.http.get(this.serverUrl +'Etiquetas/listarByIdiomaNew', {params});
+    }; */
   
 }
