@@ -60,9 +60,9 @@ export class DatetimeComponent {
 
     constructor(private cdr : ChangeDetectorRef) {}
     ngOnInit(): void {}
-    cambioFecha(){
-        this.date = moment(this.dateControl.value).format("YYYY-MM-DD hh:mm A");
-        this.dateControl.setValue(moment(this.dateControl.value).format("YYYY-MM-DD hh:mm A")) 
+    cambioFecha(selected: any){
+        this.date = (selected.value);
+        this.dateControl.setValue(selected.value);
         this.valor.emit(this.date);
     }
 }
