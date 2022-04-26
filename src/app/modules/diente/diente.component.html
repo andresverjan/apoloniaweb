@@ -6,11 +6,34 @@
             type="file" 
             (change)="onSelectedFile($event)"
             #fileInput>
-            <button style="margin-left: 180px; margin-top: 5px;"
+            <button
             color="primary"
             mat-raised-button 
             type="button" 
-            (click)="fileInput.click()">Pick File</button>
+            (click)="fileInput.click()">Pick File</button> 
+
+            <img style="height: 90px; width: 90px; margin-left: 15px;" [(src)]="mapTeeth">
         </div>
     </div>
+    <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+        <button mat-raised-button type="button" color="primary" (click)="openModal()">Estados caras</button>
+    </div>
+</mat-card>
+
+<mat-card>
+    <mat-card-title>Estados caras diente</mat-card-title>
+    <mat-card-content>
+        <img style="height: 350px; width: 350px;" [(src)]="mapTeeth">
+        <div class="status" *ngFor="let caras of carasDiente">
+            <h6>Cara {{caras.NumCara}}: </h6>
+            <mat-radio-group aria-labelledby="example-radio-group-label"
+                class="example-radio-group" [(ngModel)]="c1">
+                <mat-radio-button *ngFor="let eC of estadosCaras" [value]="eC">
+                    {{eC}}
+                </mat-radio-button>
+              </mat-radio-group>
+              {{c1}}
+        </div>
+    </mat-card-content>
+    <mat-card-actions></mat-card-actions>
 </mat-card>

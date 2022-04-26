@@ -90,7 +90,7 @@ import { ColorpickerComponent } from "./components/colorpicker/colorpicker.compo
 import { VentasComponent } from '../ventas/ventas.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from "@angular-material-components/datetime-picker";
 import { DienteComponent } from "../diente/diente.component";
-
+import {MatDialogModule} from '@angular/material/dialog';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -189,7 +189,8 @@ FullCalendarModule.registerPlugins([
     MatSliderModule,
     NgxMatColorPickerModule,
     NgxMatTimepickerModule,
-    NgxMatDatetimePickerModule
+    NgxMatDatetimePickerModule,
+    MatDialogModule
   ],
 
   exports: [
