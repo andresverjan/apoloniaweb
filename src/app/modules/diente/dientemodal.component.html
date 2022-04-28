@@ -1,0 +1,77 @@
+<div style="height: 700px; width: 800px;">
+    <mat-card>
+        <mat-toolbar style="text-align:center;" color="primary">
+            <mat-card-title style="margin-left: 250px;">Estados caras diente</mat-card-title>
+        </mat-toolbar>
+
+        <mat-card-content fxLayout="column">
+            <div>
+                <img style="height: 350px; width: 350px; margin-left: 200px;" [(src)]="mapTeeth">
+            </div>
+            <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+                <div fxFlex>
+                    <h6>Cara 1: </h6>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        [(ngModel)]="c1">
+                        <mat-radio-button *ngFor="let eC of estadosCaras" [value]="eC">
+                            {{eC}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    {{c1}}
+                </div>
+                <div fxFlex>
+                    <h6>Cara 2: </h6>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        [(ngModel)]="c2">
+                        <mat-radio-button *ngFor="let eC of estadosCaras" [value]="eC">
+                            {{eC}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    {{c2}}
+                </div>
+                <div fxFlex>
+                    <h6>Cara 3: </h6>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        [(ngModel)]="c3">
+                        <mat-radio-button *ngFor="let eC of estadosCaras" [value]="eC">
+                            {{eC}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    {{c3}}
+                </div>
+                <div fxFlex>
+                    <h6>Cara 4: </h6>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        [(ngModel)]="c4">
+                        <mat-radio-button *ngFor="let eC of estadosCaras" [value]="eC">
+                            {{eC}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    {{c4}}
+                </div>
+                <div fxFlex>
+                    <h6>Cara 5: </h6>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                        [(ngModel)]="c5">
+                        <mat-radio-button *ngFor="let eC of estadosCaras" [value]="eC">
+                            {{eC}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    {{c5}}
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button mat-dialog-close color="primary" (click)="saveStatus()" fxLayout="row"
+                fxLayout.xs="column" fxLayoutAlign="center" fxFlex="80">
+                Guardar
+                <mat-icon>check</mat-icon>
+            </button>
+            <button mat-raised-button mat-dialog-close color="warn" fxLayout="row" fxLayout.xs="column"
+                fxLayoutAlign="center" fxFlex="80">
+                Cancelar
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>

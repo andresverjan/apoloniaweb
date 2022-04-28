@@ -4,27 +4,31 @@
 }
 
 .image{
-    width: 120px;
+    width: 130px;
     height: 180px;
-    margin-left: 3px;
+    margin-left: -2px;
 }
 
 .button{
     border: 0;
   border-radius: 0.25rem;
   color: white;
-  width: 160px;
-  height: 40px;
+  width: 215px;
+  height: 35px;
   justify-content: center;
 }
 
-.example-radio-group {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    align-items: flex-start;
-  }
+.buttonImg{
+  color: white;
+  margin-left: 43px;
+}
 
-.status{
-    flex-direction: column-reverse;
+img{
+  display:block;
+  margin:auto;
+}
+
+.label{
+  display: block;
+  margin: auto;
 }
